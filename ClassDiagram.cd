@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="DSF.AboutBox" Collapsed="true">
+    <Position X="5.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>kIAAAAgAACAACAUAAACAAAADAAAAEIAAAAAAAAAAAAA=</HashCode>
+      <FileName>AboutBox.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DSF.CategoryForm" Collapsed="true">
+    <Position X="7" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAQCQAABACAACAAAACAAAABgAAAAABAAAAAAA=</HashCode>
+      <FileName>CategoryForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DSF.GameForm" Collapsed="true">
+    <Position X="5.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>GAO4VRABQKUAAICAAgDEUGwCAYJhAogAoCIBCgAoQpI=</HashCode>
+      <FileName>GameForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DSF.DSF" Collapsed="true">
+    <Position X="8.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>bbgid32Qdv+QMSr1FivhAQ7Sfk6/TQ2RYF9AsBSwJCs=</HashCode>
+      <FileName>Main.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DSF.Main_Prefs" Collapsed="true">
+    <Position X="7" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>DyEQkRAcwOiIQIBQigDk6ABD7AIADpsAxqENSiPQG5E=</HashCode>
+      <FileName>Main_Prefs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DSF.Category" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAgAAAAKIQAUAAAAAAAAAAEpBgBJIQCghQgAQAAQE=</HashCode>
+      <FileName>NodeCategory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DSF.Game" Collapsed="true">
+    <Position X="0.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYBIBgAAEAgAhAAkAAQMEYgIEQCCAAIAAAAAAMAAAA=</HashCode>
+      <FileName>NodeGame.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DSF.Window" Collapsed="true">
+    <Position X="2.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQEAgQCQLABMKAZBhGkCAFQAAAYAEFIUAISJEoQCcJA=</HashCode>
+      <FileName>NodeWindow.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DSF.Program" Collapsed="true">
+    <Position X="8.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DSF.AmpShell" Collapsed="true">
+    <Position X="1.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAgAEAAAEAAAAAAAAAIAQAAAAAAAAAAIAAA=</HashCode>
+      <FileName>RootAmpShell.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DSF.Serializer" Collapsed="true">
+    <Position X="7" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAACBAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Serialization.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DSF.Properties.Resources" Collapsed="true">
+    <Position X="5.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAaAASEABBAAdQAAADkAAwEQAICwIEsCABBAAAgIA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DSF.Properties.Settings" Collapsed="true">
+    <Position X="8.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DSF.CustomListView" Collapsed="true">
+    <Position X="5.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CustomListView.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

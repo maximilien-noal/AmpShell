@@ -1,0 +1,21 @@
+﻿== Future Plans ==
+*'''Now implemented''' : Set the size of the icons for the large view mode
+*'''Now implemented''' : Portable Mode (AmpShell can be run and moved anywhere in this mode)
+*'''Now implemented''' : make a window to manage user preferences (available in "Edit -> Preferences...")
+*'''Now implemented''' : make a text editor for games configurations (the user's text editor is used)
+*'''Now implemented''' : make other preferences available (and move tools' menu preferences in 'Edit -> Preferences...')
+*'''Now implemented''' : add a whole lot more of preferences
+*'''Now implemented''' : being able to remove/re-enable the menu bar, the tools bar, and the status bar
+*'''Now implemented''' : have a default icon (or an user icon) for games instead of plain text
+*'''Now implemented''' : make other view modes available for categories (tiles, list, details, small icons, large icons)
+*'''Now implemented''' : add an image to all controls having an Image property
+*'''Now implemented''' : make ampshell portable if it isn't in Program Files
+*'''Now implemented''' : have a 'details' view with several columns
+
+*'''Working on''' : add DOSBox' options to the detailed view in form of combo boxes and text boxes (for faster editing).
+
+Other plans :
+*add an update feature & notification
+*being able to drop a game on a category to add it automatically
+*make translations possible with a simple xml file
+*Use of JumpLists (Windows 7)
