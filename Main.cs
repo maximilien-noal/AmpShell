@@ -209,68 +209,6 @@ namespace AmpShell
                 Amp.DBPath = Amp.DBPath.Replace("AppPath", Application.StartupPath);
                 Amp.ConfigEditorPath = Amp.ConfigEditorPath.Replace("AppPath", Application.StartupPath);
                 Amp.ConfigEditorAdditionalParameters = Amp.ConfigEditorAdditionalParameters.Replace("AppPath", Application.StartupPath);
-                #region CompatCode
-                //Compatibilty code : In versions prior to v1.0.2.5,
-                //the category class had it's Title wrongly named "titre" as XmlAttribute.
-                //([XmlAttribute("Title")] replaced [XmlAttribute("titre")] in NodeCategory.cs)
-                //So, we have to retrieve it properly (user data must not be lost between versions)
-                XmlDocument xmldoc = new XmlDocument();
-                xmldoc.Load(CfgPath);
-                foreach (Category ConcernedCat in Amp.ListChildren)
-                {
-                    if (ConcernedCat.Title == String.Empty)
-                    {
-                        foreach (XmlElement xmldocElement in xmldoc.GetElementsByTagName("Category"))
-                            ConcernedCat.Title = xmldocElement.GetAttribute("titre");
-                    }
-                }
-                //Compatibilty code, for versions of AmpShell prior to v1.0.1.0, wich did not
-                //allow anything else than CD image files to be mounted as D:
-                foreach (Category ConcernedCategory in Amp.ListChildren)
-                {
-                    foreach (Game ConcernedGame in ConcernedCategory.ListChildren)
-                    {
-                        //if there is a dot, then it's a file : a CD image
-                        if (ConcernedGame.CDPath.Length > 4)
-                        {
-                            if (ConcernedGame.CDPath[ConcernedGame.CDPath.Length - 4] == '.')
-                                ConcernedGame.CDIsAnImage = true;//So, the CDPath points to a CD Image file.
-                            else
-                                ConcernedGame.CDIsAnImage = false;
-                        }
-                    }
-                }
-                //Compatibility code, for versions of AmpShell prior to v1.0.1.2
-                //wich did not implement signatures for games and categories.
-                foreach (Category NewCategory in Amp.ListChildren)
-                {
-                    if (NewCategory.Signature == String.Empty)
-                    {
-                        String NewCatSignature = String.Empty;
-                        do
-                        {
-                            Random Rand = new Random();
-                            NewCatSignature = Rand.Next(1048576).ToString();
-                        }
-                        while (IsItUnique(NewCatSignature, Amp) == false);
-                        NewCategory.Signature = NewCatSignature;
-                    }
-                    foreach (Game NewGame in NewCategory.ListChildren)
-                    {
-                        if (NewGame.Signature == String.Empty)
-                        {
-                            String NewGameSignature = String.Empty;
-                            do
-                            {
-                                Random Rand = new Random();
-                                NewGameSignature = Rand.Next(1048576).ToString();
-                            }
-                            while (IsItUnique(NewGameSignature, Amp) == false);
-                            NewGame.Signature = NewGameSignature;
-                        }
-                    }
-                }
-                #endregion //End of compatibility code.
             }
             if (Amp.DBPath == String.Empty)
                 Amp.DBPath = SearchDOSBox();
