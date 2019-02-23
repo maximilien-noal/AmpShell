@@ -197,7 +197,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="ClassDiagram.cd" />
     <None Include="Resources\AmpShell.bmp" />
     <None Include="Resources\CategoryEdit.bmp" />
     <None Include="Resources\preferences.png" />
