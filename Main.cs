@@ -1099,11 +1099,11 @@ namespace AmpShell
                 return null;
             }
         }
+
         //EventHandler for when a game is double-clicked (activated), or activated by the Enter key. 
         private void Ltview_ItemActivate(object sender, EventArgs e)
         {
-            //Launch DOSBox (Amp.DBPath) with the specified arguments 
-            System.Diagnostics.Process.Start(Amp.DBPath, BuildArgs(false));
+            StartDOSBox(BuildArgs(false));
         }
         //EventHandler for when a key is pressed while ltview has focus
         private void Ltview_KeyDown(object sender, KeyEventArgs e)
@@ -1209,11 +1209,39 @@ namespace AmpShell
                     Lang = " -lang " + '"' + Amp.DBDefaultLangFilePath + '"';
                 //then for the conf file
                 if (Amp.DBDefaultConfFilePath != String.Empty)
-                    System.Diagnostics.Process.Start(Amp.DBPath, " -conf " + '"' + Amp.DBDefaultConfFilePath + '"' + Lang);
+                    StartDOSBox(" -conf " + '"' + Amp.DBDefaultConfFilePath + '"' + Lang);
                 else
-                    System.Diagnostics.Process.Start(Amp.DBPath, Lang);
+                    StartDOSBox(Lang);
             }
         }
+
+        private void StartDOSBox(string args)
+        {
+            var psi = new System.Diagnostics.ProcessStartInfo(Amp.DBPath);
+            if(string.IsNullOrWhiteSpace(args) == false)
+            {
+                psi.Arguments = args;
+            }
+            var proc = System.Diagnostics.Process.Start(Amp.DBPath, args);
+            if(proc != null)
+            {
+                proc.EnableRaisingEvents = true;
+                this.BeginInvoke(new Action(() =>
+                {
+                    this.WindowState = FormWindowState.Minimized;
+                }));
+                proc.Exited += OnDOSBoxExit;
+            }
+        }
+
+        private void OnDOSBoxExit(object sender, EventArgs e)
+        {
+            this.BeginInvoke(new Action(() =>
+            {
+                this.WindowState = FormWindowState.Normal;
+            }));
+        }
+
         //EventHandler for when AmpShell is shown (happens after DSF_Load)
         private void DSF_Shown(object sender, EventArgs e)
         {
@@ -1364,7 +1392,7 @@ namespace AmpShell
             //Game arguments for DOSBox
             String Arguments = BuildArgs(true);
             //start DOSBox (Amp.DBPath) with the arguments we've just build up.
-            System.Diagnostics.Process.Start(Amp.DBPath, Arguments);
+            StartDOSBox(Arguments);
         }
         private void DSF_Resize(object sender, EventArgs e)
         {
