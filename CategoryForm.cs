@@ -20,6 +20,7 @@ namespace AmpShell
             InitializeComponent();
             Cat = new Category();
         }
+
         public CategoryForm(Category EditedCat)
         {
             InitializeComponent();
@@ -33,15 +34,18 @@ namespace AmpShell
             OK.Image = global::AmpShell.Properties.Resources.saveHS;
             Cancel.Text = "&Don't save";
         }
+
         public Category Cat
         {
             get { return _Category; }
             set { _Category = value; }
         }
+
         private void Cancel_Click(object sender, EventArgs e)
         {
 			Close();
         }
+
         private void OK_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(textBox.Text) == false)

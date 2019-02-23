@@ -16,8 +16,6 @@ namespace AmpShell
 {
     public partial class GameForm : Form
     {
-        private Game _Game;
-        private Window _AmpInstance;
         public GameForm(Window AmpWindow)
         {
             InitializeComponent();
@@ -28,13 +26,18 @@ namespace AmpShell
             QuitOnExitCheckBox.Checked = AmpInstance.GamesQuitOnExit;
             GameAdditionalCommandsTextBox.Text = AmpInstance.GamesAdditionalCommands;
         }
-        //alternate constructor for when a game is edited
+
+        /// <summary>
+        /// Alternate constructor for when an existing game is going to be edited
+        /// </summary>
+        /// <param name="EditedGame"></param>
+        /// <param name="AmpWindow"></param>
         public GameForm(Game EditedGame, Window AmpWindow)
         {
             InitializeComponent();
-            //set the property GameInstance to EditedGame
             GameInstance = EditedGame;
-            AmpInstance=AmpWindow;
+            AmpInstance = AmpWindow;
+
             //fill the form with the Game's data.
             Text = "Editing " + GameInstance.Name + "...";
             if (string.IsNullOrWhiteSpace(GameInstance.Icon) == false && GameInstance.Icon!=null)
@@ -74,22 +77,21 @@ namespace AmpShell
             GameAdditionalCommandsTextBox.Text=GameAdditionalCommandsTextBox.Text.Replace("AppPath", Application.StartupPath);
             GameSetupTextBox.Text=GameSetupTextBox.Text.Replace("AppPath", Application.StartupPath);
         }
-        //public property for the private field Game
-        public Game GameInstance
-        {
-            get { return _Game; }
-            set { _Game = value; }
-        }
-        public Window AmpInstance
-        {
-            get { return _AmpInstance; }
-            set { _AmpInstance = value; }
-        }
+
+        public Game GameInstance { get; set; }
+
+        public Window AmpInstance { get; set; }
+
         private void Cancel_Click(object sender, EventArgs e)
         {
             Close();
         }
-        //EventHandler for when the user has clicked on "OK"
+
+        /// <summary>
+        /// EventHandler for when the user has clicked on "OK"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OK_Click(object sender, EventArgs e)
         {
             //if the game has a name but no executable nor directory mounted as C: specified...
@@ -131,9 +133,14 @@ namespace AmpShell
 			}
 			//if the game has no name
 			else
-				MessageBox.Show(this, "You must enter the game's name.",Text,MessageBoxButtons.OK,MessageBoxIcon.Information);//show an error
+				MessageBox.Show(this, "You must enter the game's name.",Text,MessageBoxButtons.OK,MessageBoxIcon.Information);
 		}
-        //EventHandler to choose the Game's executable location
+
+        /// <summary>
+        /// EventHandler to choose the Game's executable location
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void GameLocationBrowseButton_Click(object sender, EventArgs e)
         {
 			OpenFileDialog GameEXEFileFD = new OpenFileDialog();
@@ -142,13 +149,18 @@ namespace AmpShell
 			else if (string.IsNullOrWhiteSpace(GameLocationTextbox.Text) == false && Directory.Exists(Directory.GetParent(GameLocationTextbox.Text).FullName))
 				GameEXEFileFD.InitialDirectory = Directory.GetParent(GameLocationTextbox.Text).FullName;
 			else
-				GameEXEFileFD.InitialDirectory = SearchFDInitialDirectory();
+				GameEXEFileFD.InitialDirectory = SearchFolderDialogStartDirectory();
 			GameEXEFileFD.Title = GameLocationLabel.Text;
 			GameEXEFileFD.Filter = "DOS executable files (*.bat;*.cmd;*.com;*.exe)|*.bat;*.cmd;*.com;*.exe;*.BAT;*.CMD;*.COM;*.EXE";
 			if (GameEXEFileFD.ShowDialog(this) == DialogResult.OK)
 				GameLocationTextbox.Text = GameEXEFileFD.FileName;
         }
-        //EventHandler to choose the game .conf (config) file
+
+        /// <summary>
+        /// EventHandler to choose the game .conf (config) file
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void GameCustomConfigurationBrowseButton_Click(object sender, EventArgs e)
         {
 			OpenFileDialog CCFileFD = new OpenFileDialog();
@@ -157,13 +169,18 @@ namespace AmpShell
 			else if (string.IsNullOrWhiteSpace(GameCustomConfigurationTextbox.Text) == false && Directory.Exists(Directory.GetParent(GameCustomConfigurationTextbox.Text).FullName))
 				CCFileFD.InitialDirectory = Directory.GetParent(GameCustomConfigurationTextbox.Text).FullName;
 			else
-				CCFileFD.InitialDirectory = SearchFDInitialDirectory();
+				CCFileFD.InitialDirectory = SearchFolderDialogStartDirectory();
 			CCFileFD.Title = GameCustomCofigurationLabel.Text;
 			CCFileFD.Filter = "DOSBox configuration file (*.conf)|*.conf;*.CONF";
 			if (CCFileFD.ShowDialog(this) == DialogResult.OK)
 				GameCustomConfigurationTextbox.Text = CCFileFD.FileName;
         }
-        //EventHandler for when the "Do not use any config file at all" checbox is (un)checked
+
+        /// <summary>
+        /// EventHandler for when the "Do not use any config file at all" checbox is (un)checked
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void NoConfigCheckBox_CheckedChanged(object sender, EventArgs e)
 		{                
 			if (NoConfigCheckBox.Checked == true)
@@ -177,7 +194,12 @@ namespace AmpShell
 				GameCustomConfigurationBrowseButton.Enabled = true;
 			}
 		}
-        //EventHandler to choose the game's CD image file
+
+        /// <summary>
+        /// EventHandler to choose the game's CD image file
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void GameCDPathBrowseButton_Click(object sender, EventArgs e)
         {
             OpenFileDialog CDImageFD = new OpenFileDialog
@@ -190,11 +212,16 @@ namespace AmpShell
 			else if (string.IsNullOrWhiteSpace(AmpInstance.CDsDefaultDir) == false && Directory.Exists(AmpInstance.CDsDefaultDir))
 				CDImageFD.InitialDirectory = AmpInstance.CDsDefaultDir;
 			else
-				CDImageFD.InitialDirectory = SearchFDInitialDirectory();
+				CDImageFD.InitialDirectory = SearchFolderDialogStartDirectory();
 			if (CDImageFD.ShowDialog(this) == DialogResult.OK)
 				GameCDPathTextBox.Text = CDImageFD.FileName;
 		}
-        //EventHandler for when the GameLocationTextbox (for the game's executable location) text is changed
+
+        /// <summary>
+        /// EventHandler for when the GameLocationTextbox (for the game's executable location) text is changed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void GameLocationTextbox_TextChanged(object sender, EventArgs e)
         {
             //if a location for the game's executable has been entered
@@ -216,11 +243,20 @@ namespace AmpShell
 			//if the entered executable does exist
 			if (string.IsNullOrWhiteSpace(GameLocationTextbox.Text) == false)
 			{
-				if (File.Exists(GameLocationTextbox.Text)) //the directory mounted has C: is displayed : it is the game's executable full directory path
-					GameDirectoryTextbox.Text = Directory.GetParent(GameLocationTextbox.Text).FullName;//(even if the GameDirectory controls are not enabled : it's just to inform the user)
-			}
+                //the directory mounted has C: is displayed : it is the game's executable full directory path
+                if (File.Exists(GameLocationTextbox.Text))
+                {
+                    //(even if the GameDirectory controls are not enabled : it's just to inform the user)
+                    GameDirectoryTextbox.Text = Directory.GetParent(GameLocationTextbox.Text).FullName;
+                }
+            }
         }
-        //EventHandler for when the GameDirectoryTextbox's Text has changed 
+
+        /// <summary>
+        /// EventHandler for when the GameDirectoryTextbox's Text has changed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void GameDirectoryTextbox_TextChanged(object sender, EventArgs e)
         {
 			//if the textBox is not empty
@@ -265,7 +301,12 @@ namespace AmpShell
 				GameLocationLabel.Enabled = true;
 			}
 		}
-        //EventHandler to choose the directory mounted has C:
+
+        /// <summary>
+        /// EventHandler to choose the directory mounted has C:
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void GameDirectoryBrowseButton_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog CMountDirectoryFBD = new FolderBrowserDialog
@@ -276,7 +317,12 @@ namespace AmpShell
             if (CMountDirectoryFBD.ShowDialog(this) == DialogResult.OK)
 				GameDirectoryTextbox.Text = CMountDirectoryFBD.SelectedPath;
         }
-        //EventHandler for when the GameCDPathTextBox's text is changed
+
+        /// <summary>
+        /// EventHandler for when the GameCDPathTextBox's text is changed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void GameCDPathTextBox_TextChanged(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(GameCDPathTextBox.Text))
@@ -296,7 +342,12 @@ namespace AmpShell
 				}
 			}
         }
-        //EventHandler to choose the game's setup executable location
+
+        /// <summary>
+        /// EventHandler to choose the game's setup executable location
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void GameSetupBrowseButton_Click(object sender, EventArgs e)
         {
             OpenFileDialog SetupPathFD = new OpenFileDialog
@@ -307,24 +358,31 @@ namespace AmpShell
             if (AmpInstance.PortableMode == true)
 				SetupPathFD.InitialDirectory = Application.StartupPath;
 			else
-				SetupPathFD.InitialDirectory = SearchFDInitialDirectory();
+				SetupPathFD.InitialDirectory = SearchFolderDialogStartDirectory();
 			if (SetupPathFD.ShowDialog(this) == DialogResult.OK)
 				GameSetupTextBox.Text = SetupPathFD.FileName;
         }
-        //EventHandler to choose the directory mounted as D:
-        //Because a CD can be a CD Image, or a drive.
-        //Or, the user just wants to mount another directory as D:
+
+        /// <summary>
+        /// EventHandler to choose the directory mounted as D:
+        /// Because a CD can be a CD Image, or a drive.
+        /// Or, the user just wants to mount another directory as D:
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void GameCDDirBrowseButton_Click(object sender, EventArgs e)
         {
-		FolderBrowserDialog CDDriveFBD = new FolderBrowserDialog();
+		    FolderBrowserDialog CDDriveFBD = new FolderBrowserDialog();
 			if (CDDriveFBD.ShowDialog(this) == DialogResult.OK)
 				GameCDPathTextBox.Text = CDDriveFBD.SelectedPath;
         }
+
         private void QuitOnExitCheckBox_EnabledChanged(object sender, EventArgs e)
         {
 			if (QuitOnExitCheckBox.Enabled == false)
 				QuitOnExitCheckBox.Checked = false;
         }
+
         private void GameIconPictureBox_MouseClick(object sender, MouseEventArgs e)
         {
             try
@@ -338,14 +396,14 @@ namespace AmpShell
                 else if (string.IsNullOrWhiteSpace(GameIconPictureBox.ImageLocation) == false && Directory.Exists(Directory.GetParent(GameIconPictureBox.ImageLocation).FullName))
                     OpenICOFD.InitialDirectory = Directory.GetParent(GameIconPictureBox.ImageLocation).FullName;
                 else
-                    OpenICOFD.InitialDirectory = SearchFDInitialDirectory();
+                    OpenICOFD.InitialDirectory = SearchFolderDialogStartDirectory();
                 if (OpenICOFD.ShowDialog(this) == DialogResult.OK)
                 {
                     GameIconPictureBox.Image = Image.FromFile(OpenICOFD.FileName).GetThumbnailImage(64, 64, null, IntPtr.Zero);
                     GameIconPictureBox.ImageLocation = OpenICOFD.FileName;
                 }
             }
-            catch (System.OutOfMemoryException)
+            catch (OutOfMemoryException)
             {
                 MessageBox.Show(this, "There was an error in the image file, or it's format is not supported. Please check the file.", "Changing the game's icon", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 if (string.IsNullOrWhiteSpace(GameInstance.Icon))
@@ -354,38 +412,40 @@ namespace AmpShell
                     GameIconPictureBox.Image = Image.FromFile(GameInstance.Icon).GetThumbnailImage(64, 64, null, IntPtr.Zero);
             }
         }
+
         private void ResetIconButton_Click(object sender, EventArgs e)
         {
 			GameIconPictureBox.Image = global::AmpShell.Properties.Resources.Generic_Application1;
 			GameIconPictureBox.ImageLocation = String.Empty;
         }
-        private String SearchFDInitialDirectory()
+
+        private String SearchFolderDialogStartDirectory()
         {
-			String InitialDirectory=String.Empty;
+			String initialDirectory = String.Empty;
 			if (string.IsNullOrWhiteSpace(GameInstance.DOSEXEPath) == false && Directory.Exists(Directory.GetParent(GameInstance.DOSEXEPath).FullName))
-				InitialDirectory = Directory.GetParent(GameInstance.DOSEXEPath).FullName;
+				initialDirectory = Directory.GetParent(GameInstance.DOSEXEPath).FullName;
 			else if (string.IsNullOrWhiteSpace(GameInstance.Directory) == false && Directory.Exists(GameInstance.Directory))
-				InitialDirectory = GameInstance.Directory;
+				initialDirectory = GameInstance.Directory;
 			else  if (string.IsNullOrWhiteSpace(GameInstance.SetupEXEPath) == false && Directory.Exists(Directory.GetParent(GameInstance.SetupEXEPath).FullName))
-				InitialDirectory = Directory.GetParent(GameInstance.SetupEXEPath).FullName;
+				initialDirectory = Directory.GetParent(GameInstance.SetupEXEPath).FullName;
 			else  if (string.IsNullOrWhiteSpace(GameInstance.Icon) == false && File.Exists(GameInstance.Icon))
-				InitialDirectory = Directory.GetParent(GameInstance.Icon).FullName;
+				initialDirectory = Directory.GetParent(GameInstance.Icon).FullName;
 			else if (string.IsNullOrWhiteSpace(GameInstance.DBConfPath) == false && Directory.Exists(Directory.GetParent(GameInstance.DBConfPath).FullName))
-				InitialDirectory = Directory.GetParent(GameInstance.DBConfPath).FullName;
+				initialDirectory = Directory.GetParent(GameInstance.DBConfPath).FullName;
 			else  if (string.IsNullOrWhiteSpace(AmpInstance.GamesDefaultDir) == false && Directory.Exists(AmpInstance.GamesDefaultDir))
-				InitialDirectory = AmpInstance.GamesDefaultDir;
-			if (string.IsNullOrWhiteSpace(InitialDirectory))
+				initialDirectory = AmpInstance.GamesDefaultDir;
+			if (string.IsNullOrWhiteSpace(initialDirectory))
 			{
 				if (string.IsNullOrWhiteSpace(GameLocationTextbox.Text) == false && Directory.Exists(Directory.GetParent(GameLocationTextbox.Text).FullName))
-					InitialDirectory = Directory.GetParent(GameLocationTextbox.Text).FullName;
+					initialDirectory = Directory.GetParent(GameLocationTextbox.Text).FullName;
 				else if (string.IsNullOrWhiteSpace(GameSetupTextBox.Text) == false && Directory.Exists(Directory.GetParent(GameSetupTextBox.Text).FullName))
-					InitialDirectory = Directory.GetParent(GameSetupTextBox.Text).FullName;
+					initialDirectory = Directory.GetParent(GameSetupTextBox.Text).FullName;
 				else if (string.IsNullOrWhiteSpace(GameCustomConfigurationTextbox.Text) == false && Directory.Exists(Directory.GetParent(GameCustomConfigurationTextbox.Text).FullName))
-					InitialDirectory = Directory.GetParent(GameCustomConfigurationTextbox.Text).FullName;
+					initialDirectory = Directory.GetParent(GameCustomConfigurationTextbox.Text).FullName;
                 else if (string.IsNullOrWhiteSpace(GameIconPictureBox.ImageLocation) == false && Directory.Exists(Directory.GetParent(GameIconPictureBox.ImageLocation).FullName))
-                    InitialDirectory = Directory.GetParent(GameIconPictureBox.ImageLocation).FullName;
+                    initialDirectory = Directory.GetParent(GameIconPictureBox.ImageLocation).FullName;
 			}
-			return InitialDirectory;
+			return initialDirectory;
         }
    }
 }

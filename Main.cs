@@ -21,12 +21,26 @@ namespace AmpShell
         private ImageList GamesLargeImageList = new ImageList();
         private ImageList GamesSmallImageList = new ImageList();
         private ImageList GamesMediumImageList = new ImageList();
-        private Serializer MySerializer = new Serializer();
-        private Window Amp = new Window(); //Window instance used mainly to do the serialization/deserialization
-        private String CfgPath; //path to AmpShell.xml
-        private ListView ltview = new CustomListView(); //ListView instance used mainly to retrieve the current ListView (in tabcontrol.SelectedTab["GamesListView"])
-        private ContextMenuStrip ltview_ContextMenuStrip = new ContextMenuStrip(); //Contextual pop-up menu (right click)
-        //the items of the context pop-up menu
+        private Serializer XMLSerializer = new Serializer();
+        /// <summary>
+        /// Window instance used mainly to do load and save user data through XML (de)serialization
+        /// </summary>
+        private Window Amp = new Window();
+        /// <summary>
+        /// path to AmpShell.xml
+        /// </summary>
+        private String UserDataPath;
+        /// <summary>
+        /// ListView instance used mainly to retrieve the current ListView (in tabcontrol.SelectedTab["GamesListView"])
+        /// </summary>
+        private ListView ltview = new CustomListView();
+        /// <summary>
+        /// //Contextual pop-up menu (right click)
+        /// </summary>
+        private ContextMenuStrip ltview_ContextMenuStrip = new ContextMenuStrip();
+        /// <summary>
+        /// The items of the context pop-up menu
+        /// </summary>
         private ContextMenuStrip Categories_ContextMenuStrip = new ContextMenuStrip();
         private ToolStripMenuItem AddCategory = new ToolStripMenuItem();
         private ToolStripMenuItem DeleteCategory = new ToolStripMenuItem();
@@ -45,6 +59,7 @@ namespace AmpShell
         private ToolStripMenuItem MenuBar_AmpCMS = new ToolStripMenuItem("Menu bar");
         private ToolStripMenuItem ToolBar_AmpCMS = new ToolStripMenuItem("Tool bar");
         private ToolStripMenuItem StatusBar_AmpCMS = new ToolStripMenuItem("Details bar");
+
         public MainWindow()
         {
             InitializeComponent();
@@ -58,7 +73,6 @@ namespace AmpShell
             AmpCMS.Items.Add(ToolBar_AmpCMS);
             AmpCMS.Items.Add(StatusBar_AmpCMS);
             ContextMenuStrip = AmpCMS;
-            //allow drops (drag&drop)
             tabControl.AllowDrop = true;
             //adding text, images, and EventHandlers to the context pop-up menu
             AddGame.Image = GameAddButton.Image;
@@ -72,46 +86,52 @@ namespace AmpShell
             RunGame.Click += new EventHandler(Ltview_ItemActivate);
             RunGame.MouseLeave += new EventHandler(Ltview_ItemSelectionChanged);
             RunGame.MouseEnter += new EventHandler(RunGameButton_MouseEnter);
-            RunGame.Enabled = false; //Only Enabled when a game is selected
+            //Only Enabled when a game is selected
+            RunGame.Enabled = false;
             ltview_ContextMenuStrip.Items.Add(RunGame);
             RunGameSetup.Image = RunGameSetupButton.Image;
             RunGameSetup.Text = RunGameSetupButton.Text;
             RunGameSetup.Click += new EventHandler(RunGameSetupButton_Click);
             RunGameSetup.MouseLeave += new EventHandler(Ltview_ItemSelectionChanged);
             RunGameSetup.MouseEnter += new EventHandler(RunGameSetupButton_MouseEnter);
-            RunGameSetup.Enabled = false; //Only Enabled when a game is selected
+            //Only Enabled when a game is selected
+            RunGameSetup.Enabled = false;
             ltview_ContextMenuStrip.Items.Add(RunGameSetup);
             DeleteGame.Image = GameDeleteButton.Image;
             DeleteGame.Text = GameDeleteButton.Text;
             DeleteGame.Click += new EventHandler(GameDeleteButton_Click);
             DeleteGame.MouseLeave += new EventHandler(Ltview_ItemSelectionChanged);
             DeleteGame.MouseEnter += new EventHandler(GameDeleteButton_MouseEnter);
-            DeleteGame.Enabled = false; //Only Enabled when a game is selected
+            //Only Enabled when a game is selected
+            DeleteGame.Enabled = false;
             ltview_ContextMenuStrip.Items.Add(DeleteGame);
             EditGame.Image = GameEditButton.Image;
             EditGame.Text = GameEditButton.Text;
             EditGame.Click += new EventHandler(GameEditButton_Click);
             EditGame.MouseLeave += new EventHandler(Ltview_ItemSelectionChanged);
             EditGame.MouseEnter += new EventHandler(GameEditButton_MouseEnter);
-            EditGame.Enabled = false; //Only Enabled when a game is selected
+            //Only Enabled when a game is selected
+            EditGame.Enabled = false;
             ltview_ContextMenuStrip.Items.Add(EditGame);
             EditGameConfiguration.Image = GameEditConfigurationButton.Image;
             EditGameConfiguration.Text = GameEditConfigurationButton.Text;
             EditGameConfiguration.Click += new EventHandler(GameEditConfigurationButton_Click);
             EditGameConfiguration.MouseLeave += new EventHandler(Ltview_ItemSelectionChanged);
             EditGameConfiguration.MouseEnter += new EventHandler(GameEditConfigurationButton_MouseEnter);
-            EditGameConfiguration.Enabled = false; //Only Enabled when a game is selected
+            //Only Enabled when a game is selected
+            EditGameConfiguration.Enabled = false;
             ltview_ContextMenuStrip.Items.Add(EditGameConfiguration);
             MakeGameConfiguration.Image = MakeConfigButton.Image;
             MakeGameConfiguration.Text = MakeConfigButton.Text;
             MakeGameConfiguration.Click += new EventHandler(MakeConfigButton_Click);
             MakeGameConfiguration.MouseLeave += new EventHandler(Ltview_ItemSelectionChanged);
             MakeGameConfiguration.MouseEnter += new EventHandler(MakeConfigurationFileToolStripMenuItem_MouseEnter);
-            MakeGameConfiguration.Enabled = false; //Only Enabled when a game is selected
+            //Only Enabled when a game is selected
+            MakeGameConfiguration.Enabled = false;
             ltview_ContextMenuStrip.Items.Add(MakeGameConfiguration);
             ToolStripSeparator ltview_ContextMenuStripSeparator = new ToolStripSeparator();
             ltview_ContextMenuStrip.Items.Add(ltview_ContextMenuStripSeparator);
-            //The Categories are the tabs inside tabcontrol. Each tab has only one ListView.
+            //The Categories are the tabs inside the TabControl. Each tab has only one ListView.
             //They are _all_ named "GamesListView" for casting (retrieving their reference into ltview)
             //The tag propriety of the ListView object could have been used instead of naming + casting...
             AddCategory.Image = CategoryAddButton.Image;
@@ -153,7 +173,8 @@ namespace AmpShell
             tabControl.ContextMenuStrip = Categories_ContextMenuStrip;
             ltview.ColumnWidthChanged += new ColumnWidthChangedEventHandler(Ltview_ColumnWidthChanged);
         }
-        private void DSF_Load(object sender, EventArgs e)
+
+        private void AmpShell_Load(object sender, EventArgs e)
         {
             //If the file named AmpShell.xml doesn't exists inside the directory AmpShell uses the one in the user's profile Application Data directory
             if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "/AmpShell/AmpShell.xml") == false && File.Exists(Application.StartupPath + "/AmpShell.xml") == false)
@@ -166,29 +187,29 @@ namespace AmpShell
                 //Setup the whole directory path
                 if (Directory.GetDirectoryRoot(Application.StartupPath) == Environment.GetFolderPath(System.Environment.SpecialFolder.ProgramFiles) || Directory.GetDirectoryRoot(Application.StartupPath) == Environment.SystemDirectory.Substring(0, 3) + "Program Files (x86)")
                 {
-                    CfgPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "/AmpShell";
+                    UserDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "/AmpShell";
                     //create the directory
                     if (Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "/AmpShell") == false)
                     {
-                        Directory.CreateDirectory(CfgPath);
-                        CfgPath = CfgPath + "/AmpShell.xml";
+                        Directory.CreateDirectory(UserDataPath);
+                        UserDataPath = UserDataPath + "/AmpShell.xml";
                     }
                 }
                 else
-                    CfgPath = Application.StartupPath + "/AmpShell.xml";
+                    UserDataPath = Application.StartupPath + "/AmpShell.xml";
                 //Serializing the data inside Amp for the first run
-                MySerializer.Serialize(CfgPath, Amp, typeof(AmpShell));
-                Amp = (Window)MySerializer.Deserialize(CfgPath, typeof(AmpShell));
+                XMLSerializer.Serialize(UserDataPath, Amp, typeof(AmpShell));
+                Amp = (Window)XMLSerializer.Deserialize(UserDataPath, typeof(AmpShell));
             }
             //if the file named AmpShell.xml exists inside that directory
             else
             {
                 //then, deserialize it in Amp.
                 if (File.Exists(Application.StartupPath + "/AmpShell.xml"))
-                    CfgPath = Application.StartupPath + "/AmpShell.xml";
+                    UserDataPath = Application.StartupPath + "/AmpShell.xml";
                 else if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "/AmpShell/AmpShell.xml"))
-                    CfgPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "/AmpShell/AmpShell.xml";
-                Amp = (Window)MySerializer.Deserialize(CfgPath, typeof(AmpShell)); //CfgPath : Path to AmpShell.xml
+                    UserDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "/AmpShell/AmpShell.xml";
+                Amp = (Window)XMLSerializer.Deserialize(UserDataPath, typeof(AmpShell)); //CfgPath : Path to AmpShell.xml
                 foreach (Category ConcernedCategory in Amp.ListChildren)
                 {
                     foreach (Game ConcernedGame in ConcernedCategory.ListChildren)
@@ -247,9 +268,10 @@ namespace AmpShell
                 EditDefaultConfigurationToolStripMenuItem.Enabled = true;
                 EditDefaultConfigurationButton.Enabled = true;
             }
-            //Create the TabPages (categories) ListViews, and games inside the ListViews with PrepareDisplay 
-            PrepareDisplay(Amp, Amp.OnlyNames);
+            //Create the TabPages (categories) ListViews, and games inside the ListViews with DisplayUserData 
+            DisplayUserData(Amp, Amp.OnlyNames);
         }
+
         private String SearchCommonTextEditor()
         {
             String confEditorPath = String.Empty;
@@ -272,13 +294,14 @@ namespace AmpShell
             }
             return confEditorPath;
         }
+
         private String SearchDOSBoxConf(String DOSBoxExecutablePath)
         {
             String confPath = String.Empty; //returned String
             //search for dosbox.conf
             //first, if the user is using GNU/Linux : test if ~/dosbox.conf (~ = /home/<username>) exists
             //Ubuntu case (dosbox.conf in ~)
-            if (CfgPath == Application.StartupPath + "/AmpShell.xml")
+            if (UserDataPath == Application.StartupPath + "/AmpShell.xml")
             {
                 if (Directory.GetFiles((Application.StartupPath), "*.conf").Length > 0)
                     confPath = Directory.GetFiles((Application.StartupPath), "*.conf")[0];
@@ -323,39 +346,41 @@ namespace AmpShell
             }
             return confPath;
         }
+
         private String SearchDOSBoxLang(String DOSBoxExecutablePath)
         {
-            String LangPath = String.Empty; //returned String
+            //returned string
+            String langPath = String.Empty;
             //search for a DOSBox' language file
             //first, if the user is using GNU/Linux : test if ~/*.lng (~ = /home/<username>) exists
             //Ubuntu case (*.lng in ~)
-            if (CfgPath == Application.StartupPath + "/AmpShell.xml")
+            if (UserDataPath == Application.StartupPath + "/AmpShell.xml")
             {
                 if (Directory.GetFiles(Application.StartupPath, "*.lng").Length > 0)
-                    LangPath = Directory.GetFiles(Application.StartupPath, "*.lng")[0];
+                    langPath = Directory.GetFiles(Application.StartupPath, "*.lng")[0];
             }
             else
             {
                 if (Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "*.lng").Length > 0)
-                    LangPath = Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "*.lng")[0];
+                    langPath = Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "*.lng")[0];
                 //(~/.dosbox/dosbox.lng search case)
-                if (string.IsNullOrWhiteSpace(LangPath))
+                if (string.IsNullOrWhiteSpace(langPath))
                 {
                     if (Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/.dosbox"))
                     {
                         if (Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/.dosbox", "*.lng").Length > 0)
-                            LangPath = Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/.dosbox", "*.lng")[0];
+                            langPath = Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/.dosbox", "*.lng")[0];
                     }
                 }
                 //if LangPath is _still_ empty, Windows test cases take place.
-                if (string.IsNullOrWhiteSpace(LangPath))
+                if (string.IsNullOrWhiteSpace(langPath))
                 {
                     //if Local Settings/Application Data/DOSBox exists
                     if (Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "/DOSBox"))
                     {
                         //then, the DOSBox.conf file inside it becomes the default one.
                         if (Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "/DOSBox", "*.lng").Length > 0)
-                            LangPath = Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "/DOSBox", "*.lng")[0];
+                            langPath = Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "/DOSBox", "*.lng")[0];
                     }
                     else
                     {
@@ -364,18 +389,19 @@ namespace AmpShell
                         if (string.IsNullOrWhiteSpace(DOSBoxExecutablePath) == false)
                         {
                             if (Directory.GetFiles(Directory.GetParent(DOSBoxExecutablePath).FullName, "*.lng").Length > 0)
-                                LangPath = Directory.GetFiles(Directory.GetParent(DOSBoxExecutablePath).FullName, "*.lng")[0];
+                                langPath = Directory.GetFiles(Directory.GetParent(DOSBoxExecutablePath).FullName, "*.lng")[0];
                         }
                     }
                 }
             }
-            return LangPath;
+            return langPath;
         }
+
         private String SearchDOSBox()
         {
             String DOSBoxPath;
             DOSBoxPath = String.Empty;
-            if (CfgPath == Application.StartupPath + "/AmpShell.xml" && Amp.PortableMode)
+            if (UserDataPath == Application.StartupPath + "/AmpShell.xml" && Amp.PortableMode)
             {
                 if (File.Exists(Application.StartupPath + "/dosbox.exe"))
                     DOSBoxPath = Application.StartupPath + "/dosbox.exe";
@@ -429,7 +455,10 @@ namespace AmpShell
                             Filter = "DosBox executable (dosbox*)|dosbox*"
                         };
                         if (DBexeFD.ShowDialog(this) == DialogResult.OK)
-                            DOSBoxPath = DBexeFD.FileName;//retrieve the selected dosbox.exe path into Amp.DBPath
+                        {
+                            //retrieve the selected dosbox.exe path into Amp.DBPath
+                            DOSBoxPath = DBexeFD.FileName;
+                        }
                         else
                             DOSBoxPath = String.Empty;
                         break;
@@ -440,9 +469,15 @@ namespace AmpShell
             }
             return DOSBoxPath;
         }
-        private void PrepareDisplay(Window Amp, bool NoIcons)
+
+        /// <summary>
+        /// Create the TabPages (categories) ListViews, and games inside the ListViews
+        /// </summary>
+        /// <param name="Amp"></param>
+        /// <param name="NoIcons"></param>
+        private void DisplayUserData(Window Amp, bool NoIcons)
         {
-            //applying the Height and Width saved on close.
+            //applying the Height and Width previously saved.
             tabControl.Controls.Clear();
             if (Amp.RememberWindowSize != false)
             {
@@ -624,6 +659,7 @@ namespace AmpShell
             //EventHandler when a TabPage is selected by the user
             tabControl.Selected += new TabControlEventHandler(Tabcontrol_Selected);
         }
+
         private void SelectedTab_DragOver(object sender, DragEventArgs e)
         {
             Point pos = tabControl.PointToClient(MousePosition);
@@ -636,13 +672,23 @@ namespace AmpShell
                 }
             }
         }
-        //EventHandler for when a drag&drop is initiated (drag)
+
+        /// <summary>
+        /// EventHandler for when a drag&drop is initiated (drag)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Ltview_ItemDrag(object sender, EventArgs e)
         {
             if (ltview.FocusedItem != null)
                 ltview.DoDragDrop(ltview.FocusedItem.Text, DragDropEffects.Move);
         }
-        //EventHandler for when a drop begins (drag&drop)
+
+        /// <summary>
+        /// EventHandler for when a drop begins (drag&drop)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TabControl_DragEnter(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.UnicodeText))
@@ -650,6 +696,7 @@ namespace AmpShell
             else
                 e.Effect = DragDropEffects.None;
         }
+
         private Category GetSelectedCat()
         {
             foreach (Category ConcernedCat in Amp.ListChildren)
@@ -659,7 +706,12 @@ namespace AmpShell
             }
             return null;
         }
-        //EventHandler for drag&drop
+
+        /// <summary>
+        /// EventHandler for drag&drop
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TabControl_DragDrop(object sender, DragEventArgs e)
         {
             Category ConcernedCat = GetSelectedCat();
@@ -691,6 +743,7 @@ namespace AmpShell
                 ltview.Items.Add(ClonedItem);
             }
         }
+
         private Game GetSelectedGame()
         {
             Category ConcernedCat = GetSelectedCat();
@@ -701,7 +754,12 @@ namespace AmpShell
             }
             return null;
         }
-        //when we want to modify an existing game
+
+        /// <summary>
+        /// Called when the user wants to edit an existing game
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void GameEditButton_Click(object sender, EventArgs e)
         {
             Game ConcernedGame = GetSelectedGame();
@@ -775,7 +833,12 @@ namespace AmpShell
                 ltview.Sort();
             }
         }
-        //EvantHandler for when lvtview (the current tab's ListView) item selection changes
+
+        /// <summary>
+        /// EventHandler for when lvtview (the current tab's ListView) item selection changes
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Ltview_ItemSelectionChanged(object sender, EventArgs e)
         {
             AdditionnalCommandsLabel.Text = String.Empty;
@@ -937,7 +1000,12 @@ namespace AmpShell
                 MakeGameConfiguration.Enabled = false;
             }
         }
-        //EventHandler when a TabPage (a category) is selected
+
+        /// <summary>
+        /// EventHandler when a TabPage (a category) is selected
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Tabcontrol_Selected(object sender, EventArgs e)
         {
             if (tabControl.Controls.Count > 0)
@@ -951,7 +1019,12 @@ namespace AmpShell
                 }
             }
         }
-        //EventHandler when a Category (a TabPage) is added (created)
+
+        /// <summary>
+        /// EventHandler when a Category (a TabPage) is added (created)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CategoryAddButton_Click(object sender, EventArgs e)
         {
             CategoryForm NewCatForm = new CategoryForm();
@@ -1004,7 +1077,6 @@ namespace AmpShell
                 //the last created category is selected.
                 tabControl.SelectTab(tabControl.TabPages.Count - 1);
                 tabControl.SelectedTab.Name = NewCatForm.Cat.Signature;
-                //allow drops (drag&drop)
                 tabControl.SelectedTab.AllowDrop = true;
                 //make the Category buttons available.
                 CategoryEditButton.Enabled = true;
@@ -1016,6 +1088,7 @@ namespace AmpShell
                 GameAddButton.Enabled = true;
             }
         }
+
         private String BuildArgs(bool Setup)
         {
             //Arguments string for DOSBox.exe
@@ -1099,12 +1172,21 @@ namespace AmpShell
             }
         }
 
-        //EventHandler for when a game is double-clicked (activated), or activated by the Enter key. 
+        /// <summary>
+        /// EventHandler for when a game is double-clicked (activated), or activated by the Enter key.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Ltview_ItemActivate(object sender, EventArgs e)
         {
             StartDOSBox(BuildArgs(false));
         }
-        //EventHandler for when a key is pressed while ltview has focus
+
+        /// <summary>
+        /// EventHandler for when a key is pressed while ltview has focus
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Ltview_KeyDown(object sender, KeyEventArgs e)
         {
             //if it was the delete key
@@ -1147,12 +1229,17 @@ namespace AmpShell
                 }
             }
         }
-        //EventHandler for when AmpShell is closed
-        private void DSF_FormClosing(object sender, FormClosingEventArgs e)
+
+        /// <summary>
+        /// EventHandler for when AmpShell is closed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AmpShell_FormClosing(object sender, FormClosingEventArgs e)
         {
             //saves the data inside Amp by serliazing it in AmpShell.xml
             if (!Amp.PortableMode)
-                MySerializer.Serialize(CfgPath, Amp, typeof(AmpShell));
+                XMLSerializer.Serialize(UserDataPath, Amp, typeof(AmpShell));
             else
             {
                 foreach (Category ConcernedCategory in Amp.ListChildren)
@@ -1173,15 +1260,30 @@ namespace AmpShell
                 Amp.DBPath = Amp.DBPath.Replace(Application.StartupPath, "AppPath");
                 Amp.ConfigEditorPath = Amp.ConfigEditorPath.Replace(Application.StartupPath, "AppPath");
                 Amp.ConfigEditorAdditionalParameters = Amp.ConfigEditorAdditionalParameters.Replace(Application.StartupPath, "AppPath");
-                MySerializer.Serialize(Application.StartupPath + "/AmpShell.xml", Amp, typeof(AmpShell));
+                XMLSerializer.Serialize(Application.StartupPath + "/AmpShell.xml", Amp, typeof(AmpShell));
             }
         }
-        //EventHandler for the ? -> About button
+
+        /// <summary>
+        /// EventHandler for the ? -> About button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AboutToolStripMenuItem_Click(object sender, EventArgs e) { AboutBox AbtBox = new AboutBox(); AbtBox.ShowDialog(this); }
-        //EventHandler for when the delete button game is clicked
+
+        /// <summary>
+        /// EventHandler for when the delete button game is clicked
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void GameDeleteButton_Click(object sender, EventArgs e)
         { KeyEventArgs k = new KeyEventArgs(Keys.Delete); Ltview_KeyDown(sender, k); }
-        //EventHandler for when the Category delete button is clicked
+
+        /// <summary>
+        /// EventHandler for when the Category delete button is clicked
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CategoryDeleteButton_Click(object sender, EventArgs e)
         {
             Category ConcernedCategory = GetSelectedCat();
@@ -1196,8 +1298,13 @@ namespace AmpShell
             }
             UpdateButtonsState();
         }
-        //EventHandler when the user clicks on Tools -> Run DOSBox
-        //wich run DOSBox only with the default .conf (configuration) and .lng (language) files.
+
+        /// <summary>
+        /// EventHandler when the user clicks on Tools -> Run DOSBox
+        /// wich runs DOSBox only with the default .conf (configuration) and .lng (language) files.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void RunDOSBox_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(Amp.DBPath) == false)
@@ -1241,13 +1348,17 @@ namespace AmpShell
             }));
         }
 
-        //EventHandler for when AmpShell is shown (happens after DSF_Load)
-        private void DSF_Shown(object sender, EventArgs e)
+        /// <summary>
+        /// EventHandler for when AmpShell is shown (happens after AmpShell_Load)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AmpShell_Shown(object sender, EventArgs e)
         {
             AmpShellShown = true;
             //select the first TabPage of tabcontrol 
-            //(if it exists, because DSF_Shown is called _automatically_,
-            //wether the user has created a category or none!)
+            //(if it exists, because AmpShell_Shown is called _automatically_,
+            //whether the user has created a category or none!)
             if (tabControl.HasChildren != false)
             {
                 //select the first TabPage
@@ -1267,9 +1378,19 @@ namespace AmpShell
             else
                 CategoryAddButton_Click(sender, e);
         }
-        //EventHander for File -> Quit.
+
+        /// <summary>
+        /// EventHander for File -> Quit.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void QuitToolStripMenuItem_Click(object sender, EventArgs e) { Application.Exit(); }
-        //EventHandler for when the user has clicked on the GameAddButton
+
+        /// <summary>
+        /// EventHandler for when the user has clicked on the GameAddButton
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void GameAddButton_Click(object sender, EventArgs e)
         {
             GameForm NewGameForm = new GameForm(Amp);
@@ -1281,7 +1402,6 @@ namespace AmpShell
             }
             while (IsItUnique(NewGameSignature, Amp) == false);
             NewGameForm.GameInstance.Signature = NewGameSignature;
-            //show the GameForm NewGameForm
             if (NewGameForm.ShowDialog(this) == DialogResult.OK)
             {
                 Category ConcernedCategory = GetSelectedCat();
@@ -1365,27 +1485,47 @@ namespace AmpShell
                 }
             }
         }
-        //EventHandler for when the user has finished resizing the window.
-        private void DSF_ResizeEnd(object sender, EventArgs e)
-        {//change the data about the Window's dimensions (restored on next session).
+
+        /// <summary>
+        /// EventHandler for when the user has finished resizing the window.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AmpShell_Resized(object sender, EventArgs e)
+        {
+            //change the data about the Window's dimensions (restored on next session).
             if (Amp.RememberWindowSize == true)
             {
                 Amp.Height = Height;
                 Amp.Width = Width;
             }
         }
-        //EventHandler for when a category is edited (CategoryEditButton has been clicked)
+
+        /// <summary>
+        /// EventHandler for when a category is edited (CategoryEditButton has been clicked)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CategoryEditButton_Click(object sender, EventArgs e)
-        { //search the selected category
+        {
+            //search the selected category
             Category ConcernedCat = GetSelectedCat();
             CategoryForm CatEdit = new CategoryForm(ConcernedCat)
             {
                 Text = "Editing " + ConcernedCat.Title + "..."
             };
             if (CatEdit.ShowDialog(this) == DialogResult.OK)
-                tabControl.SelectedTab.Text = ConcernedCat.Title; //modify the displayed category (TabPage) text
+            {
+                //modify the displayed category (TabPage) text
+                tabControl.SelectedTab.Text = ConcernedCat.Title;
+            }
         }
-        //EventHandler for when the RunGameSetupButton is clicked
+
+        /// <summary>
+        /// EventHandler for when the RunGameSetupButton is clicked
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void RunGameSetupButton_Click(object sender, EventArgs e)
         {
             //Game arguments for DOSBox
@@ -1393,7 +1533,13 @@ namespace AmpShell
             //start DOSBox (Amp.DBPath) with the arguments we've just build up.
             StartDOSBox(Arguments);
         }
-        private void DSF_Resize(object sender, EventArgs e)
+
+        /// <summary>
+        /// EventHandler for when the window is (un)maximized
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AmpShell_Resize(object sender, EventArgs e)
         {
             if (AmpShellShown == true)
             {
@@ -1403,6 +1549,14 @@ namespace AmpShell
                     Amp.Fullscreen = false;
             }
         }
+
+        /// <summary>
+        /// Used when a new Category is created : it's signature must be unique
+        /// so AmpShell can recognize it instantly
+        /// </summary>
+        /// <param name="SignatureToTest"></param>
+        /// <param name="Amp"></param>
+        /// <returns></returns>
         private bool IsItUnique(String SignatureToTest, Window Amp)
         {
             foreach (Category OtherCat in Amp.ListChildren)
@@ -1423,6 +1577,7 @@ namespace AmpShell
             }
             return true;
         }
+
         private void PreferencesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Main_Prefs Prefs = new Main_Prefs(Amp);
@@ -1430,7 +1585,7 @@ namespace AmpShell
             {
                 GamesLargeImageList.ImageSize = new Size(Amp.LargeViewModeSize, Amp.LargeViewModeSize);
                 if (Amp.PortableMode)
-                    MySerializer.Serialize(Application.StartupPath + "/AmpShell.xml", Amp, typeof(AmpShell));
+                    XMLSerializer.Serialize(Application.StartupPath + "/AmpShell.xml", Amp, typeof(AmpShell));
                 menuStrip.Visible = Prefs.AmpInstance.MenuBarVisible;
                 MenuBar_AmpCMS.Checked = Prefs.AmpInstance.MenuBarVisible;
                 toolStrip.Visible = Prefs.AmpInstance.ToolBarVisible;
@@ -1440,10 +1595,11 @@ namespace AmpShell
                 Amp.ListChildren = Prefs.AmpInstance.ListChildren;
                 Amp.X = Location.X;
                 Amp.Y = Location.Y;
-                PrepareDisplay(Amp, Amp.OnlyNames);
+                DisplayUserData(Amp, Amp.OnlyNames);
             }
             UpdateButtonsState();
         }
+
         private void RunConfigurationEditorButton_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(Amp.ConfigEditorPath) == false)
@@ -1455,6 +1611,7 @@ namespace AmpShell
 
             }
         }
+
         private void GameEditConfigurationButton_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(Amp.ConfigEditorPath) == false)
@@ -1463,6 +1620,7 @@ namespace AmpShell
                 System.Diagnostics.Process.Start(Amp.ConfigEditorPath, ConcernedGame.DBConfPath + " " + Amp.ConfigEditorAdditionalParameters);
             }
         }
+
         private void LargeIconViewButton_Click(object sender, EventArgs e)
         {
             ltview.View = View.LargeIcon;
@@ -1470,12 +1628,14 @@ namespace AmpShell
             Category Cat = GetSelectedCat();
             Cat.ViewMode = ltview.View;
         }
+
         private void SmallIconViewButton_Click(object sender, EventArgs e)
         {
             ltview.View = View.SmallIcon;
             Category Cat = GetSelectedCat();
             Cat.ViewMode = ltview.View;
         }
+
         private void TileViewButton_Click(object sender, EventArgs e)
         {
             ltview.View = View.Tile;
@@ -1488,6 +1648,7 @@ namespace AmpShell
                     ltviewitem.SubItems.RemoveAt(ltviewitem.SubItems.Count - 1);
             }
         }
+
         private void ListViewButton_Click(object sender, EventArgs e)
         {
             ltview.View = View.List;
@@ -1495,6 +1656,7 @@ namespace AmpShell
             Category Cat = GetSelectedCat();
             Cat.ViewMode = ltview.View;
         }
+
         private void DetailsViewButton_Click(object sender, EventArgs e)
         {
             if (ltview.Columns.Count > 0)
@@ -1580,6 +1742,7 @@ namespace AmpShell
                 }
             }
         }
+
         private void MenuBar_AmpCMS_Click(object sender, EventArgs e)
         {
             if (menuStrip.Visible == true)
@@ -1594,6 +1757,7 @@ namespace AmpShell
             }
             Amp.MenuBarVisible = menuStrip.Visible;
         }
+
         private void ToolBar_AmpCMS_Click(object sender, EventArgs e)
         {
             if (toolStrip.Visible == true)
@@ -1608,6 +1772,7 @@ namespace AmpShell
             }
             Amp.ToolBarVisible = toolStrip.Visible;
         }
+
         private void StatusBar_AmpCMS_Click(object sender, EventArgs e)
         {
             if (statusStrip.Visible == true)
@@ -1622,7 +1787,13 @@ namespace AmpShell
             }
             Amp.StatusBarVisible = statusStrip.Visible;
         }
-        private void DSF_LocationChanged(object sender, EventArgs e)
+
+        /// <summary>
+        /// EventHandler for when the window is moved
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AmpShell_LocationChanged(object sender, EventArgs e)
         {
             if (Amp.RememberWindowPosition == true && this.WindowState != FormWindowState.Minimized)
             {
@@ -1630,6 +1801,7 @@ namespace AmpShell
                 Amp.Y = Location.Y;
             }
         }
+
         private void Ltview_ColumnWidthChanged(object sender, EventArgs e)
         {
             foreach (Category ConcernedCategory in Amp.ListChildren)
@@ -1654,6 +1826,7 @@ namespace AmpShell
                 }
             }
         }
+
         private void UpdateButtonsState()
         {
             LargeIconViewButton.Enabled = false;
@@ -1745,6 +1918,7 @@ namespace AmpShell
                 Ltview_ItemSelectionChanged(this, EventArgs.Empty);
             }
         }
+
         private void DisplayHelpMessage(String Tooltiptext)
         {
             AdditionnalCommandsLabel.Text = String.Empty;
@@ -1758,6 +1932,7 @@ namespace AmpShell
             SetupPathLabel.Text = String.Empty;
             ExecutablePathLabel.Text = Tooltiptext;
         }
+
         private void EditDefaultConfigurationToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(Amp.DBDefaultConfFilePath) == false && File.Exists(Amp.DBDefaultConfFilePath) && string.IsNullOrWhiteSpace(Amp.ConfigEditorPath) == false && Amp.ConfigEditorPath != "No text editor (Notepad in Windows' directory, or TextEditor.exe in AmpShell's directory) found." && File.Exists(Amp.ConfigEditorPath))
@@ -1765,6 +1940,7 @@ namespace AmpShell
             else
                 MessageBox.Show("Default configuration or configuration editor missing. Please set them in the preferences.");
         }
+
         private void MakeConfigButton_Click(object sender, EventArgs e)
         {
             Category ConcernedCategory = GetSelectedCat();
@@ -1784,51 +1960,63 @@ namespace AmpShell
                 }
             }
         }
+
         #region HelpDisplayMessages
         private void FileToolStripMenuItem_MouseEnter(object sender, EventArgs e)
         {
             DisplayHelpMessage(FileToolStripMenuItem.ToolTipText);
         }
+
         private void EditToolStripMenuItem_MouseEnter(object sender, EventArgs e)
         {
             DisplayHelpMessage(EditToolStripMenuItem.ToolTipText);
         }
+
         private void ToolsToolStripMenuItem_MouseEnter(object sender, EventArgs e)
         {
             DisplayHelpMessage(ToolsToolStripMenuItem.ToolTipText);
         }
+
         private void ViewToolStripMenuItem_MouseEnter(object sender, EventArgs e)
         {
             DisplayHelpMessage(ViewToolStripMenuItem.ToolTipText);
         }
+
         private void HelpToolStripMenuItem_MouseEnter(object sender, EventArgs e)
         {
             DisplayHelpMessage(HelpToolStripMenuItem.ToolTipText);
         }
+
         private void CategoryAddButton_MouseEnter(object sender, EventArgs e)
         {
             DisplayHelpMessage(CategoryAddButton.ToolTipText);
         }
+
         private void GameAddButton_MouseEnter(object sender, EventArgs e)
         {
             DisplayHelpMessage(GameAddButton.ToolTipText);
         }
+
         private void RunGameButton_MouseEnter(object sender, EventArgs e)
         {
             DisplayHelpMessage(RunGameButton.ToolTipText);
         }
+
         private void RunGameSetupButton_MouseEnter(object sender, EventArgs e)
         {
             DisplayHelpMessage(RunGameSetupButton.ToolTipText);
         }
+
         private void GameEditButton_MouseEnter(object sender, EventArgs e)
         {
             DisplayHelpMessage(GameEditButton.ToolTipText);
         }
+
         private void GameEditConfigurationButton_MouseEnter(object sender, EventArgs e)
         {
             DisplayHelpMessage(GameEditConfigurationButton.ToolTipText);
         }
+
         private void CategoryEditButton_MouseEnter(object sender, EventArgs e)
         {
             DisplayHelpMessage(CategoryEditButton.ToolTipText);
@@ -1837,58 +2025,72 @@ namespace AmpShell
         {
             DisplayHelpMessage(GameDeleteButton.ToolTipText);
         }
+
         private void CategoryDeleteButton_MouseEnter(object sender, EventArgs e)
         {
             DisplayHelpMessage(CategoryDeleteButton.ToolTipText);
         }
+
         private void RunDOSBoxButton_MouseEnter(object sender, EventArgs e)
         {
             DisplayHelpMessage(RunDOSBoxButton.ToolTipText);
         }
+
         private void RunConfigurationEditorButton_MouseEnter(object sender, EventArgs e)
         {
             DisplayHelpMessage(RunConfigurationEditorButton.ToolTipText);
         }
+
         private void LargeIconViewButton_MouseEnter(object sender, EventArgs e)
         {
             DisplayHelpMessage(LargeIconViewButton.ToolTipText);
         }
+
         private void SmallIconViewButton_MouseEnter(object sender, EventArgs e)
         {
             DisplayHelpMessage(SmallIconViewButton.ToolTipText);
         }
+
         private void TilesViewButton_MouseEnter(object sender, EventArgs e)
         {
             DisplayHelpMessage(TilesViewButton.ToolTipText);
         }
+
         private void ListViewButton_MouseEnter(object sender, EventArgs e)
         {
             DisplayHelpMessage(ListViewButton.ToolTipText);
         }
+
         private void DetailsViewButton_MouseEnter(object sender, EventArgs e)
         {
             DisplayHelpMessage(DetailsViewButton.ToolTipText);
         }
+
         private void PreferencesToolStripMenuItem_MouseEnter(object sender, EventArgs e)
         {
             DisplayHelpMessage(preferencesToolStripMenuItem.ToolTipText);
         }
+
         private void AboutToolStripMenuItem_MouseEnter(object sender, EventArgs e)
         {
             DisplayHelpMessage(AboutToolStripMenuItem.ToolTipText);
         }
+
         private void QuitterToolStripMenuItem_MouseEnter(object sender, EventArgs e)
         {
             DisplayHelpMessage(quitterToolStripMenuItem.ToolTipText);
         }
+
         private void EditDefaultConfigurationToolStripMenuItem_MouseEnter(object sender, EventArgs e)
         {
             DisplayHelpMessage(EditDefaultConfigurationToolStripMenuItem.ToolTipText);
         }
+
         private void MakeConfigurationFileToolStripMenuItem_MouseEnter(object sender, EventArgs e)
         {
             DisplayHelpMessage(MakeConfigurationFileToolStripMenuItem.ToolTipText);
         }
+
         #endregion
     }
 }

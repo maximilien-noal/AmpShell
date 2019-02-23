@@ -14,8 +14,14 @@ namespace AmpShell
 {
     public class Category : AmpShell
     {
-        private string _Title; //Category's name
-        private String _Signature; //Category's unique random number ("signature").
+        /// <summary>
+        /// Category's name
+        /// </summary>
+        private string _Title;
+        /// <summary>
+        /// Category's unique random number ("signature").
+        /// </summary>
+        private String _Signature;
         private System.Windows.Forms.View _ViewMode;
         private int _NameColumnWidth;
         private int _ExecutableColumnWidth;
@@ -28,6 +34,7 @@ namespace AmpShell
         private int _NoConsoleColumnWidth;
         private int _FullscreenColumnWidth;
         private int _QuitOnExitColumnWidth;
+
         public Category() : base()
         {
             Title = String.Empty;
@@ -46,11 +53,13 @@ namespace AmpShell
             FullscreenColumnWidth=100;
             QuitOnExitColumnWidth=100;
         }
+
         public Category(string CategoryTitle, string CategorySignature)
         {
             Title = CategoryTitle;
             Signature = CategorySignature;
         }
+
         [XmlAttribute("Title")]
         public String Title
         {
@@ -61,6 +70,7 @@ namespace AmpShell
                     _Title = value;
             }
         }
+
         [XmlAttribute("Signature")]
         public String Signature
         {
@@ -71,6 +81,7 @@ namespace AmpShell
                     _Signature = value;
             }
         }
+
         public int NameColumnWidth
         {
             get { return _NameColumnWidth; }
@@ -80,6 +91,7 @@ namespace AmpShell
                     _NameColumnWidth = value;
             }
         }
+
         public int ExecutableColumnWidth
         {
             get { return _ExecutableColumnWidth; }
@@ -89,6 +101,7 @@ namespace AmpShell
                     _ExecutableColumnWidth = value;
             }
         }
+
         public int CMountColumnWidth
         {
             get { return _CMountColumnWidth; }
@@ -98,6 +111,7 @@ namespace AmpShell
                     _CMountColumnWidth = value;
             }
         }
+
         public int SetupExecutableColumnWidth
         {
             get { return _SetupExecutableColumnWidth; }
@@ -107,6 +121,7 @@ namespace AmpShell
                     _SetupExecutableColumnWidth = value;
             }
         }
+
         public int CustomConfigurationColumnWidth
         {
             get { return _CustomConfigurationColumnWidth; }
@@ -116,6 +131,7 @@ namespace AmpShell
                     _CustomConfigurationColumnWidth = value;
             }
         }
+
         public int DMountColumnWidth
         {
             get { return _DMountColumnWidth; }
@@ -125,6 +141,7 @@ namespace AmpShell
                     _DMountColumnWidth = value;
             }
         }
+
         public int MountingOptionsColumnWidth
         {
             get { return _MountingOptionsColumnWidth; }
@@ -134,6 +151,7 @@ namespace AmpShell
                     _MountingOptionsColumnWidth = value;
             }
         }
+
         public int AdditionnalCommandsColumnWidth
         {
             get { return _AdditionnalCommandsColumnWidth; }
@@ -143,6 +161,7 @@ namespace AmpShell
                     _AdditionnalCommandsColumnWidth = value;
             }
         }
+
         public int NoConsoleColumnWidth
         {
             get { return _NoConsoleColumnWidth; }
@@ -152,6 +171,7 @@ namespace AmpShell
                     _NoConsoleColumnWidth = value;
             }
         }
+
         public int FullscreenColumnWidth
         {
             get { return _FullscreenColumnWidth; }
@@ -161,6 +181,7 @@ namespace AmpShell
                     _FullscreenColumnWidth = value;
             }
         }
+
         public int QuitOnExitColumnWidth
         {
             get { return _QuitOnExitColumnWidth; }
@@ -170,6 +191,7 @@ namespace AmpShell
                     _QuitOnExitColumnWidth = value;
             }
         }
+
         public System.Windows.Forms.View ViewMode
         {
             get { return _ViewMode; }

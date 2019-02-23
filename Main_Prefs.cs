@@ -21,6 +21,7 @@ namespace AmpShell
             InitializeComponent();
             AmpInstance = AmpObject;
         }
+
         public Window AmpInstance
         {
             get { return _AmpInstance; }
@@ -30,6 +31,7 @@ namespace AmpShell
                     _AmpInstance = value;
             }
         }
+
         private void BrowseForEditorButton_Click(object sender, EventArgs e)
         {
 			OpenFileDialog EditorOFD = new OpenFileDialog();
@@ -43,6 +45,7 @@ namespace AmpShell
 			if (EditorOFD.ShowDialog(this) == DialogResult.OK)
 				EditorBinaryPathTextBox.Text = EditorOFD.FileName;
         }
+
         private void OK_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(GamesDirTextBox.Text) == false)
@@ -93,10 +96,12 @@ namespace AmpShell
 			AmpInstance.PortableMode = PortableModeCheckBox.Checked;
 			Close();
         }
+
         private void Cancel_Click(object sender, EventArgs e)
         {
 			Close();
         }
+
         private void Main_Prefs_Load(object sender, EventArgs e)
         {
 			if (Directory.GetDirectoryRoot(Application.StartupPath) == Environment.GetFolderPath(System.Environment.SpecialFolder.ProgramFiles) || Directory.GetDirectoryRoot(Application.StartupPath) == Environment.GetFolderPath(System.Environment.SpecialFolder.ProgramFiles) + " (x86)")
@@ -163,10 +168,12 @@ namespace AmpShell
 			PortableModeCheckBox.Checked = AmpInstance.PortableMode;
 			PortableModeCheckBox_CheckedChanged(sender, EventArgs.Empty);
         }
+
         private void MoveFirstButton_Click(object sender, EventArgs e)
         {
 			CategoriesListViewItemMoveTo(0);
         }
+
         private void DOSBoxPathBrowseButton_Click(object sender, EventArgs e)
         {
             OpenFileDialog DBexeFD = new OpenFileDialog
@@ -184,6 +191,7 @@ namespace AmpShell
 			else if (string.IsNullOrWhiteSpace(AmpInstance.DBPath))
 				MessageBox.Show("Location of DOSBox's executable unknown. You will not be able to run games!", "Select DOSBox's executable", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 		}
+
         private void DOSBoxConfFileBrowseButton_Click(object sender, EventArgs e)
         {
             OpenFileDialog DBDefaultConfFD = new OpenFileDialog();
@@ -199,6 +207,7 @@ namespace AmpShell
 				DOSBoxConfFileTextBox.Text = DBDefaultConfFD.FileName;
 			}
         }
+
         private void DOSBoxLangFileBrowseButton_Click(object sender, EventArgs e)
         {
             OpenFileDialog DBDefaultLangFD = new OpenFileDialog();
@@ -214,28 +223,33 @@ namespace AmpShell
 				DOSBoxLangFileTextBox.Text = DBDefaultLangFD.FileName;
 			}
         }
+
         private void BrowseGamesDirButton_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog GamesDirFBD = new FolderBrowserDialog();
 			if (GamesDirFBD.ShowDialog(this) == DialogResult.OK)
 				GamesDirTextBox.Text = GamesDirFBD.SelectedPath;
         }
+
         private void BrowseCDImageDirButton_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog CDsDirFBD = new FolderBrowserDialog();
 			if (CDsDirFBD.ShowDialog(this) == DialogResult.OK)
 				CDImageDirTextBox.Text = CDsDirFBD.SelectedPath;
         }
+
         private void SortByNameButton_Click(object sender, EventArgs e)
         {
             CategoriesListView.Sorting = SortOrder.Ascending;
 			CategoriesListView.Sort();
 			CategoriesListView.Sorting = SortOrder.None;
         }
+
         private void MoveLastButton_Click(object sender, EventArgs e)
         {
 			CategoriesListViewItemMoveTo(CategoriesListView.Items.Count-1);
         }
+
         private void LargeIconsRadioButton_MouseClick(object sender, MouseEventArgs e)
         {
 			SmallIconsRadioButton.Checked = false;
@@ -243,6 +257,7 @@ namespace AmpShell
 			ListsIconsRadioButton.Checked = false;
 			DetailsIconsRadioButton.Checked = false;
         }
+
         private void SmallIconsRadioButton_MouseClick(object sender, MouseEventArgs e)
         {
 			LargeIconsRadioButton.Checked = false;
@@ -250,6 +265,7 @@ namespace AmpShell
 			ListsIconsRadioButton.Checked = false;
 			DetailsIconsRadioButton.Checked = false;
         }
+
         private void TilesIconsRadioButton_MouseClick(object sender, MouseEventArgs e)
         {
 			SmallIconsRadioButton.Checked = false;
@@ -257,6 +273,7 @@ namespace AmpShell
 			ListsIconsRadioButton.Checked = false;
 			DetailsIconsRadioButton.Checked = false;
         }
+
         private void ListsIconsRadioButton_MouseClick(object sender, MouseEventArgs e)
         {
 			SmallIconsRadioButton.Checked = false;
@@ -264,6 +281,7 @@ namespace AmpShell
 			TilesIconsRadioButton.Checked = false;
 			DetailsIconsRadioButton.Checked = false;
         }
+
         private void DetailsIconsRadioButton_MouseClick(object sender, MouseEventArgs e)
         {
 			SmallIconsRadioButton.Checked = false;
@@ -271,16 +289,19 @@ namespace AmpShell
 			ListsIconsRadioButton.Checked = false;
 			TilesIconsRadioButton.Checked = false;
         }
+
         private void MoveBackButton_Click(object sender, EventArgs e)
         {
 			if (CategoriesListView.FocusedItem.Index > 0)
 				CategoriesListViewItemMoveTo(CategoriesListView.FocusedItem.Index - 1);
         }
+
         private void MoveNextButton_Click(object sender, EventArgs e)
         {
 			if (CategoriesListView.FocusedItem.Index < CategoriesListView.Items.Count)
 				CategoriesListViewItemMoveTo(CategoriesListView.FocusedItem.Index + 1);
         }
+
         private void CategoriesListViewItemMoveTo(int index)
         {
             ListViewItem LtViewItemCopy = new ListViewItem
@@ -292,6 +313,7 @@ namespace AmpShell
 			CategoriesListView.Items.Insert(index, LtViewItemCopy);
 			CategoriesListView.FocusedItem = CategoriesListView.Items[LtViewItemCopy.Name];
         }
+
         private void PortableModeCheckBox_CheckedChanged(object sender, EventArgs e)
         {
 			if (PortableModeCheckBox.Checked == true)
@@ -353,6 +375,7 @@ namespace AmpShell
 				StatusStripLabel.Text = "Portable Mode : available (but disabled).";
 			}
         }
+
         private void ReScanDirButton_Click(object sender, EventArgs e)
         {
 			PortableModeCheckBox_CheckedChanged(sender, EventArgs.Empty);

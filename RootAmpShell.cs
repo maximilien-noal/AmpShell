@@ -7,16 +7,21 @@
  * See the GNU General Public License for more details.
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
-using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
 
 namespace AmpShell
 {
-    [XmlRoot("AmpShell")] //root node for the xml file
+    /// <summary>
+    /// Root node for the xml file
+    /// </summary>
+    [XmlRoot("AmpShell")]
     public class AmpShell
     {
-        private List<AmpShell> _children; //List that will build up the tree of categories and games through the AddChild and RemoveChild and ListChildren methods
+        /// <summary>
+        /// List that will build up the tree of categories and games through the AddChild and RemoveChild and ListChildren methods
+        /// </summary>
+        private List<AmpShell> _children;
         public AmpShell()
         {
             _children=new List<AmpShell>();
@@ -37,10 +42,12 @@ namespace AmpShell
                 }
             }
         }
+
         public void AddChild(AmpShell child)
         {
             _children.Add(child);
         }
+
         public void MoveChildToFirst(AmpShell child)
         {
             if(_children.Contains(child))
@@ -49,6 +56,7 @@ namespace AmpShell
                 _children.Insert(0, child);
             }
         }
+
         public void MoveChildToPosition(AmpShell child, int index)
         {
             if (_children.Contains(child))
@@ -57,6 +65,7 @@ namespace AmpShell
                 _children.Insert(index, child);
             }
         }
+
         public void MoveChildToLast(AmpShell child)
         {
             if (_children.Contains(child))
@@ -65,6 +74,7 @@ namespace AmpShell
                 _children.Insert(_children.Count, child);
             }
         }
+
         public void RemoveChild(AmpShell child)
         {
             _children.Remove(child);

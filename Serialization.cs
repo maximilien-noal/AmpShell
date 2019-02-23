@@ -16,28 +16,25 @@ namespace AmpShell
 {
     public class Serializer
     {
-        //constructor
         public Serializer()
         {
         }
-        //Deserialization method
+
         public Object Deserialize(string XmlPath, Type TargetObjectType)
         {
 			XmlSerializer deserializer = new XmlSerializer(TargetObjectType);
 			TextReader reader;
 			Object Instance;
 			reader = new StreamReader(XmlPath, Encoding.Unicode);
-			//cast (casting is a code line like : object = (type)MethodCall) the data into AmpInstance.
 			Instance = deserializer.Deserialize(reader);
 			reader.Close();
 			return Instance;
         }
-        //Serialization Method
+
         public void Serialize(string XmlPath, Object ObjectToSerialize, Type TypeOfObjectToSerialize)
         {
 			XmlSerializer serializer = new XmlSerializer(TypeOfObjectToSerialize);
 			TextWriter writer;
-			//using Unicode because Unicode is cool. And Unicode makes the application usable worldwide
 			writer = new StreamWriter(XmlPath, false, Encoding.Unicode);
 			serializer.Serialize(writer, ObjectToSerialize);
 			writer.Close();        

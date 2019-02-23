@@ -866,12 +866,12 @@ namespace AmpShell
             this.MainMenuStrip = this.menuStrip;
             this.Name = "MainWindow";
             this.Text = "AmpShell";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.DSF_FormClosing);
-            this.Load += new System.EventHandler(this.DSF_Load);
-            this.Shown += new System.EventHandler(this.DSF_Shown);
-            this.ResizeEnd += new System.EventHandler(this.DSF_ResizeEnd);
-            this.LocationChanged += new System.EventHandler(this.DSF_LocationChanged);
-            this.Resize += new System.EventHandler(this.DSF_Resize);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AmpShell_FormClosing);
+            this.Load += new System.EventHandler(this.AmpShell_Load);
+            this.Shown += new System.EventHandler(this.AmpShell_Shown);
+            this.ResizeEnd += new System.EventHandler(this.AmpShell_Resized);
+            this.LocationChanged += new System.EventHandler(this.AmpShell_LocationChanged);
+            this.Resize += new System.EventHandler(this.AmpShell_Resize);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
             this.toolStrip.ResumeLayout(false);

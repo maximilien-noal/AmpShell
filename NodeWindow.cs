@@ -15,15 +15,30 @@ namespace AmpShell
     public class Window : AmpShell
     {
         public static List<int> LargeViewModeSizes= new List<int> {48,64,80,96,112,128,144,160,176,192,208,224,240,256};
-        private int _Width; //integer for AmpShell's window Width
-        private int _Height; //integer for AmpShell's window Height
+        /// <summary>
+        /// Integer for AmpShell's window Width
+        /// </summary>
+        private int _Width;
+        /// <summary>
+        /// Integer for AmpShell's window Height
+        /// </summary>
+        private int _Height;
         private int _X;
         private int _Y;
         private bool _PortableMode;
         private bool _DefaultIconViewOverride;
-        private string _DBPath; //string for DOSBox.exe location
-        private string _DBDefaultConfFilePath; //string for the default dosbox.conf location
-        private string _DBDefaultLangFilePath; // string for the default language (.lng) file location
+        /// <summary>
+        /// String for DOSBox.exe location
+        /// </summary>
+        private string _DBPath;
+        /// <summary>
+        /// string for the default dosbox.conf location
+        /// </summary>
+        private string _DBDefaultConfFilePath;
+        /// <summary>
+        /// string for the default language (.lng) file location
+        /// </summary>
+        private string _DBDefaultLangFilePath;
         private string _CDsDefaultDir;
         private string _GamesDefaultDir;
         private bool _GamesNoConsole;
@@ -43,6 +58,7 @@ namespace AmpShell
         private bool _RememberWindowPosition;
         private System.Windows.Forms.View _CategoriesDefaultViewMode;
         private int _LargeViewModeSize;
+
         public Window() : base()
         {
             Width = 0;
@@ -74,6 +90,7 @@ namespace AmpShell
             LargeViewModeSize = 48;
             CategoriesDefaultViewMode = System.Windows.Forms.View.LargeIcon;
         }
+
         public bool PortableMode
         {
             get { return _PortableMode; }
@@ -83,6 +100,7 @@ namespace AmpShell
                     _PortableMode = value;
             }
         }
+
         public bool DefaultIconViewOverride
         {
             get { return _DefaultIconViewOverride; }
@@ -92,6 +110,7 @@ namespace AmpShell
                     _DefaultIconViewOverride = value;
             }
         }
+
         public int X
         {
             get { return _X; }
@@ -101,6 +120,7 @@ namespace AmpShell
                     _X = value;
             }
         }
+
         public int Y
         {
             get { return _Y; }
@@ -110,6 +130,7 @@ namespace AmpShell
                     _Y = value;
             }
         }
+
         public System.Windows.Forms.View CategoriesDefaultViewMode
         {
             get { return _CategoriesDefaultViewMode; }
@@ -119,6 +140,7 @@ namespace AmpShell
                     _CategoriesDefaultViewMode = value;
             }
         }
+
         public bool RememberWindowPosition
         {
             get { return _RememberWindowPosition; }
@@ -128,6 +150,7 @@ namespace AmpShell
                     _RememberWindowPosition = value;
             }
         }
+
         public bool RememberWindowSize
         {
             get { return _RememberWindowSize; }
@@ -137,6 +160,7 @@ namespace AmpShell
                     _RememberWindowSize = value;
             }
         }
+
         public bool GameDeletePrompt
         {
             get { return _GameDeletePrompt; }
@@ -146,6 +170,7 @@ namespace AmpShell
                     _GameDeletePrompt = value;
             }
         }
+
         public bool CategoryDeletePrompt
         {
             get { return _CategoryDeletePrompt; }
@@ -155,6 +180,7 @@ namespace AmpShell
                     _CategoryDeletePrompt = value;
             }
         }
+
         public bool OnlyNames
         {
             get { return _OnlyNames; }
@@ -164,6 +190,7 @@ namespace AmpShell
                     _OnlyNames = value;
             }
         }
+
         public bool GamesNoConsole
         {
             get { return _GamesNoConsole; }
@@ -173,6 +200,7 @@ namespace AmpShell
                     _GamesNoConsole = value;
             }
         }
+
         public bool GamesInFullScreen
         {
             get { return _GamesInFullScreen; }
@@ -182,6 +210,7 @@ namespace AmpShell
                     _GamesInFullScreen = value;
             }
         }
+
         public bool GamesQuitOnExit
         {
             get { return _GamesQuitOnExit; }
@@ -191,6 +220,7 @@ namespace AmpShell
                     _GamesQuitOnExit = value;
             }
         }
+
         public String GamesAdditionalCommands
         {
             get { return _GamesAdditionalCommands; }
@@ -200,6 +230,7 @@ namespace AmpShell
                     _GamesAdditionalCommands = value;
             }
         }
+
         public String GamesDefaultDir
         {
             get { return _GamesDefaultDir; }
@@ -209,6 +240,7 @@ namespace AmpShell
                     _GamesDefaultDir = value;
             }
         }
+
         public String CDsDefaultDir
         {
             get { return _CDsDefaultDir; }
@@ -218,6 +250,7 @@ namespace AmpShell
                     _CDsDefaultDir = value;
             }
         }
+
         public String ConfigEditorPath
         {
             get { return _ConfigEditorPath; }
@@ -227,6 +260,7 @@ namespace AmpShell
                     _ConfigEditorPath = value;
             }
         }
+
         public String ConfigEditorAdditionalParameters
         {
             get { return _ConfigEditorAdditionalParameters; }
@@ -236,6 +270,7 @@ namespace AmpShell
                     _ConfigEditorAdditionalParameters = value;
             }
         }
+
         public bool Fullscreen
         {
             get { return _Fullscreen; }
@@ -245,6 +280,7 @@ namespace AmpShell
                     _Fullscreen = value;
             }
         }
+
         public bool MenuBarVisible
         {
             get { return _menuBarVisible; }
@@ -254,6 +290,7 @@ namespace AmpShell
                     _menuBarVisible = value;
             }
         }
+
         public bool ToolBarVisible
         {
             get { return _ToolBarVisible; }
@@ -263,6 +300,7 @@ namespace AmpShell
                     _ToolBarVisible = value;
             }
         }
+
         public bool StatusBarVisible
         {
             get { return _StatusBarVisible; }
@@ -272,6 +310,7 @@ namespace AmpShell
                     _StatusBarVisible = value;
             }
         }
+
         public String DBPath
         {
             get { return _DBPath; }
@@ -281,6 +320,7 @@ namespace AmpShell
                     _DBPath = value;
             }
         }
+
         public String DBDefaultConfFilePath
         {
             get { return _DBDefaultConfFilePath; }
@@ -290,6 +330,7 @@ namespace AmpShell
                     _DBDefaultConfFilePath = value;
             }
         }
+
         public String DBDefaultLangFilePath
         {
             get { return _DBDefaultLangFilePath; }
@@ -299,6 +340,7 @@ namespace AmpShell
                     _DBDefaultLangFilePath = value;
             }
         }
+
         public int Width
         {
             get { return _Width; }
@@ -308,6 +350,7 @@ namespace AmpShell
                     _Width = value;
             }
         }
+
         public int Height
         {
             get { return _Height; }
@@ -317,6 +360,7 @@ namespace AmpShell
                     _Height = value;
             }
         }
+
         public int LargeViewModeSize
         {
             get { return _LargeViewModeSize; }
@@ -325,7 +369,7 @@ namespace AmpShell
                 if (LargeViewModeSizes.Contains(value))
                     _LargeViewModeSize = value;
                 else
-                    throw new System.ArgumentOutOfRangeException("value","Possible values : "+LargeViewModeSizes.ToArray().ToString());
+                    throw new ArgumentOutOfRangeException("value","Possible values : "+LargeViewModeSizes.ToArray().ToString());
             }
         }
     }
