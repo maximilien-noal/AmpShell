@@ -14,48 +14,45 @@ namespace AmpShell
 {
     public partial class CategoryForm : Form
     {
-        private Category _Category;
         public CategoryForm()
         {
             InitializeComponent();
-            Cat = new Category();
+            Category = new Category();
         }
 
-        public CategoryForm(Category EditedCat)
+        public CategoryForm(Category editedCategory)
         {
             InitializeComponent();
-            Cat = EditedCat;
-            Cat.Title = EditedCat.Title;
-            Cat.Signature = EditedCat.Signature;
-            textBox.Text = Cat.Title;
+            Category = editedCategory;
+            Category.Title = editedCategory.Title;
+            Category.Signature = editedCategory.Signature;
+            textBox.Text = Category.Title;
             OK.Text = "&Save and apply";
-            OK.Width=102;
-            OK.Location = new System.Drawing.Point(Cancel.Location.X-107, 41);
+            OK.Width = 102;
+            OK.Location = new System.Drawing.Point(Cancel.Location.X - 107, 41);
             OK.Image = global::AmpShell.Properties.Resources.saveHS;
             Cancel.Text = "&Don't save";
         }
 
-        public Category Cat
-        {
-            get { return _Category; }
-            set { _Category = value; }
-        }
+        public Category Category { get; set; }
 
         private void Cancel_Click(object sender, EventArgs e)
         {
-			Close();
+            Close();
         }
 
         private void OK_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(textBox.Text) == false)
-			{
-				Cat.Title = textBox.Text;
-				DialogResult = DialogResult.OK;
-				Close();
-			}
-			else
-				MessageBox.Show("You must enter a name for the category.",this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            {
+                Category.Title = textBox.Text;
+                DialogResult = DialogResult.OK;
+                Close();
+            }
+            else
+            {
+                MessageBox.Show("You must enter a name for the category.", Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
     }
 }

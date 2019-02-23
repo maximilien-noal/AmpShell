@@ -24,21 +24,23 @@ namespace AmpShell
         private List<AmpShell> _children;
         public AmpShell()
         {
-            _children=new List<AmpShell>();
+            _children = new List<AmpShell>();
         }
         [XmlElement("Window", typeof(Window))]
         [XmlElement("Category", typeof(Category))]
         [XmlElement("Game", typeof(Game))]
         public AmpShell[] ListChildren
         {
-            get { return _children.ToArray(); }
+            get => _children.ToArray();
             set
             {
                 _children.Clear();
                 if (value != _children.ToArray())
                 {
                     if (value != null)
+                    {
                         _children.AddRange(value);
+                    }
                 }
             }
         }
@@ -50,7 +52,7 @@ namespace AmpShell
 
         public void MoveChildToFirst(AmpShell child)
         {
-            if(_children.Contains(child))
+            if (_children.Contains(child))
             {
                 _children.Remove(child);
                 _children.Insert(0, child);

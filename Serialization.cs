@@ -20,24 +20,24 @@ namespace AmpShell
         {
         }
 
-        public Object Deserialize(string XmlPath, Type TargetObjectType)
+        public object Deserialize(string xmlPath, Type targetObjectType)
         {
-			XmlSerializer deserializer = new XmlSerializer(TargetObjectType);
-			TextReader reader;
-			Object Instance;
-			reader = new StreamReader(XmlPath, Encoding.Unicode);
-			Instance = deserializer.Deserialize(reader);
-			reader.Close();
-			return Instance;
+            XmlSerializer deserializer = new XmlSerializer(targetObjectType);
+            TextReader reader;
+            object targetObjectInstance;
+            reader = new StreamReader(xmlPath, Encoding.Unicode);
+            targetObjectInstance = deserializer.Deserialize(reader);
+            reader.Close();
+            return targetObjectInstance;
         }
 
-        public void Serialize(string XmlPath, Object ObjectToSerialize, Type TypeOfObjectToSerialize)
+        public void Serialize(string xmlPath, object objectToSerialize, Type typeOfObjectToSerialize)
         {
-			XmlSerializer serializer = new XmlSerializer(TypeOfObjectToSerialize);
-			TextWriter writer;
-			writer = new StreamWriter(XmlPath, false, Encoding.Unicode);
-			serializer.Serialize(writer, ObjectToSerialize);
-			writer.Close();        
-		}
+            XmlSerializer serializer = new XmlSerializer(typeOfObjectToSerialize);
+            TextWriter writer;
+            writer = new StreamWriter(xmlPath, false, Encoding.Unicode);
+            serializer.Serialize(writer, objectToSerialize);
+            writer.Close();
+        }
     }
 }

@@ -14,50 +14,50 @@ namespace AmpShell
 {
     public class Window : AmpShell
     {
-        public static List<int> LargeViewModeSizes= new List<int> {48,64,80,96,112,128,144,160,176,192,208,224,240,256};
+        public static readonly List<int> LargeViewModeSizes = new List<int> { 48, 64, 80, 96, 112, 128, 144, 160, 176, 192, 208, 224, 240, 256 };
         /// <summary>
         /// Integer for AmpShell's window Width
         /// </summary>
-        private int _Width;
+        private int _width;
         /// <summary>
         /// Integer for AmpShell's window Height
         /// </summary>
-        private int _Height;
-        private int _X;
-        private int _Y;
-        private bool _PortableMode;
-        private bool _DefaultIconViewOverride;
+        private int _height;
+        private int _x;
+        private int _y;
+        private bool _portableMode;
+        private bool _defaultIconViewOverride;
         /// <summary>
         /// String for DOSBox.exe location
         /// </summary>
-        private string _DBPath;
+        private string _dbPath;
         /// <summary>
         /// string for the default dosbox.conf location
         /// </summary>
-        private string _DBDefaultConfFilePath;
+        private string _dbDefaultConfFilePath;
         /// <summary>
         /// string for the default language (.lng) file location
         /// </summary>
-        private string _DBDefaultLangFilePath;
+        private string _dbDefaultLangFilePath;
         private string _CDsDefaultDir;
-        private string _GamesDefaultDir;
-        private bool _GamesNoConsole;
-        private bool _GamesInFullScreen;
-        private bool _GamesQuitOnExit;
-        private string _GamesAdditionalCommands;
-        private bool _OnlyNames;
-        private bool _Fullscreen;
+        private string _gamesDefaultDir;
+        private bool _gamesNoConsole;
+        private bool _gamesInFullScreen;
+        private bool _gamesQuitOnExit;
+        private string _gamesAdditionalCommands;
+        private bool _onlyNames;
+        private bool _fullscreen;
         private bool _menuBarVisible;
-        private bool _ToolBarVisible;
-        private bool _StatusBarVisible;
-        private string _ConfigEditorPath;
-        private string _ConfigEditorAdditionalParameters;
-        private bool _CategoryDeletePrompt;
-        private bool _GameDeletePrompt;
-        private bool _RememberWindowSize;
-        private bool _RememberWindowPosition;
-        private System.Windows.Forms.View _CategoriesDefaultViewMode;
-        private int _LargeViewModeSize;
+        private bool _toolBarVisible;
+        private bool _statusBarVisible;
+        private string _configEditorPath;
+        private string _configEditorAdditionalParameters;
+        private bool _categoryDeletePrompt;
+        private bool _gameDeletePrompt;
+        private bool _rememberWindowSize;
+        private bool _rememberWindowPosition;
+        private System.Windows.Forms.View _categoriesDefaultViewMode;
+        private int _largeViewModeSize;
 
         public Window() : base()
         {
@@ -69,22 +69,22 @@ namespace AmpShell
             DefaultIconViewOverride = false;
             GameDeletePrompt = true;
             CategoryDeletePrompt = true;
-            ConfigEditorPath = String.Empty;
-            ConfigEditorAdditionalParameters = String.Empty;
+            ConfigEditorPath = string.Empty;
+            ConfigEditorAdditionalParameters = string.Empty;
             MenuBarVisible = true;
             ToolBarVisible = true;
             StatusBarVisible = true;
-            DBPath = String.Empty;
-            GamesNoConsole=false;
-            GamesInFullScreen=false;
+            DBPath = string.Empty;
+            GamesNoConsole = false;
+            GamesInFullScreen = false;
             GamesQuitOnExit = false;
             OnlyNames = false;
             Fullscreen = false;
-            GamesAdditionalCommands = String.Empty;
-            GamesDefaultDir = String.Empty;
-            CDsDefaultDir = String.Empty;
-            DBDefaultConfFilePath = String.Empty;
-            DBDefaultLangFilePath = String.Empty;
+            GamesAdditionalCommands = string.Empty;
+            GamesDefaultDir = string.Empty;
+            CDsDefaultDir = string.Empty;
+            DBDefaultConfFilePath = string.Empty;
+            DBDefaultLangFilePath = string.Empty;
             RememberWindowPosition = true;
             RememberWindowSize = true;
             LargeViewModeSize = 48;
@@ -93,283 +93,341 @@ namespace AmpShell
 
         public bool PortableMode
         {
-            get { return _PortableMode; }
+            get => _portableMode;
             set
             {
-                if (value != _PortableMode)
-                    _PortableMode = value;
+                if (value != _portableMode)
+                {
+                    _portableMode = value;
+                }
             }
         }
 
         public bool DefaultIconViewOverride
         {
-            get { return _DefaultIconViewOverride; }
+            get => _defaultIconViewOverride;
             set
             {
-                if (value != _DefaultIconViewOverride)
-                    _DefaultIconViewOverride = value;
+                if (value != _defaultIconViewOverride)
+                {
+                    _defaultIconViewOverride = value;
+                }
             }
         }
 
         public int X
         {
-            get { return _X; }
+            get => _x;
             set
             {
-                if (value != _X)
-                    _X = value;
+                if (value != _x)
+                {
+                    _x = value;
+                }
             }
         }
 
         public int Y
         {
-            get { return _Y; }
+            get => _y;
             set
             {
-                if (value != _Y)
-                    _Y = value;
+                if (value != _y)
+                {
+                    _y = value;
+                }
             }
         }
 
         public System.Windows.Forms.View CategoriesDefaultViewMode
         {
-            get { return _CategoriesDefaultViewMode; }
+            get => _categoriesDefaultViewMode;
             set
             {
-                if (value != _CategoriesDefaultViewMode)
-                    _CategoriesDefaultViewMode = value;
+                if (value != _categoriesDefaultViewMode)
+                {
+                    _categoriesDefaultViewMode = value;
+                }
             }
         }
 
         public bool RememberWindowPosition
         {
-            get { return _RememberWindowPosition; }
+            get => _rememberWindowPosition;
             set
             {
-                if (value != _RememberWindowPosition)
-                    _RememberWindowPosition = value;
+                if (value != _rememberWindowPosition)
+                {
+                    _rememberWindowPosition = value;
+                }
             }
         }
 
         public bool RememberWindowSize
         {
-            get { return _RememberWindowSize; }
+            get => _rememberWindowSize;
             set
             {
-                if (value != _RememberWindowSize)
-                    _RememberWindowSize = value;
+                if (value != _rememberWindowSize)
+                {
+                    _rememberWindowSize = value;
+                }
             }
         }
 
         public bool GameDeletePrompt
         {
-            get { return _GameDeletePrompt; }
+            get => _gameDeletePrompt;
             set
             {
-                if (value != _GameDeletePrompt)
-                    _GameDeletePrompt = value;
+                if (value != _gameDeletePrompt)
+                {
+                    _gameDeletePrompt = value;
+                }
             }
         }
 
         public bool CategoryDeletePrompt
         {
-            get { return _CategoryDeletePrompt; }
+            get => _categoryDeletePrompt;
             set
             {
-                if (value != _CategoryDeletePrompt)
-                    _CategoryDeletePrompt = value;
+                if (value != _categoryDeletePrompt)
+                {
+                    _categoryDeletePrompt = value;
+                }
             }
         }
 
         public bool OnlyNames
         {
-            get { return _OnlyNames; }
+            get => _onlyNames;
             set
             {
-                if (value != _OnlyNames)
-                    _OnlyNames = value;
+                if (value != _onlyNames)
+                {
+                    _onlyNames = value;
+                }
             }
         }
 
         public bool GamesNoConsole
         {
-            get { return _GamesNoConsole; }
+            get => _gamesNoConsole;
             set
             {
-                if (value != _GamesNoConsole)
-                    _GamesNoConsole = value;
+                if (value != _gamesNoConsole)
+                {
+                    _gamesNoConsole = value;
+                }
             }
         }
 
         public bool GamesInFullScreen
         {
-            get { return _GamesInFullScreen; }
+            get => _gamesInFullScreen;
             set
             {
-                if (value != _GamesInFullScreen)
-                    _GamesInFullScreen = value;
+                if (value != _gamesInFullScreen)
+                {
+                    _gamesInFullScreen = value;
+                }
             }
         }
 
         public bool GamesQuitOnExit
         {
-            get { return _GamesQuitOnExit; }
+            get => _gamesQuitOnExit;
             set
             {
-                if (value != _GamesQuitOnExit)
-                    _GamesQuitOnExit = value;
+                if (value != _gamesQuitOnExit)
+                {
+                    _gamesQuitOnExit = value;
+                }
             }
         }
 
-        public String GamesAdditionalCommands
+        public string GamesAdditionalCommands
         {
-            get { return _GamesAdditionalCommands; }
+            get => _gamesAdditionalCommands;
             set
             {
-                if (value != _GamesAdditionalCommands)
-                    _GamesAdditionalCommands = value;
+                if (value != _gamesAdditionalCommands)
+                {
+                    _gamesAdditionalCommands = value;
+                }
             }
         }
 
-        public String GamesDefaultDir
+        public string GamesDefaultDir
         {
-            get { return _GamesDefaultDir; }
+            get => _gamesDefaultDir;
             set
             {
-                if (value != _GamesDefaultDir)
-                    _GamesDefaultDir = value;
+                if (value != _gamesDefaultDir)
+                {
+                    _gamesDefaultDir = value;
+                }
             }
         }
 
-        public String CDsDefaultDir
+        public string CDsDefaultDir
         {
-            get { return _CDsDefaultDir; }
+            get => _CDsDefaultDir;
             set
             {
                 if (value != _CDsDefaultDir)
+                {
                     _CDsDefaultDir = value;
+                }
             }
         }
 
-        public String ConfigEditorPath
+        public string ConfigEditorPath
         {
-            get { return _ConfigEditorPath; }
+            get => _configEditorPath;
             set
             {
-                if (value != _ConfigEditorPath)
-                    _ConfigEditorPath = value;
+                if (value != _configEditorPath)
+                {
+                    _configEditorPath = value;
+                }
             }
         }
 
-        public String ConfigEditorAdditionalParameters
+        public string ConfigEditorAdditionalParameters
         {
-            get { return _ConfigEditorAdditionalParameters; }
+            get => _configEditorAdditionalParameters;
             set
             {
-                if (value != _ConfigEditorAdditionalParameters)
-                    _ConfigEditorAdditionalParameters = value;
+                if (value != _configEditorAdditionalParameters)
+                {
+                    _configEditorAdditionalParameters = value;
+                }
             }
         }
 
         public bool Fullscreen
         {
-            get { return _Fullscreen; }
+            get => _fullscreen;
             set
             {
-                if (value != _Fullscreen)
-                    _Fullscreen = value;
+                if (value != _fullscreen)
+                {
+                    _fullscreen = value;
+                }
             }
         }
 
         public bool MenuBarVisible
         {
-            get { return _menuBarVisible; }
+            get => _menuBarVisible;
             set
             {
                 if (_menuBarVisible != value)
+                {
                     _menuBarVisible = value;
+                }
             }
         }
 
         public bool ToolBarVisible
         {
-            get { return _ToolBarVisible; }
+            get => _toolBarVisible;
             set
             {
-                if (_ToolBarVisible != value)
-                    _ToolBarVisible = value;
+                if (_toolBarVisible != value)
+                {
+                    _toolBarVisible = value;
+                }
             }
         }
 
         public bool StatusBarVisible
         {
-            get { return _StatusBarVisible; }
+            get => _statusBarVisible;
             set
             {
-                if (_StatusBarVisible != value)
-                    _StatusBarVisible = value;
+                if (_statusBarVisible != value)
+                {
+                    _statusBarVisible = value;
+                }
             }
         }
 
-        public String DBPath
+        public string DBPath
         {
-            get { return _DBPath; }
+            get => _dbPath;
             set
             {
-                if (value != _DBPath)
-                    _DBPath = value;
+                if (value != _dbPath)
+                {
+                    _dbPath = value;
+                }
             }
         }
 
-        public String DBDefaultConfFilePath
+        public string DBDefaultConfFilePath
         {
-            get { return _DBDefaultConfFilePath; }
+            get => _dbDefaultConfFilePath;
             set
             {
-                if (value != _DBDefaultConfFilePath)
-                    _DBDefaultConfFilePath = value;
+                if (value != _dbDefaultConfFilePath)
+                {
+                    _dbDefaultConfFilePath = value;
+                }
             }
         }
 
-        public String DBDefaultLangFilePath
+        public string DBDefaultLangFilePath
         {
-            get { return _DBDefaultLangFilePath; }
+            get => _dbDefaultLangFilePath;
             set
             {
-                if (value != _DBDefaultLangFilePath)
-                    _DBDefaultLangFilePath = value;
+                if (value != _dbDefaultLangFilePath)
+                {
+                    _dbDefaultLangFilePath = value;
+                }
             }
         }
 
         public int Width
         {
-            get { return _Width; }
+            get => _width;
             set
             {
-                if (value != _Width)
-                    _Width = value;
+                if (value != _width)
+                {
+                    _width = value;
+                }
             }
         }
 
         public int Height
         {
-            get { return _Height; }
+            get => _height;
             set
             {
-                if (value != _Height)
-                    _Height = value;
+                if (value != _height)
+                {
+                    _height = value;
+                }
             }
         }
 
         public int LargeViewModeSize
         {
-            get { return _LargeViewModeSize; }
+            get => _largeViewModeSize;
             set
             {
                 if (LargeViewModeSizes.Contains(value))
-                    _LargeViewModeSize = value;
+                {
+                    _largeViewModeSize = value;
+                }
                 else
-                    throw new ArgumentOutOfRangeException("value","Possible values : "+LargeViewModeSizes.ToArray().ToString());
+                {
+                    throw new ArgumentOutOfRangeException("value", "Possible values : " + LargeViewModeSizes.ToArray().ToString());
+                }
             }
         }
     }

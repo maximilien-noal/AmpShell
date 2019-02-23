@@ -7,7 +7,6 @@
  * See the GNU General Public License for more details.
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
-using System;
 
 namespace AmpShell
 {
@@ -16,39 +15,39 @@ namespace AmpShell
         /// <summary>
         /// Game's name
         /// </summary>
-        private string _Name;
+        private string _name;
         /// <summary>
         /// Game's setup executable location
         /// </summary>
-        private string _SetupEXEPath;
+        private string _setupExePath;
         /// <summary>
         /// Game's directory mounted as C:
         /// </summary>
-        private string _Directory;
+        private string _directory;
         /// <summary>
         /// Game's custom DOSBox .conf file path
         /// </summary>
-        private string _DBConfPath;
+        private string _confFilePath;
         /// <summary>
         /// Game's main executable location
         /// </summary>
-        private string _DOSEXEPath;
+        private string _dosExePath;
         /// <summary>
         /// Game's CD image / CD directory (like 'D:\') location
         /// </summary>
-        private string _CDPath;
+        private string _cdPath;
         /// <summary>
         /// True if GameCDPath points to a CD image file, wrong if it points to a directory
         /// </summary>
-        private bool _CDImage;
+        private bool _cdImage;
         /// <summary>
         /// Option to use IOCTL (only available for optical drives)
         /// </summary>
-        private bool _UseIOCTL;
+        private bool _useIoctl;
         /// <summary>
         /// Option to use the image file as a floppy (A:)
         /// </summary>
-        private bool _MountAsFloppy;
+        private bool _mountAsFloppy;
         /// <summary>
         /// Game's additionnal commands for DOSBox
         /// </summary>
@@ -57,34 +56,34 @@ namespace AmpShell
         /// Boolean if no config is used ("Don't use any config file at all" checkbox in GameForm)
         /// Legacy 0.73 or older DOSBox option
         /// </summary>
-        private bool _NoConfig;
+        private bool _noConfig;
         /// <summary>
         /// Boolean for fullscreen mode
         /// </summary>
-        private bool _InFullScreen;
+        private bool _inFullScreen;
         /// <summary>
         /// Boolean for displaying DOSBox's console
         /// </summary>
-        private bool _NoConsole;
+        private bool _noConsole;
         /// <summary>
         /// Boolean for the -exit switch for DOSBox (if True, DOSBox closes when the game exits)
         /// </summary>
-        private bool _QuitOnExit;
+        private bool _quitOnExit;
         /// <summary>
         /// Image containing the game's icon
         /// </summary>
-        private string _Icon;
+        private string _icon;
 
         public Game() : base()
         {
-            Name = String.Empty;
-            SetupEXEPath = String.Empty;
-            Directory = String.Empty;
-            DBConfPath = String.Empty;
-            DOSEXEPath = String.Empty;
-            CDPath = String.Empty;
-            AdditionalCommands = String.Empty;
-            Icon = String.Empty;
+            Name = string.Empty;
+            SetupEXEPath = string.Empty;
+            Directory = string.Empty;
+            DBConfPath = string.Empty;
+            DOSEXEPath = string.Empty;
+            CDPath = string.Empty;
+            AdditionalCommands = string.Empty;
+            Icon = string.Empty;
             UseIOCTL = false;
             MountAsFloppy = false;
             NoConfig = false;
@@ -96,151 +95,181 @@ namespace AmpShell
 
         public string Name
         {
-            get{return _Name;}
+            get => _name;
             set
             {
-                if (value != _Name)
-                    _Name = value;
+                if (value != _name)
+                {
+                    _name = value;
+                }
             }
         }
 
         public string Directory
         {
-            get { return _Directory; }
+            get => _directory;
             set
             {
-                if (value != _Directory)
-                    _Directory = value;
+                if (value != _directory)
+                {
+                    _directory = value;
+                }
             }
         }
 
         public string CDPath
         {
-            get { return _CDPath; }
+            get => _cdPath;
             set
             {
-                if (value != _CDPath)
-                    _CDPath = value;
+                if (value != _cdPath)
+                {
+                    _cdPath = value;
+                }
             }
         }
 
         public string SetupEXEPath
         {
-            get { return _SetupEXEPath; }
+            get => _setupExePath;
             set
             {
-                if (value != _SetupEXEPath)
-                    _SetupEXEPath = value;
+                if (value != _setupExePath)
+                {
+                    _setupExePath = value;
+                }
             }
         }
 
         public string DBConfPath
         {
-            get{return _DBConfPath;}
+            get => _confFilePath;
             set
             {
-                if (value != _DBConfPath)
-                    _DBConfPath = value;
+                if (value != _confFilePath)
+                {
+                    _confFilePath = value;
+                }
             }
         }
 
         public string AdditionalCommands
         {
-            get { return _AdditionalCommands; }
+            get => _AdditionalCommands;
             set
             {
                 if (value != _AdditionalCommands)
+                {
                     _AdditionalCommands = value;
+                }
             }
         }
 
         public bool UseIOCTL
         {
-            get { return _UseIOCTL; }
+            get => _useIoctl;
             set
             {
-                if (value != _UseIOCTL)
-                    _UseIOCTL = value;
+                if (value != _useIoctl)
+                {
+                    _useIoctl = value;
+                }
             }
         }
 
         public bool MountAsFloppy
         {
-            get { return _MountAsFloppy; }
+            get => _mountAsFloppy;
             set
             {
-                if (value != _MountAsFloppy)
-                    _MountAsFloppy = value;
+                if (value != _mountAsFloppy)
+                {
+                    _mountAsFloppy = value;
+                }
             }
         }
 
         public bool NoConfig
         {
-            get { return _NoConfig; }
+            get => _noConfig;
             set
             {
-                if (value != _NoConfig)
-                    _NoConfig = value;
+                if (value != _noConfig)
+                {
+                    _noConfig = value;
+                }
             }
         }
 
         public bool InFullScreen
         {
-            get { return _InFullScreen; }
+            get => _inFullScreen;
             set
             {
-                if (value != _InFullScreen)
-                    _InFullScreen = value;
+                if (value != _inFullScreen)
+                {
+                    _inFullScreen = value;
+                }
             }
         }
 
         public bool NoConsole
         {
-            get { return _NoConsole; }
+            get => _noConsole;
             set
             {
-                if (value != _NoConsole)
-                    _NoConsole = value;
+                if (value != _noConsole)
+                {
+                    _noConsole = value;
+                }
             }
         }
 
         public bool QuitOnExit
         {
-            get { return _QuitOnExit; }
+            get => _quitOnExit;
             set
             {
-                if (value != _QuitOnExit)
-                    _QuitOnExit = value;
+                if (value != _quitOnExit)
+                {
+                    _quitOnExit = value;
+                }
             }
         }
 
         public string DOSEXEPath
         {
-            get{return _DOSEXEPath;}
+            get => _dosExePath;
             set
             {
-                if (value != _DOSEXEPath)
-                    _DOSEXEPath = value;
+                if (value != _dosExePath)
+                {
+                    _dosExePath = value;
+                }
             }
         }
 
         public bool CDIsAnImage
         {
-            get { return _CDImage; }
+            get => _cdImage;
             set
             {
-                if (value != _CDImage)
-                    _CDImage = value;
+                if (value != _cdImage)
+                {
+                    _cdImage = value;
+                }
             }
         }
 
         public string Icon
         {
-            get { return _Icon; }
+            get => _icon;
             set
             {
-                if (value != _Icon)
-                    _Icon = value;
+                if (value != _icon)
+                {
+                    _icon = value;
+                }
             }
         }
     }

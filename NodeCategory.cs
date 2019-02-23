@@ -17,41 +17,41 @@ namespace AmpShell
         /// <summary>
         /// Category's name
         /// </summary>
-        private string _Title;
+        private string _title;
         /// <summary>
         /// Category's unique random number ("signature").
         /// </summary>
-        private String _Signature;
-        private System.Windows.Forms.View _ViewMode;
-        private int _NameColumnWidth;
-        private int _ExecutableColumnWidth;
-        private int _CMountColumnWidth;
-        private int _SetupExecutableColumnWidth;
-        private int _CustomConfigurationColumnWidth;
-        private int _DMountColumnWidth;
-        private int _MountingOptionsColumnWidth;
-        private int _AdditionnalCommandsColumnWidth;
-        private int _NoConsoleColumnWidth;
-        private int _FullscreenColumnWidth;
-        private int _QuitOnExitColumnWidth;
+        private string _signature;
+        private System.Windows.Forms.View _viewMode;
+        private int _nameColumnWidth;
+        private int _executableColumnWidth;
+        private int _cMountColumnWidth;
+        private int _setupExecutableColumnWidth;
+        private int _customConfigurationColumnWidth;
+        private int _dMountColumnWidth;
+        private int _mountingOptionsColumnWidth;
+        private int _additionnalCommandsColumnWidth;
+        private int _noConsoleColumnWidth;
+        private int _fullscreenColumnWidth;
+        private int _quitOnExitColumnWidth;
 
         public Category() : base()
         {
-            Title = String.Empty;
+            Title = string.Empty;
             Random RandSignature = new Random();
-            Signature =  RandSignature.Next(1048576).ToString();
+            Signature = RandSignature.Next(1048576).ToString();
             ViewMode = System.Windows.Forms.View.List;
             NameColumnWidth = 150;
-            ExecutableColumnWidth=150;
+            ExecutableColumnWidth = 150;
             CMountColumnWidth = 150;
             SetupExecutableColumnWidth = 150;
             CustomConfigurationColumnWidth = 150;
             DMountColumnWidth = 150;
-            MountingOptionsColumnWidth=100;
+            MountingOptionsColumnWidth = 100;
             AdditionnalCommandsColumnWidth = 150;
-            NoConsoleColumnWidth=100;
-            FullscreenColumnWidth=100;
-            QuitOnExitColumnWidth=100;
+            NoConsoleColumnWidth = 100;
+            FullscreenColumnWidth = 100;
+            QuitOnExitColumnWidth = 100;
         }
 
         public Category(string CategoryTitle, string CategorySignature)
@@ -61,144 +61,172 @@ namespace AmpShell
         }
 
         [XmlAttribute("Title")]
-        public String Title
+        public string Title
         {
-            get{return _Title;}
+            get => _title;
             set
             {
-                if (value != _Title)
-                    _Title = value;
+                if (value != _title)
+                {
+                    _title = value;
+                }
             }
         }
 
         [XmlAttribute("Signature")]
-        public String Signature
+        public string Signature
         {
-            get { return _Signature; }
+            get => _signature;
             set
             {
-                if (value != _Signature)
-                    _Signature = value;
+                if (value != _signature)
+                {
+                    _signature = value;
+                }
             }
         }
 
         public int NameColumnWidth
         {
-            get { return _NameColumnWidth; }
+            get => _nameColumnWidth;
             set
             {
-                if (_NameColumnWidth != value)
-                    _NameColumnWidth = value;
+                if (_nameColumnWidth != value)
+                {
+                    _nameColumnWidth = value;
+                }
             }
         }
 
         public int ExecutableColumnWidth
         {
-            get { return _ExecutableColumnWidth; }
+            get => _executableColumnWidth;
             set
             {
-                if (_ExecutableColumnWidth != value)
-                    _ExecutableColumnWidth = value;
+                if (_executableColumnWidth != value)
+                {
+                    _executableColumnWidth = value;
+                }
             }
         }
 
         public int CMountColumnWidth
         {
-            get { return _CMountColumnWidth; }
+            get => _cMountColumnWidth;
             set
             {
-                if (_CMountColumnWidth != value)
-                    _CMountColumnWidth = value;
+                if (_cMountColumnWidth != value)
+                {
+                    _cMountColumnWidth = value;
+                }
             }
         }
 
         public int SetupExecutableColumnWidth
         {
-            get { return _SetupExecutableColumnWidth; }
+            get => _setupExecutableColumnWidth;
             set
             {
-                if (_SetupExecutableColumnWidth != value)
-                    _SetupExecutableColumnWidth = value;
+                if (_setupExecutableColumnWidth != value)
+                {
+                    _setupExecutableColumnWidth = value;
+                }
             }
         }
 
         public int CustomConfigurationColumnWidth
         {
-            get { return _CustomConfigurationColumnWidth; }
+            get => _customConfigurationColumnWidth;
             set
             {
-                if (_CustomConfigurationColumnWidth != value)
-                    _CustomConfigurationColumnWidth = value;
+                if (_customConfigurationColumnWidth != value)
+                {
+                    _customConfigurationColumnWidth = value;
+                }
             }
         }
 
         public int DMountColumnWidth
         {
-            get { return _DMountColumnWidth; }
+            get => _dMountColumnWidth;
             set
             {
-                if (_DMountColumnWidth != value)
-                    _DMountColumnWidth = value;
+                if (_dMountColumnWidth != value)
+                {
+                    _dMountColumnWidth = value;
+                }
             }
         }
 
         public int MountingOptionsColumnWidth
         {
-            get { return _MountingOptionsColumnWidth; }
+            get => _mountingOptionsColumnWidth;
             set
             {
-                if (_MountingOptionsColumnWidth != value)
-                    _MountingOptionsColumnWidth = value;
+                if (_mountingOptionsColumnWidth != value)
+                {
+                    _mountingOptionsColumnWidth = value;
+                }
             }
         }
 
         public int AdditionnalCommandsColumnWidth
         {
-            get { return _AdditionnalCommandsColumnWidth; }
+            get => _additionnalCommandsColumnWidth;
             set
             {
-                if (_AdditionnalCommandsColumnWidth != value)
-                    _AdditionnalCommandsColumnWidth = value;
+                if (_additionnalCommandsColumnWidth != value)
+                {
+                    _additionnalCommandsColumnWidth = value;
+                }
             }
         }
 
         public int NoConsoleColumnWidth
         {
-            get { return _NoConsoleColumnWidth; }
+            get => _noConsoleColumnWidth;
             set
             {
-                if (_NoConsoleColumnWidth != value)
-                    _NoConsoleColumnWidth = value;
+                if (_noConsoleColumnWidth != value)
+                {
+                    _noConsoleColumnWidth = value;
+                }
             }
         }
 
         public int FullscreenColumnWidth
         {
-            get { return _FullscreenColumnWidth; }
+            get => _fullscreenColumnWidth;
             set
             {
-                if (_FullscreenColumnWidth != value)
-                    _FullscreenColumnWidth = value;
+                if (_fullscreenColumnWidth != value)
+                {
+                    _fullscreenColumnWidth = value;
+                }
             }
         }
 
         public int QuitOnExitColumnWidth
         {
-            get { return _QuitOnExitColumnWidth; }
+            get => _quitOnExitColumnWidth;
             set
             {
-                if (_QuitOnExitColumnWidth != value)
-                    _QuitOnExitColumnWidth = value;
+                if (_quitOnExitColumnWidth != value)
+                {
+                    _quitOnExitColumnWidth = value;
+                }
             }
         }
 
         public System.Windows.Forms.View ViewMode
         {
-            get { return _ViewMode; }
+            get => _viewMode;
             set
             {
-                if (value != _ViewMode)
-                    _ViewMode = value;
+                if (value != _viewMode)
+                {
+                    _viewMode = value;
+                }
             }
         }
     }

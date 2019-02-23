@@ -99,7 +99,7 @@ namespace AmpShell
             this.FullscreenLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.QuitOnExitLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.AdditionnalCommandsLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.tabControl = new System.Windows.Forms.TabControl();
+            this.TabControl = new System.Windows.Forms.TabControl();
             this.menuStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
@@ -133,7 +133,7 @@ namespace AmpShell
             this.FileToolStripMenuItem.Text = "&File";
             this.FileToolStripMenuItem.ToolTipText = "Manage categories and games";
             this.FileToolStripMenuItem.MouseEnter += new System.EventHandler(this.FileToolStripMenuItem_MouseEnter);
-            this.FileToolStripMenuItem.MouseLeave += new System.EventHandler(this.Ltview_ItemSelectionChanged);
+            this.FileToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
             // NewCategoryToolStripMenuItem
             // 
@@ -146,7 +146,7 @@ namespace AmpShell
             this.NewCategoryToolStripMenuItem.ToolTipText = "Add a new category of games";
             this.NewCategoryToolStripMenuItem.Click += new System.EventHandler(this.CategoryAddButton_Click);
             this.NewCategoryToolStripMenuItem.MouseEnter += new System.EventHandler(this.CategoryAddButton_MouseEnter);
-            this.NewCategoryToolStripMenuItem.MouseLeave += new System.EventHandler(this.Ltview_ItemSelectionChanged);
+            this.NewCategoryToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
             // NewGameToolStripMenuItem
             // 
@@ -160,7 +160,7 @@ namespace AmpShell
             this.NewGameToolStripMenuItem.ToolTipText = "Add a new game for the current category";
             this.NewGameToolStripMenuItem.Click += new System.EventHandler(this.GameAddButton_Click);
             this.NewGameToolStripMenuItem.MouseEnter += new System.EventHandler(this.GameAddButton_MouseEnter);
-            this.NewGameToolStripMenuItem.MouseLeave += new System.EventHandler(this.Ltview_ItemSelectionChanged);
+            this.NewGameToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
             // RunGameToolStripMenuItem
             // 
@@ -172,9 +172,9 @@ namespace AmpShell
             this.RunGameToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
             this.RunGameToolStripMenuItem.Text = "&Run selected game";
             this.RunGameToolStripMenuItem.ToolTipText = "Run the selected game in DOSBox";
-            this.RunGameToolStripMenuItem.Click += new System.EventHandler(this.Ltview_ItemActivate);
+            this.RunGameToolStripMenuItem.Click += new System.EventHandler(this.CurrentListView_ItemActivate);
             this.RunGameToolStripMenuItem.MouseEnter += new System.EventHandler(this.RunGameButton_MouseEnter);
-            this.RunGameToolStripMenuItem.MouseLeave += new System.EventHandler(this.Ltview_ItemSelectionChanged);
+            this.RunGameToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
             // RunGameSetupToolStripMenuItem
             // 
@@ -188,7 +188,7 @@ namespace AmpShell
             this.RunGameSetupToolStripMenuItem.ToolTipText = "Run the game\'s setup in DOSBox";
             this.RunGameSetupToolStripMenuItem.Click += new System.EventHandler(this.RunGameSetupButton_Click);
             this.RunGameSetupToolStripMenuItem.MouseEnter += new System.EventHandler(this.RunGameSetupButton_MouseEnter);
-            this.RunGameSetupToolStripMenuItem.MouseLeave += new System.EventHandler(this.Ltview_ItemSelectionChanged);
+            this.RunGameSetupToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
             // toolStripSeparator1
             // 
@@ -206,7 +206,7 @@ namespace AmpShell
             this.quitterToolStripMenuItem.ToolTipText = "Save all the data, and exit AmpShell";
             this.quitterToolStripMenuItem.Click += new System.EventHandler(this.QuitToolStripMenuItem_Click);
             this.quitterToolStripMenuItem.MouseEnter += new System.EventHandler(this.QuitterToolStripMenuItem_MouseEnter);
-            this.quitterToolStripMenuItem.MouseLeave += new System.EventHandler(this.Ltview_ItemSelectionChanged);
+            this.quitterToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
             // EditToolStripMenuItem
             // 
@@ -224,7 +224,7 @@ namespace AmpShell
             this.EditToolStripMenuItem.Text = "&Edit";
             this.EditToolStripMenuItem.ToolTipText = "Modify categories, games, and preferences";
             this.EditToolStripMenuItem.MouseEnter += new System.EventHandler(this.EditToolStripMenuItem_MouseEnter);
-            this.EditToolStripMenuItem.MouseLeave += new System.EventHandler(this.Ltview_ItemSelectionChanged);
+            this.EditToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
             // editSelectedgameToolStripMenuItem
             // 
@@ -238,7 +238,7 @@ namespace AmpShell
             this.editSelectedgameToolStripMenuItem.ToolTipText = "Modify the selected game";
             this.editSelectedgameToolStripMenuItem.Click += new System.EventHandler(this.GameEditButton_Click);
             this.editSelectedgameToolStripMenuItem.MouseEnter += new System.EventHandler(this.GameEditButton_MouseEnter);
-            this.editSelectedgameToolStripMenuItem.MouseLeave += new System.EventHandler(this.Ltview_ItemSelectionChanged);
+            this.editSelectedgameToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
             // editConfigToolStripMenuItem
             // 
@@ -252,7 +252,7 @@ namespace AmpShell
             this.editConfigToolStripMenuItem.ToolTipText = "Modify the selected game\'s custom config file";
             this.editConfigToolStripMenuItem.Click += new System.EventHandler(this.GameEditConfigurationButton_Click);
             this.editConfigToolStripMenuItem.MouseEnter += new System.EventHandler(this.GameEditConfigurationButton_MouseEnter);
-            this.editConfigToolStripMenuItem.MouseLeave += new System.EventHandler(this.Ltview_ItemSelectionChanged);
+            this.editConfigToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
             // MakeConfigurationFileToolStripMenuItem
             // 
@@ -266,7 +266,7 @@ namespace AmpShell
     "stom configuration file";
             this.MakeConfigurationFileToolStripMenuItem.Click += new System.EventHandler(this.MakeConfigButton_Click);
             this.MakeConfigurationFileToolStripMenuItem.MouseEnter += new System.EventHandler(this.MakeConfigurationFileToolStripMenuItem_MouseEnter);
-            this.MakeConfigurationFileToolStripMenuItem.MouseLeave += new System.EventHandler(this.Ltview_ItemSelectionChanged);
+            this.MakeConfigurationFileToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
             // editSelectedcategoryToolStripMenuItem
             // 
@@ -280,7 +280,7 @@ namespace AmpShell
             this.editSelectedcategoryToolStripMenuItem.ToolTipText = "Modify the current category name";
             this.editSelectedcategoryToolStripMenuItem.Click += new System.EventHandler(this.CategoryEditButton_Click);
             this.editSelectedcategoryToolStripMenuItem.MouseEnter += new System.EventHandler(this.CategoryEditButton_MouseEnter);
-            this.editSelectedcategoryToolStripMenuItem.MouseLeave += new System.EventHandler(this.Ltview_ItemSelectionChanged);
+            this.editSelectedcategoryToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
             // deleteSelectedGameToolStripMenuItem
             // 
@@ -294,7 +294,7 @@ namespace AmpShell
             this.deleteSelectedGameToolStripMenuItem.ToolTipText = "Delete the selected game of the current category";
             this.deleteSelectedGameToolStripMenuItem.Click += new System.EventHandler(this.GameDeleteButton_Click);
             this.deleteSelectedGameToolStripMenuItem.MouseEnter += new System.EventHandler(this.GameDeleteButton_MouseEnter);
-            this.deleteSelectedGameToolStripMenuItem.MouseLeave += new System.EventHandler(this.Ltview_ItemSelectionChanged);
+            this.deleteSelectedGameToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
             // deleteSelectedCategoryToolStripMenuItem
             // 
@@ -308,7 +308,7 @@ namespace AmpShell
             this.deleteSelectedCategoryToolStripMenuItem.ToolTipText = "Delete current category and all it\'s games";
             this.deleteSelectedCategoryToolStripMenuItem.Click += new System.EventHandler(this.CategoryDeleteButton_Click);
             this.deleteSelectedCategoryToolStripMenuItem.MouseEnter += new System.EventHandler(this.CategoryDeleteButton_MouseEnter);
-            this.deleteSelectedCategoryToolStripMenuItem.MouseLeave += new System.EventHandler(this.Ltview_ItemSelectionChanged);
+            this.deleteSelectedCategoryToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
             // toolStripSeparator2
             // 
@@ -326,7 +326,7 @@ namespace AmpShell
             this.preferencesToolStripMenuItem.ToolTipText = "Manage parameters and options";
             this.preferencesToolStripMenuItem.Click += new System.EventHandler(this.PreferencesToolStripMenuItem_Click);
             this.preferencesToolStripMenuItem.MouseEnter += new System.EventHandler(this.PreferencesToolStripMenuItem_MouseEnter);
-            this.preferencesToolStripMenuItem.MouseLeave += new System.EventHandler(this.Ltview_ItemSelectionChanged);
+            this.preferencesToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
             // ToolsToolStripMenuItem
             // 
@@ -339,7 +339,7 @@ namespace AmpShell
             this.ToolsToolStripMenuItem.Text = "&Tools";
             this.ToolsToolStripMenuItem.ToolTipText = "Run DOSBox or your text editor";
             this.ToolsToolStripMenuItem.MouseEnter += new System.EventHandler(this.ToolsToolStripMenuItem_MouseEnter);
-            this.ToolsToolStripMenuItem.MouseLeave += new System.EventHandler(this.Ltview_ItemSelectionChanged);
+            this.ToolsToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
             // RunDOSBoxToolStripMenuItem
             // 
@@ -352,7 +352,7 @@ namespace AmpShell
             this.RunDOSBoxToolStripMenuItem.ToolTipText = "Run DOSBox with the default configuration and language files";
             this.RunDOSBoxToolStripMenuItem.Click += new System.EventHandler(this.RunDOSBox_Click);
             this.RunDOSBoxToolStripMenuItem.MouseEnter += new System.EventHandler(this.RunDOSBoxButton_MouseEnter);
-            this.RunDOSBoxToolStripMenuItem.MouseLeave += new System.EventHandler(this.Ltview_ItemSelectionChanged);
+            this.RunDOSBoxToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
             // runConfigurationEditorToolStripMenuItem
             // 
@@ -366,7 +366,7 @@ namespace AmpShell
             this.runConfigurationEditorToolStripMenuItem.ToolTipText = "Run your text editor";
             this.runConfigurationEditorToolStripMenuItem.Click += new System.EventHandler(this.RunConfigurationEditorButton_Click);
             this.runConfigurationEditorToolStripMenuItem.MouseEnter += new System.EventHandler(this.RunConfigurationEditorButton_MouseEnter);
-            this.runConfigurationEditorToolStripMenuItem.MouseLeave += new System.EventHandler(this.Ltview_ItemSelectionChanged);
+            this.runConfigurationEditorToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
             // EditDefaultConfigurationToolStripMenuItem
             // 
@@ -379,7 +379,7 @@ namespace AmpShell
             this.EditDefaultConfigurationToolStripMenuItem.ToolTipText = "Open the default configuration in your text editor";
             this.EditDefaultConfigurationToolStripMenuItem.Click += new System.EventHandler(this.EditDefaultConfigurationToolStripMenuItem_Click);
             this.EditDefaultConfigurationToolStripMenuItem.MouseEnter += new System.EventHandler(this.EditDefaultConfigurationToolStripMenuItem_MouseEnter);
-            this.EditDefaultConfigurationToolStripMenuItem.MouseLeave += new System.EventHandler(this.Ltview_ItemSelectionChanged);
+            this.EditDefaultConfigurationToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
             // ViewToolStripMenuItem
             // 
@@ -395,7 +395,7 @@ namespace AmpShell
             this.ViewToolStripMenuItem.Text = "&View";
             this.ViewToolStripMenuItem.ToolTipText = "Change the current category view";
             this.ViewToolStripMenuItem.MouseEnter += new System.EventHandler(this.ViewToolStripMenuItem_MouseEnter);
-            this.ViewToolStripMenuItem.MouseLeave += new System.EventHandler(this.Ltview_ItemSelectionChanged);
+            this.ViewToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
             // LargeIconToolStripMenuItem
             // 
@@ -408,7 +408,7 @@ namespace AmpShell
             this.LargeIconToolStripMenuItem.ToolTipText = "The current category will display large icons";
             this.LargeIconToolStripMenuItem.Click += new System.EventHandler(this.LargeIconViewButton_Click);
             this.LargeIconToolStripMenuItem.MouseEnter += new System.EventHandler(this.LargeIconViewButton_MouseEnter);
-            this.LargeIconToolStripMenuItem.MouseLeave += new System.EventHandler(this.Ltview_ItemSelectionChanged);
+            this.LargeIconToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
             // SmallIconToolStripMenuItem
             // 
@@ -421,7 +421,7 @@ namespace AmpShell
             this.SmallIconToolStripMenuItem.ToolTipText = "The current category will display small icons";
             this.SmallIconToolStripMenuItem.Click += new System.EventHandler(this.SmallIconViewButton_Click);
             this.SmallIconToolStripMenuItem.MouseEnter += new System.EventHandler(this.SmallIconViewButton_MouseEnter);
-            this.SmallIconToolStripMenuItem.MouseLeave += new System.EventHandler(this.Ltview_ItemSelectionChanged);
+            this.SmallIconToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
             // tileToolStripMenuItem
             // 
@@ -434,7 +434,7 @@ namespace AmpShell
             this.tileToolStripMenuItem.ToolTipText = "The current category will display tiles";
             this.tileToolStripMenuItem.Click += new System.EventHandler(this.TileViewButton_Click);
             this.tileToolStripMenuItem.MouseEnter += new System.EventHandler(this.TilesViewButton_MouseEnter);
-            this.tileToolStripMenuItem.MouseLeave += new System.EventHandler(this.Ltview_ItemSelectionChanged);
+            this.tileToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
             // listToolStripMenuItem
             // 
@@ -446,7 +446,7 @@ namespace AmpShell
             this.listToolStripMenuItem.ToolTipText = "The current category will display a list";
             this.listToolStripMenuItem.Click += new System.EventHandler(this.ListViewButton_Click);
             this.listToolStripMenuItem.MouseEnter += new System.EventHandler(this.ListViewButton_MouseEnter);
-            this.listToolStripMenuItem.MouseLeave += new System.EventHandler(this.Ltview_ItemSelectionChanged);
+            this.listToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
             // detailsToolStripMenuItem
             // 
@@ -459,7 +459,7 @@ namespace AmpShell
             this.detailsToolStripMenuItem.ToolTipText = "The current category will display games in a list with columns";
             this.detailsToolStripMenuItem.Click += new System.EventHandler(this.DetailsViewButton_Click);
             this.detailsToolStripMenuItem.MouseEnter += new System.EventHandler(this.DetailsViewButton_MouseEnter);
-            this.detailsToolStripMenuItem.MouseLeave += new System.EventHandler(this.Ltview_ItemSelectionChanged);
+            this.detailsToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
             // HelpToolStripMenuItem
             // 
@@ -470,7 +470,7 @@ namespace AmpShell
             this.HelpToolStripMenuItem.Text = "&Help";
             this.HelpToolStripMenuItem.ToolTipText = "Contains the about dialog";
             this.HelpToolStripMenuItem.MouseEnter += new System.EventHandler(this.HelpToolStripMenuItem_MouseEnter);
-            this.HelpToolStripMenuItem.MouseLeave += new System.EventHandler(this.Ltview_ItemSelectionChanged);
+            this.HelpToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
             // AboutToolStripMenuItem
             // 
@@ -483,7 +483,7 @@ namespace AmpShell
             this.AboutToolStripMenuItem.ToolTipText = "Display the about dialog";
             this.AboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
             this.AboutToolStripMenuItem.MouseEnter += new System.EventHandler(this.AboutToolStripMenuItem_MouseEnter);
-            this.AboutToolStripMenuItem.MouseLeave += new System.EventHandler(this.Ltview_ItemSelectionChanged);
+            this.AboutToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
             // toolStrip
             // 
@@ -526,7 +526,7 @@ namespace AmpShell
             this.CategoryAddButton.ToolTipText = "Add a new category of games";
             this.CategoryAddButton.Click += new System.EventHandler(this.CategoryAddButton_Click);
             this.CategoryAddButton.MouseEnter += new System.EventHandler(this.CategoryAddButton_MouseEnter);
-            this.CategoryAddButton.MouseLeave += new System.EventHandler(this.Ltview_ItemSelectionChanged);
+            this.CategoryAddButton.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
             // GameAddButton
             // 
@@ -540,7 +540,7 @@ namespace AmpShell
             this.GameAddButton.ToolTipText = "Add a new game for the current category";
             this.GameAddButton.Click += new System.EventHandler(this.GameAddButton_Click);
             this.GameAddButton.MouseEnter += new System.EventHandler(this.GameAddButton_MouseEnter);
-            this.GameAddButton.MouseLeave += new System.EventHandler(this.Ltview_ItemSelectionChanged);
+            this.GameAddButton.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
             // RunGameButton
             // 
@@ -552,9 +552,9 @@ namespace AmpShell
             this.RunGameButton.Size = new System.Drawing.Size(23, 22);
             this.RunGameButton.Text = "Run selected game (Enter)";
             this.RunGameButton.ToolTipText = "Run the selected game in DOSBox";
-            this.RunGameButton.Click += new System.EventHandler(this.Ltview_ItemActivate);
+            this.RunGameButton.Click += new System.EventHandler(this.CurrentListView_ItemActivate);
             this.RunGameButton.MouseEnter += new System.EventHandler(this.RunGameButton_MouseEnter);
-            this.RunGameButton.MouseLeave += new System.EventHandler(this.Ltview_ItemSelectionChanged);
+            this.RunGameButton.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
             // RunGameSetupButton
             // 
@@ -568,7 +568,7 @@ namespace AmpShell
             this.RunGameSetupButton.ToolTipText = "Run the game\'s setup in DOSBox";
             this.RunGameSetupButton.Click += new System.EventHandler(this.RunGameSetupButton_Click);
             this.RunGameSetupButton.MouseEnter += new System.EventHandler(this.RunGameSetupButton_MouseEnter);
-            this.RunGameSetupButton.MouseLeave += new System.EventHandler(this.Ltview_ItemSelectionChanged);
+            this.RunGameSetupButton.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
             // toolStripSeparator7
             // 
@@ -587,7 +587,7 @@ namespace AmpShell
             this.GameEditButton.ToolTipText = "Modify the selected game";
             this.GameEditButton.Click += new System.EventHandler(this.GameEditButton_Click);
             this.GameEditButton.MouseEnter += new System.EventHandler(this.GameEditButton_MouseEnter);
-            this.GameEditButton.MouseLeave += new System.EventHandler(this.Ltview_ItemSelectionChanged);
+            this.GameEditButton.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
             // GameEditConfigurationButton
             // 
@@ -601,7 +601,7 @@ namespace AmpShell
             this.GameEditConfigurationButton.ToolTipText = "Modify the selected game\'s custom config file";
             this.GameEditConfigurationButton.Click += new System.EventHandler(this.GameEditConfigurationButton_Click);
             this.GameEditConfigurationButton.MouseEnter += new System.EventHandler(this.GameEditConfigurationButton_MouseEnter);
-            this.GameEditConfigurationButton.MouseLeave += new System.EventHandler(this.Ltview_ItemSelectionChanged);
+            this.GameEditConfigurationButton.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
             // MakeConfigButton
             // 
@@ -616,7 +616,7 @@ namespace AmpShell
     "stom configuration file";
             this.MakeConfigButton.Click += new System.EventHandler(this.MakeConfigButton_Click);
             this.MakeConfigButton.MouseEnter += new System.EventHandler(this.MakeConfigurationFileToolStripMenuItem_MouseEnter);
-            this.MakeConfigButton.MouseLeave += new System.EventHandler(this.Ltview_ItemSelectionChanged);
+            this.MakeConfigButton.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
             // CategoryEditButton
             // 
@@ -630,7 +630,7 @@ namespace AmpShell
             this.CategoryEditButton.ToolTipText = "Modify the current category name";
             this.CategoryEditButton.Click += new System.EventHandler(this.CategoryEditButton_Click);
             this.CategoryEditButton.MouseEnter += new System.EventHandler(this.CategoryEditButton_MouseEnter);
-            this.CategoryEditButton.MouseLeave += new System.EventHandler(this.Ltview_ItemSelectionChanged);
+            this.CategoryEditButton.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
             // GameDeleteButton
             // 
@@ -644,7 +644,7 @@ namespace AmpShell
             this.GameDeleteButton.ToolTipText = "Delete the selected game of the current category";
             this.GameDeleteButton.Click += new System.EventHandler(this.GameDeleteButton_Click);
             this.GameDeleteButton.MouseEnter += new System.EventHandler(this.GameDeleteButton_MouseEnter);
-            this.GameDeleteButton.MouseLeave += new System.EventHandler(this.Ltview_ItemSelectionChanged);
+            this.GameDeleteButton.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
             // CategoryDeleteButton
             // 
@@ -658,7 +658,7 @@ namespace AmpShell
             this.CategoryDeleteButton.ToolTipText = "Delete current category and all it\'s games";
             this.CategoryDeleteButton.Click += new System.EventHandler(this.CategoryDeleteButton_Click);
             this.CategoryDeleteButton.MouseEnter += new System.EventHandler(this.CategoryDeleteButton_MouseEnter);
-            this.CategoryDeleteButton.MouseLeave += new System.EventHandler(this.Ltview_ItemSelectionChanged);
+            this.CategoryDeleteButton.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
             // toolStripSeparator4
             // 
@@ -677,7 +677,7 @@ namespace AmpShell
             this.RunDOSBoxButton.ToolTipText = "Run DOSBox with the default configuration and language files";
             this.RunDOSBoxButton.Click += new System.EventHandler(this.RunDOSBox_Click);
             this.RunDOSBoxButton.MouseEnter += new System.EventHandler(this.RunDOSBoxButton_MouseEnter);
-            this.RunDOSBoxButton.MouseLeave += new System.EventHandler(this.Ltview_ItemSelectionChanged);
+            this.RunDOSBoxButton.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
             // RunConfigurationEditorButton
             // 
@@ -691,7 +691,7 @@ namespace AmpShell
             this.RunConfigurationEditorButton.ToolTipText = "Run your text editor";
             this.RunConfigurationEditorButton.Click += new System.EventHandler(this.RunConfigurationEditorButton_Click);
             this.RunConfigurationEditorButton.MouseEnter += new System.EventHandler(this.RunConfigurationEditorButton_MouseEnter);
-            this.RunConfigurationEditorButton.MouseLeave += new System.EventHandler(this.Ltview_ItemSelectionChanged);
+            this.RunConfigurationEditorButton.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
             // EditDefaultConfigurationButton
             // 
@@ -705,7 +705,7 @@ namespace AmpShell
             this.EditDefaultConfigurationButton.ToolTipText = "Open the default configuration in your text editor";
             this.EditDefaultConfigurationButton.Click += new System.EventHandler(this.EditDefaultConfigurationToolStripMenuItem_Click);
             this.EditDefaultConfigurationButton.MouseEnter += new System.EventHandler(this.EditDefaultConfigurationToolStripMenuItem_MouseEnter);
-            this.EditDefaultConfigurationButton.MouseLeave += new System.EventHandler(this.Ltview_ItemSelectionChanged);
+            this.EditDefaultConfigurationButton.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
             // toolStripSeparator5
             // 
@@ -723,7 +723,7 @@ namespace AmpShell
             this.LargeIconViewButton.ToolTipText = "The current category will display large icons";
             this.LargeIconViewButton.Click += new System.EventHandler(this.LargeIconViewButton_Click);
             this.LargeIconViewButton.MouseEnter += new System.EventHandler(this.LargeIconViewButton_MouseEnter);
-            this.LargeIconViewButton.MouseLeave += new System.EventHandler(this.Ltview_ItemSelectionChanged);
+            this.LargeIconViewButton.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
             // SmallIconViewButton
             // 
@@ -736,7 +736,7 @@ namespace AmpShell
             this.SmallIconViewButton.ToolTipText = "The current category will display small icons";
             this.SmallIconViewButton.Click += new System.EventHandler(this.SmallIconViewButton_Click);
             this.SmallIconViewButton.MouseEnter += new System.EventHandler(this.SmallIconViewButton_MouseEnter);
-            this.SmallIconViewButton.MouseLeave += new System.EventHandler(this.Ltview_ItemSelectionChanged);
+            this.SmallIconViewButton.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
             // TilesViewButton
             // 
@@ -749,7 +749,7 @@ namespace AmpShell
             this.TilesViewButton.ToolTipText = "The current category will display tiles";
             this.TilesViewButton.Click += new System.EventHandler(this.TileViewButton_Click);
             this.TilesViewButton.MouseEnter += new System.EventHandler(this.TilesViewButton_MouseEnter);
-            this.TilesViewButton.MouseLeave += new System.EventHandler(this.Ltview_ItemSelectionChanged);
+            this.TilesViewButton.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
             // ListViewButton
             // 
@@ -762,7 +762,7 @@ namespace AmpShell
             this.ListViewButton.ToolTipText = "The current category will display a list";
             this.ListViewButton.Click += new System.EventHandler(this.ListViewButton_Click);
             this.ListViewButton.MouseEnter += new System.EventHandler(this.ListViewButton_MouseEnter);
-            this.ListViewButton.MouseLeave += new System.EventHandler(this.Ltview_ItemSelectionChanged);
+            this.ListViewButton.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
             // DetailsViewButton
             // 
@@ -775,7 +775,7 @@ namespace AmpShell
             this.DetailsViewButton.ToolTipText = "The current category will display games in a list with columns";
             this.DetailsViewButton.Click += new System.EventHandler(this.DetailsViewButton_Click);
             this.DetailsViewButton.MouseEnter += new System.EventHandler(this.DetailsViewButton_MouseEnter);
-            this.DetailsViewButton.MouseLeave += new System.EventHandler(this.Ltview_ItemSelectionChanged);
+            this.DetailsViewButton.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
             // statusStrip
             // 
@@ -843,21 +843,21 @@ namespace AmpShell
             // 
             // tabControl
             // 
-            this.tabControl.AllowDrop = true;
-            this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl.HotTrack = true;
-            this.tabControl.Location = new System.Drawing.Point(0, 49);
-            this.tabControl.Name = "tabControl";
-            this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(624, 290);
-            this.tabControl.TabIndex = 1;
+            this.TabControl.AllowDrop = true;
+            this.TabControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TabControl.HotTrack = true;
+            this.TabControl.Location = new System.Drawing.Point(0, 49);
+            this.TabControl.Name = "tabControl";
+            this.TabControl.SelectedIndex = 0;
+            this.TabControl.Size = new System.Drawing.Size(624, 290);
+            this.TabControl.TabIndex = 1;
             // 
             // MainWindow
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(624, 361);
-            this.Controls.Add(this.tabControl);
+            this.Controls.Add(this.TabControl);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.toolStrip);
             this.Controls.Add(this.menuStrip);
@@ -888,7 +888,7 @@ namespace AmpShell
         private System.Windows.Forms.MenuStrip menuStrip;
         private System.Windows.Forms.ToolStrip toolStrip;
         private System.Windows.Forms.StatusStrip statusStrip;
-        private System.Windows.Forms.TabControl tabControl;
+        private System.Windows.Forms.TabControl TabControl;
         private System.Windows.Forms.ToolStripMenuItem FileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem NewGameToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem NewCategoryToolStripMenuItem;
