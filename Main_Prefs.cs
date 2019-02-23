@@ -33,7 +33,7 @@ namespace AmpShell
         private void BrowseForEditorButton_Click(object sender, EventArgs e)
         {
 			OpenFileDialog EditorOFD = new OpenFileDialog();
-			if (EditorBinaryPathTextBox.Text != String.Empty)
+			if (string.IsNullOrWhiteSpace(EditorBinaryPathTextBox.Text) == false)
 			{
 				if (Directory.Exists(Directory.GetParent(EditorBinaryPathTextBox.Text).ToString()))
 					EditorOFD.InitialDirectory = Directory.GetParent(EditorBinaryPathTextBox.Text).ToString();
@@ -45,12 +45,12 @@ namespace AmpShell
         }
         private void OK_Click(object sender, EventArgs e)
         {
-            if (GamesDirTextBox.Text != String.Empty)
+            if (string.IsNullOrWhiteSpace(GamesDirTextBox.Text) == false)
 			{
 				if (Directory.Exists(GamesDirTextBox.Text))
 					AmpInstance.GamesDefaultDir = GamesDirTextBox.Text;
 			}
-			if (CDImageDirTextBox.Text != String.Empty)
+			if (string.IsNullOrWhiteSpace(CDImageDirTextBox.Text) == false)
 			{
 				if (Directory.Exists(CDImageDirTextBox.Text))
 					AmpInstance.CDsDefaultDir = CDImageDirTextBox.Text;
@@ -122,7 +122,7 @@ namespace AmpShell
 			QuitOnExitCheckBox.Checked = AmpInstance.GamesQuitOnExit;
 			NoConsoleCheckBox.Checked = AmpInstance.GamesNoConsole;
 			FullscreenCheckBox.Checked = AmpInstance.GamesInFullScreen;
-			if (AmpInstance.GamesAdditionalCommands != String.Empty)
+			if (string.IsNullOrWhiteSpace(AmpInstance.GamesAdditionalCommands) == false)
 				GameAdditionalCommandsTextBox.Text = AmpInstance.GamesAdditionalCommands;
 			if (AmpInstance.CategoriesDefaultViewMode == View.Details)
 				DetailsIconsRadioButton.Checked = true;
@@ -134,19 +134,19 @@ namespace AmpShell
 				SmallIconsRadioButton.Checked = true;
 			if (AmpInstance.CategoriesDefaultViewMode == View.Tile)
 				TilesIconsRadioButton.Checked = true;
-			if (AmpInstance.DBPath != String.Empty)
+			if (string.IsNullOrWhiteSpace(AmpInstance.DBPath) == false)
 				DOSBoxPathTextBox.Text = AmpInstance.DBPath;
-			if (AmpInstance.DBDefaultConfFilePath != String.Empty)
+			if (string.IsNullOrWhiteSpace(AmpInstance.DBDefaultConfFilePath) == false)
 				DOSBoxConfFileTextBox.Text = AmpInstance.DBDefaultConfFilePath;
-			if (AmpInstance.DBDefaultLangFilePath != String.Empty)
+			if (string.IsNullOrWhiteSpace(AmpInstance.DBDefaultLangFilePath) == false)
 				DOSBoxLangFileTextBox.Text = AmpInstance.DBDefaultLangFilePath;
-			if (AmpInstance.ConfigEditorPath != String.Empty)
+			if (string.IsNullOrWhiteSpace(AmpInstance.ConfigEditorPath) == false)
 				EditorBinaryPathTextBox.Text = AmpInstance.ConfigEditorPath;
-			if (AmpInstance.ConfigEditorAdditionalParameters != String.Empty)
+			if (string.IsNullOrWhiteSpace(AmpInstance.ConfigEditorAdditionalParameters) == false)
 				AdditionnalParametersTextBox.Text = AmpInstance.ConfigEditorPath;
-			if (AmpInstance.CDsDefaultDir != String.Empty)
+			if (string.IsNullOrWhiteSpace(AmpInstance.CDsDefaultDir) == false)
 				CDImageDirTextBox.Text = AmpInstance.CDsDefaultDir;
-			if (AmpInstance.GamesDefaultDir != String.Empty)
+			if (string.IsNullOrWhiteSpace(AmpInstance.GamesDefaultDir) == false)
 				GamesDirTextBox.Text = AmpInstance.GamesDefaultDir;
 			AllOfThemButton.Checked = AmpInstance.DefaultIconViewOverride;
 			CategoriesListView.Columns.Add("Name");
@@ -181,13 +181,14 @@ namespace AmpShell
 				AmpInstance.DBPath = DBexeFD.FileName;
 				DOSBoxPathTextBox.Text = DBexeFD.FileName;
 			}
-			else if (AmpInstance.DBPath == String.Empty)
+			else if (string.IsNullOrWhiteSpace(AmpInstance.DBPath))
 				MessageBox.Show("Location of DOSBox's executable unknown. You will not be able to run games!", "Select DOSBox's executable", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 		}
         private void DOSBoxConfFileBrowseButton_Click(object sender, EventArgs e)
         {
             OpenFileDialog DBDefaultConfFD = new OpenFileDialog();
-			if (AmpInstance.DBDefaultConfFilePath != String.Empty && Directory.Exists(Directory.GetParent(AmpInstance.DBDefaultConfFilePath).FullName))
+			if (string.IsNullOrWhiteSpace(AmpInstance.DBDefaultConfFilePath) == false
+                && Directory.Exists(Directory.GetParent(AmpInstance.DBDefaultConfFilePath).FullName))
 				DBDefaultConfFD.InitialDirectory = Directory.GetParent(AmpInstance.DBDefaultConfFilePath).FullName;
 			DBDefaultConfFD.Title = DOSBoxConfLabel.Text;
 			DBDefaultConfFD.Filter = "DOSBox configuration files (*.conf)|*.conf|All files|*";
@@ -201,7 +202,8 @@ namespace AmpShell
         private void DOSBoxLangFileBrowseButton_Click(object sender, EventArgs e)
         {
             OpenFileDialog DBDefaultLangFD = new OpenFileDialog();
-			if (AmpInstance.DBDefaultLangFilePath != String.Empty && Directory.Exists(Directory.GetParent(AmpInstance.DBDefaultLangFilePath).FullName))
+			if (string.IsNullOrWhiteSpace(AmpInstance.DBDefaultLangFilePath) == false
+                && Directory.Exists(Directory.GetParent(AmpInstance.DBDefaultLangFilePath).FullName))
 				DBDefaultLangFD.InitialDirectory = Directory.GetParent(AmpInstance.DBDefaultLangFilePath).FullName;
 			DBDefaultLangFD.Title = DOSBoxLangFileLabel.Text;
 			DBDefaultLangFD.Filter = "DOSBox language files (*.lng)|*.lng|All files|*";

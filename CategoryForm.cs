@@ -44,7 +44,7 @@ namespace AmpShell
         }
         private void OK_Click(object sender, EventArgs e)
         {
-            if (textBox.Text != String.Empty)
+            if (string.IsNullOrWhiteSpace(textBox.Text) == false)
 			{
 				Cat.Title = textBox.Text;
 				DialogResult = DialogResult.OK;

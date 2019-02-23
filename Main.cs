@@ -210,7 +210,7 @@ namespace AmpShell
                 Amp.ConfigEditorPath = Amp.ConfigEditorPath.Replace("AppPath", Application.StartupPath);
                 Amp.ConfigEditorAdditionalParameters = Amp.ConfigEditorAdditionalParameters.Replace("AppPath", Application.StartupPath);
             }
-            if (Amp.DBPath == String.Empty)
+            if (string.IsNullOrWhiteSpace(Amp.DBPath))
                 Amp.DBPath = SearchDOSBox();
             else if (File.Exists(Amp.DBPath) == false)
             {
@@ -226,7 +226,7 @@ namespace AmpShell
                 RunDOSBoxToolStripMenuItem.Enabled = true;
                 RunDOSBoxButton.Enabled = true;
             }
-            if (Amp.ConfigEditorPath == String.Empty)
+            if (string.IsNullOrWhiteSpace(Amp.ConfigEditorPath))
                 Amp.ConfigEditorPath = SearchCommonTextEditor();
             else if (File.Exists(Amp.ConfigEditorPath) == false)
                 Amp.ConfigEditorPath = SearchCommonTextEditor();
@@ -235,15 +235,15 @@ namespace AmpShell
                 RunConfigurationEditorButton.Enabled = true;
                 runConfigurationEditorToolStripMenuItem.Enabled = true;
             }
-            if (Amp.DBDefaultConfFilePath == String.Empty)
+            if (string.IsNullOrWhiteSpace(Amp.DBDefaultConfFilePath))
                 Amp.DBDefaultConfFilePath = SearchDOSBoxConf(Amp.DBPath);
             else if (File.Exists(Amp.DBDefaultConfFilePath) == false)
                 Amp.DBDefaultConfFilePath = SearchDOSBoxConf(Amp.DBPath);
-            if (Amp.DBDefaultLangFilePath != String.Empty)
+            if (string.IsNullOrWhiteSpace(Amp.DBDefaultLangFilePath) == false)
                 Amp.DBDefaultLangFilePath = SearchDOSBoxLang(Amp.DBPath);
             else if (File.Exists(Amp.DBDefaultLangFilePath) == false)
                 Amp.DBDefaultLangFilePath = SearchDOSBoxLang(Amp.DBPath);
-            if (Amp.DBDefaultConfFilePath != String.Empty && Amp.ConfigEditorPath != String.Empty)
+            if (string.IsNullOrWhiteSpace(Amp.DBDefaultConfFilePath) == false && string.IsNullOrWhiteSpace(Amp.ConfigEditorPath) == false)
             {
                 EditDefaultConfigurationToolStripMenuItem.Enabled = true;
                 EditDefaultConfigurationButton.Enabled = true;
@@ -253,76 +253,76 @@ namespace AmpShell
         }
         private String SearchCommonTextEditor()
         {
-            String ConfEditorPth = String.Empty;
+            String confEditorPath = String.Empty;
             if (File.Exists("/usr/bin/mousepad"))
-                ConfEditorPth = "/usr/bin/mousepad";
-            if (ConfEditorPth == String.Empty)
+                confEditorPath = "/usr/bin/mousepad";
+            if (string.IsNullOrWhiteSpace(confEditorPath))
             {
                 if (File.Exists("/usr/bin/gedit"))
-                    ConfEditorPth = "/usr/bin/gedit";
+                    confEditorPath = "/usr/bin/gedit";
             }
-            if (ConfEditorPth == String.Empty)
+            if (string.IsNullOrWhiteSpace(confEditorPath))
             {
                 if (File.Exists("/usr/bin/kate"))
-                    ConfEditorPth = "/usr/bin/kate";
+                    confEditorPath = "/usr/bin/kate";
             }
-            if (ConfEditorPth == String.Empty)
+            if (string.IsNullOrWhiteSpace(confEditorPath))
             {
                 if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.System).Substring(0, Environment.GetFolderPath(Environment.SpecialFolder.System).Length - 8).ToString() + "notepad.exe"))
-                    ConfEditorPth = Environment.GetFolderPath(Environment.SpecialFolder.System).Substring(0, Environment.GetFolderPath(Environment.SpecialFolder.System).Length - 8).ToString() + "notepad.exe";
+                    confEditorPath = Environment.GetFolderPath(Environment.SpecialFolder.System).Substring(0, Environment.GetFolderPath(Environment.SpecialFolder.System).Length - 8).ToString() + "notepad.exe";
             }
-            return ConfEditorPth;
+            return confEditorPath;
         }
         private String SearchDOSBoxConf(String DOSBoxExecutablePath)
         {
-            String ConfPath = String.Empty; //returned String
+            String confPath = String.Empty; //returned String
             //search for dosbox.conf
             //first, if the user is using GNU/Linux : test if ~/dosbox.conf (~ = /home/<username>) exists
             //Ubuntu case (dosbox.conf in ~)
             if (CfgPath == Application.StartupPath + "/AmpShell.xml")
             {
                 if (Directory.GetFiles((Application.StartupPath), "*.conf").Length > 0)
-                    ConfPath = Directory.GetFiles((Application.StartupPath), "*.conf")[0];
+                    confPath = Directory.GetFiles((Application.StartupPath), "*.conf")[0];
             }
-            if (ConfPath == String.Empty)
+            if (string.IsNullOrWhiteSpace(confPath))
             {
                 if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/dosbox.conf"))
-                    ConfPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/dosbox.conf";
+                    confPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/dosbox.conf";
             }
             //DOSBox ver0.72 case (~/.dosboxrc)
-            if (ConfPath == String.Empty)
+            if (string.IsNullOrWhiteSpace(confPath))
             {
                 if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/.dosboxrc"))
-                    ConfPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/.dosboxrc";
+                    confPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/.dosboxrc";
             }
             //DOSBox ver0.73 and newer case (~/.dosbox/dosbox.conf)
-            if (ConfPath == String.Empty)
+            if (string.IsNullOrWhiteSpace(confPath))
             {
                 if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/.dosbox/dosbox.conf"))
-                    ConfPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/.dosbox/dosbox.conf";
+                    confPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/.dosbox/dosbox.conf";
             }
             //if ConfPath is _still_ empty, Windows test cases take place.
-            if (ConfPath == String.Empty)
+            if (string.IsNullOrWhiteSpace(confPath))
             {
                 //if Local Settings/Application Data/DOSBox exists
                 if (Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "/DOSBox"))
                 {
                     //then, the DOSBox.conf file inside it becomes the default one. 
                     if (Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "/DOSBox", "*dosbox*.conf").Length > 0)
-                        ConfPath = Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "/DOSBox", "*dosbox*.conf")[0];
+                        confPath = Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "/DOSBox", "*dosbox*.conf")[0];
                 }
                 else
                 {
                     //if dosbox.conf has been generated by DOSBox in the same directory as dosbox.exe
                     //(behavior of DOSBox versions prior to DOSBox version 0.73)
-                    if (DOSBoxExecutablePath != String.Empty)
+                    if (string.IsNullOrWhiteSpace(DOSBoxExecutablePath) == false)
                     {
                         if (File.Exists(Directory.GetParent(DOSBoxExecutablePath).FullName + "/dosbox.conf"))
-                            ConfPath = DOSBoxExecutablePath + "/dosbox.conf";
+                            confPath = DOSBoxExecutablePath + "/dosbox.conf";
                     }
                 }
             }
-            return ConfPath;
+            return confPath;
         }
         private String SearchDOSBoxLang(String DOSBoxExecutablePath)
         {
@@ -340,7 +340,7 @@ namespace AmpShell
                 if (Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "*.lng").Length > 0)
                     LangPath = Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "*.lng")[0];
                 //(~/.dosbox/dosbox.lng search case)
-                if (LangPath == String.Empty)
+                if (string.IsNullOrWhiteSpace(LangPath))
                 {
                     if (Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/.dosbox"))
                     {
@@ -349,7 +349,7 @@ namespace AmpShell
                     }
                 }
                 //if LangPath is _still_ empty, Windows test cases take place.
-                if (LangPath == String.Empty)
+                if (string.IsNullOrWhiteSpace(LangPath))
                 {
                     //if Local Settings/Application Data/DOSBox exists
                     if (Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "/DOSBox"))
@@ -362,7 +362,7 @@ namespace AmpShell
                     {
                         //if dosbox.conf has been generated by DOSBox in the same directory as dosbox.exe
                         //(behavior of DOSBox versions prior to DOSBox version 0.73)
-                        if (DOSBoxExecutablePath != String.Empty)
+                        if (string.IsNullOrWhiteSpace(DOSBoxExecutablePath) == false)
                         {
                             if (Directory.GetFiles(Directory.GetParent(DOSBoxExecutablePath).FullName, "*.lng").Length > 0)
                                 LangPath = Directory.GetFiles(Directory.GetParent(DOSBoxExecutablePath).FullName, "*.lng")[0];
@@ -414,7 +414,7 @@ namespace AmpShell
                 }
             }
             //if DOSBoxPath is still empty, say to the user that dosbox's executable cannot be found
-            if (DOSBoxPath == String.Empty)
+            if (string.IsNullOrWhiteSpace(DOSBoxPath))
             {
                 switch (MessageBox.Show("AmpShell cannot find DOSBox, do you want to indicate DOSBox's executable location now ? Choose 'Cancel' to quit.", "Cannot find DOSBox", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question))
                 {
@@ -501,7 +501,7 @@ namespace AmpShell
                         GamesLargeImageList.Images.Add("DefaultIcon", global::AmpShell.Properties.Resources.Generic_Application.GetThumbnailImage(Amp.LargeViewModeSize, Amp.LargeViewModeSize, null, IntPtr.Zero));
                         GamesMediumImageList.Images.Add("DefaultIcon", global::AmpShell.Properties.Resources.Generic_Application1.GetThumbnailImage(32, 32, null, IntPtr.Zero));
                         GamesSmallImageList.Images.Add("DefaultIcon", global::AmpShell.Properties.Resources.Generic_Application1.GetThumbnailImage(16, 16, null, IntPtr.Zero));
-                        if (GameToDisplay.Icon != String.Empty && File.Exists(GameToDisplay.Icon))
+                        if (string.IsNullOrWhiteSpace(GameToDisplay.Icon) == false && File.Exists(GameToDisplay.Icon))
                         {
                             GamesLargeImageList.Images.Add(GameToDisplay.Signature, Image.FromFile(GameToDisplay.Icon, true).GetThumbnailImage(Amp.LargeViewModeSize, Amp.LargeViewModeSize, null, IntPtr.Zero));
                             GamesMediumImageList.Images.Add(GameToDisplay.Signature, Image.FromFile(GameToDisplay.Icon, true).GetThumbnailImage(32, 32, null, IntPtr.Zero));
@@ -736,13 +736,13 @@ namespace AmpShell
                 }
                 if (Amp.OnlyNames == false)
                 {
-                    if (OldIconSave != String.Empty)
+                    if (string.IsNullOrWhiteSpace(OldIconSave) == false)
                     {
                         GamesLargeImageList.Images.RemoveByKey(ConcernedGame.Signature);
                         GamesMediumImageList.Images.RemoveByKey(ConcernedGame.Signature);
                         GamesSmallImageList.Images.RemoveByKey(ConcernedGame.Signature);
                     }
-                    if (ConcernedGame.Icon != String.Empty)
+                    if (string.IsNullOrWhiteSpace(ConcernedGame.Icon) == false)
                     {
                         GamesSmallImageList.Images.Add(ConcernedGame.Signature, Image.FromFile(ConcernedGame.Icon).GetThumbnailImage(16, 16, null, IntPtr.Zero));
                         GamesMediumImageList.Images.Add(ConcernedGame.Signature, Image.FromFile(ConcernedGame.Icon).GetThumbnailImage(32, 32, null, IntPtr.Zero));
@@ -753,7 +753,7 @@ namespace AmpShell
                         ltview.FocusedItem.ImageKey = "DefaultIcon";
                 }
                 //if the game setup executable location has been changed and is now empty
-                if (ConcernedGame.SetupEXEPath == String.Empty)
+                if (string.IsNullOrWhiteSpace(ConcernedGame.SetupEXEPath))
                 {
                     RunGameSetup.Enabled = false;
                     RunGameSetupButton.Enabled = false;
@@ -763,7 +763,7 @@ namespace AmpShell
                     RunGameSetup.Enabled = true;
                     RunGameSetupButton.Enabled = true;
                 }
-                if (ConcernedGame.DBConfPath != String.Empty)
+                if (string.IsNullOrWhiteSpace(ConcernedGame.DBConfPath) == false)
                 {
                     GameEditConfigurationButton.Enabled = true;
                     EditGameConfiguration.Enabled = true;
@@ -807,7 +807,7 @@ namespace AmpShell
                 RunGameButton.Enabled = true;
                 Game ConcernedGame = GetSelectedGame();
                 //if the selected game has a setup executable
-                if (ConcernedGame.SetupEXEPath != String.Empty)
+                if (string.IsNullOrWhiteSpace(ConcernedGame.SetupEXEPath) == false)
                 {
                     RunGameSetupToolStripMenuItem.Enabled = true;
                     RunGameSetup.Enabled = true;
@@ -821,24 +821,24 @@ namespace AmpShell
                     RunGameSetupButton.Enabled = false;
                     SetupPathLabel.Text = "Setup : none";
                 }
-                if (ConcernedGame.DOSEXEPath != String.Empty)
+                if (string.IsNullOrWhiteSpace(ConcernedGame.DOSEXEPath) == false)
                     ExecutablePathLabel.Text = "Executable : " + ConcernedGame.DOSEXEPath;
                 else
                     ExecutablePathLabel.Text = "Executable : none";
-                if (ConcernedGame.Directory != String.Empty)
+                if (string.IsNullOrWhiteSpace(ConcernedGame.Directory) == false)
                     CMountLabel.Text = "'C:' mount : " + ConcernedGame.Directory;
                 else
                     CMountLabel.Text = "'C:' mount : none";
                 if (ConcernedGame.NoConfig == false)
                 {
-                    if (ConcernedGame.DBConfPath != String.Empty)
+                    if (string.IsNullOrWhiteSpace(ConcernedGame.DBConfPath) == false)
                     {
                         CustomConfigurationLabel.Text = "Configuration : " + ConcernedGame.DBConfPath;
                         EditGameConfiguration.Enabled = true;
                         GameEditConfigurationButton.Enabled = true;
                         editConfigToolStripMenuItem.Enabled = true;
                     }
-                    else if (Amp.DBDefaultConfFilePath != String.Empty)
+                    else if (string.IsNullOrWhiteSpace(Amp.DBDefaultConfFilePath) == false)
                     {
                         CustomConfigurationLabel.Text = "Configuration : default";
                         EditGameConfiguration.Enabled = false;
@@ -860,7 +860,7 @@ namespace AmpShell
                     GameEditConfigurationButton.Enabled = false;
                     editConfigToolStripMenuItem.Enabled = false;
                 }
-                if (ConcernedGame.CDPath != String.Empty)
+                if (string.IsNullOrWhiteSpace(ConcernedGame.CDPath) == false)
                 {
                     if (ConcernedGame.MountAsFloppy == false)
                     {
@@ -890,7 +890,7 @@ namespace AmpShell
                     QuitOnExitLabel.Text = "Quit on exit : " + "yes";
                 else
                     QuitOnExitLabel.Text = "Quit on exit : " + "no";
-                if (ConcernedGame.AdditionalCommands != String.Empty)
+                if (string.IsNullOrWhiteSpace(ConcernedGame.AdditionalCommands) == false)
                     AdditionnalCommandsLabel.Text = "Additionnal commands : " + ConcernedGame.AdditionalCommands;
                 else
                     AdditionnalCommandsLabel.Text = "Additionnal commands : none";
@@ -1021,7 +1021,7 @@ namespace AmpShell
         {
             //Arguments string for DOSBox.exe
             String Arguments = String.Empty;
-            if (Amp.DBPath != String.Empty && Amp.DBPath != "dosbox.exe isn't is the same directory as AmpShell.exe!" && File.Exists(Amp.DBPath))
+            if (string.IsNullOrWhiteSpace(Amp.DBPath) == false && Amp.DBPath != "dosbox.exe isn't is the same directory as AmpShell.exe!" && File.Exists(Amp.DBPath))
             {
                 Game ConcernedGame = GetSelectedGame();
                 String qt = char.ToString('"');
@@ -1033,14 +1033,14 @@ namespace AmpShell
                 if (ConcernedGame.NoConfig == false)
                 {
                     //use at first the game's custom config file
-                    if (ConcernedGame.DBConfPath != String.Empty)
+                    if (string.IsNullOrWhiteSpace(ConcernedGame.DBConfPath) == false)
                         DBCfgPath = ConcernedGame.DBConfPath;
                     //if not, use the default dosbox.conf file
-                    else if (Amp.DBDefaultConfFilePath != String.Empty && Amp.DBDefaultConfFilePath != "No configuration file (*.conf) found in AmpShell's directory.")
+                    else if (string.IsNullOrWhiteSpace(Amp.DBDefaultConfFilePath) == false && Amp.DBDefaultConfFilePath != "No configuration file (*.conf) found in AmpShell's directory.")
                         DBCfgPath = Amp.DBDefaultConfFilePath;
                 }
                 //The arguments for DOSBox begins with the game executable (.exe, .bat, or .com)
-                if (ConcernedGame.DOSEXEPath != String.Empty)
+                if (string.IsNullOrWhiteSpace(ConcernedGame.DOSEXEPath) == false)
                 {
                     if (!Setup)
                         Arguments = '"' + ConcernedGame.DOSEXEPath + '"';
@@ -1049,16 +1049,16 @@ namespace AmpShell
                 }
                 //the game directory mounted as C (if the DOSEXEPath is specified, the DOSEXEPath parent directory will be mounted as C: by DOSBox
                 //hence the "else if" instead of "if".
-                else if (ConcernedGame.Directory != String.Empty)
+                else if (string.IsNullOrWhiteSpace(ConcernedGame.Directory) == false)
                     Arguments = " -c " + '"' + "mount c " + qt + ConcernedGame.Directory + qt + '"';
                 //puting DBCfgPath and Arguments together
-                if (DBCfgPath != String.Empty)
+                if (string.IsNullOrWhiteSpace(DBCfgPath) == false)
                     Arguments = Arguments + " -conf " + '"' + DBCfgPath + '"';
                 //Path for the default language file used for DOSBox and specified by the user in the Tools menu
-                if (Amp.DBDefaultLangFilePath != String.Empty && Amp.DBDefaultLangFilePath != "No language file (*.lng) found in AmpShell's directory.")
+                if (string.IsNullOrWhiteSpace(Amp.DBDefaultLangFilePath) == false && Amp.DBDefaultLangFilePath != "No language file (*.lng) found in AmpShell's directory.")
                     Arguments = Arguments + " -lang " + '"' + Amp.DBDefaultLangFilePath + '"';
                 //Path for the game's CD image (.bin, .cue, or .iso) mounted as D:
-                if (ConcernedGame.CDPath != String.Empty)
+                if (string.IsNullOrWhiteSpace(ConcernedGame.CDPath) == false)
                 {
                     //put ' and _not_ " after imgmount (or else the path will be misunderstood by DOSBox). Paths with spaces will NOT work either way on GNU/Linux!
                     if (ConcernedGame.CDIsAnImage == true)
@@ -1080,7 +1080,7 @@ namespace AmpShell
                     }
                 }
                 //Additionnal user commands for the game
-                if (ConcernedGame.AdditionalCommands != String.Empty)
+                if (string.IsNullOrWhiteSpace(ConcernedGame.AdditionalCommands) == false)
                     Arguments = Arguments + " " + ConcernedGame.AdditionalCommands;
                 //corresponds to the Fullscreen checkbox in GameForm
                 if (ConcernedGame.InFullScreen == true)
@@ -1201,14 +1201,14 @@ namespace AmpShell
         //wich run DOSBox only with the default .conf (configuration) and .lng (language) files.
         private void RunDOSBox_Click(object sender, EventArgs e)
         {
-            if (Amp.DBPath != String.Empty)
+            if (string.IsNullOrWhiteSpace(Amp.DBPath) == false)
             {
                 //check first for the lang file
                 string Lang = String.Empty;
-                if (Amp.DBDefaultLangFilePath != String.Empty)
+                if (string.IsNullOrWhiteSpace(Amp.DBDefaultLangFilePath) == false)
                     Lang = " -lang " + '"' + Amp.DBDefaultLangFilePath + '"';
                 //then for the conf file
-                if (Amp.DBDefaultConfFilePath != String.Empty)
+                if (string.IsNullOrWhiteSpace(Amp.DBDefaultConfFilePath) == false)
                     StartDOSBox(" -conf " + '"' + Amp.DBDefaultConfFilePath + '"' + Lang);
                 else
                     StartDOSBox(Lang);
@@ -1287,7 +1287,7 @@ namespace AmpShell
             {
                 Category ConcernedCategory = GetSelectedCat();
                 ConcernedCategory.AddChild(NewGameForm.GameInstance);
-                if (NewGameForm.GameInstance.Icon != String.Empty)
+                if (string.IsNullOrWhiteSpace(NewGameForm.GameInstance.Icon) == false)
                 {
                     GamesLargeImageList.Images.Add(NewGameForm.GameInstance.Signature, Image.FromFile(NewGameForm.GameInstance.Icon).GetThumbnailImage(Amp.LargeViewModeSize, Amp.LargeViewModeSize, null, IntPtr.Zero));
                     GamesMediumImageList.Images.Add(NewGameForm.GameInstance.Signature, Image.FromFile(NewGameForm.GameInstance.Icon).GetThumbnailImage(32, 32, null, IntPtr.Zero));
@@ -1359,7 +1359,7 @@ namespace AmpShell
                 ltview.Items.Add(gameforlt);
                 if (!Amp.OnlyNames)
                 {
-                    if (NewGameForm.GameInstance.Icon != String.Empty)
+                    if (string.IsNullOrWhiteSpace(NewGameForm.GameInstance.Icon) == false)
                         gameforlt.ImageKey = NewGameForm.GameInstance.Signature;
                     else
                         gameforlt.ImageKey = "DefaultIcon";
@@ -1447,7 +1447,7 @@ namespace AmpShell
         }
         private void RunConfigurationEditorButton_Click(object sender, EventArgs e)
         {
-            if (Amp.ConfigEditorPath != String.Empty)
+            if (string.IsNullOrWhiteSpace(Amp.ConfigEditorPath) == false)
             {
                 if (File.Exists(Amp.ConfigEditorPath))
                     System.Diagnostics.Process.Start(Amp.ConfigEditorPath);
@@ -1458,7 +1458,7 @@ namespace AmpShell
         }
         private void GameEditConfigurationButton_Click(object sender, EventArgs e)
         {
-            if (Amp.ConfigEditorPath != String.Empty)
+            if (string.IsNullOrWhiteSpace(Amp.ConfigEditorPath) == false)
             {
                 Game ConcernedGame = GetSelectedGame();
                 System.Diagnostics.Process.Start(Amp.ConfigEditorPath, ConcernedGame.DBConfPath + " " + Amp.ConfigEditorAdditionalParameters);
@@ -1712,7 +1712,7 @@ namespace AmpShell
                 NewGameToolStripMenuItem.Enabled = true;
                 AddGame.Enabled = true;
                 GameAddButton.Enabled = true;
-                if (Amp.DBPath != String.Empty)
+                if (string.IsNullOrWhiteSpace(Amp.DBPath) == false)
                 {
                     RunGameButton.Enabled = true;
                     RunGame.Enabled = true;
@@ -1730,12 +1730,12 @@ namespace AmpShell
                 deleteSelectedCategoryToolStripMenuItem.Enabled = true;
                 DeleteCategory.Enabled = true;
                 GameEditButton.Enabled = true;
-                if (Amp.ConfigEditorPath != String.Empty)
+                if (string.IsNullOrWhiteSpace(Amp.ConfigEditorPath) == false)
                 {
                     RunConfigurationEditorButton.Enabled = true;
                     runConfigurationEditorToolStripMenuItem.Enabled = true;
                 }
-                if (Amp.DBDefaultConfFilePath != String.Empty)
+                if (string.IsNullOrWhiteSpace(Amp.DBDefaultConfFilePath) == false)
                 {
                     EditDefaultConfigurationToolStripMenuItem.Enabled = true;
                     EditDefaultConfigurationButton.Enabled = true;
@@ -1761,7 +1761,7 @@ namespace AmpShell
         }
         private void EditDefaultConfigurationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (Amp.DBDefaultConfFilePath != String.Empty && File.Exists(Amp.DBDefaultConfFilePath) && Amp.ConfigEditorPath != String.Empty && Amp.ConfigEditorPath != "No text editor (Notepad in Windows' directory, or TextEditor.exe in AmpShell's directory) found." && File.Exists(Amp.ConfigEditorPath))
+            if (string.IsNullOrWhiteSpace(Amp.DBDefaultConfFilePath) == false && File.Exists(Amp.DBDefaultConfFilePath) && string.IsNullOrWhiteSpace(Amp.ConfigEditorPath) == false && Amp.ConfigEditorPath != "No text editor (Notepad in Windows' directory, or TextEditor.exe in AmpShell's directory) found." && File.Exists(Amp.ConfigEditorPath))
                 System.Diagnostics.Process.Start(Amp.ConfigEditorPath, Amp.DBDefaultConfFilePath);
             else
                 MessageBox.Show("Default configuration or configuration editor missing. Please set them in the preferences.");
@@ -1773,7 +1773,8 @@ namespace AmpShell
             {
                 foreach (Game ConcernedGame in ConcernedCategory.ListChildren)
                 {
-                    if (ConcernedGame.Signature == LtViewItem.Name && Amp.DBDefaultConfFilePath != String.Empty)
+                    if (ConcernedGame.Signature == LtViewItem.Name &&
+                        string.IsNullOrWhiteSpace(Amp.DBDefaultConfFilePath) == false)
                     {
                         if ((!File.Exists(ConcernedGame.Directory + "/" + Path.GetFileName(Amp.DBDefaultConfFilePath))) || (MessageBox.Show(this, "'" + ConcernedGame.Directory + "/" + Path.GetFileName(Amp.DBDefaultConfFilePath) + "'" + "already exists, do you want to overwrite it ?", MakeConfigButton.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes))
                         {
