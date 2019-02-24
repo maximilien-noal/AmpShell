@@ -82,9 +82,9 @@ namespace AmpShell.WinForms
             GameSetupTextBox.Text = GameSetupTextBox.Text.Replace("AppPath", Application.StartupPath);
         }
 
-        public UserGame GameInstance { get; set; }
+        public UserGame GameInstance { get; private set; }
 
-        public UserPrefs SavedUserPrefs { get; set; }
+        public UserPrefs SavedUserPrefs { get; private set; }
 
         private void Cancel_Click(object sender, EventArgs e)
         {

@@ -35,7 +35,7 @@ namespace AmpShell.WinForms
             Cancel.Text = "&Don't save";
         }
 
-        public UserCategory Category { get; set; }
+        public UserCategory Category { get; private set; }
 
         private void Cancel_Click(object sender, EventArgs e)
         {

@@ -12,68 +12,6 @@ namespace AmpShell.UserData
 {
     public class UserGame : UserCategory
     {
-        /// <summary>
-        /// Game's name
-        /// </summary>
-        private string _name;
-        /// <summary>
-        /// Game's setup executable location
-        /// </summary>
-        private string _setupExePath;
-        /// <summary>
-        /// Game's directory mounted as C:
-        /// </summary>
-        private string _directory;
-        /// <summary>
-        /// Game's custom DOSBox .conf file path
-        /// </summary>
-        private string _confFilePath;
-        /// <summary>
-        /// Game's main executable location
-        /// </summary>
-        private string _dosExePath;
-        /// <summary>
-        /// Game's CD image / CD directory (like 'D:\') location
-        /// </summary>
-        private string _cdPath;
-        /// <summary>
-        /// True if GameCDPath points to a CD image file, wrong if it points to a directory
-        /// </summary>
-        private bool _cdImage;
-        /// <summary>
-        /// Option to use IOCTL (only available for optical drives)
-        /// </summary>
-        private bool _useIoctl;
-        /// <summary>
-        /// Option to use the image file as a floppy (A:)
-        /// </summary>
-        private bool _mountAsFloppy;
-        /// <summary>
-        /// Game's additionnal commands for DOSBox
-        /// </summary>
-        private string _AdditionalCommands;
-        /// <summary>
-        /// Boolean if no config is used ("Don't use any config file at all" checkbox in GameForm)
-        /// Legacy 0.73 or older DOSBox option
-        /// </summary>
-        private bool _noConfig;
-        /// <summary>
-        /// Boolean for fullscreen mode
-        /// </summary>
-        private bool _inFullScreen;
-        /// <summary>
-        /// Boolean for displaying DOSBox's console
-        /// </summary>
-        private bool _noConsole;
-        /// <summary>
-        /// Boolean for the -exit switch for DOSBox (if True, DOSBox closes when the game exits)
-        /// </summary>
-        private bool _quitOnExit;
-        /// <summary>
-        /// Image containing the game's icon
-        /// </summary>
-        private string _icon;
-
         public UserGame() : base()
         {
             Name = string.Empty;
@@ -93,184 +31,71 @@ namespace AmpShell.UserData
             CDIsAnImage = false;
         }
 
-        public string Name
-        {
-            get => _name;
-            set
-            {
-                if (value != _name)
-                {
-                    _name = value;
-                }
-            }
-        }
+        public string Name { get; set; }
 
-        public string Directory
-        {
-            get => _directory;
-            set
-            {
-                if (value != _directory)
-                {
-                    _directory = value;
-                }
-            }
-        }
+        /// <summary>
+        /// Game's directory mounted as C:
+        /// </summary>
+        public string Directory { get; set; }
 
-        public string CDPath
-        {
-            get => _cdPath;
-            set
-            {
-                if (value != _cdPath)
-                {
-                    _cdPath = value;
-                }
-            }
-        }
+        /// <summary>
+        /// Game's CD image / CD directory (like 'D:\') location
+        /// </summary>
+        public string CDPath { get; set; }
 
-        public string SetupEXEPath
-        {
-            get => _setupExePath;
-            set
-            {
-                if (value != _setupExePath)
-                {
-                    _setupExePath = value;
-                }
-            }
-        }
+        /// <summary>
+        /// Game's setup executable location
+        /// </summary>
+        public string SetupEXEPath { get; set; }
 
-        public string DBConfPath
-        {
-            get => _confFilePath;
-            set
-            {
-                if (value != _confFilePath)
-                {
-                    _confFilePath = value;
-                }
-            }
-        }
+        /// <summary>
+        /// Game's custom DOSBox .conf file path
+        /// </summary>
+        public string DBConfPath { get; set; }
 
-        public string AdditionalCommands
-        {
-            get => _AdditionalCommands;
-            set
-            {
-                if (value != _AdditionalCommands)
-                {
-                    _AdditionalCommands = value;
-                }
-            }
-        }
+        /// <summary>
+        /// Game's additionnal commands for DOSBox
+        /// </summary>
+        public string AdditionalCommands { get; set; }
 
-        public bool UseIOCTL
-        {
-            get => _useIoctl;
-            set
-            {
-                if (value != _useIoctl)
-                {
-                    _useIoctl = value;
-                }
-            }
-        }
+        /// <summary>
+        /// Option to use IOCTL (only available for optical drives)
+        /// </summary>
+        public bool UseIOCTL { get; set; }
 
-        public bool MountAsFloppy
-        {
-            get => _mountAsFloppy;
-            set
-            {
-                if (value != _mountAsFloppy)
-                {
-                    _mountAsFloppy = value;
-                }
-            }
-        }
+        /// <summary>
+        /// Option to use the image file as a floppy (A:)
+        /// </summary>
+        public bool MountAsFloppy { get; set; }
 
-        public bool NoConfig
-        {
-            get => _noConfig;
-            set
-            {
-                if (value != _noConfig)
-                {
-                    _noConfig = value;
-                }
-            }
-        }
+        /// <summary>
+        /// Boolean if no config is used ("Don't use any config file at all" checkbox in GameForm)
+        /// Legacy 0.72 or older DOSBox option
+        /// </summary>
+        public bool NoConfig { get; set; }
 
-        public bool InFullScreen
-        {
-            get => _inFullScreen;
-            set
-            {
-                if (value != _inFullScreen)
-                {
-                    _inFullScreen = value;
-                }
-            }
-        }
+        public bool InFullScreen { get; set; }
 
-        public bool NoConsole
-        {
-            get => _noConsole;
-            set
-            {
-                if (value != _noConsole)
-                {
-                    _noConsole = value;
-                }
-            }
-        }
+        /// <summary>
+        /// Boolean for displaying DOSBox's console
+        /// </summary>
+        public bool NoConsole { get; set; }
 
-        public bool QuitOnExit
-        {
-            get => _quitOnExit;
-            set
-            {
-                if (value != _quitOnExit)
-                {
-                    _quitOnExit = value;
-                }
-            }
-        }
+        /// <summary>
+        /// Boolean for the -exit switch for DOSBox (if set to true, DOSBox closes when the game exits)
+        /// </summary>
+        public bool QuitOnExit { get; set; }
 
-        public string DOSEXEPath
-        {
-            get => _dosExePath;
-            set
-            {
-                if (value != _dosExePath)
-                {
-                    _dosExePath = value;
-                }
-            }
-        }
+        /// <summary>
+        /// Game's main executable location
+        /// </summary>
+        public string DOSEXEPath { get; set; }
 
-        public bool CDIsAnImage
-        {
-            get => _cdImage;
-            set
-            {
-                if (value != _cdImage)
-                {
-                    _cdImage = value;
-                }
-            }
-        }
+        /// <summary>
+        /// True if GameCDPath points to a CD image file, wrong if it points to a directory
+        /// </summary>
+        public bool CDIsAnImage { get; set; }
 
-        public string Icon
-        {
-            get => _icon;
-            set
-            {
-                if (value != _icon)
-                {
-                    _icon = value;
-                }
-            }
-        }
+        public string Icon { get; set; }
     }
 }

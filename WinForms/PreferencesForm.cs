@@ -16,24 +16,13 @@ namespace AmpShell.WinForms
 {
     public partial class PreferencesForm : Form
     {
-        private UserPrefs _savedUserPrefs;
         public PreferencesForm(UserPrefs currentUserPrefs)
         {
             InitializeComponent();
             SavedUserPrefs = currentUserPrefs;
         }
 
-        public UserPrefs SavedUserPrefs
-        {
-            get => _savedUserPrefs;
-            set
-            {
-                if (_savedUserPrefs != value)
-                {
-                    _savedUserPrefs = value;
-                }
-            }
-        }
+        public UserPrefs SavedUserPrefs { get; private set; }
 
         private void BrowseForEditorButton_Click(object sender, EventArgs e)
         {

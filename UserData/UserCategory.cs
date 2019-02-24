@@ -14,27 +14,6 @@ namespace AmpShell.UserData
 {
     public class UserCategory : UserDataRoot
     {
-        /// <summary>
-        /// Category's name
-        /// </summary>
-        private string _title;
-        /// <summary>
-        /// Category's unique random number ("signature").
-        /// </summary>
-        private string _signature;
-        private System.Windows.Forms.View _viewMode;
-        private int _nameColumnWidth;
-        private int _executableColumnWidth;
-        private int _cMountColumnWidth;
-        private int _setupExecutableColumnWidth;
-        private int _customConfigurationColumnWidth;
-        private int _dMountColumnWidth;
-        private int _mountingOptionsColumnWidth;
-        private int _additionnalCommandsColumnWidth;
-        private int _noConsoleColumnWidth;
-        private int _fullscreenColumnWidth;
-        private int _quitOnExitColumnWidth;
-
         public UserCategory() : base()
         {
             Title = string.Empty;
@@ -61,173 +40,33 @@ namespace AmpShell.UserData
         }
 
         [XmlAttribute("Title")]
-        public string Title
-        {
-            get => _title;
-            set
-            {
-                if (value != _title)
-                {
-                    _title = value;
-                }
-            }
-        }
+        public string Title { get; set; }
 
         [XmlAttribute("Signature")]
-        public string Signature
-        {
-            get => _signature;
-            set
-            {
-                if (value != _signature)
-                {
-                    _signature = value;
-                }
-            }
-        }
+        public string Signature { get; set; }
 
-        public int NameColumnWidth
-        {
-            get => _nameColumnWidth;
-            set
-            {
-                if (_nameColumnWidth != value)
-                {
-                    _nameColumnWidth = value;
-                }
-            }
-        }
+        public int NameColumnWidth { get; set; }
 
-        public int ExecutableColumnWidth
-        {
-            get => _executableColumnWidth;
-            set
-            {
-                if (_executableColumnWidth != value)
-                {
-                    _executableColumnWidth = value;
-                }
-            }
-        }
+        public int ExecutableColumnWidth { get; set; }
 
-        public int CMountColumnWidth
-        {
-            get => _cMountColumnWidth;
-            set
-            {
-                if (_cMountColumnWidth != value)
-                {
-                    _cMountColumnWidth = value;
-                }
-            }
-        }
+        public int CMountColumnWidth { get; set; }
 
-        public int SetupExecutableColumnWidth
-        {
-            get => _setupExecutableColumnWidth;
-            set
-            {
-                if (_setupExecutableColumnWidth != value)
-                {
-                    _setupExecutableColumnWidth = value;
-                }
-            }
-        }
+        public int SetupExecutableColumnWidth { get; set; }
 
-        public int CustomConfigurationColumnWidth
-        {
-            get => _customConfigurationColumnWidth;
-            set
-            {
-                if (_customConfigurationColumnWidth != value)
-                {
-                    _customConfigurationColumnWidth = value;
-                }
-            }
-        }
+        public int CustomConfigurationColumnWidth { get; set; }
 
-        public int DMountColumnWidth
-        {
-            get => _dMountColumnWidth;
-            set
-            {
-                if (_dMountColumnWidth != value)
-                {
-                    _dMountColumnWidth = value;
-                }
-            }
-        }
+        public int DMountColumnWidth { get; set; }
 
-        public int MountingOptionsColumnWidth
-        {
-            get => _mountingOptionsColumnWidth;
-            set
-            {
-                if (_mountingOptionsColumnWidth != value)
-                {
-                    _mountingOptionsColumnWidth = value;
-                }
-            }
-        }
+        public int MountingOptionsColumnWidth { get; set; }
 
-        public int AdditionnalCommandsColumnWidth
-        {
-            get => _additionnalCommandsColumnWidth;
-            set
-            {
-                if (_additionnalCommandsColumnWidth != value)
-                {
-                    _additionnalCommandsColumnWidth = value;
-                }
-            }
-        }
+        public int AdditionnalCommandsColumnWidth { get; set; }
 
-        public int NoConsoleColumnWidth
-        {
-            get => _noConsoleColumnWidth;
-            set
-            {
-                if (_noConsoleColumnWidth != value)
-                {
-                    _noConsoleColumnWidth = value;
-                }
-            }
-        }
+        public int NoConsoleColumnWidth { get; set; }
 
-        public int FullscreenColumnWidth
-        {
-            get => _fullscreenColumnWidth;
-            set
-            {
-                if (_fullscreenColumnWidth != value)
-                {
-                    _fullscreenColumnWidth = value;
-                }
-            }
-        }
+        public int FullscreenColumnWidth { get; set; }
 
-        public int QuitOnExitColumnWidth
-        {
-            get => _quitOnExitColumnWidth;
-            set
-            {
-                if (_quitOnExitColumnWidth != value)
-                {
-                    _quitOnExitColumnWidth = value;
-                }
-            }
-        }
+        public int QuitOnExitColumnWidth { get; set; }
 
-        public System.Windows.Forms.View ViewMode
-        {
-            get => _viewMode;
-            set
-            {
-                if (value != _viewMode)
-                {
-                    _viewMode = value;
-                }
-            }
-        }
+        public System.Windows.Forms.View ViewMode { get; set; }
     }
 }
