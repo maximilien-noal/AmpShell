@@ -26,7 +26,7 @@ namespace AmpShell
             Category = editedCategory;
             Category.Title = editedCategory.Title;
             Category.Signature = editedCategory.Signature;
-            textBox.Text = Category.Title;
+            NameTextBox.Text = Category.Title;
             OK.Text = "&Save and apply";
             OK.Width = 102;
             OK.Location = new System.Drawing.Point(Cancel.Location.X - 107, 41);
@@ -43,9 +43,9 @@ namespace AmpShell
 
         private void OK_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(textBox.Text) == false)
+            if (string.IsNullOrWhiteSpace(NameTextBox.Text) == false)
             {
-                Category.Title = textBox.Text;
+                Category.Title = NameTextBox.Text;
                 DialogResult = DialogResult.OK;
                 Close();
             }

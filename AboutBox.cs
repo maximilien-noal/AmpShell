@@ -19,10 +19,10 @@ namespace AmpShell
         {
             InitializeComponent();
             Text = String.Format("About {0}", AssemblyTitle);
-            labelProductName.Text = AssemblyProduct;
-            labelVersion.Text = String.Format("Version {0}", AssemblyVersion);
-            labelCopyright.Text = AssemblyCopyright;
-            textBoxDescription.Text = AssemblyDescription;
+            LabelProductName.Text = AssemblyProduct;
+            LabelVersion.Text = String.Format("Version {0}", AssemblyVersion);
+            LabelCopyright.Text = AssemblyCopyright;
+            TextBoxDescription.Text = AssemblyDescription;
         }
         #region Accesseurs d'attribut de l'assembly
 

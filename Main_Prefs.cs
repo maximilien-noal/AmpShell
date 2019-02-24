@@ -88,7 +88,7 @@ namespace AmpShell
             AmpInstance.MenuBarVisible = ShowMenuBarCheckBox.Checked;
             AmpInstance.ToolBarVisible = ShowToolBarCheckBox.Checked;
             AmpInstance.StatusBarVisible = ShowDetailsBarCheckBox.Checked;
-            AmpInstance.DefaultIconViewOverride = AllOfThemButton.Checked;
+            AmpInstance.DefaultIconViewOverride = AllOfThemCheckBox.Checked;
             AmpInstance.DBPath = DOSBoxPathTextBox.Text;
             AmpInstance.DBDefaultConfFilePath = DOSBoxConfFileTextBox.Text;
             AmpInstance.DBDefaultLangFilePath = DOSBoxLangFileTextBox.Text;
@@ -228,7 +228,7 @@ namespace AmpShell
                 GamesDirTextBox.Text = AmpInstance.GamesDefaultDir;
             }
 
-            AllOfThemButton.Checked = AmpInstance.DefaultIconViewOverride;
+            AllOfThemCheckBox.Checked = AmpInstance.DefaultIconViewOverride;
             CategoriesListView.Columns.Add("Name");
             CategoriesListView.Columns[0].Width = CategoriesListView.Width;
             CategoriesListView.Items.Clear();

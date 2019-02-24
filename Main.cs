@@ -266,7 +266,7 @@ namespace AmpShell
             else
             {
                 RunConfigurationEditorButton.Enabled = true;
-                runConfigurationEditorToolStripMenuItem.Enabled = true;
+                RunConfigurationEditorToolStripMenuItem.Enabled = true;
             }
             if (string.IsNullOrWhiteSpace(_ampWindow.DBDefaultConfFilePath))
             {
@@ -978,10 +978,10 @@ namespace AmpShell
             if (_currentListView.SelectedItems.Count == 1)
             {
                 _deleteGameMenuItem.Enabled = true;
-                deleteSelectedGameToolStripMenuItem.Enabled = true;
+                DeleteSelectedGameToolStripMenuItem.Enabled = true;
                 GameDeleteButton.Enabled = true;
                 _editGameMenuItem.Enabled = true;
-                editSelectedgameToolStripMenuItem.Enabled = true;
+                EditSelectedgameToolStripMenuItem.Enabled = true;
                 GameEditButton.Enabled = true;
                 MakeConfigButton.Enabled = true;
                 MakeConfigurationFileToolStripMenuItem.Enabled = true;
@@ -1030,21 +1030,21 @@ namespace AmpShell
                         CustomConfigurationLabel.Text = "Configuration : " + selectedGame.DBConfPath;
                         _editGameConfigurationMenuItem.Enabled = true;
                         GameEditConfigurationButton.Enabled = true;
-                        editConfigToolStripMenuItem.Enabled = true;
+                        EditConfigToolStripMenuItem.Enabled = true;
                     }
                     else if (string.IsNullOrWhiteSpace(_ampWindow.DBDefaultConfFilePath) == false)
                     {
                         CustomConfigurationLabel.Text = "Configuration : default";
                         _editGameConfigurationMenuItem.Enabled = false;
                         GameEditConfigurationButton.Enabled = false;
-                        editConfigToolStripMenuItem.Enabled = false;
+                        EditConfigToolStripMenuItem.Enabled = false;
                     }
                     else
                     {
                         CustomConfigurationLabel.Text = "Configuration : none at all";
                         _editGameConfigurationMenuItem.Enabled = false;
                         GameEditConfigurationButton.Enabled = false;
-                        editConfigToolStripMenuItem.Enabled = false;
+                        EditConfigToolStripMenuItem.Enabled = false;
                     }
                 }
                 else
@@ -1052,7 +1052,7 @@ namespace AmpShell
                     CustomConfigurationLabel.Text = "Configuration : none at all";
                     _editGameConfigurationMenuItem.Enabled = false;
                     GameEditConfigurationButton.Enabled = false;
-                    editConfigToolStripMenuItem.Enabled = false;
+                    EditConfigToolStripMenuItem.Enabled = false;
                 }
                 if (string.IsNullOrWhiteSpace(selectedGame.CDPath) == false)
                 {
@@ -1122,7 +1122,7 @@ namespace AmpShell
             {
                 //make all the game buttons disabled (except the ones for deleting games)
                 _editGameMenuItem.Enabled = false;
-                editSelectedgameToolStripMenuItem.Enabled = false;
+                EditSelectedgameToolStripMenuItem.Enabled = false;
                 GameEditButton.Enabled = false;
                 RunGameToolStripMenuItem.Enabled = false;
                 RunGameSetupButton.Enabled = false;
@@ -1132,7 +1132,7 @@ namespace AmpShell
                 RunGameButton.Enabled = false;
                 _editGameConfigurationMenuItem.Enabled = false;
                 GameEditConfigurationButton.Enabled = false;
-                editConfigToolStripMenuItem.Enabled = false;
+                EditConfigToolStripMenuItem.Enabled = false;
                 MakeConfigButton.Enabled = true;
                 MakeConfigurationFileToolStripMenuItem.Enabled = true;
                 _makeGameConfigurationMenuItem.Enabled = true;
@@ -1141,10 +1141,10 @@ namespace AmpShell
             else if (_currentListView.SelectedItems.Count == 0)
             {
                 _deleteGameMenuItem.Enabled = false;
-                deleteSelectedGameToolStripMenuItem.Enabled = false;
+                DeleteSelectedGameToolStripMenuItem.Enabled = false;
                 GameDeleteButton.Enabled = false;
                 _editGameMenuItem.Enabled = false;
-                editSelectedgameToolStripMenuItem.Enabled = false;
+                EditSelectedgameToolStripMenuItem.Enabled = false;
                 GameEditButton.Enabled = false;
                 RunGameToolStripMenuItem.Enabled = false;
                 RunGameSetupButton.Enabled = false;
@@ -1154,7 +1154,7 @@ namespace AmpShell
                 RunGameButton.Enabled = false;
                 _editGameConfigurationMenuItem.Enabled = false;
                 GameEditConfigurationButton.Enabled = false;
-                editConfigToolStripMenuItem.Enabled = false;
+                EditConfigToolStripMenuItem.Enabled = false;
                 MakeConfigButton.Enabled = false;
                 MakeConfigurationFileToolStripMenuItem.Enabled = false;
                 _makeGameConfigurationMenuItem.Enabled = false;
@@ -1203,78 +1203,78 @@ namespace AmpShell
                 //create the category (in Amp for the data and in tabControl for the display)
                 _ampWindow.AddChild(newCategoryForm.Category);
                 TabControl.TabPages.Add(newCategoryForm.Category.Title);
-                ListView Newltview = new CustomListView();
-                Newltview.Columns.Add("NameColumn", "Name", newCategoryForm.Category.NameColumnWidth);
-                Newltview.Columns.Add("ExecutableColumn", "Executable", newCategoryForm.Category.ExecutableColumnWidth);
-                Newltview.Columns.Add("CMountColumn", "C: Mount", newCategoryForm.Category.CMountColumnWidth);
-                Newltview.Columns.Add("SetupExecutableColumn", "Setup executable", newCategoryForm.Category.SetupExecutableColumnWidth);
-                Newltview.Columns.Add("CustomConfigurationColumn", "Custom configuration", newCategoryForm.Category.CustomConfigurationColumnWidth);
-                Newltview.Columns.Add("DMountColumn", "D: Mount", newCategoryForm.Category.DMountColumnWidth);
-                Newltview.Columns.Add("MountingOptionsColumn", "Mounting options", newCategoryForm.Category.MountingOptionsColumnWidth);
-                Newltview.Columns.Add("AdditionnalCommandsColumn", "Additionnal commands", newCategoryForm.Category.AdditionnalCommandsColumnWidth);
-                Newltview.Columns.Add("NoConsoleColumn", "No Console ?", newCategoryForm.Category.NoConsoleColumnWidth);
-                Newltview.Columns.Add("FullscreenColumn", "Fullscreen ?", newCategoryForm.Category.FullscreenColumnWidth);
-                Newltview.Columns.Add("QuitOnExitColumn", "Quit on exit ?", newCategoryForm.Category.QuitOnExitColumnWidth);
-                Newltview.Dock = DockStyle.Fill;
-                Newltview.View = _ampWindow.CategoriesDefaultViewMode;
+                ListView newListView = new CustomListView();
+                newListView.Columns.Add("NameColumn", "Name", newCategoryForm.Category.NameColumnWidth);
+                newListView.Columns.Add("ExecutableColumn", "Executable", newCategoryForm.Category.ExecutableColumnWidth);
+                newListView.Columns.Add("CMountColumn", "C: Mount", newCategoryForm.Category.CMountColumnWidth);
+                newListView.Columns.Add("SetupExecutableColumn", "Setup executable", newCategoryForm.Category.SetupExecutableColumnWidth);
+                newListView.Columns.Add("CustomConfigurationColumn", "Custom configuration", newCategoryForm.Category.CustomConfigurationColumnWidth);
+                newListView.Columns.Add("DMountColumn", "D: Mount", newCategoryForm.Category.DMountColumnWidth);
+                newListView.Columns.Add("MountingOptionsColumn", "Mounting options", newCategoryForm.Category.MountingOptionsColumnWidth);
+                newListView.Columns.Add("AdditionnalCommandsColumn", "Additionnal commands", newCategoryForm.Category.AdditionnalCommandsColumnWidth);
+                newListView.Columns.Add("NoConsoleColumn", "No Console ?", newCategoryForm.Category.NoConsoleColumnWidth);
+                newListView.Columns.Add("FullscreenColumn", "Fullscreen ?", newCategoryForm.Category.FullscreenColumnWidth);
+                newListView.Columns.Add("QuitOnExitColumn", "Quit on exit ?", newCategoryForm.Category.QuitOnExitColumnWidth);
+                newListView.Dock = DockStyle.Fill;
+                newListView.View = _ampWindow.CategoriesDefaultViewMode;
                 if (_ampWindow.OnlyNames == false)
                 {
                     if (_ampWindow.CategoriesDefaultViewMode == View.LargeIcon)
                     {
-                        Newltview.LargeImageList = _gamesLargeImageList;
+                        newListView.LargeImageList = _gamesLargeImageList;
                     }
                     else if (_ampWindow.CategoriesDefaultViewMode == View.Tile)
                     {
-                        Newltview.LargeImageList = _gamesMediumImageList;
+                        newListView.LargeImageList = _gamesMediumImageList;
                     }
 
-                    Newltview.SmallImageList = _gamesSmallImageList;
+                    newListView.SmallImageList = _gamesSmallImageList;
                 }
-                Newltview.ContextMenuStrip = _currentListViewContextMenuStrip;
-                Newltview.ColumnWidthChanged += new ColumnWidthChangedEventHandler(CurrentListView_ColumnWidthChanged);
-                Newltview.ItemSelectionChanged += new ListViewItemSelectionChangedEventHandler(CurrentListView_ItemSelectionChanged);
-                Newltview.ItemActivate += new EventHandler(CurrentListView_ItemActivate);
-                Newltview.KeyDown += new KeyEventHandler(CurrentListView_KeyDown);
-                Newltview.Width = Width;
-                Newltview.Height = Height;
-                Newltview.Name = "GamesListView";
-                TabControl.TabPages[TabControl.TabPages.Count - 1].Controls.Add(Newltview);
+                newListView.ContextMenuStrip = _currentListViewContextMenuStrip;
+                newListView.ColumnWidthChanged += new ColumnWidthChangedEventHandler(CurrentListView_ColumnWidthChanged);
+                newListView.ItemSelectionChanged += new ListViewItemSelectionChangedEventHandler(CurrentListView_ItemSelectionChanged);
+                newListView.ItemActivate += new EventHandler(CurrentListView_ItemActivate);
+                newListView.KeyDown += new KeyEventHandler(CurrentListView_KeyDown);
+                newListView.Width = Width;
+                newListView.Height = Height;
+                newListView.Name = "GamesListView";
+                TabControl.TabPages[TabControl.TabPages.Count - 1].Controls.Add(newListView);
                 //the last created category is selected.
                 TabControl.SelectTab(TabControl.TabPages.Count - 1);
                 TabControl.SelectedTab.Name = newCategoryForm.Category.Signature;
                 TabControl.SelectedTab.AllowDrop = true;
                 //make the Category buttons available.
                 CategoryEditButton.Enabled = true;
-                editSelectedcategoryToolStripMenuItem.Enabled = true;
+                EditSelectedcategoryToolStripMenuItem.Enabled = true;
                 CategoryDeleteButton.Enabled = true;
-                deleteSelectedCategoryToolStripMenuItem.Enabled = true;
+                DeleteSelectedCategoryToolStripMenuItem.Enabled = true;
                 _deleteCategoryMenuMenuItem.Enabled = true;
                 NewGameToolStripMenuItem.Enabled = true;
                 GameAddButton.Enabled = true;
             }
         }
 
-        private string BuildArgs(bool Setup)
+        private string BuildArgs(bool forSetupExe)
         {
             //Arguments string for DOSBox.exe
             string dosboxArgs = string.Empty;
             if (string.IsNullOrWhiteSpace(_ampWindow.DBPath) == false && _ampWindow.DBPath != "dosbox.exe isn't is the same directory as AmpShell.exe!" && File.Exists(_ampWindow.DBPath))
             {
-                Game ConcernedGame = GetSelectedGame();
+                Game selectedGame = GetSelectedGame();
                 string qt = char.ToString('"');
-                if (ConcernedGame.Directory[0] != '/')
+                if (selectedGame.Directory[0] != '/')
                 {
                     qt = "'";
                 }
                 //string for the Game's configuration file.
                 string dosboxConfigPath = string.Empty;
                 //if the "do not use any config file at all" has not been checked
-                if (ConcernedGame.NoConfig == false)
+                if (selectedGame.NoConfig == false)
                 {
                     //use at first the game's custom config file
-                    if (string.IsNullOrWhiteSpace(ConcernedGame.DBConfPath) == false)
+                    if (string.IsNullOrWhiteSpace(selectedGame.DBConfPath) == false)
                     {
-                        dosboxConfigPath = ConcernedGame.DBConfPath;
+                        dosboxConfigPath = selectedGame.DBConfPath;
                     }
                     //if not, use the default dosbox.conf file
                     else if (string.IsNullOrWhiteSpace(_ampWindow.DBDefaultConfFilePath) == false && _ampWindow.DBDefaultConfFilePath != "No configuration file (*.conf) found in AmpShell's directory.")
@@ -1283,22 +1283,22 @@ namespace AmpShell
                     }
                 }
                 //The arguments for DOSBox begins with the game executable (.exe, .bat, or .com)
-                if (string.IsNullOrWhiteSpace(ConcernedGame.DOSEXEPath) == false)
+                if (string.IsNullOrWhiteSpace(selectedGame.DOSEXEPath) == false)
                 {
-                    if (!Setup)
+                    if (!forSetupExe)
                     {
-                        dosboxArgs = '"' + ConcernedGame.DOSEXEPath + '"';
+                        dosboxArgs = '"' + selectedGame.DOSEXEPath + '"';
                     }
                     else
                     {
-                        dosboxArgs = '"' + ConcernedGame.SetupEXEPath + '"';
+                        dosboxArgs = '"' + selectedGame.SetupEXEPath + '"';
                     }
                 }
                 //the game directory mounted as C (if the DOSEXEPath is specified, the DOSEXEPath parent directory will be mounted as C: by DOSBox
                 //hence the "else if" instead of "if".
-                else if (string.IsNullOrWhiteSpace(ConcernedGame.Directory) == false)
+                else if (string.IsNullOrWhiteSpace(selectedGame.Directory) == false)
                 {
-                    dosboxArgs = " -c " + '"' + "mount c " + qt + ConcernedGame.Directory + qt + '"';
+                    dosboxArgs = " -c " + '"' + "mount c " + qt + selectedGame.Directory + qt + '"';
                 }
                 //puting DBCfgPath and Arguments together
                 if (string.IsNullOrWhiteSpace(dosboxConfigPath) == false)
@@ -1311,54 +1311,54 @@ namespace AmpShell
                     dosboxArgs = dosboxArgs + " -lang " + '"' + _ampWindow.DBDefaultLangFilePath + '"';
                 }
                 //Path for the game's CD image (.bin, .cue, or .iso) mounted as D:
-                if (string.IsNullOrWhiteSpace(ConcernedGame.CDPath) == false)
+                if (string.IsNullOrWhiteSpace(selectedGame.CDPath) == false)
                 {
                     //put ' and _not_ " after imgmount (or else the path will be misunderstood by DOSBox). Paths with spaces will NOT work either way on GNU/Linux!
-                    if (ConcernedGame.CDIsAnImage == true)
+                    if (selectedGame.CDIsAnImage == true)
                     {
                         dosboxArgs = dosboxArgs + " -c " + '"' + "imgmount";
-                        if (ConcernedGame.MountAsFloppy == true)
+                        if (selectedGame.MountAsFloppy == true)
                         {
-                            dosboxArgs = dosboxArgs + " a " + qt + ConcernedGame.CDPath + qt + " -t floppy" + '"';
+                            dosboxArgs = dosboxArgs + " a " + qt + selectedGame.CDPath + qt + " -t floppy" + '"';
                         }
                         else
                         {
-                            dosboxArgs = dosboxArgs + " d " + qt + ConcernedGame.CDPath + qt + " -t iso" + '"';
+                            dosboxArgs = dosboxArgs + " d " + qt + selectedGame.CDPath + qt + " -t iso" + '"';
                         }
                     }
                     else
                     {
-                        if (ConcernedGame.UseIOCTL == true)
+                        if (selectedGame.UseIOCTL == true)
                         {
-                            dosboxArgs = dosboxArgs + " -c " + '"' + "mount d " + qt + ConcernedGame.CDPath + qt + " -t cdrom -usecd 0 -ioctl" + '"';
+                            dosboxArgs = dosboxArgs + " -c " + '"' + "mount d " + qt + selectedGame.CDPath + qt + " -t cdrom -usecd 0 -ioctl" + '"';
                         }
-                        else if (ConcernedGame.MountAsFloppy == true)
+                        else if (selectedGame.MountAsFloppy == true)
                         {
-                            dosboxArgs = dosboxArgs + " -c " + '"' + "mount a " + qt + ConcernedGame.CDPath + qt + " -t floppy" + '"';
+                            dosboxArgs = dosboxArgs + " -c " + '"' + "mount a " + qt + selectedGame.CDPath + qt + " -t floppy" + '"';
                         }
                         else
                         {
-                            dosboxArgs = dosboxArgs + " -c " + '"' + "mount d " + qt + ConcernedGame.CDPath + qt;
+                            dosboxArgs = dosboxArgs + " -c " + '"' + "mount d " + qt + selectedGame.CDPath + qt;
                         }
                     }
                 }
                 //Additionnal user commands for the game
-                if (string.IsNullOrWhiteSpace(ConcernedGame.AdditionalCommands) == false)
+                if (string.IsNullOrWhiteSpace(selectedGame.AdditionalCommands) == false)
                 {
-                    dosboxArgs = dosboxArgs + " " + ConcernedGame.AdditionalCommands;
+                    dosboxArgs = dosboxArgs + " " + selectedGame.AdditionalCommands;
                 }
                 //corresponds to the Fullscreen checkbox in GameForm
-                if (ConcernedGame.InFullScreen == true)
+                if (selectedGame.InFullScreen == true)
                 {
                     dosboxArgs = dosboxArgs + " -fullscreen";
                 }
                 //corresponds to the "no console" checkbox in the GameForm
-                if (ConcernedGame.NoConsole == true)
+                if (selectedGame.NoConsole == true)
                 {
                     dosboxArgs = dosboxArgs + " -noconsole";
                 }
                 //corresponds to the "quit on exit (only for .exe)" checkbox in the GameForm
-                if (ConcernedGame.QuitOnExit == true)
+                if (selectedGame.QuitOnExit == true)
                 {
                     dosboxArgs = dosboxArgs + " -exit";
                 }
@@ -1471,15 +1471,14 @@ namespace AmpShell
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void AboutToolStripMenuItem_Click(object sender, EventArgs e) { AboutBox AbtBox = new AboutBox(); AbtBox.ShowDialog(this); }
+        private void AboutToolStripMenuItem_Click(object sender, EventArgs e) { AboutBox aboutBox = new AboutBox(); aboutBox.ShowDialog(this); }
 
         /// <summary>
         /// EventHandler for when the delete button game is clicked
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void GameDeleteButton_Click(object sender, EventArgs e)
-        { KeyEventArgs k = new KeyEventArgs(Keys.Delete); CurrentListView_KeyDown(sender, k); }
+        private void GameDeleteButton_Click(object sender, EventArgs e) { KeyEventArgs k = new KeyEventArgs(Keys.Delete); CurrentListView_KeyDown(sender, k); }
 
         /// <summary>
         /// EventHandler for when the Category delete button is clicked
@@ -1489,7 +1488,10 @@ namespace AmpShell
         private void CategoryDeleteButton_Click(object sender, EventArgs e)
         {
             Category selectedCategory = GetSelectedCategory();
-            if (_ampWindow.CategoryDeletePrompt != true || MessageBox.Show(this, "Do you really want to delete " + "'" + TabControl.SelectedTab.Text + "'" + " and all the games inside it ?", _deleteCategoryMenuMenuItem.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (_ampWindow.CategoryDeletePrompt != true ||
+                MessageBox.Show(this, "Do you really want to delete " + "'" + TabControl.SelectedTab.Text + "'" + " and all the games inside it ?",
+                _deleteCategoryMenuMenuItem.Text,
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 //prompt the user if he really wants to delete it.
                 //remove the data (the game will be deleted also. List<AmpShell> is provided by RootAmpShell.cs.
@@ -1573,11 +1575,11 @@ namespace AmpShell
                 TabControl.SelectedTab = TabControl.TabPages[0];
                 //make the Category edit & delete buttons Enabled
                 CategoryEditButton.Enabled = true;
-                editSelectedcategoryToolStripMenuItem.Enabled = true;
+                EditSelectedcategoryToolStripMenuItem.Enabled = true;
                 _editCategoryMenuMenuItem.Enabled = true;
                 _deleteCategoryMenuMenuItem.Enabled = true;
                 CategoryDeleteButton.Enabled = true;
-                deleteSelectedCategoryToolStripMenuItem.Enabled = true;
+                DeleteSelectedCategoryToolStripMenuItem.Enabled = true;
                 //reference the selected TabPage's ListView into ltview (with a cast)
                 _currentListView = (ListView)TabControl.SelectedTab.Controls["GamesListView"];
             }
@@ -2090,11 +2092,11 @@ namespace AmpShell
             SmallIconToolStripMenuItem.Enabled = false;
             SmallIconViewButton.Enabled = false;
             TilesViewButton.Enabled = false;
-            tileToolStripMenuItem.Enabled = false;
+            TileToolStripMenuItem.Enabled = false;
             DetailsViewButton.Enabled = false;
-            detailsToolStripMenuItem.Enabled = false;
+            DetailsToolStripMenuItem.Enabled = false;
             ListViewButton.Enabled = false;
-            listToolStripMenuItem.Enabled = false;
+            ListToolStripMenuItem.Enabled = false;
             NewGameToolStripMenuItem.Enabled = false;
             _addGameMenuItem.Enabled = false;
             GameAddButton.Enabled = false;
@@ -2102,22 +2104,22 @@ namespace AmpShell
             _runGameMenuItem.Enabled = false;
             RunGameToolStripMenuItem.Enabled = false;
             GameEditButton.Enabled = false;
-            editSelectedgameToolStripMenuItem.Enabled = false;
+            EditSelectedgameToolStripMenuItem.Enabled = false;
             _editGameMenuItem.Enabled = false;
             RunGameSetupButton.Enabled = false;
             RunGameSetupToolStripMenuItem.Enabled = false;
             _runGameSetupMenuItem.Enabled = false;
             CategoryEditButton.Enabled = false;
-            editSelectedcategoryToolStripMenuItem.Enabled = false;
+            EditSelectedcategoryToolStripMenuItem.Enabled = false;
             _editCategoryMenuMenuItem.Enabled = false;
             CategoryDeleteButton.Enabled = false;
-            deleteSelectedCategoryToolStripMenuItem.Enabled = false;
+            DeleteSelectedCategoryToolStripMenuItem.Enabled = false;
             _deleteCategoryMenuMenuItem.Enabled = false;
             _editGameConfigurationMenuItem.Enabled = false;
             GameEditConfigurationButton.Enabled = false;
-            editConfigToolStripMenuItem.Enabled = false;
+            EditConfigToolStripMenuItem.Enabled = false;
             RunConfigurationEditorButton.Enabled = false;
-            runConfigurationEditorToolStripMenuItem.Enabled = false;
+            RunConfigurationEditorToolStripMenuItem.Enabled = false;
             RunDOSBoxButton.Enabled = false;
             RunDOSBoxToolStripMenuItem.Enabled = false;
             EditDefaultConfigurationToolStripMenuItem.Enabled = false;
@@ -2132,11 +2134,11 @@ namespace AmpShell
                 SmallIconToolStripMenuItem.Enabled = true;
                 SmallIconViewButton.Enabled = true;
                 TilesViewButton.Enabled = true;
-                tileToolStripMenuItem.Enabled = true;
+                TileToolStripMenuItem.Enabled = true;
                 DetailsViewButton.Enabled = true;
-                detailsToolStripMenuItem.Enabled = true;
+                DetailsToolStripMenuItem.Enabled = true;
                 ListViewButton.Enabled = true;
-                listToolStripMenuItem.Enabled = true;
+                ListToolStripMenuItem.Enabled = true;
                 NewGameToolStripMenuItem.Enabled = true;
                 _addGameMenuItem.Enabled = true;
                 GameAddButton.Enabled = true;
@@ -2153,15 +2155,15 @@ namespace AmpShell
                 }
                 CategoryEditButton.Enabled = true;
                 _editCategoryMenuMenuItem.Enabled = true;
-                editSelectedcategoryToolStripMenuItem.Enabled = true;
+                EditSelectedcategoryToolStripMenuItem.Enabled = true;
                 CategoryDeleteButton.Enabled = true;
-                deleteSelectedCategoryToolStripMenuItem.Enabled = true;
+                DeleteSelectedCategoryToolStripMenuItem.Enabled = true;
                 _deleteCategoryMenuMenuItem.Enabled = true;
                 GameEditButton.Enabled = true;
                 if (string.IsNullOrWhiteSpace(_ampWindow.ConfigEditorPath) == false)
                 {
                     RunConfigurationEditorButton.Enabled = true;
-                    runConfigurationEditorToolStripMenuItem.Enabled = true;
+                    RunConfigurationEditorToolStripMenuItem.Enabled = true;
                 }
                 if (string.IsNullOrWhiteSpace(_ampWindow.DBDefaultConfFilePath) == false)
                 {
@@ -2328,7 +2330,7 @@ namespace AmpShell
 
         private void PreferencesToolStripMenuItem_MouseEnter(object sender, EventArgs e)
         {
-            DisplayHelpMessage(preferencesToolStripMenuItem.ToolTipText);
+            DisplayHelpMessage(PreferencesToolStripMenuItem.ToolTipText);
         }
 
         private void AboutToolStripMenuItem_MouseEnter(object sender, EventArgs e)
@@ -2338,7 +2340,7 @@ namespace AmpShell
 
         private void QuitterToolStripMenuItem_MouseEnter(object sender, EventArgs e)
         {
-            DisplayHelpMessage(quitterToolStripMenuItem.ToolTipText);
+            DisplayHelpMessage(QuitterToolStripMenuItem.ToolTipText);
         }
 
         private void EditDefaultConfigurationToolStripMenuItem_MouseEnter(object sender, EventArgs e)

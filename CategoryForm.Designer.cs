@@ -38,18 +38,18 @@ namespace AmpShell
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CategoryForm));
-            this.textBox = new System.Windows.Forms.TextBox();
+            this.NameTextBox = new System.Windows.Forms.TextBox();
             this.OK = new System.Windows.Forms.Button();
             this.Cancel = new System.Windows.Forms.Button();
             this.label = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // textBox
+            // NameTextBox
             // 
-            this.textBox.Location = new System.Drawing.Point(3, 16);
-            this.textBox.Name = "textBox";
-            this.textBox.Size = new System.Drawing.Size(339, 20);
-            this.textBox.TabIndex = 1;
+            this.NameTextBox.Location = new System.Drawing.Point(3, 16);
+            this.NameTextBox.Name = "NameTextBox";
+            this.NameTextBox.Size = new System.Drawing.Size(339, 20);
+            this.NameTextBox.TabIndex = 1;
             // 
             // OK
             // 
@@ -97,7 +97,7 @@ namespace AmpShell
             this.CancelButton = this.Cancel;
             this.ClientSize = new System.Drawing.Size(342, 63);
             this.Controls.Add(this.label);
-            this.Controls.Add(this.textBox);
+            this.Controls.Add(this.NameTextBox);
             this.Controls.Add(this.Cancel);
             this.Controls.Add(this.OK);
             this.DoubleBuffered = true;
@@ -117,7 +117,7 @@ namespace AmpShell
 
         private System.Windows.Forms.Button OK;
         private System.Windows.Forms.Button Cancel;
-        private System.Windows.Forms.TextBox textBox;
+        private System.Windows.Forms.TextBox NameTextBox;
         private System.Windows.Forms.Label label;
     }
 }

@@ -38,7 +38,7 @@ namespace AmpShell
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main_Prefs));
-            this.tabControl = new System.Windows.Forms.TabControl();
+            this.PrefsTabControl = new System.Windows.Forms.TabControl();
             this.DOSBoxTabPage = new System.Windows.Forms.TabPage();
             this.DOSBoxLangFileLabel = new System.Windows.Forms.Label();
             this.DOSBoxConfLabel = new System.Windows.Forms.Label();
@@ -66,7 +66,7 @@ namespace AmpShell
             this.CategoriesTabPage = new System.Windows.Forms.TabPage();
             this.LargeViewModeSizeLabel = new System.Windows.Forms.Label();
             this.LargeViewModeSizeComboBox = new System.Windows.Forms.ComboBox();
-            this.AllOfThemButton = new System.Windows.Forms.CheckBox();
+            this.AllOfThemCheckBox = new System.Windows.Forms.CheckBox();
             this.LargeIconsRadioButton = new System.Windows.Forms.RadioButton();
             this.SmallIconsRadioButton = new System.Windows.Forms.RadioButton();
             this.TilesIconsRadioButton = new System.Windows.Forms.RadioButton();
@@ -97,12 +97,12 @@ namespace AmpShell
             this.ShowDetailsBarCheckBox = new System.Windows.Forms.CheckBox();
             this.ShowToolBarCheckBox = new System.Windows.Forms.CheckBox();
             this.PortableModeCheckBox = new System.Windows.Forms.CheckBox();
-            this.statusStrip = new System.Windows.Forms.StatusStrip();
+            this.PrefsStatusStrip = new System.Windows.Forms.StatusStrip();
             this.StatusStripLabel = new System.Windows.Forms.Label();
             this.ReScanDirButton = new System.Windows.Forms.Button();
-            this.OK = new System.Windows.Forms.Button();
-            this.Cancel = new System.Windows.Forms.Button();
-            this.tabControl.SuspendLayout();
+            this.OKButton = new System.Windows.Forms.Button();
+            this.FormCancelButton = new System.Windows.Forms.Button();
+            this.PrefsTabControl.SuspendLayout();
             this.DOSBoxTabPage.SuspendLayout();
             this.GamesTabPage.SuspendLayout();
             this.OtherOptionsGroupBox.SuspendLayout();
@@ -114,18 +114,18 @@ namespace AmpShell
             this.ShowGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
-            // tabControl
+            // PrefsTabControl
             // 
-            this.tabControl.Controls.Add(this.DOSBoxTabPage);
-            this.tabControl.Controls.Add(this.GamesTabPage);
-            this.tabControl.Controls.Add(this.CategoriesTabPage);
-            this.tabControl.Controls.Add(this.ConfigEditorTabPage);
-            this.tabControl.Controls.Add(this.BehaviorTabPage);
-            this.tabControl.Location = new System.Drawing.Point(0, 0);
-            this.tabControl.Name = "tabControl";
-            this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(636, 197);
-            this.tabControl.TabIndex = 1;
+            this.PrefsTabControl.Controls.Add(this.DOSBoxTabPage);
+            this.PrefsTabControl.Controls.Add(this.GamesTabPage);
+            this.PrefsTabControl.Controls.Add(this.CategoriesTabPage);
+            this.PrefsTabControl.Controls.Add(this.ConfigEditorTabPage);
+            this.PrefsTabControl.Controls.Add(this.BehaviorTabPage);
+            this.PrefsTabControl.Location = new System.Drawing.Point(0, 0);
+            this.PrefsTabControl.Name = "PrefsTabControl";
+            this.PrefsTabControl.SelectedIndex = 0;
+            this.PrefsTabControl.Size = new System.Drawing.Size(636, 197);
+            this.PrefsTabControl.TabIndex = 1;
             // 
             // DOSBoxTabPage
             // 
@@ -351,7 +351,7 @@ namespace AmpShell
             this.CDImageDirLabel.Size = new System.Drawing.Size(378, 13);
             this.CDImageDirLabel.TabIndex = 0;
             this.CDImageDirLabel.Text = "Default directory to open when looking for image files (such as CD image files) :" +
-                "";
+    "";
             // 
             // BrowseGamesDirButton
             // 
@@ -384,7 +384,7 @@ namespace AmpShell
             this.CategoriesTabPage.BackColor = System.Drawing.Color.Transparent;
             this.CategoriesTabPage.Controls.Add(this.LargeViewModeSizeLabel);
             this.CategoriesTabPage.Controls.Add(this.LargeViewModeSizeComboBox);
-            this.CategoriesTabPage.Controls.Add(this.AllOfThemButton);
+            this.CategoriesTabPage.Controls.Add(this.AllOfThemCheckBox);
             this.CategoriesTabPage.Controls.Add(this.LargeIconsRadioButton);
             this.CategoriesTabPage.Controls.Add(this.SmallIconsRadioButton);
             this.CategoriesTabPage.Controls.Add(this.TilesIconsRadioButton);
@@ -436,15 +436,15 @@ namespace AmpShell
             this.LargeViewModeSizeComboBox.Size = new System.Drawing.Size(121, 21);
             this.LargeViewModeSizeComboBox.TabIndex = 32;
             // 
-            // AllOfThemButton
+            // AllOfThemCheckBox
             // 
-            this.AllOfThemButton.AutoSize = true;
-            this.AllOfThemButton.Location = new System.Drawing.Point(544, 150);
-            this.AllOfThemButton.Name = "AllOfThemButton";
-            this.AllOfThemButton.Size = new System.Drawing.Size(75, 17);
-            this.AllOfThemButton.TabIndex = 31;
-            this.AllOfThemButton.Text = "All of them";
-            this.AllOfThemButton.UseVisualStyleBackColor = true;
+            this.AllOfThemCheckBox.AutoSize = true;
+            this.AllOfThemCheckBox.Location = new System.Drawing.Point(544, 150);
+            this.AllOfThemCheckBox.Name = "AllOfThemCheckBox";
+            this.AllOfThemCheckBox.Size = new System.Drawing.Size(75, 17);
+            this.AllOfThemCheckBox.TabIndex = 31;
+            this.AllOfThemCheckBox.Text = "All of them";
+            this.AllOfThemCheckBox.UseVisualStyleBackColor = true;
             // 
             // LargeIconsRadioButton
             // 
@@ -768,13 +768,13 @@ namespace AmpShell
             this.PortableModeCheckBox.UseVisualStyleBackColor = true;
             this.PortableModeCheckBox.CheckedChanged += new System.EventHandler(this.PortableModeCheckBox_CheckedChanged);
             // 
-            // statusStrip
+            // PrefsStatusStrip
             // 
-            this.statusStrip.Location = new System.Drawing.Point(0, 225);
-            this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Size = new System.Drawing.Size(634, 22);
-            this.statusStrip.TabIndex = 15;
-            this.statusStrip.Text = "Portable Mode : inactive";
+            this.PrefsStatusStrip.Location = new System.Drawing.Point(0, 225);
+            this.PrefsStatusStrip.Name = "PrefsStatusStrip";
+            this.PrefsStatusStrip.Size = new System.Drawing.Size(634, 22);
+            this.PrefsStatusStrip.TabIndex = 15;
+            this.PrefsStatusStrip.Text = "Portable Mode : inactive";
             // 
             // StatusStripLabel
             // 
@@ -798,47 +798,47 @@ namespace AmpShell
             this.ReScanDirButton.UseVisualStyleBackColor = true;
             this.ReScanDirButton.Click += new System.EventHandler(this.ReScanDirButton_Click);
             // 
-            // OK
+            // OKButton
             // 
-            this.OK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.OK.Image = global::AmpShell.Properties.Resources.saveHS;
-            this.OK.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.OK.Location = new System.Drawing.Point(449, 203);
-            this.OK.Name = "OK";
-            this.OK.Size = new System.Drawing.Size(102, 23);
-            this.OK.TabIndex = 43;
-            this.OK.Text = "&Save and apply";
-            this.OK.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.OK.UseVisualStyleBackColor = true;
-            this.OK.Click += new System.EventHandler(this.OK_Click);
+            this.OKButton.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.OKButton.Image = global::AmpShell.Properties.Resources.saveHS;
+            this.OKButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.OKButton.Location = new System.Drawing.Point(449, 203);
+            this.OKButton.Name = "OKButton";
+            this.OKButton.Size = new System.Drawing.Size(102, 23);
+            this.OKButton.TabIndex = 43;
+            this.OKButton.Text = "&Save and apply";
+            this.OKButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.OKButton.UseVisualStyleBackColor = true;
+            this.OKButton.Click += new System.EventHandler(this.OK_Click);
             // 
-            // Cancel
+            // FormCancelButton
             // 
-            this.Cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.Cancel.Image = global::AmpShell.Properties.Resources.DeleteHS;
-            this.Cancel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.Cancel.Location = new System.Drawing.Point(554, 203);
-            this.Cancel.Name = "Cancel";
-            this.Cancel.Size = new System.Drawing.Size(80, 23);
-            this.Cancel.TabIndex = 44;
-            this.Cancel.Text = "&Don\'t save";
-            this.Cancel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Cancel.UseVisualStyleBackColor = true;
-            this.Cancel.Click += new System.EventHandler(this.Cancel_Click);
+            this.FormCancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.FormCancelButton.Image = global::AmpShell.Properties.Resources.DeleteHS;
+            this.FormCancelButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.FormCancelButton.Location = new System.Drawing.Point(554, 203);
+            this.FormCancelButton.Name = "FormCancelButton";
+            this.FormCancelButton.Size = new System.Drawing.Size(80, 23);
+            this.FormCancelButton.TabIndex = 44;
+            this.FormCancelButton.Text = "&Don\'t save";
+            this.FormCancelButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.FormCancelButton.UseVisualStyleBackColor = true;
+            this.FormCancelButton.Click += new System.EventHandler(this.Cancel_Click);
             // 
             // Main_Prefs
             // 
-            this.AcceptButton = this.OK;
+            this.AcceptButton = this.OKButton;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.CancelButton = this.Cancel;
+            this.CancelButton = this.FormCancelButton;
             this.ClientSize = new System.Drawing.Size(634, 247);
             this.Controls.Add(this.ReScanDirButton);
             this.Controls.Add(this.StatusStripLabel);
-            this.Controls.Add(this.statusStrip);
+            this.Controls.Add(this.PrefsStatusStrip);
             this.Controls.Add(this.PortableModeCheckBox);
-            this.Controls.Add(this.tabControl);
-            this.Controls.Add(this.OK);
-            this.Controls.Add(this.Cancel);
+            this.Controls.Add(this.PrefsTabControl);
+            this.Controls.Add(this.OKButton);
+            this.Controls.Add(this.FormCancelButton);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -848,7 +848,7 @@ namespace AmpShell
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Preferences";
             this.Load += new System.EventHandler(this.Main_Prefs_Load);
-            this.tabControl.ResumeLayout(false);
+            this.PrefsTabControl.ResumeLayout(false);
             this.DOSBoxTabPage.ResumeLayout(false);
             this.DOSBoxTabPage.PerformLayout();
             this.GamesTabPage.ResumeLayout(false);
@@ -873,9 +873,9 @@ namespace AmpShell
 
         #endregion
 
-        private System.Windows.Forms.Button Cancel;
-        private System.Windows.Forms.Button OK;
-        private System.Windows.Forms.TabControl tabControl;
+        private System.Windows.Forms.Button FormCancelButton;
+        private System.Windows.Forms.Button OKButton;
+        private System.Windows.Forms.TabControl PrefsTabControl;
         private System.Windows.Forms.TabPage ConfigEditorTabPage;
         private System.Windows.Forms.TextBox EditorBinaryPathTextBox;
         private System.Windows.Forms.Label AddtionnalEditorParametersLabel;
@@ -930,9 +930,9 @@ namespace AmpShell
         private System.Windows.Forms.RadioButton TilesIconsRadioButton;
         private System.Windows.Forms.RadioButton ListsIconsRadioButton;
         private System.Windows.Forms.RadioButton DetailsIconsRadioButton;
-        private System.Windows.Forms.CheckBox AllOfThemButton;
+        private System.Windows.Forms.CheckBox AllOfThemCheckBox;
         private System.Windows.Forms.CheckBox PortableModeCheckBox;
-        private System.Windows.Forms.StatusStrip statusStrip;
+        private System.Windows.Forms.StatusStrip PrefsStatusStrip;
         private System.Windows.Forms.Label StatusStripLabel;
         private System.Windows.Forms.Button ReScanDirButton;
         private System.Windows.Forms.Label LargeViewModeSizeLabel;

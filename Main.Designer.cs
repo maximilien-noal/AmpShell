@@ -45,26 +45,26 @@ namespace AmpShell
             this.RunGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RunGameSetupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.quitterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.QuitterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.EditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.editSelectedgameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.editConfigToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.EditSelectedgameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.EditConfigToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MakeConfigurationFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.editSelectedcategoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.deleteSelectedGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.deleteSelectedCategoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.EditSelectedcategoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.DeleteSelectedGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.DeleteSelectedCategoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.preferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.PreferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RunDOSBoxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.runConfigurationEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.RunConfigurationEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.EditDefaultConfigurationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.LargeIconToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SmallIconToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.listToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.detailsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.TileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.DetailsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.HelpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip = new System.Windows.Forms.ToolStrip();
@@ -127,7 +127,7 @@ namespace AmpShell
             this.RunGameToolStripMenuItem,
             this.RunGameSetupToolStripMenuItem,
             this.toolStripSeparator1,
-            this.quitterToolStripMenuItem});
+            this.QuitterToolStripMenuItem});
             this.FileToolStripMenuItem.Name = "FileToolStripMenuItem";
             this.FileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.FileToolStripMenuItem.Text = "&File";
@@ -195,30 +195,30 @@ namespace AmpShell
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(212, 6);
             // 
-            // quitterToolStripMenuItem
+            // QuitterToolStripMenuItem
             // 
-            this.quitterToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("quitterToolStripMenuItem.Image")));
-            this.quitterToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.quitterToolStripMenuItem.Name = "quitterToolStripMenuItem";
-            this.quitterToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.quitterToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
-            this.quitterToolStripMenuItem.Text = "&Quit";
-            this.quitterToolStripMenuItem.ToolTipText = "Save all the data, and exit AmpShell";
-            this.quitterToolStripMenuItem.Click += new System.EventHandler(this.QuitToolStripMenuItem_Click);
-            this.quitterToolStripMenuItem.MouseEnter += new System.EventHandler(this.QuitterToolStripMenuItem_MouseEnter);
-            this.quitterToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
+            this.QuitterToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("QuitterToolStripMenuItem.Image")));
+            this.QuitterToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.QuitterToolStripMenuItem.Name = "QuitterToolStripMenuItem";
+            this.QuitterToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
+            this.QuitterToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
+            this.QuitterToolStripMenuItem.Text = "&Quit";
+            this.QuitterToolStripMenuItem.ToolTipText = "Save all the data, and exit AmpShell";
+            this.QuitterToolStripMenuItem.Click += new System.EventHandler(this.QuitToolStripMenuItem_Click);
+            this.QuitterToolStripMenuItem.MouseEnter += new System.EventHandler(this.QuitterToolStripMenuItem_MouseEnter);
+            this.QuitterToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
             // EditToolStripMenuItem
             // 
             this.EditToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.editSelectedgameToolStripMenuItem,
-            this.editConfigToolStripMenuItem,
+            this.EditSelectedgameToolStripMenuItem,
+            this.EditConfigToolStripMenuItem,
             this.MakeConfigurationFileToolStripMenuItem,
-            this.editSelectedcategoryToolStripMenuItem,
-            this.deleteSelectedGameToolStripMenuItem,
-            this.deleteSelectedCategoryToolStripMenuItem,
+            this.EditSelectedcategoryToolStripMenuItem,
+            this.DeleteSelectedGameToolStripMenuItem,
+            this.DeleteSelectedCategoryToolStripMenuItem,
             this.toolStripSeparator2,
-            this.preferencesToolStripMenuItem});
+            this.PreferencesToolStripMenuItem});
             this.EditToolStripMenuItem.Name = "EditToolStripMenuItem";
             this.EditToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
             this.EditToolStripMenuItem.Text = "&Edit";
@@ -226,33 +226,33 @@ namespace AmpShell
             this.EditToolStripMenuItem.MouseEnter += new System.EventHandler(this.EditToolStripMenuItem_MouseEnter);
             this.EditToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
-            // editSelectedgameToolStripMenuItem
+            // EditSelectedgameToolStripMenuItem
             // 
-            this.editSelectedgameToolStripMenuItem.Enabled = false;
-            this.editSelectedgameToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("editSelectedgameToolStripMenuItem.Image")));
-            this.editSelectedgameToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.editSelectedgameToolStripMenuItem.Name = "editSelectedgameToolStripMenuItem";
-            this.editSelectedgameToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.E)));
-            this.editSelectedgameToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
-            this.editSelectedgameToolStripMenuItem.Text = "&Edit selected game...";
-            this.editSelectedgameToolStripMenuItem.ToolTipText = "Modify the selected game";
-            this.editSelectedgameToolStripMenuItem.Click += new System.EventHandler(this.GameEditButton_Click);
-            this.editSelectedgameToolStripMenuItem.MouseEnter += new System.EventHandler(this.GameEditButton_MouseEnter);
-            this.editSelectedgameToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
+            this.EditSelectedgameToolStripMenuItem.Enabled = false;
+            this.EditSelectedgameToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("EditSelectedgameToolStripMenuItem.Image")));
+            this.EditSelectedgameToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.EditSelectedgameToolStripMenuItem.Name = "EditSelectedgameToolStripMenuItem";
+            this.EditSelectedgameToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.E)));
+            this.EditSelectedgameToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
+            this.EditSelectedgameToolStripMenuItem.Text = "&Edit selected game...";
+            this.EditSelectedgameToolStripMenuItem.ToolTipText = "Modify the selected game";
+            this.EditSelectedgameToolStripMenuItem.Click += new System.EventHandler(this.GameEditButton_Click);
+            this.EditSelectedgameToolStripMenuItem.MouseEnter += new System.EventHandler(this.GameEditButton_MouseEnter);
+            this.EditSelectedgameToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
-            // editConfigToolStripMenuItem
+            // EditConfigToolStripMenuItem
             // 
-            this.editConfigToolStripMenuItem.Enabled = false;
-            this.editConfigToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("editConfigToolStripMenuItem.Image")));
-            this.editConfigToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Yellow;
-            this.editConfigToolStripMenuItem.Name = "editConfigToolStripMenuItem";
-            this.editConfigToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F)));
-            this.editConfigToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
-            this.editConfigToolStripMenuItem.Text = "Edit game configuration &file...";
-            this.editConfigToolStripMenuItem.ToolTipText = "Modify the selected game\'s custom config file";
-            this.editConfigToolStripMenuItem.Click += new System.EventHandler(this.GameEditConfigurationButton_Click);
-            this.editConfigToolStripMenuItem.MouseEnter += new System.EventHandler(this.GameEditConfigurationButton_MouseEnter);
-            this.editConfigToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
+            this.EditConfigToolStripMenuItem.Enabled = false;
+            this.EditConfigToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("EditConfigToolStripMenuItem.Image")));
+            this.EditConfigToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Yellow;
+            this.EditConfigToolStripMenuItem.Name = "EditConfigToolStripMenuItem";
+            this.EditConfigToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F)));
+            this.EditConfigToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
+            this.EditConfigToolStripMenuItem.Text = "Edit game configuration &file...";
+            this.EditConfigToolStripMenuItem.ToolTipText = "Modify the selected game\'s custom config file";
+            this.EditConfigToolStripMenuItem.Click += new System.EventHandler(this.GameEditConfigurationButton_Click);
+            this.EditConfigToolStripMenuItem.MouseEnter += new System.EventHandler(this.GameEditConfigurationButton_MouseEnter);
+            this.EditConfigToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
             // MakeConfigurationFileToolStripMenuItem
             // 
@@ -268,71 +268,71 @@ namespace AmpShell
             this.MakeConfigurationFileToolStripMenuItem.MouseEnter += new System.EventHandler(this.MakeConfigurationFileToolStripMenuItem_MouseEnter);
             this.MakeConfigurationFileToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
-            // editSelectedcategoryToolStripMenuItem
+            // EditSelectedcategoryToolStripMenuItem
             // 
-            this.editSelectedcategoryToolStripMenuItem.Enabled = false;
-            this.editSelectedcategoryToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("editSelectedcategoryToolStripMenuItem.Image")));
-            this.editSelectedcategoryToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.White;
-            this.editSelectedcategoryToolStripMenuItem.Name = "editSelectedcategoryToolStripMenuItem";
-            this.editSelectedcategoryToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.C)));
-            this.editSelectedcategoryToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
-            this.editSelectedcategoryToolStripMenuItem.Text = "Edit selected &category...";
-            this.editSelectedcategoryToolStripMenuItem.ToolTipText = "Modify the current category name";
-            this.editSelectedcategoryToolStripMenuItem.Click += new System.EventHandler(this.CategoryEditButton_Click);
-            this.editSelectedcategoryToolStripMenuItem.MouseEnter += new System.EventHandler(this.CategoryEditButton_MouseEnter);
-            this.editSelectedcategoryToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
+            this.EditSelectedcategoryToolStripMenuItem.Enabled = false;
+            this.EditSelectedcategoryToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("EditSelectedcategoryToolStripMenuItem.Image")));
+            this.EditSelectedcategoryToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.White;
+            this.EditSelectedcategoryToolStripMenuItem.Name = "EditSelectedcategoryToolStripMenuItem";
+            this.EditSelectedcategoryToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.C)));
+            this.EditSelectedcategoryToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
+            this.EditSelectedcategoryToolStripMenuItem.Text = "Edit selected &category...";
+            this.EditSelectedcategoryToolStripMenuItem.ToolTipText = "Modify the current category name";
+            this.EditSelectedcategoryToolStripMenuItem.Click += new System.EventHandler(this.CategoryEditButton_Click);
+            this.EditSelectedcategoryToolStripMenuItem.MouseEnter += new System.EventHandler(this.CategoryEditButton_MouseEnter);
+            this.EditSelectedcategoryToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
-            // deleteSelectedGameToolStripMenuItem
+            // DeleteSelectedGameToolStripMenuItem
             // 
-            this.deleteSelectedGameToolStripMenuItem.Enabled = false;
-            this.deleteSelectedGameToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("deleteSelectedGameToolStripMenuItem.Image")));
-            this.deleteSelectedGameToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.White;
-            this.deleteSelectedGameToolStripMenuItem.Name = "deleteSelectedGameToolStripMenuItem";
-            this.deleteSelectedGameToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-            this.deleteSelectedGameToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
-            this.deleteSelectedGameToolStripMenuItem.Text = "&Delete selected game";
-            this.deleteSelectedGameToolStripMenuItem.ToolTipText = "Delete the selected game of the current category";
-            this.deleteSelectedGameToolStripMenuItem.Click += new System.EventHandler(this.GameDeleteButton_Click);
-            this.deleteSelectedGameToolStripMenuItem.MouseEnter += new System.EventHandler(this.GameDeleteButton_MouseEnter);
-            this.deleteSelectedGameToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
+            this.DeleteSelectedGameToolStripMenuItem.Enabled = false;
+            this.DeleteSelectedGameToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("DeleteSelectedGameToolStripMenuItem.Image")));
+            this.DeleteSelectedGameToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.White;
+            this.DeleteSelectedGameToolStripMenuItem.Name = "DeleteSelectedGameToolStripMenuItem";
+            this.DeleteSelectedGameToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete;
+            this.DeleteSelectedGameToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
+            this.DeleteSelectedGameToolStripMenuItem.Text = "&Delete selected game";
+            this.DeleteSelectedGameToolStripMenuItem.ToolTipText = "Delete the selected game of the current category";
+            this.DeleteSelectedGameToolStripMenuItem.Click += new System.EventHandler(this.GameDeleteButton_Click);
+            this.DeleteSelectedGameToolStripMenuItem.MouseEnter += new System.EventHandler(this.GameDeleteButton_MouseEnter);
+            this.DeleteSelectedGameToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
-            // deleteSelectedCategoryToolStripMenuItem
+            // DeleteSelectedCategoryToolStripMenuItem
             // 
-            this.deleteSelectedCategoryToolStripMenuItem.Enabled = false;
-            this.deleteSelectedCategoryToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("deleteSelectedCategoryToolStripMenuItem.Image")));
-            this.deleteSelectedCategoryToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.deleteSelectedCategoryToolStripMenuItem.Name = "deleteSelectedCategoryToolStripMenuItem";
-            this.deleteSelectedCategoryToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Shift | System.Windows.Forms.Keys.Delete)));
-            this.deleteSelectedCategoryToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
-            this.deleteSelectedCategoryToolStripMenuItem.Text = "Delete &selected category...";
-            this.deleteSelectedCategoryToolStripMenuItem.ToolTipText = "Delete current category and all it\'s games";
-            this.deleteSelectedCategoryToolStripMenuItem.Click += new System.EventHandler(this.CategoryDeleteButton_Click);
-            this.deleteSelectedCategoryToolStripMenuItem.MouseEnter += new System.EventHandler(this.CategoryDeleteButton_MouseEnter);
-            this.deleteSelectedCategoryToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
+            this.DeleteSelectedCategoryToolStripMenuItem.Enabled = false;
+            this.DeleteSelectedCategoryToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("DeleteSelectedCategoryToolStripMenuItem.Image")));
+            this.DeleteSelectedCategoryToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.DeleteSelectedCategoryToolStripMenuItem.Name = "DeleteSelectedCategoryToolStripMenuItem";
+            this.DeleteSelectedCategoryToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Shift | System.Windows.Forms.Keys.Delete)));
+            this.DeleteSelectedCategoryToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
+            this.DeleteSelectedCategoryToolStripMenuItem.Text = "Delete &selected category...";
+            this.DeleteSelectedCategoryToolStripMenuItem.ToolTipText = "Delete current category and all it\'s games";
+            this.DeleteSelectedCategoryToolStripMenuItem.Click += new System.EventHandler(this.CategoryDeleteButton_Click);
+            this.DeleteSelectedCategoryToolStripMenuItem.MouseEnter += new System.EventHandler(this.CategoryDeleteButton_MouseEnter);
+            this.DeleteSelectedCategoryToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(264, 6);
             // 
-            // preferencesToolStripMenuItem
+            // PreferencesToolStripMenuItem
             // 
-            this.preferencesToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("preferencesToolStripMenuItem.Image")));
-            this.preferencesToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.White;
-            this.preferencesToolStripMenuItem.Name = "preferencesToolStripMenuItem";
-            this.preferencesToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.P)));
-            this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
-            this.preferencesToolStripMenuItem.Text = "&Preferences...";
-            this.preferencesToolStripMenuItem.ToolTipText = "Manage parameters and options";
-            this.preferencesToolStripMenuItem.Click += new System.EventHandler(this.PreferencesToolStripMenuItem_Click);
-            this.preferencesToolStripMenuItem.MouseEnter += new System.EventHandler(this.PreferencesToolStripMenuItem_MouseEnter);
-            this.preferencesToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
+            this.PreferencesToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("PreferencesToolStripMenuItem.Image")));
+            this.PreferencesToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.White;
+            this.PreferencesToolStripMenuItem.Name = "PreferencesToolStripMenuItem";
+            this.PreferencesToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.P)));
+            this.PreferencesToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
+            this.PreferencesToolStripMenuItem.Text = "&Preferences...";
+            this.PreferencesToolStripMenuItem.ToolTipText = "Manage parameters and options";
+            this.PreferencesToolStripMenuItem.Click += new System.EventHandler(this.PreferencesToolStripMenuItem_Click);
+            this.PreferencesToolStripMenuItem.MouseEnter += new System.EventHandler(this.PreferencesToolStripMenuItem_MouseEnter);
+            this.PreferencesToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
             // ToolsToolStripMenuItem
             // 
             this.ToolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.RunDOSBoxToolStripMenuItem,
-            this.runConfigurationEditorToolStripMenuItem,
+            this.RunConfigurationEditorToolStripMenuItem,
             this.EditDefaultConfigurationToolStripMenuItem});
             this.ToolsToolStripMenuItem.Name = "ToolsToolStripMenuItem";
             this.ToolsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
@@ -354,19 +354,19 @@ namespace AmpShell
             this.RunDOSBoxToolStripMenuItem.MouseEnter += new System.EventHandler(this.RunDOSBoxButton_MouseEnter);
             this.RunDOSBoxToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
-            // runConfigurationEditorToolStripMenuItem
+            // RunConfigurationEditorToolStripMenuItem
             // 
-            this.runConfigurationEditorToolStripMenuItem.Enabled = false;
-            this.runConfigurationEditorToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("runConfigurationEditorToolStripMenuItem.Image")));
-            this.runConfigurationEditorToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.runConfigurationEditorToolStripMenuItem.Name = "runConfigurationEditorToolStripMenuItem";
-            this.runConfigurationEditorToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
-            this.runConfigurationEditorToolStripMenuItem.Size = new System.Drawing.Size(247, 22);
-            this.runConfigurationEditorToolStripMenuItem.Text = "Run configuration &editor";
-            this.runConfigurationEditorToolStripMenuItem.ToolTipText = "Run your text editor";
-            this.runConfigurationEditorToolStripMenuItem.Click += new System.EventHandler(this.RunConfigurationEditorButton_Click);
-            this.runConfigurationEditorToolStripMenuItem.MouseEnter += new System.EventHandler(this.RunConfigurationEditorButton_MouseEnter);
-            this.runConfigurationEditorToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
+            this.RunConfigurationEditorToolStripMenuItem.Enabled = false;
+            this.RunConfigurationEditorToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("RunConfigurationEditorToolStripMenuItem.Image")));
+            this.RunConfigurationEditorToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.RunConfigurationEditorToolStripMenuItem.Name = "RunConfigurationEditorToolStripMenuItem";
+            this.RunConfigurationEditorToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
+            this.RunConfigurationEditorToolStripMenuItem.Size = new System.Drawing.Size(247, 22);
+            this.RunConfigurationEditorToolStripMenuItem.Text = "Run configuration &editor";
+            this.RunConfigurationEditorToolStripMenuItem.ToolTipText = "Run your text editor";
+            this.RunConfigurationEditorToolStripMenuItem.Click += new System.EventHandler(this.RunConfigurationEditorButton_Click);
+            this.RunConfigurationEditorToolStripMenuItem.MouseEnter += new System.EventHandler(this.RunConfigurationEditorButton_MouseEnter);
+            this.RunConfigurationEditorToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
             // EditDefaultConfigurationToolStripMenuItem
             // 
@@ -386,9 +386,9 @@ namespace AmpShell
             this.ViewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.LargeIconToolStripMenuItem,
             this.SmallIconToolStripMenuItem,
-            this.tileToolStripMenuItem,
-            this.listToolStripMenuItem,
-            this.detailsToolStripMenuItem});
+            this.TileToolStripMenuItem,
+            this.ListToolStripMenuItem,
+            this.DetailsToolStripMenuItem});
             this.ViewToolStripMenuItem.Name = "ViewToolStripMenuItem";
             this.ViewToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.L)));
             this.ViewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
@@ -423,43 +423,43 @@ namespace AmpShell
             this.SmallIconToolStripMenuItem.MouseEnter += new System.EventHandler(this.SmallIconViewButton_MouseEnter);
             this.SmallIconToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
-            // tileToolStripMenuItem
+            // TileToolStripMenuItem
             // 
-            this.tileToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("tileToolStripMenuItem.Image")));
-            this.tileToolStripMenuItem.Name = "tileToolStripMenuItem";
-            this.tileToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            this.TileToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("TileToolStripMenuItem.Image")));
+            this.TileToolStripMenuItem.Name = "TileToolStripMenuItem";
+            this.TileToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.T)));
-            this.tileToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
-            this.tileToolStripMenuItem.Text = "&Tiles";
-            this.tileToolStripMenuItem.ToolTipText = "The current category will display tiles";
-            this.tileToolStripMenuItem.Click += new System.EventHandler(this.TileViewButton_Click);
-            this.tileToolStripMenuItem.MouseEnter += new System.EventHandler(this.TilesViewButton_MouseEnter);
-            this.tileToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
+            this.TileToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
+            this.TileToolStripMenuItem.Text = "&Tiles";
+            this.TileToolStripMenuItem.ToolTipText = "The current category will display tiles";
+            this.TileToolStripMenuItem.Click += new System.EventHandler(this.TileViewButton_Click);
+            this.TileToolStripMenuItem.MouseEnter += new System.EventHandler(this.TilesViewButton_MouseEnter);
+            this.TileToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
-            // listToolStripMenuItem
+            // ListToolStripMenuItem
             // 
-            this.listToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("listToolStripMenuItem.Image")));
-            this.listToolStripMenuItem.Name = "listToolStripMenuItem";
-            this.listToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.L)));
-            this.listToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
-            this.listToolStripMenuItem.Text = "&List";
-            this.listToolStripMenuItem.ToolTipText = "The current category will display a list";
-            this.listToolStripMenuItem.Click += new System.EventHandler(this.ListViewButton_Click);
-            this.listToolStripMenuItem.MouseEnter += new System.EventHandler(this.ListViewButton_MouseEnter);
-            this.listToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
+            this.ListToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("ListToolStripMenuItem.Image")));
+            this.ListToolStripMenuItem.Name = "ListToolStripMenuItem";
+            this.ListToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.L)));
+            this.ListToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
+            this.ListToolStripMenuItem.Text = "&List";
+            this.ListToolStripMenuItem.ToolTipText = "The current category will display a list";
+            this.ListToolStripMenuItem.Click += new System.EventHandler(this.ListViewButton_Click);
+            this.ListToolStripMenuItem.MouseEnter += new System.EventHandler(this.ListViewButton_MouseEnter);
+            this.ListToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
-            // detailsToolStripMenuItem
+            // DetailsToolStripMenuItem
             // 
-            this.detailsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("detailsToolStripMenuItem.Image")));
-            this.detailsToolStripMenuItem.Name = "detailsToolStripMenuItem";
-            this.detailsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            this.DetailsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("DetailsToolStripMenuItem.Image")));
+            this.DetailsToolStripMenuItem.Name = "DetailsToolStripMenuItem";
+            this.DetailsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.D)));
-            this.detailsToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
-            this.detailsToolStripMenuItem.Text = "&Details";
-            this.detailsToolStripMenuItem.ToolTipText = "The current category will display games in a list with columns";
-            this.detailsToolStripMenuItem.Click += new System.EventHandler(this.DetailsViewButton_Click);
-            this.detailsToolStripMenuItem.MouseEnter += new System.EventHandler(this.DetailsViewButton_MouseEnter);
-            this.detailsToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
+            this.DetailsToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
+            this.DetailsToolStripMenuItem.Text = "&Details";
+            this.DetailsToolStripMenuItem.ToolTipText = "The current category will display games in a list with columns";
+            this.DetailsToolStripMenuItem.Click += new System.EventHandler(this.DetailsViewButton_Click);
+            this.DetailsToolStripMenuItem.MouseEnter += new System.EventHandler(this.DetailsViewButton_MouseEnter);
+            this.DetailsToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
             // HelpToolStripMenuItem
             // 
@@ -841,13 +841,13 @@ namespace AmpShell
             this.AdditionnalCommandsLabel.Name = "AdditionnalCommandsLabel";
             this.AdditionnalCommandsLabel.Size = new System.Drawing.Size(0, 17);
             // 
-            // tabControl
+            // TabControl
             // 
             this.TabControl.AllowDrop = true;
             this.TabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TabControl.HotTrack = true;
             this.TabControl.Location = new System.Drawing.Point(0, 49);
-            this.TabControl.Name = "tabControl";
+            this.TabControl.Name = "TabControl";
             this.TabControl.SelectedIndex = 0;
             this.TabControl.Size = new System.Drawing.Size(624, 290);
             this.TabControl.TabIndex = 1;
@@ -895,18 +895,18 @@ namespace AmpShell
         private System.Windows.Forms.ToolStripMenuItem RunGameToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem RunGameSetupToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripMenuItem quitterToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem QuitterToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem EditToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem editSelectedgameToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem editConfigToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem editSelectedcategoryToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem deleteSelectedGameToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem deleteSelectedCategoryToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem EditSelectedgameToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem EditConfigToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem EditSelectedcategoryToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem DeleteSelectedGameToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem DeleteSelectedCategoryToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripMenuItem preferencesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem PreferencesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ToolsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem RunDOSBoxToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem runConfigurationEditorToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem RunConfigurationEditorToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem HelpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem AboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton CategoryAddButton;
@@ -940,9 +940,9 @@ namespace AmpShell
         private System.Windows.Forms.ToolStripMenuItem ViewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem LargeIconToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem SmallIconToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem tileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem listToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem detailsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem TileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ListToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem DetailsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem EditDefaultConfigurationToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton MakeConfigButton;
         private System.Windows.Forms.ToolStripButton EditDefaultConfigurationButton;
