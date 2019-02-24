@@ -12,11 +12,11 @@ using System.IO;
 using System.Text;
 using System.Xml.Serialization;
 
-namespace AmpShell
+namespace AmpShell.UserData
 {
-    public class Serializer
+    public class ObjectSerializer
     {
-        public Serializer()
+        public ObjectSerializer()
         {
         }
 

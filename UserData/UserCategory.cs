@@ -10,9 +10,9 @@
 using System;
 using System.Xml.Serialization;
 
-namespace AmpShell
+namespace AmpShell.UserData
 {
-    public class Category : AmpShell
+    public class UserCategory : UserDataRootNode
     {
         /// <summary>
         /// Category's name
@@ -35,7 +35,7 @@ namespace AmpShell
         private int _fullscreenColumnWidth;
         private int _quitOnExitColumnWidth;
 
-        public Category() : base()
+        public UserCategory() : base()
         {
             Title = string.Empty;
             Random RandSignature = new Random();
@@ -54,7 +54,7 @@ namespace AmpShell
             QuitOnExitColumnWidth = 100;
         }
 
-        public Category(string CategoryTitle, string CategorySignature)
+        public UserCategory(string CategoryTitle, string CategorySignature)
         {
             Title = CategoryTitle;
             Signature = CategorySignature;

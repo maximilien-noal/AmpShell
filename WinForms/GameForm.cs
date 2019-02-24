@@ -7,19 +7,20 @@
  * See the GNU General Public License for more details.
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
+using AmpShell.UserData;
 using System;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
-namespace AmpShell
+namespace AmpShell.WinForms
 {
     public partial class GameForm : Form
     {
-        public GameForm(Window ampWindow)
+        public GameForm(UserPrefs ampWindow)
         {
             InitializeComponent();
-            GameInstance = new Game();
+            GameInstance = new UserGame();
             AmpInstance = ampWindow;
             NoConsoleCheckBox.Checked = AmpInstance.GamesNoConsole;
             FullscreenCheckBox.Checked = AmpInstance.GamesInFullScreen;
@@ -32,7 +33,7 @@ namespace AmpShell
         /// </summary>
         /// <param name="editedGame"></param>
         /// <param name="ampWindow"></param>
-        public GameForm(Game editedGame, Window ampWindow)
+        public GameForm(UserGame editedGame, UserPrefs ampWindow)
         {
             InitializeComponent();
             GameInstance = editedGame;
@@ -81,9 +82,9 @@ namespace AmpShell
             GameSetupTextBox.Text = GameSetupTextBox.Text.Replace("AppPath", Application.StartupPath);
         }
 
-        public Game GameInstance { get; set; }
+        public UserGame GameInstance { get; set; }
 
-        public Window AmpInstance { get; set; }
+        public UserPrefs AmpInstance { get; set; }
 
         private void Cancel_Click(object sender, EventArgs e)
         {

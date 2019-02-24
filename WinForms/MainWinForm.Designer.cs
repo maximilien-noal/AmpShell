@@ -7,9 +7,9 @@
  * See the GNU General Public License for more details.
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
-namespace AmpShell
+namespace AmpShell.WinForms
 {
-    partial class MainWindow
+    partial class MainWinForm
     {
         /// <summary>
         /// Variable nécessaire au concepteur.
@@ -37,7 +37,7 @@ namespace AmpShell
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWinForm));
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.FileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.NewCategoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();

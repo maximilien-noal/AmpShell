@@ -8,9 +8,9 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
 
-namespace AmpShell
+namespace AmpShell.UserData
 {
-    public class Game : Category
+    public class UserGame : UserCategory
     {
         /// <summary>
         /// Game's name
@@ -74,7 +74,7 @@ namespace AmpShell
         /// </summary>
         private string _icon;
 
-        public Game() : base()
+        public UserGame() : base()
         {
             Name = string.Empty;
             SetupEXEPath = string.Empty;

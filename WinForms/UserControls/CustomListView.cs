@@ -9,7 +9,7 @@
  * If not, see <http://www.gnu.org/licenses/>.*/
 using System.Windows.Forms;
 
-namespace AmpShell
+namespace AmpShell.WinForms.UserControls
 {
     public class CustomListView : ListView
     {

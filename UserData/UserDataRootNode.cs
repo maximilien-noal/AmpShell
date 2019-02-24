@@ -10,26 +10,26 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace AmpShell
+namespace AmpShell.UserData
 {
     /// <summary>
     /// Root node for the xml file
     /// </summary>
     [XmlRoot("AmpShell")]
-    public class AmpShell
+    public class UserDataRootNode
     {
         /// <summary>
         /// List that will build up the tree of categories and games through the AddChild and RemoveChild and ListChildren methods
         /// </summary>
-        private List<AmpShell> _children;
-        public AmpShell()
+        private List<UserDataRootNode> _children;
+        public UserDataRootNode()
         {
-            _children = new List<AmpShell>();
+            _children = new List<UserDataRootNode>();
         }
-        [XmlElement("Window", typeof(Window))]
-        [XmlElement("Category", typeof(Category))]
-        [XmlElement("Game", typeof(Game))]
-        public AmpShell[] ListChildren
+        [XmlElement("Window", typeof(UserPrefs))]
+        [XmlElement("Category", typeof(UserCategory))]
+        [XmlElement("Game", typeof(UserGame))]
+        public UserDataRootNode[] ListChildren
         {
             get => _children.ToArray();
             set
@@ -45,12 +45,12 @@ namespace AmpShell
             }
         }
 
-        public void AddChild(AmpShell child)
+        public void AddChild(UserDataRootNode child)
         {
             _children.Add(child);
         }
 
-        public void MoveChildToFirst(AmpShell child)
+        public void MoveChildToFirst(UserDataRootNode child)
         {
             if (_children.Contains(child))
             {
@@ -59,7 +59,7 @@ namespace AmpShell
             }
         }
 
-        public void MoveChildToPosition(AmpShell child, int index)
+        public void MoveChildToPosition(UserDataRootNode child, int index)
         {
             if (_children.Contains(child))
             {
@@ -68,7 +68,7 @@ namespace AmpShell
             }
         }
 
-        public void MoveChildToLast(AmpShell child)
+        public void MoveChildToLast(UserDataRootNode child)
         {
             if (_children.Contains(child))
             {
@@ -77,7 +77,7 @@ namespace AmpShell
             }
         }
 
-        public void RemoveChild(AmpShell child)
+        public void RemoveChild(UserDataRootNode child)
         {
             _children.Remove(child);
         }

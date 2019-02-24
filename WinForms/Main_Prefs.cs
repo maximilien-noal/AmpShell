@@ -7,22 +7,23 @@
  * See the GNU General Public License for more details.
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
+using AmpShell.UserData;
 using System;
 using System.IO;
 using System.Windows.Forms;
 
-namespace AmpShell
+namespace AmpShell.WinForms
 {
     public partial class Main_Prefs : Form
     {
-        private Window _ampInstance;
-        public Main_Prefs(Window ampCurrentInstance)
+        private UserPrefs _ampInstance;
+        public Main_Prefs(UserPrefs ampCurrentInstance)
         {
             InitializeComponent();
             AmpInstance = ampCurrentInstance;
         }
 
-        public Window AmpInstance
+        public UserPrefs AmpInstance
         {
             get => _ampInstance;
             set
@@ -96,7 +97,7 @@ namespace AmpShell
             AmpInstance.ConfigEditorAdditionalParameters = AdditionnalParametersTextBox.Text;
             if (LargeViewModeSizeComboBox.SelectedIndex >= 0)
             {
-                AmpInstance.LargeViewModeSize = Window.LargeViewModeSizes[LargeViewModeSizeComboBox.SelectedIndex];
+                AmpInstance.LargeViewModeSize = UserPrefs.LargeViewModeSizes[LargeViewModeSizeComboBox.SelectedIndex];
             }
 
             if (LargeIconsRadioButton.Checked == true)
@@ -124,7 +125,7 @@ namespace AmpShell
                 AmpInstance.CategoriesDefaultViewMode = View.Details;
             }
 
-            foreach (Category ConcernedCategory in AmpInstance.ListChildren)
+            foreach (UserCategory ConcernedCategory in AmpInstance.ListChildren)
             {
                 AmpInstance.MoveChildToPosition(ConcernedCategory, CategoriesListView.Items[ConcernedCategory.Signature].Index);
             }
@@ -151,7 +152,7 @@ namespace AmpShell
                 PortableModeCheckBox.Checked = AmpInstance.PortableMode;
                 StatusStripLabel.Text = "Portable Mode : available (but disabled).";
             }
-            LargeViewModeSizeComboBox.Text = LargeViewModeSizeComboBox.Items[Window.LargeViewModeSizes.IndexOf(AmpInstance.LargeViewModeSize)].ToString();
+            LargeViewModeSizeComboBox.Text = LargeViewModeSizeComboBox.Items[UserPrefs.LargeViewModeSizes.IndexOf(AmpInstance.LargeViewModeSize)].ToString();
             CategoyDeletePromptCheckBox.Checked = AmpInstance.CategoryDeletePrompt;
             GameDeletePromptCheckBox.Checked = AmpInstance.GameDeletePrompt;
             WindowPositionCheckBox.Checked = AmpInstance.RememberWindowPosition;
@@ -232,7 +233,7 @@ namespace AmpShell
             CategoriesListView.Columns.Add("Name");
             CategoriesListView.Columns[0].Width = CategoriesListView.Width;
             CategoriesListView.Items.Clear();
-            foreach (Category CategoryToDisplay in AmpInstance.ListChildren)
+            foreach (UserCategory CategoryToDisplay in AmpInstance.ListChildren)
             {
                 ListViewItem ItemToAdd = new ListViewItem(CategoryToDisplay.Title)
                 {

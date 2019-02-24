@@ -7,25 +7,27 @@
  * See the GNU General Public License for more details.
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
+using AmpShell.UserData;
+using AmpShell.WinForms.UserControls;
 using System;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
-namespace AmpShell
+namespace AmpShell.WinForms
 {
-    public partial class MainWindow : Form
+    public partial class MainWinForm : Form
     {
         private bool _ampShellShown;
         private int _hoveredTabIndex;
         private ImageList _gamesLargeImageList = new ImageList();
         private ImageList _gamesSmallImageList = new ImageList();
         private ImageList _gamesMediumImageList = new ImageList();
-        private Serializer _xmlSerializer = new Serializer();
+        private ObjectSerializer _xmlSerializer = new ObjectSerializer();
         /// <summary>
         /// Window instance used mainly to do load and save user data through XML (de)serialization
         /// </summary>
-        private Window _ampWindow = new Window();
+        private UserPrefs _ampWindow = new UserPrefs();
         /// <summary>
         /// path to AmpShell.xml
         /// </summary>
@@ -60,7 +62,7 @@ namespace AmpShell
         private ToolStripMenuItem _toolBarMenuItem = new ToolStripMenuItem("Tool bar");
         private ToolStripMenuItem _statusBarMenuItem = new ToolStripMenuItem("Details bar");
 
-        public MainWindow()
+        public MainWinForm()
         {
             InitializeComponent();
             _gamesLargeImageList.ColorDepth = ColorDepth.Depth32Bit;
@@ -200,8 +202,8 @@ namespace AmpShell
                     _userConfigDataPath = Application.StartupPath + "/AmpShell.xml";
                 }
                 //Serializing the data inside Amp for the first run
-                _xmlSerializer.Serialize(_userConfigDataPath, _ampWindow, typeof(AmpShell));
-                _ampWindow = (Window)_xmlSerializer.Deserialize(_userConfigDataPath, typeof(AmpShell));
+                _xmlSerializer.Serialize(_userConfigDataPath, _ampWindow, typeof(UserDataRootNode));
+                _ampWindow = (UserPrefs)_xmlSerializer.Deserialize(_userConfigDataPath, typeof(UserDataRootNode));
             }
             //if the file named AmpShell.xml exists inside that directory
             else
@@ -216,10 +218,10 @@ namespace AmpShell
                     _userConfigDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "/AmpShell/AmpShell.xml";
                 }
 
-                _ampWindow = (Window)_xmlSerializer.Deserialize(_userConfigDataPath, typeof(AmpShell)); //CfgPath : Path to AmpShell.xml
-                foreach (Category ConcernedCategory in _ampWindow.ListChildren)
+                _ampWindow = (UserPrefs)_xmlSerializer.Deserialize(_userConfigDataPath, typeof(UserDataRootNode)); //CfgPath : Path to AmpShell.xml
+                foreach (UserCategory ConcernedCategory in _ampWindow.ListChildren)
                 {
-                    foreach (Game ConcernedGame in ConcernedCategory.ListChildren)
+                    foreach (UserGame ConcernedGame in ConcernedCategory.ListChildren)
                     {
                         ConcernedGame.DOSEXEPath = ConcernedGame.DOSEXEPath.Replace("AppPath", Application.StartupPath);
                         ConcernedGame.DBConfPath = ConcernedGame.DBConfPath.Replace("AppPath", Application.StartupPath);
@@ -541,7 +543,7 @@ namespace AmpShell
         /// </summary>
         /// <param name="ampInstance">The main user data class instance</param>
         /// <param name="noIcons">whether we display icons for games or not at all</param>
-        private void DisplayUserData(Window ampInstance, bool noIcons)
+        private void DisplayUserData(UserPrefs ampInstance, bool noIcons)
         {
             //applying the Height and Width previously saved.
             TabControl.Controls.Clear();
@@ -566,7 +568,7 @@ namespace AmpShell
             statusStrip.Visible = ampInstance.StatusBarVisible;
             _statusBarMenuItem.Checked = ampInstance.StatusBarVisible;
             //for each Category, create a ListView instance.
-            foreach (Category categoryToDisplay in ampInstance.ListChildren)
+            foreach (UserCategory categoryToDisplay in ampInstance.ListChildren)
             {
                 ListView tabltview = new CustomListView
                 {
@@ -589,7 +591,7 @@ namespace AmpShell
                 tabltview.Columns.Add("FullscreenColumn", "Fullscreen ?", categoryToDisplay.FullscreenColumnWidth);
                 tabltview.Columns.Add("QuitOnExitColumn", "Quit on exit ?", categoryToDisplay.QuitOnExitColumnWidth);
                 //for each game, create a ListViewItem instance.
-                foreach (Game gameToDisplay in categoryToDisplay.ListChildren)
+                foreach (UserGame gameToDisplay in categoryToDisplay.ListChildren)
                 {
                     ListViewItem gameforlt = new ListViewItem(gameToDisplay.Name)
                     {
@@ -801,9 +803,9 @@ namespace AmpShell
             }
         }
 
-        private Category GetSelectedCategory()
+        private UserCategory GetSelectedCategory()
         {
-            foreach (Category selectedCategory in _ampWindow.ListChildren)
+            foreach (UserCategory selectedCategory in _ampWindow.ListChildren)
             {
                 if (selectedCategory.Signature == TabControl.SelectedTab.Name)
                 {
@@ -820,14 +822,14 @@ namespace AmpShell
         /// <param name="e"></param>
         private void TabControl_DragDrop(object sender, DragEventArgs e)
         {
-            Category selectedCategory = GetSelectedCategory();
-            foreach (Game selectedGame in selectedCategory.ListChildren)
+            UserCategory selectedCategory = GetSelectedCategory();
+            foreach (UserGame selectedGame in selectedCategory.ListChildren)
             {
                 foreach (ListViewItem SelectedItem in _currentListView.SelectedItems)
                 {
                     if (selectedGame.Signature == SelectedItem.Name)
                     {
-                        foreach (Category targetCategory in _ampWindow.ListChildren)
+                        foreach (UserCategory targetCategory in _ampWindow.ListChildren)
                         {
                             if (targetCategory.Signature == TabControl.TabPages[_hoveredTabIndex].Name)
                             {
@@ -850,10 +852,10 @@ namespace AmpShell
             }
         }
 
-        private Game GetSelectedGame()
+        private UserGame GetSelectedGame()
         {
-            Category selectedCategory = GetSelectedCategory();
-            foreach (Game selectedGame in selectedCategory.ListChildren)
+            UserCategory selectedCategory = GetSelectedCategory();
+            foreach (UserGame selectedGame in selectedCategory.ListChildren)
             {
                 if (selectedGame.Signature == _currentListView.FocusedItem.Name)
                 {
@@ -870,7 +872,7 @@ namespace AmpShell
         /// <param name="e"></param>
         private void GameEditButton_Click(object sender, EventArgs e)
         {
-            Game selectedGame = GetSelectedGame();
+            UserGame selectedGame = GetSelectedGame();
             //Make an instance of GameForm with the alternate constructor
             GameForm gameEditForm = new GameForm(selectedGame, _ampWindow);
             string oldIconSave = selectedGame.Icon;
@@ -989,7 +991,7 @@ namespace AmpShell
                 RunGameToolStripMenuItem.Enabled = true;
                 _runGameMenuItem.Enabled = true;
                 RunGameButton.Enabled = true;
-                Game selectedGame = GetSelectedGame();
+                UserGame selectedGame = GetSelectedGame();
                 //if the selected game has a setup executable
                 if (string.IsNullOrWhiteSpace(selectedGame.SetupEXEPath) == false)
                 {
@@ -1260,7 +1262,7 @@ namespace AmpShell
             string dosboxArgs = string.Empty;
             if (string.IsNullOrWhiteSpace(_ampWindow.DBPath) == false && _ampWindow.DBPath != "dosbox.exe isn't is the same directory as AmpShell.exe!" && File.Exists(_ampWindow.DBPath))
             {
-                Game selectedGame = GetSelectedGame();
+                UserGame selectedGame = GetSelectedGame();
                 string qt = char.ToString('"');
                 if (selectedGame.Directory[0] != '/')
                 {
@@ -1393,12 +1395,12 @@ namespace AmpShell
             if (e.KeyCode == Keys.Delete)
             {
                 //search for the selected category
-                foreach (Category ConcernedCategory in _ampWindow.ListChildren)
+                foreach (UserCategory ConcernedCategory in _ampWindow.ListChildren)
                 {
                     if (ConcernedCategory.Signature == TabControl.SelectedTab.Name)
                     {
                         //search for the selected game
-                        foreach (Game ConcernedGame in ConcernedCategory.ListChildren)
+                        foreach (UserGame ConcernedGame in ConcernedCategory.ListChildren)
                         {
                             //delete the game data
                             foreach (ListViewItem ConcernedItem in _currentListView.SelectedItems)
@@ -1440,13 +1442,13 @@ namespace AmpShell
             //saves the data inside Amp by serliazing it in AmpShell.xml
             if (!_ampWindow.PortableMode)
             {
-                _xmlSerializer.Serialize(_userConfigDataPath, _ampWindow, typeof(AmpShell));
+                _xmlSerializer.Serialize(_userConfigDataPath, _ampWindow, typeof(UserDataRootNode));
             }
             else
             {
-                foreach (Category category in _ampWindow.ListChildren)
+                foreach (UserCategory category in _ampWindow.ListChildren)
                 {
-                    foreach (Game game in category.ListChildren)
+                    foreach (UserGame game in category.ListChildren)
                     {
                         game.DOSEXEPath = game.DOSEXEPath.Replace(Application.StartupPath, "AppPath");
                         game.DBConfPath = game.DBConfPath.Replace(Application.StartupPath, "AppPath");
@@ -1462,7 +1464,7 @@ namespace AmpShell
                 _ampWindow.DBPath = _ampWindow.DBPath.Replace(Application.StartupPath, "AppPath");
                 _ampWindow.ConfigEditorPath = _ampWindow.ConfigEditorPath.Replace(Application.StartupPath, "AppPath");
                 _ampWindow.ConfigEditorAdditionalParameters = _ampWindow.ConfigEditorAdditionalParameters.Replace(Application.StartupPath, "AppPath");
-                _xmlSerializer.Serialize(Application.StartupPath + "/AmpShell.xml", _ampWindow, typeof(AmpShell));
+                _xmlSerializer.Serialize(Application.StartupPath + "/AmpShell.xml", _ampWindow, typeof(UserDataRootNode));
             }
         }
 
@@ -1487,7 +1489,7 @@ namespace AmpShell
         /// <param name="e"></param>
         private void CategoryDeleteButton_Click(object sender, EventArgs e)
         {
-            Category selectedCategory = GetSelectedCategory();
+            UserCategory selectedCategory = GetSelectedCategory();
             if (_ampWindow.CategoryDeletePrompt != true ||
                 MessageBox.Show(this, "Do you really want to delete " + "'" + TabControl.SelectedTab.Text + "'" + " and all the games inside it ?",
                 _deleteCategoryMenuMenuItem.Text,
@@ -1616,7 +1618,7 @@ namespace AmpShell
             newGameForm.GameInstance.Signature = newGameSignature;
             if (newGameForm.ShowDialog(this) == DialogResult.OK)
             {
-                Category concernedCategory = GetSelectedCategory();
+                UserCategory concernedCategory = GetSelectedCategory();
                 concernedCategory.AddChild(newGameForm.GameInstance);
                 if (string.IsNullOrWhiteSpace(newGameForm.GameInstance.Icon) == false)
                 {
@@ -1737,7 +1739,7 @@ namespace AmpShell
         private void CategoryEditButton_Click(object sender, EventArgs e)
         {
             //search the selected category
-            Category selectedCategory = GetSelectedCategory();
+            UserCategory selectedCategory = GetSelectedCategory();
             CategoryForm catEditForm = new CategoryForm(selectedCategory)
             {
                 Text = "Editing " + selectedCategory.Title + "..."
@@ -1789,15 +1791,15 @@ namespace AmpShell
         /// <param name="signatureToTest"></param>
         /// <param name="ampInstance"></param>
         /// <returns></returns>
-        private bool IsItUnique(string signatureToTest, Window ampInstance)
+        private bool IsItUnique(string signatureToTest, UserPrefs ampInstance)
         {
-            foreach (Category otherCat in ampInstance.ListChildren)
+            foreach (UserCategory otherCat in ampInstance.ListChildren)
             {
                 if (otherCat.Signature != signatureToTest)
                 {
                     if (otherCat.ListChildren.Length != 0)
                     {
-                        foreach (Game otherGame in otherCat.ListChildren)
+                        foreach (UserGame otherGame in otherCat.ListChildren)
                         {
                             if (otherGame.Signature == signatureToTest)
                             {
@@ -1822,7 +1824,7 @@ namespace AmpShell
                 _gamesLargeImageList.ImageSize = new Size(_ampWindow.LargeViewModeSize, _ampWindow.LargeViewModeSize);
                 if (_ampWindow.PortableMode)
                 {
-                    _xmlSerializer.Serialize(Application.StartupPath + "/AmpShell.xml", _ampWindow, typeof(AmpShell));
+                    _xmlSerializer.Serialize(Application.StartupPath + "/AmpShell.xml", _ampWindow, typeof(UserDataRootNode));
                 }
 
                 menuStrip.Visible = prefsForm.AmpInstance.MenuBarVisible;
@@ -1858,7 +1860,7 @@ namespace AmpShell
         {
             if (string.IsNullOrWhiteSpace(_ampWindow.ConfigEditorPath) == false)
             {
-                Game selectedGame = GetSelectedGame();
+                UserGame selectedGame = GetSelectedGame();
                 System.Diagnostics.Process.Start(_ampWindow.ConfigEditorPath, selectedGame.DBConfPath + " " + _ampWindow.ConfigEditorAdditionalParameters);
             }
         }
@@ -1867,14 +1869,14 @@ namespace AmpShell
         {
             _currentListView.View = View.LargeIcon;
             _currentListView.LargeImageList = _gamesLargeImageList;
-            Category selectedCategory = GetSelectedCategory();
+            UserCategory selectedCategory = GetSelectedCategory();
             selectedCategory.ViewMode = _currentListView.View;
         }
 
         private void SmallIconViewButton_Click(object sender, EventArgs e)
         {
             _currentListView.View = View.SmallIcon;
-            Category selectedCategory = GetSelectedCategory();
+            UserCategory selectedCategory = GetSelectedCategory();
             selectedCategory.ViewMode = _currentListView.View;
         }
 
@@ -1882,7 +1884,7 @@ namespace AmpShell
         {
             _currentListView.View = View.Tile;
             _currentListView.LargeImageList = _gamesMediumImageList;
-            Category selectedCategory = GetSelectedCategory();
+            UserCategory selectedCategory = GetSelectedCategory();
             selectedCategory.ViewMode = _currentListView.View;
             foreach (ListViewItem ltviewitem in _currentListView.Items)
             {
@@ -1897,7 +1899,7 @@ namespace AmpShell
         {
             _currentListView.View = View.List;
             _currentListView.Columns[0].Width = _currentListView.Width;
-            Category selectedCategory = GetSelectedCategory();
+            UserCategory selectedCategory = GetSelectedCategory();
             selectedCategory.ViewMode = _currentListView.View;
         }
 
@@ -1906,7 +1908,7 @@ namespace AmpShell
             if (_currentListView.Columns.Count > 0)
             {
                 _currentListView.View = View.Details;
-                Category selectedCategory = GetSelectedCategory();
+                UserCategory selectedCategory = GetSelectedCategory();
                 selectedCategory.ViewMode = _currentListView.View;
                 _currentListView.Columns["NameColumn"].Width = selectedCategory.NameColumnWidth;
                 _currentListView.Columns["ExecutableColumn"].Width = selectedCategory.ExecutableColumnWidth;
@@ -1923,7 +1925,7 @@ namespace AmpShell
                 {
                     if (_currentListView.Name == selectedCategory.Signature)
                     {
-                        foreach (Game game in _ampWindow.ListChildren)
+                        foreach (UserGame game in _ampWindow.ListChildren)
                         {
                             if (listViewItem.Name == game.Signature)
                             {
@@ -2062,7 +2064,7 @@ namespace AmpShell
 
         private void CurrentListView_ColumnWidthChanged(object sender, EventArgs e)
         {
-            foreach (Category category in _ampWindow.ListChildren)
+            foreach (UserCategory category in _ampWindow.ListChildren)
             {
                 if (category.ViewMode == View.Details)
                 {
@@ -2205,10 +2207,10 @@ namespace AmpShell
 
         private void MakeConfigButton_Click(object sender, EventArgs e)
         {
-            Category selectedCategory = GetSelectedCategory();
+            UserCategory selectedCategory = GetSelectedCategory();
             foreach (ListViewItem selecedViewItem in _currentListView.SelectedItems)
             {
-                foreach (Game selectedGame in selectedCategory.ListChildren)
+                foreach (UserGame selectedGame in selectedCategory.ListChildren)
                 {
                     if (selectedGame.Signature == selecedViewItem.Name &&
                         string.IsNullOrWhiteSpace(_ampWindow.DBDefaultConfFilePath) == false)

@@ -17,7 +17,7 @@
     <ManifestKeyFile>DSF_TemporaryKey.pfx</ManifestKeyFile>
     <GenerateManifests>false</GenerateManifests>
     <SignManifests>false</SignManifests>
-    <ApplicationIcon>AmpShell2.ico</ApplicationIcon>
+    <ApplicationIcon>AmpShell.ico</ApplicationIcon>
     <PublishUrl>C:\Program Files %28x86%29\AmpShell\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -86,57 +86,57 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AboutBox.cs">
+    <Compile Include="WinForms\AboutBox.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AboutBox.Designer.cs">
+    <Compile Include="WinForms\AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="CategoryForm.cs">
+    <Compile Include="WinForms\CategoryForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CategoryForm.Designer.cs">
+    <Compile Include="WinForms\CategoryForm.Designer.cs">
       <DependentUpon>CategoryForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="CustomListView.cs">
+    <Compile Include="WinForms\UserControls\CustomListView.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="GameForm.cs">
+    <Compile Include="WinForms\GameForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GameForm.Designer.cs">
+    <Compile Include="WinForms\GameForm.Designer.cs">
       <DependentUpon>GameForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Main_Prefs.cs">
+    <Compile Include="WinForms\Main_Prefs.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Main_Prefs.Designer.cs">
+    <Compile Include="WinForms\Main_Prefs.Designer.cs">
       <DependentUpon>Main_Prefs.cs</DependentUpon>
     </Compile>
-    <Compile Include="RootAmpShell.cs" />
-    <Compile Include="Main.cs">
+    <Compile Include="UserData\UserDataRootNode.cs" />
+    <Compile Include="WinForms\MainWinForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Main.Designer.cs">
-      <DependentUpon>Main.cs</DependentUpon>
+    <Compile Include="WinForms\MainWinForm.Designer.cs">
+      <DependentUpon>MainWinForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="NodeCategory.cs" />
+    <Compile Include="UserData\UserCategory.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="AboutBox.resx">
+    <EmbeddedResource Include="WinForms\AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CategoryForm.resx">
+    <EmbeddedResource Include="WinForms\CategoryForm.resx">
       <DependentUpon>CategoryForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Main.resx">
-      <DependentUpon>Main.cs</DependentUpon>
+    <EmbeddedResource Include="WinForms\MainWinForm.resx">
+      <DependentUpon>MainWinForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="GameForm.resx">
+    <EmbeddedResource Include="WinForms\GameForm.resx">
       <DependentUpon>GameForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Main_Prefs.resx">
+    <EmbeddedResource Include="WinForms\Main_Prefs.resx">
       <DependentUpon>Main_Prefs.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -159,9 +159,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="NodeWindow.cs" />
-    <Compile Include="NodeGame.cs" />
-    <Compile Include="Serialization.cs" />
+    <Compile Include="UserData\UserPrefs.cs" />
+    <Compile Include="UserData\UserGame.cs" />
+    <Compile Include="UserData\ObjectSerializer.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -205,7 +205,7 @@
     <None Include="Resources\MoveNext.png" />
     <None Include="Resources\MoveLast.png" />
     <None Include="Resources\GameEdit.bmp" />
-    <Content Include="AmpShell2.ico" />
+    <Content Include="AmpShell.ico" />
     <Content Include="Resources\AmpShell.ico" />
     <None Include="Resources\saveHS.png" />
     <None Include="Resources\DeleteHS.png" />

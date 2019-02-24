@@ -7,20 +7,21 @@
  * See the GNU General Public License for more details.
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
+using AmpShell.UserData;
 using System;
 using System.Windows.Forms;
 
-namespace AmpShell
+namespace AmpShell.WinForms
 {
     public partial class CategoryForm : Form
     {
         public CategoryForm()
         {
             InitializeComponent();
-            Category = new Category();
+            Category = new UserCategory();
         }
 
-        public CategoryForm(Category editedCategory)
+        public CategoryForm(UserCategory editedCategory)
         {
             InitializeComponent();
             Category = editedCategory;
@@ -34,7 +35,7 @@ namespace AmpShell
             Cancel.Text = "&Don't save";
         }
 
-        public Category Category { get; set; }
+        public UserCategory Category { get; set; }
 
         private void Cancel_Click(object sender, EventArgs e)
         {

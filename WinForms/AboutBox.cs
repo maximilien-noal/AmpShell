@@ -11,7 +11,7 @@ using System;
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace AmpShell
+namespace AmpShell.WinForms
 {
     partial class AboutBox : Form
     {
