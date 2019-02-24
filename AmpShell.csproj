@@ -113,7 +113,7 @@
     <Compile Include="WinForms\Main_Prefs.Designer.cs">
       <DependentUpon>Main_Prefs.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserData\UserDataRootNode.cs" />
+    <Compile Include="UserData\UserDataRoot.cs" />
     <Compile Include="WinForms\MainWinForm.cs">
       <SubType>Form</SubType>
     </Compile>

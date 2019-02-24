@@ -16,21 +16,21 @@ namespace AmpShell.WinForms
 {
     public partial class Main_Prefs : Form
     {
-        private UserPrefs _ampInstance;
+        private UserPrefs _savedUserPrefs;
         public Main_Prefs(UserPrefs ampCurrentInstance)
         {
             InitializeComponent();
-            AmpInstance = ampCurrentInstance;
+            SavedUserPrefs = ampCurrentInstance;
         }
 
-        public UserPrefs AmpInstance
+        public UserPrefs SavedUserPrefs
         {
-            get => _ampInstance;
+            get => _savedUserPrefs;
             set
             {
-                if (_ampInstance != value)
+                if (_savedUserPrefs != value)
                 {
-                    _ampInstance = value;
+                    _savedUserPrefs = value;
                 }
             }
         }
@@ -61,76 +61,76 @@ namespace AmpShell.WinForms
             {
                 if (Directory.Exists(GamesDirTextBox.Text))
                 {
-                    AmpInstance.GamesDefaultDir = GamesDirTextBox.Text;
+                    SavedUserPrefs.GamesDefaultDir = GamesDirTextBox.Text;
                 }
             }
             if (string.IsNullOrWhiteSpace(CDImageDirTextBox.Text) == false)
             {
                 if (Directory.Exists(CDImageDirTextBox.Text))
                 {
-                    AmpInstance.CDsDefaultDir = CDImageDirTextBox.Text;
+                    SavedUserPrefs.CDsDefaultDir = CDImageDirTextBox.Text;
                 }
             }
-            AmpInstance.GamesAdditionalCommands = GameAdditionalCommandsTextBox.Text;
-            AmpInstance.GamesNoConsole = NoConsoleCheckBox.Checked;
-            AmpInstance.GamesInFullScreen = FullscreenCheckBox.Checked;
-            AmpInstance.GamesQuitOnExit = QuitOnExitCheckBox.Checked;
-            AmpInstance.OnlyNames = GameIconsCheckBox.Checked;
+            SavedUserPrefs.GamesAdditionalCommands = GameAdditionalCommandsTextBox.Text;
+            SavedUserPrefs.GamesNoConsole = NoConsoleCheckBox.Checked;
+            SavedUserPrefs.GamesInFullScreen = FullscreenCheckBox.Checked;
+            SavedUserPrefs.GamesQuitOnExit = QuitOnExitCheckBox.Checked;
+            SavedUserPrefs.OnlyNames = GameIconsCheckBox.Checked;
             if (File.Exists(EditorBinaryPathTextBox.Text))
             {
-                AmpInstance.ConfigEditorPath = EditorBinaryPathTextBox.Text;
+                SavedUserPrefs.ConfigEditorPath = EditorBinaryPathTextBox.Text;
             }
 
-            AmpInstance.ConfigEditorAdditionalParameters = AdditionnalParametersTextBox.Text;
-            AmpInstance.CategoryDeletePrompt = CategoyDeletePromptCheckBox.Checked;
-            AmpInstance.GameDeletePrompt = GameDeletePromptCheckBox.Checked;
-            AmpInstance.RememberWindowSize = WindowSizeCheckBox.Checked;
-            AmpInstance.RememberWindowPosition = WindowPositionCheckBox.Checked;
-            AmpInstance.MenuBarVisible = ShowMenuBarCheckBox.Checked;
-            AmpInstance.ToolBarVisible = ShowToolBarCheckBox.Checked;
-            AmpInstance.StatusBarVisible = ShowDetailsBarCheckBox.Checked;
-            AmpInstance.DefaultIconViewOverride = AllOfThemCheckBox.Checked;
-            AmpInstance.DBPath = DOSBoxPathTextBox.Text;
-            AmpInstance.DBDefaultConfFilePath = DOSBoxConfFileTextBox.Text;
-            AmpInstance.DBDefaultLangFilePath = DOSBoxLangFileTextBox.Text;
-            AmpInstance.ConfigEditorPath = EditorBinaryPathTextBox.Text;
-            AmpInstance.ConfigEditorAdditionalParameters = AdditionnalParametersTextBox.Text;
+            SavedUserPrefs.ConfigEditorAdditionalParameters = AdditionnalParametersTextBox.Text;
+            SavedUserPrefs.CategoryDeletePrompt = CategoyDeletePromptCheckBox.Checked;
+            SavedUserPrefs.GameDeletePrompt = GameDeletePromptCheckBox.Checked;
+            SavedUserPrefs.RememberWindowSize = WindowSizeCheckBox.Checked;
+            SavedUserPrefs.RememberWindowPosition = WindowPositionCheckBox.Checked;
+            SavedUserPrefs.MenuBarVisible = ShowMenuBarCheckBox.Checked;
+            SavedUserPrefs.ToolBarVisible = ShowToolBarCheckBox.Checked;
+            SavedUserPrefs.StatusBarVisible = ShowDetailsBarCheckBox.Checked;
+            SavedUserPrefs.DefaultIconViewOverride = AllOfThemCheckBox.Checked;
+            SavedUserPrefs.DBPath = DOSBoxPathTextBox.Text;
+            SavedUserPrefs.DBDefaultConfFilePath = DOSBoxConfFileTextBox.Text;
+            SavedUserPrefs.DBDefaultLangFilePath = DOSBoxLangFileTextBox.Text;
+            SavedUserPrefs.ConfigEditorPath = EditorBinaryPathTextBox.Text;
+            SavedUserPrefs.ConfigEditorAdditionalParameters = AdditionnalParametersTextBox.Text;
             if (LargeViewModeSizeComboBox.SelectedIndex >= 0)
             {
-                AmpInstance.LargeViewModeSize = UserPrefs.LargeViewModeSizes[LargeViewModeSizeComboBox.SelectedIndex];
+                SavedUserPrefs.LargeViewModeSize = UserPrefs.LargeViewModeSizes[LargeViewModeSizeComboBox.SelectedIndex];
             }
 
             if (LargeIconsRadioButton.Checked == true)
             {
-                AmpInstance.CategoriesDefaultViewMode = View.LargeIcon;
+                SavedUserPrefs.CategoriesDefaultViewMode = View.LargeIcon;
             }
 
             if (SmallIconsRadioButton.Checked == true)
             {
-                AmpInstance.CategoriesDefaultViewMode = View.SmallIcon;
+                SavedUserPrefs.CategoriesDefaultViewMode = View.SmallIcon;
             }
 
             if (ListsIconsRadioButton.Checked == true)
             {
-                AmpInstance.CategoriesDefaultViewMode = View.List;
+                SavedUserPrefs.CategoriesDefaultViewMode = View.List;
             }
 
             if (TilesIconsRadioButton.Checked == true)
             {
-                AmpInstance.CategoriesDefaultViewMode = View.Tile;
+                SavedUserPrefs.CategoriesDefaultViewMode = View.Tile;
             }
 
             if (DetailsIconsRadioButton.Checked == true)
             {
-                AmpInstance.CategoriesDefaultViewMode = View.Details;
+                SavedUserPrefs.CategoriesDefaultViewMode = View.Details;
             }
 
-            foreach (UserCategory ConcernedCategory in AmpInstance.ListChildren)
+            foreach (UserCategory ConcernedCategory in SavedUserPrefs.ListChildren)
             {
-                AmpInstance.MoveChildToPosition(ConcernedCategory, CategoriesListView.Items[ConcernedCategory.Signature].Index);
+                SavedUserPrefs.MoveChildToPosition(ConcernedCategory, CategoriesListView.Items[ConcernedCategory.Signature].Index);
             }
 
-            AmpInstance.PortableMode = PortableModeCheckBox.Checked;
+            SavedUserPrefs.PortableMode = PortableModeCheckBox.Checked;
             Close();
         }
 
@@ -149,91 +149,91 @@ namespace AmpShell.WinForms
             }
             else
             {
-                PortableModeCheckBox.Checked = AmpInstance.PortableMode;
+                PortableModeCheckBox.Checked = SavedUserPrefs.PortableMode;
                 StatusStripLabel.Text = "Portable Mode : available (but disabled).";
             }
-            LargeViewModeSizeComboBox.Text = LargeViewModeSizeComboBox.Items[UserPrefs.LargeViewModeSizes.IndexOf(AmpInstance.LargeViewModeSize)].ToString();
-            CategoyDeletePromptCheckBox.Checked = AmpInstance.CategoryDeletePrompt;
-            GameDeletePromptCheckBox.Checked = AmpInstance.GameDeletePrompt;
-            WindowPositionCheckBox.Checked = AmpInstance.RememberWindowPosition;
-            WindowSizeCheckBox.Checked = AmpInstance.RememberWindowSize;
-            ShowMenuBarCheckBox.Checked = AmpInstance.MenuBarVisible;
-            ShowToolBarCheckBox.Checked = AmpInstance.ToolBarVisible;
-            ShowDetailsBarCheckBox.Checked = AmpInstance.StatusBarVisible;
-            GameIconsCheckBox.Checked = AmpInstance.OnlyNames;
-            QuitOnExitCheckBox.Checked = AmpInstance.GamesQuitOnExit;
-            NoConsoleCheckBox.Checked = AmpInstance.GamesNoConsole;
-            FullscreenCheckBox.Checked = AmpInstance.GamesInFullScreen;
-            if (string.IsNullOrWhiteSpace(AmpInstance.GamesAdditionalCommands) == false)
+            LargeViewModeSizeComboBox.Text = LargeViewModeSizeComboBox.Items[UserPrefs.LargeViewModeSizes.IndexOf(SavedUserPrefs.LargeViewModeSize)].ToString();
+            CategoyDeletePromptCheckBox.Checked = SavedUserPrefs.CategoryDeletePrompt;
+            GameDeletePromptCheckBox.Checked = SavedUserPrefs.GameDeletePrompt;
+            WindowPositionCheckBox.Checked = SavedUserPrefs.RememberWindowPosition;
+            WindowSizeCheckBox.Checked = SavedUserPrefs.RememberWindowSize;
+            ShowMenuBarCheckBox.Checked = SavedUserPrefs.MenuBarVisible;
+            ShowToolBarCheckBox.Checked = SavedUserPrefs.ToolBarVisible;
+            ShowDetailsBarCheckBox.Checked = SavedUserPrefs.StatusBarVisible;
+            GameIconsCheckBox.Checked = SavedUserPrefs.OnlyNames;
+            QuitOnExitCheckBox.Checked = SavedUserPrefs.GamesQuitOnExit;
+            NoConsoleCheckBox.Checked = SavedUserPrefs.GamesNoConsole;
+            FullscreenCheckBox.Checked = SavedUserPrefs.GamesInFullScreen;
+            if (string.IsNullOrWhiteSpace(SavedUserPrefs.GamesAdditionalCommands) == false)
             {
-                GameAdditionalCommandsTextBox.Text = AmpInstance.GamesAdditionalCommands;
+                GameAdditionalCommandsTextBox.Text = SavedUserPrefs.GamesAdditionalCommands;
             }
 
-            if (AmpInstance.CategoriesDefaultViewMode == View.Details)
+            if (SavedUserPrefs.CategoriesDefaultViewMode == View.Details)
             {
                 DetailsIconsRadioButton.Checked = true;
             }
 
-            if (AmpInstance.CategoriesDefaultViewMode == View.LargeIcon)
+            if (SavedUserPrefs.CategoriesDefaultViewMode == View.LargeIcon)
             {
                 LargeIconsRadioButton.Checked = true;
             }
 
-            if (AmpInstance.CategoriesDefaultViewMode == View.List)
+            if (SavedUserPrefs.CategoriesDefaultViewMode == View.List)
             {
                 ListsIconsRadioButton.Checked = true;
             }
 
-            if (AmpInstance.CategoriesDefaultViewMode == View.SmallIcon)
+            if (SavedUserPrefs.CategoriesDefaultViewMode == View.SmallIcon)
             {
                 SmallIconsRadioButton.Checked = true;
             }
 
-            if (AmpInstance.CategoriesDefaultViewMode == View.Tile)
+            if (SavedUserPrefs.CategoriesDefaultViewMode == View.Tile)
             {
                 TilesIconsRadioButton.Checked = true;
             }
 
-            if (string.IsNullOrWhiteSpace(AmpInstance.DBPath) == false)
+            if (string.IsNullOrWhiteSpace(SavedUserPrefs.DBPath) == false)
             {
-                DOSBoxPathTextBox.Text = AmpInstance.DBPath;
+                DOSBoxPathTextBox.Text = SavedUserPrefs.DBPath;
             }
 
-            if (string.IsNullOrWhiteSpace(AmpInstance.DBDefaultConfFilePath) == false)
+            if (string.IsNullOrWhiteSpace(SavedUserPrefs.DBDefaultConfFilePath) == false)
             {
-                DOSBoxConfFileTextBox.Text = AmpInstance.DBDefaultConfFilePath;
+                DOSBoxConfFileTextBox.Text = SavedUserPrefs.DBDefaultConfFilePath;
             }
 
-            if (string.IsNullOrWhiteSpace(AmpInstance.DBDefaultLangFilePath) == false)
+            if (string.IsNullOrWhiteSpace(SavedUserPrefs.DBDefaultLangFilePath) == false)
             {
-                DOSBoxLangFileTextBox.Text = AmpInstance.DBDefaultLangFilePath;
+                DOSBoxLangFileTextBox.Text = SavedUserPrefs.DBDefaultLangFilePath;
             }
 
-            if (string.IsNullOrWhiteSpace(AmpInstance.ConfigEditorPath) == false)
+            if (string.IsNullOrWhiteSpace(SavedUserPrefs.ConfigEditorPath) == false)
             {
-                EditorBinaryPathTextBox.Text = AmpInstance.ConfigEditorPath;
+                EditorBinaryPathTextBox.Text = SavedUserPrefs.ConfigEditorPath;
             }
 
-            if (string.IsNullOrWhiteSpace(AmpInstance.ConfigEditorAdditionalParameters) == false)
+            if (string.IsNullOrWhiteSpace(SavedUserPrefs.ConfigEditorAdditionalParameters) == false)
             {
-                AdditionnalParametersTextBox.Text = AmpInstance.ConfigEditorPath;
+                AdditionnalParametersTextBox.Text = SavedUserPrefs.ConfigEditorPath;
             }
 
-            if (string.IsNullOrWhiteSpace(AmpInstance.CDsDefaultDir) == false)
+            if (string.IsNullOrWhiteSpace(SavedUserPrefs.CDsDefaultDir) == false)
             {
-                CDImageDirTextBox.Text = AmpInstance.CDsDefaultDir;
+                CDImageDirTextBox.Text = SavedUserPrefs.CDsDefaultDir;
             }
 
-            if (string.IsNullOrWhiteSpace(AmpInstance.GamesDefaultDir) == false)
+            if (string.IsNullOrWhiteSpace(SavedUserPrefs.GamesDefaultDir) == false)
             {
-                GamesDirTextBox.Text = AmpInstance.GamesDefaultDir;
+                GamesDirTextBox.Text = SavedUserPrefs.GamesDefaultDir;
             }
 
-            AllOfThemCheckBox.Checked = AmpInstance.DefaultIconViewOverride;
+            AllOfThemCheckBox.Checked = SavedUserPrefs.DefaultIconViewOverride;
             CategoriesListView.Columns.Add("Name");
             CategoriesListView.Columns[0].Width = CategoriesListView.Width;
             CategoriesListView.Items.Clear();
-            foreach (UserCategory CategoryToDisplay in AmpInstance.ListChildren)
+            foreach (UserCategory CategoryToDisplay in SavedUserPrefs.ListChildren)
             {
                 ListViewItem ItemToAdd = new ListViewItem(CategoryToDisplay.Title)
                 {
@@ -241,7 +241,7 @@ namespace AmpShell.WinForms
                 };
                 CategoriesListView.Items.Add(ItemToAdd);
             }
-            PortableModeCheckBox.Checked = AmpInstance.PortableMode;
+            PortableModeCheckBox.Checked = SavedUserPrefs.PortableMode;
             PortableModeCheckBox_CheckedChanged(sender, EventArgs.Empty);
         }
 
@@ -261,10 +261,10 @@ namespace AmpShell.WinForms
             if (dosBoxExePathFileDialog.ShowDialog(this) == DialogResult.OK)
             {
                 //retrieve the selected dosbox.exe path into Amp.DBPath
-                AmpInstance.DBPath = dosBoxExePathFileDialog.FileName;
+                SavedUserPrefs.DBPath = dosBoxExePathFileDialog.FileName;
                 DOSBoxPathTextBox.Text = dosBoxExePathFileDialog.FileName;
             }
-            else if (string.IsNullOrWhiteSpace(AmpInstance.DBPath))
+            else if (string.IsNullOrWhiteSpace(SavedUserPrefs.DBPath))
             {
                 MessageBox.Show("Location of DOSBox's executable unknown. You will not be able to run games!", "Select DOSBox's executable", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
@@ -273,10 +273,10 @@ namespace AmpShell.WinForms
         private void DOSBoxConfFileBrowseButton_Click(object sender, EventArgs e)
         {
             OpenFileDialog dosboxDefaultConfFileDialog = new OpenFileDialog();
-            if (string.IsNullOrWhiteSpace(AmpInstance.DBDefaultConfFilePath) == false
-                && Directory.Exists(Directory.GetParent(AmpInstance.DBDefaultConfFilePath).FullName))
+            if (string.IsNullOrWhiteSpace(SavedUserPrefs.DBDefaultConfFilePath) == false
+                && Directory.Exists(Directory.GetParent(SavedUserPrefs.DBDefaultConfFilePath).FullName))
             {
-                dosboxDefaultConfFileDialog.InitialDirectory = Directory.GetParent(AmpInstance.DBDefaultConfFilePath).FullName;
+                dosboxDefaultConfFileDialog.InitialDirectory = Directory.GetParent(SavedUserPrefs.DBDefaultConfFilePath).FullName;
             }
 
             dosboxDefaultConfFileDialog.Title = DOSBoxConfLabel.Text;
@@ -284,7 +284,7 @@ namespace AmpShell.WinForms
             if (dosboxDefaultConfFileDialog.ShowDialog(this) == DialogResult.OK)
             {
                 //retrieve the selected .conf file path in Amp.DBDefaultConfFilePath
-                AmpInstance.DBDefaultConfFilePath = dosboxDefaultConfFileDialog.FileName;
+                SavedUserPrefs.DBDefaultConfFilePath = dosboxDefaultConfFileDialog.FileName;
                 DOSBoxConfFileTextBox.Text = dosboxDefaultConfFileDialog.FileName;
             }
         }
@@ -292,10 +292,10 @@ namespace AmpShell.WinForms
         private void DOSBoxLangFileBrowseButton_Click(object sender, EventArgs e)
         {
             OpenFileDialog dosBoxDefaultLangFileDialog = new OpenFileDialog();
-            if (string.IsNullOrWhiteSpace(AmpInstance.DBDefaultLangFilePath) == false
-                && Directory.Exists(Directory.GetParent(AmpInstance.DBDefaultLangFilePath).FullName))
+            if (string.IsNullOrWhiteSpace(SavedUserPrefs.DBDefaultLangFilePath) == false
+                && Directory.Exists(Directory.GetParent(SavedUserPrefs.DBDefaultLangFilePath).FullName))
             {
-                dosBoxDefaultLangFileDialog.InitialDirectory = Directory.GetParent(AmpInstance.DBDefaultLangFilePath).FullName;
+                dosBoxDefaultLangFileDialog.InitialDirectory = Directory.GetParent(SavedUserPrefs.DBDefaultLangFilePath).FullName;
             }
 
             dosBoxDefaultLangFileDialog.Title = DOSBoxLangFileLabel.Text;
@@ -303,7 +303,7 @@ namespace AmpShell.WinForms
             if (dosBoxDefaultLangFileDialog.ShowDialog(this) == DialogResult.OK)
             {
                 //retrieve the selected .lng file path in Amp.DBDefaultLangFilePath
-                AmpInstance.DBDefaultLangFilePath = dosBoxDefaultLangFileDialog.FileName;
+                SavedUserPrefs.DBDefaultLangFilePath = dosBoxDefaultLangFileDialog.FileName;
                 DOSBoxLangFileTextBox.Text = dosBoxDefaultLangFileDialog.FileName;
             }
         }
@@ -480,12 +480,12 @@ namespace AmpShell.WinForms
                 BrowseCDImageDirButton.Enabled = true;
                 EditorBinaryPathTextBox.Enabled = true;
                 BrowseForEditorButton.Enabled = true;
-                DOSBoxPathTextBox.Text = AmpInstance.DBPath;
-                DOSBoxConfFileTextBox.Text = AmpInstance.DBDefaultConfFilePath;
-                DOSBoxLangFileTextBox.Text = AmpInstance.DBDefaultLangFilePath;
-                GamesDirTextBox.Text = AmpInstance.GamesDefaultDir;
-                CDImageDirTextBox.Text = AmpInstance.CDsDefaultDir;
-                EditorBinaryPathTextBox.Text = AmpInstance.ConfigEditorPath;
+                DOSBoxPathTextBox.Text = SavedUserPrefs.DBPath;
+                DOSBoxConfFileTextBox.Text = SavedUserPrefs.DBDefaultConfFilePath;
+                DOSBoxLangFileTextBox.Text = SavedUserPrefs.DBDefaultLangFilePath;
+                GamesDirTextBox.Text = SavedUserPrefs.GamesDefaultDir;
+                CDImageDirTextBox.Text = SavedUserPrefs.CDsDefaultDir;
+                EditorBinaryPathTextBox.Text = SavedUserPrefs.ConfigEditorPath;
                 StatusStripLabel.Text = "Portable Mode : available (but disabled).";
             }
         }

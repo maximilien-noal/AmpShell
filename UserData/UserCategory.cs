@@ -12,7 +12,7 @@ using System.Xml.Serialization;
 
 namespace AmpShell.UserData
 {
-    public class UserCategory : UserDataRootNode
+    public class UserCategory : UserDataRoot
     {
         /// <summary>
         /// Category's name

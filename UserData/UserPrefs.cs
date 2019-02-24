@@ -14,7 +14,7 @@ using System.Xml.Serialization;
 namespace AmpShell.UserData
 {
     [XmlType(TypeName="Window")]
-    public class UserPrefs : UserDataRootNode
+    public class UserPrefs : UserDataRoot
     {
         public static readonly List<int> LargeViewModeSizes = new List<int> { 48, 64, 80, 96, 112, 128, 144, 160, 176, 192, 208, 224, 240, 256 };
         /// <summary>

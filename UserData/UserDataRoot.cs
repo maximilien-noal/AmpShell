@@ -16,20 +16,20 @@ namespace AmpShell.UserData
     /// Root node for the xml file
     /// </summary>
     [XmlRoot("AmpShell")]
-    public class UserDataRootNode
+    public class UserDataRoot
     {
         /// <summary>
         /// List that will build up the tree of categories and games through the AddChild and RemoveChild and ListChildren methods
         /// </summary>
-        private List<UserDataRootNode> _children;
-        public UserDataRootNode()
+        private List<UserDataRoot> _children;
+        public UserDataRoot()
         {
-            _children = new List<UserDataRootNode>();
+            _children = new List<UserDataRoot>();
         }
         [XmlElement("Window", typeof(UserPrefs))]
         [XmlElement("Category", typeof(UserCategory))]
         [XmlElement("Game", typeof(UserGame))]
-        public UserDataRootNode[] ListChildren
+        public UserDataRoot[] ListChildren
         {
             get => _children.ToArray();
             set
@@ -45,12 +45,12 @@ namespace AmpShell.UserData
             }
         }
 
-        public void AddChild(UserDataRootNode child)
+        public void AddChild(UserDataRoot child)
         {
             _children.Add(child);
         }
 
-        public void MoveChildToFirst(UserDataRootNode child)
+        public void MoveChildToFirst(UserDataRoot child)
         {
             if (_children.Contains(child))
             {
@@ -59,7 +59,7 @@ namespace AmpShell.UserData
             }
         }
 
-        public void MoveChildToPosition(UserDataRootNode child, int index)
+        public void MoveChildToPosition(UserDataRoot child, int index)
         {
             if (_children.Contains(child))
             {
@@ -68,7 +68,7 @@ namespace AmpShell.UserData
             }
         }
 
-        public void RemoveChild(UserDataRootNode child)
+        public void RemoveChild(UserDataRoot child)
         {
             _children.Remove(child);
         }
