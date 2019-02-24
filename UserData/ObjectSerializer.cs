@@ -16,10 +16,6 @@ namespace AmpShell.UserData
 {
     public class ObjectSerializer
     {
-        public ObjectSerializer()
-        {
-        }
-
         public object Deserialize<T>(string xmlPath, T targetObjectType) where T : Type
         {
             XmlSerializer deserializer = new XmlSerializer(targetObjectType);

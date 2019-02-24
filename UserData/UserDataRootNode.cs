@@ -68,15 +68,6 @@ namespace AmpShell.UserData
             }
         }
 
-        public void MoveChildToLast(UserDataRootNode child)
-        {
-            if (_children.Contains(child))
-            {
-                _children.Remove(child);
-                _children.Insert(_children.Count, child);
-            }
-        }
-
         public void RemoveChild(UserDataRootNode child)
         {
             _children.Remove(child);
