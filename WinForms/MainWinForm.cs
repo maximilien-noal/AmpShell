@@ -179,7 +179,7 @@ namespace AmpShell.WinForms
         private void AmpShell_Load(object sender, EventArgs e)
         {
             //If the file named AmpShell.xml doesn't exists inside the directory AmpShell uses the one in the user's profile Application Data directory
-            if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "/AmpShell/AmpShell.xml") == false && File.Exists(Application.StartupPath + "/AmpShell.xml") == false)
+            if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\AmpShell\\AmpShell.xml") == false && File.Exists(Application.StartupPath + "\\AmpShell.xml") == false)
             {
                 //take the Windows Height and Width (saved on close with XML serializing)
                 Width = 640;
@@ -189,17 +189,17 @@ namespace AmpShell.WinForms
                 //Setup the whole directory path
                 if (Directory.GetDirectoryRoot(Application.StartupPath) == Environment.GetFolderPath(System.Environment.SpecialFolder.ProgramFiles) || Directory.GetDirectoryRoot(Application.StartupPath) == Environment.SystemDirectory.Substring(0, 3) + "Program Files (x86)")
                 {
-                    _userConfigDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "/AmpShell";
+                    _userConfigDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\AmpShell";
                     //create the directory
-                    if (Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "/AmpShell") == false)
+                    if (Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\AmpShell") == false)
                     {
                         Directory.CreateDirectory(_userConfigDataPath);
-                        _userConfigDataPath = _userConfigDataPath + "/AmpShell.xml";
+                        _userConfigDataPath = _userConfigDataPath + "\\AmpShell.xml";
                     }
                 }
                 else
                 {
-                    _userConfigDataPath = Application.StartupPath + "/AmpShell.xml";
+                    _userConfigDataPath = Application.StartupPath + "\\AmpShell.xml";
                 }
                 //Serializing the data inside Amp for the first run
                 _xmlSerializer.Serialize(_userConfigDataPath, _userPrefs, typeof(UserDataRoot));
@@ -209,16 +209,16 @@ namespace AmpShell.WinForms
             else
             {
                 //then, deserialize it in Amp.
-                if (File.Exists(Application.StartupPath + "/AmpShell.xml"))
+                if (File.Exists(Application.StartupPath + "\\AmpShell.xml"))
                 {
-                    _userConfigDataPath = Application.StartupPath + "/AmpShell.xml";
+                    _userConfigDataPath = Application.StartupPath + "\\AmpShell.xml";
                 }
-                else if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "/AmpShell/AmpShell.xml"))
+                else if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\AmpShell\\AmpShell.xml"))
                 {
-                    _userConfigDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "/AmpShell/AmpShell.xml";
+                    _userConfigDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\AmpShell\\AmpShell.xml";
                 }
 
-                _userPrefs = (UserPrefs)_xmlSerializer.Deserialize(_userConfigDataPath, typeof(UserDataRoot)); //CfgPath : Path to AmpShell.xml
+                _userPrefs = (UserPrefs)_xmlSerializer.Deserialize(_userConfigDataPath, typeof(UserDataRoot));
                 foreach (UserCategory ConcernedCategory in _userPrefs.ListChildren)
                 {
                     foreach (UserGame ConcernedGame in ConcernedCategory.ListChildren)
@@ -281,11 +281,11 @@ namespace AmpShell.WinForms
 
             if (string.IsNullOrWhiteSpace(_userPrefs.DBDefaultLangFilePath) == false)
             {
-                _userPrefs.DBDefaultLangFilePath = SearchDOSBoxLang(_userPrefs.DBPath);
+                _userPrefs.DBDefaultLangFilePath = SearchDOSBoxLanguageFile(_userPrefs.DBPath);
             }
             else if (File.Exists(_userPrefs.DBDefaultLangFilePath) == false)
             {
-                _userPrefs.DBDefaultLangFilePath = SearchDOSBoxLang(_userPrefs.DBPath);
+                _userPrefs.DBDefaultLangFilePath = SearchDOSBoxLanguageFile(_userPrefs.DBPath);
             }
 
             if (string.IsNullOrWhiteSpace(_userPrefs.DBDefaultConfFilePath) == false && string.IsNullOrWhiteSpace(_userPrefs.ConfigEditorPath) == false)
@@ -300,25 +300,6 @@ namespace AmpShell.WinForms
         private string SearchCommonTextEditor()
         {
             string confEditorPath = string.Empty;
-            if (File.Exists("/usr/bin/mousepad"))
-            {
-                confEditorPath = "/usr/bin/mousepad";
-            }
-
-            if (string.IsNullOrWhiteSpace(confEditorPath))
-            {
-                if (File.Exists("/usr/bin/gedit"))
-                {
-                    confEditorPath = "/usr/bin/gedit";
-                }
-            }
-            if (string.IsNullOrWhiteSpace(confEditorPath))
-            {
-                if (File.Exists("/usr/bin/kate"))
-                {
-                    confEditorPath = "/usr/bin/kate";
-                }
-            }
             if (string.IsNullOrWhiteSpace(confEditorPath))
             {
                 if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.System).Substring(0, Environment.GetFolderPath(Environment.SpecialFolder.System).Length - 8).ToString() + "notepad.exe"))
@@ -331,11 +312,8 @@ namespace AmpShell.WinForms
 
         private string SearchDOSBoxConf(string DOSBoxExecutablePath)
         {
-            string confPath = string.Empty; //returned String
-            //search for dosbox.conf
-            //first, if the user is using GNU/Linux : test if ~/dosbox.conf (~ = /home/<username>) exists
-            //Ubuntu case (dosbox.conf in ~)
-            if (_userConfigDataPath == Application.StartupPath + "/AmpShell.xml")
+            string confPath = string.Empty;
+            if (_userConfigDataPath == Application.StartupPath + "\\AmpShell.xml")
             {
                 if (Directory.GetFiles((Application.StartupPath), "*.conf").Length > 0)
                 {
@@ -344,37 +322,13 @@ namespace AmpShell.WinForms
             }
             if (string.IsNullOrWhiteSpace(confPath))
             {
-                if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/dosbox.conf"))
-                {
-                    confPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/dosbox.conf";
-                }
-            }
-            //DOSBox ver0.72 case (~/.dosboxrc)
-            if (string.IsNullOrWhiteSpace(confPath))
-            {
-                if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/.dosboxrc"))
-                {
-                    confPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/.dosboxrc";
-                }
-            }
-            //DOSBox ver0.73 and newer case (~/.dosbox/dosbox.conf)
-            if (string.IsNullOrWhiteSpace(confPath))
-            {
-                if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/.dosbox/dosbox.conf"))
-                {
-                    confPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/.dosbox/dosbox.conf";
-                }
-            }
-            //if ConfPath is _still_ empty, Windows test cases take place.
-            if (string.IsNullOrWhiteSpace(confPath))
-            {
                 //if Local Settings/Application Data/DOSBox exists
-                if (Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "/DOSBox"))
+                if (Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\DOSBox"))
                 {
                     //then, the DOSBox.conf file inside it becomes the default one. 
-                    if (Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "/DOSBox", "*dosbox*.conf").Length > 0)
+                    if (Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\DOSBox", "*dosbox*.conf").Length > 0)
                     {
-                        confPath = Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "/DOSBox", "*dosbox*.conf")[0];
+                        confPath = Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\DOSBox", "*dosbox*.conf")[0];
                     }
                 }
                 else
@@ -383,9 +337,9 @@ namespace AmpShell.WinForms
                     //(behavior of DOSBox versions prior to DOSBox version 0.73)
                     if (string.IsNullOrWhiteSpace(DOSBoxExecutablePath) == false)
                     {
-                        if (File.Exists(Directory.GetParent(DOSBoxExecutablePath).FullName + "/dosbox.conf"))
+                        if (File.Exists(Directory.GetParent(DOSBoxExecutablePath).FullName + "\\dosbox.conf"))
                         {
-                            confPath = DOSBoxExecutablePath + "/dosbox.conf";
+                            confPath = DOSBoxExecutablePath + "\\dosbox.conf";
                         }
                     }
                 }
@@ -393,59 +347,31 @@ namespace AmpShell.WinForms
             return confPath;
         }
 
-        private string SearchDOSBoxLang(string dosboxExecutablePath)
+        private string SearchDOSBoxLanguageFile(string dosboxExecutablePath)
         {
             //returned string
             string langPath = string.Empty;
-            //search for a DOSBox' language file
-            //first, if the user is using GNU/Linux : test if ~/*.lng (~ = /home/<username>) exists
-            //Ubuntu case (*.lng in ~)
-            if (_userConfigDataPath == Application.StartupPath + "/AmpShell.xml")
+            //if LangPath is _still_ empty, Windows test cases take place.
+            if (string.IsNullOrWhiteSpace(langPath))
             {
-                if (Directory.GetFiles(Application.StartupPath, "*.lng").Length > 0)
+                //if Local Settings/Application Data/DOSBox exists
+                if (Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\DOSBox"))
                 {
-                    langPath = Directory.GetFiles(Application.StartupPath, "*.lng")[0];
-                }
-            }
-            else
-            {
-                if (Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "*.lng").Length > 0)
-                {
-                    langPath = Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "*.lng")[0];
-                }
-                //(~/.dosbox/dosbox.lng search case)
-                if (string.IsNullOrWhiteSpace(langPath))
-                {
-                    if (Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/.dosbox"))
+                    //then, the DOSBox.conf file inside it becomes the default one.
+                    if (Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\DOSBox", "*.lng").Length > 0)
                     {
-                        if (Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/.dosbox", "*.lng").Length > 0)
-                        {
-                            langPath = Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/.dosbox", "*.lng")[0];
-                        }
+                        langPath = Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\DOSBox", "*.lng")[0];
                     }
                 }
-                //if LangPath is _still_ empty, Windows test cases take place.
-                if (string.IsNullOrWhiteSpace(langPath))
+                else
                 {
-                    //if Local Settings/Application Data/DOSBox exists
-                    if (Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "/DOSBox"))
+                    //if dosbox.conf has been generated by DOSBox in the same directory as dosbox.exe
+                    //(behavior of DOSBox versions prior to DOSBox version 0.73)
+                    if (string.IsNullOrWhiteSpace(dosboxExecutablePath) == false)
                     {
-                        //then, the DOSBox.conf file inside it becomes the default one.
-                        if (Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "/DOSBox", "*.lng").Length > 0)
+                        if (Directory.GetFiles(Directory.GetParent(dosboxExecutablePath).FullName, "*.lng").Length > 0)
                         {
-                            langPath = Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "/DOSBox", "*.lng")[0];
-                        }
-                    }
-                    else
-                    {
-                        //if dosbox.conf has been generated by DOSBox in the same directory as dosbox.exe
-                        //(behavior of DOSBox versions prior to DOSBox version 0.73)
-                        if (string.IsNullOrWhiteSpace(dosboxExecutablePath) == false)
-                        {
-                            if (Directory.GetFiles(Directory.GetParent(dosboxExecutablePath).FullName, "*.lng").Length > 0)
-                            {
-                                langPath = Directory.GetFiles(Directory.GetParent(dosboxExecutablePath).FullName, "*.lng")[0];
-                            }
+                            langPath = Directory.GetFiles(Directory.GetParent(dosboxExecutablePath).FullName, "*.lng")[0];
                         }
                     }
                 }
@@ -456,48 +382,36 @@ namespace AmpShell.WinForms
         private string SearchDOSBox()
         {
             string dosboxPath = string.Empty;
-            if (_userConfigDataPath == Application.StartupPath + "/AmpShell.xml" && _userPrefs.PortableMode)
+            if (_userConfigDataPath == Application.StartupPath + "\\AmpShell.xml" && _userPrefs.PortableMode)
             {
-                if (File.Exists(Application.StartupPath + "/dosbox.exe"))
+                if (File.Exists(Application.StartupPath + "\\dosbox.exe"))
                 {
-                    dosboxPath = Application.StartupPath + "/dosbox.exe";
-                }
-                else if (File.Exists(Application.StartupPath + "/dosbox"))
-                {
-                    dosboxPath = Application.StartupPath + "/dosbox";
+                    dosboxPath = Application.StartupPath + "\\dosbox.exe";
                 }
             }
             else
             {
-                //test if the user is using GNU/Linux
-                if (File.Exists("/usr/bin/dosbox"))
+                //test if DOSBox is in Program Files/DOSBox-?.?? (Windows x86)
+                if (Directory.GetDirectories(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "DOSBox*", SearchOption.TopDirectoryOnly).GetLength(0) != 0)
                 {
-                    dosboxPath = "/usr/bin/dosbox";
+                    dosboxPath = Directory.GetDirectories(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "DOSBox*", SearchOption.TopDirectoryOnly)[0];
+                    if (File.Exists(dosboxPath + "\\dosbox.exe"))
+                    {
+                        dosboxPath = dosboxPath + "\\dosbox.exe";
+                    }
                 }
                 else
                 {
-                    //test if DOSBox is in Program Files/DOSBox-?.?? (Windows x86)
-                    if (Directory.GetDirectories(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "DOSBox*", SearchOption.TopDirectoryOnly).GetLength(0) != 0)
+                    //test if the user is using Windows x64
+                    //in this case, DOSBox's installation directory is most likely in "Program Files (x86)"
+                    if (Directory.Exists(Environment.SystemDirectory.Substring(0, 3) + "Program Files (x86)"))
                     {
-                        dosboxPath = Directory.GetDirectories(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "DOSBox*", SearchOption.TopDirectoryOnly)[0];
-                        if (File.Exists(dosboxPath + "/dosbox.exe"))
+                        if (Directory.GetDirectories(Environment.SystemDirectory.Substring(0, 3) + "Program Files (x86)", "DOSBox*", SearchOption.TopDirectoryOnly).GetLength(0) != 0)
                         {
-                            dosboxPath = dosboxPath + "/dosbox.exe";
-                        }
-                    }
-                    else
-                    {
-                        //test if the user is using Windows x64
-                        //in this case, DOSBox's installation directory is most likely in "Program Files (x86)"
-                        if (Directory.Exists(Environment.SystemDirectory.Substring(0, 3) + "Program Files (x86)"))
-                        {
-                            if (Directory.GetDirectories(Environment.SystemDirectory.Substring(0, 3) + "Program Files (x86)", "DOSBox*", SearchOption.TopDirectoryOnly).GetLength(0) != 0)
+                            dosboxPath = Directory.GetDirectories(Environment.SystemDirectory.Substring(0, 3) + "Program Files (x86)", "DOSBox*", SearchOption.TopDirectoryOnly)[0];
+                            if (File.Exists(dosboxPath + "\\dosbox.exe"))
                             {
-                                dosboxPath = Directory.GetDirectories(Environment.SystemDirectory.Substring(0, 3) + "Program Files (x86)", "DOSBox*", SearchOption.TopDirectoryOnly)[0];
-                                if (File.Exists(dosboxPath + "/dosbox.exe"))
-                                {
-                                    dosboxPath = dosboxPath + "/dosbox.exe";
-                                }
+                                dosboxPath = dosboxPath + "\\dosbox.exe";
                             }
                         }
                     }
@@ -1464,7 +1378,7 @@ namespace AmpShell.WinForms
                 _userPrefs.DBPath = _userPrefs.DBPath.Replace(Application.StartupPath, "AppPath");
                 _userPrefs.ConfigEditorPath = _userPrefs.ConfigEditorPath.Replace(Application.StartupPath, "AppPath");
                 _userPrefs.ConfigEditorAdditionalParameters = _userPrefs.ConfigEditorAdditionalParameters.Replace(Application.StartupPath, "AppPath");
-                _xmlSerializer.Serialize(Application.StartupPath + "/AmpShell.xml", _userPrefs, typeof(UserDataRoot));
+                _xmlSerializer.Serialize(Application.StartupPath + "\\AmpShell.xml", _userPrefs, typeof(UserDataRoot));
             }
         }
 
@@ -1824,7 +1738,7 @@ namespace AmpShell.WinForms
                 _gamesLargeImageList.ImageSize = new Size(_userPrefs.LargeViewModeSize, _userPrefs.LargeViewModeSize);
                 if (_userPrefs.PortableMode)
                 {
-                    _xmlSerializer.Serialize(Application.StartupPath + "/AmpShell.xml", _userPrefs, typeof(UserDataRoot));
+                    _xmlSerializer.Serialize(Application.StartupPath + "\\AmpShell.xml", _userPrefs, typeof(UserDataRoot));
                 }
 
                 menuStrip.Visible = prefsForm.SavedUserPrefs.MenuBarVisible;
@@ -2215,10 +2129,10 @@ namespace AmpShell.WinForms
                     if (selectedGame.Signature == selecedViewItem.Name &&
                         string.IsNullOrWhiteSpace(_userPrefs.DBDefaultConfFilePath) == false)
                     {
-                        if ((!File.Exists(selectedGame.Directory + "/" + Path.GetFileName(_userPrefs.DBDefaultConfFilePath))) || (MessageBox.Show(this, "'" + selectedGame.Directory + "/" + Path.GetFileName(_userPrefs.DBDefaultConfFilePath) + "'" + "already exists, do you want to overwrite it ?", MakeConfigButton.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes))
+                        if ((!File.Exists(selectedGame.Directory + "\\" + Path.GetFileName(_userPrefs.DBDefaultConfFilePath))) || (MessageBox.Show(this, "'" + selectedGame.Directory + "\\" + Path.GetFileName(_userPrefs.DBDefaultConfFilePath) + "'" + "already exists, do you want to overwrite it ?", MakeConfigButton.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes))
                         {
-                            File.Copy(_userPrefs.DBDefaultConfFilePath, selectedGame.Directory + "/" + Path.GetFileName(_userPrefs.DBDefaultConfFilePath), true);
-                            selectedGame.DBConfPath = selectedGame.Directory + "/" + Path.GetFileName(_userPrefs.DBDefaultConfFilePath);
+                            File.Copy(_userPrefs.DBDefaultConfFilePath, selectedGame.Directory + "\\" + Path.GetFileName(_userPrefs.DBDefaultConfFilePath), true);
+                            selectedGame.DBConfPath = selectedGame.Directory + "\\" + Path.GetFileName(_userPrefs.DBDefaultConfFilePath);
                         }
                     }
                 }
