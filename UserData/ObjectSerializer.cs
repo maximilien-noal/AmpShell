@@ -20,7 +20,7 @@ namespace AmpShell.UserData
         {
         }
 
-        public object Deserialize(string xmlPath, Type targetObjectType)
+        public object Deserialize<T>(string xmlPath, T targetObjectType) where T : Type
         {
             XmlSerializer deserializer = new XmlSerializer(targetObjectType);
             TextReader reader;
@@ -31,7 +31,7 @@ namespace AmpShell.UserData
             return targetObjectInstance;
         }
 
-        public void Serialize(string xmlPath, object objectToSerialize, Type typeOfObjectToSerialize)
+        public void Serialize<T>(string xmlPath, object objectToSerialize, T typeOfObjectToSerialize) where T : Type
         {
             XmlSerializer serializer = new XmlSerializer(typeOfObjectToSerialize);
             TextWriter writer;
