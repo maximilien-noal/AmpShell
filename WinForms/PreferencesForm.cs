@@ -14,10 +14,10 @@ using System.Windows.Forms;
 
 namespace AmpShell.WinForms
 {
-    public partial class Main_Prefs : Form
+    public partial class PreferencesForm : Form
     {
         private UserPrefs _savedUserPrefs;
-        public Main_Prefs(UserPrefs currentUserPrefs)
+        public PreferencesForm(UserPrefs currentUserPrefs)
         {
             InitializeComponent();
             SavedUserPrefs = currentUserPrefs;

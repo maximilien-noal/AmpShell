@@ -1719,7 +1719,7 @@ namespace AmpShell.WinForms
 
         private void PreferencesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Main_Prefs prefsForm = new Main_Prefs(_userPrefs);
+            PreferencesForm prefsForm = new PreferencesForm(_userPrefs);
             if (prefsForm.ShowDialog(this) == DialogResult.OK)
             {
                 _gamesLargeImageList.ImageSize = new Size(_userPrefs.LargeViewModeSize, _userPrefs.LargeViewModeSize);

@@ -9,7 +9,7 @@
  * If not, see <http://www.gnu.org/licenses/>.*/
 namespace AmpShell.WinForms
 {
-    partial class Main_Prefs
+    partial class PreferencesForm
     {
         /// <summary>
         /// Required designer variable.
@@ -37,7 +37,7 @@ namespace AmpShell.WinForms
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main_Prefs));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PreferencesForm));
             this.PrefsTabControl = new System.Windows.Forms.TabControl();
             this.DOSBoxTabPage = new System.Windows.Forms.TabPage();
             this.DOSBoxLangFileLabel = new System.Windows.Forms.Label();

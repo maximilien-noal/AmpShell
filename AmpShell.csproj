@@ -107,11 +107,11 @@
     <Compile Include="WinForms\GameForm.Designer.cs">
       <DependentUpon>GameForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="WinForms\Main_Prefs.cs">
+    <Compile Include="WinForms\PreferencesForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="WinForms\Main_Prefs.Designer.cs">
-      <DependentUpon>Main_Prefs.cs</DependentUpon>
+    <Compile Include="WinForms\PreferencesForm.Designer.cs">
+      <DependentUpon>PreferencesForm.cs</DependentUpon>
     </Compile>
     <Compile Include="UserData\UserDataRoot.cs" />
     <Compile Include="WinForms\MainWinForm.cs">
@@ -136,8 +136,8 @@
     <EmbeddedResource Include="WinForms\GameForm.resx">
       <DependentUpon>GameForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinForms\Main_Prefs.resx">
-      <DependentUpon>Main_Prefs.cs</DependentUpon>
+    <EmbeddedResource Include="WinForms\PreferencesForm.resx">
+      <DependentUpon>PreferencesForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
