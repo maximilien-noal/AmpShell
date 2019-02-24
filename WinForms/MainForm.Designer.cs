@@ -9,7 +9,7 @@
  * If not, see <http://www.gnu.org/licenses/>.*/
 namespace AmpShell.WinForms
 {
-    partial class MainWinForm
+    partial class MainForm
     {
         /// <summary>
         /// Variable nécessaire au concepteur.
@@ -37,7 +37,7 @@ namespace AmpShell.WinForms
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWinForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.FileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.NewCategoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();

@@ -16,7 +16,7 @@ using System.Windows.Forms;
 
 namespace AmpShell.WinForms
 {
-    public partial class MainWinForm : Form
+    public partial class MainForm : Form
     {
         private bool _ampShellShown;
         private int _hoveredTabIndex;
@@ -62,7 +62,7 @@ namespace AmpShell.WinForms
         private ToolStripMenuItem _toolBarMenuItem = new ToolStripMenuItem("Tool bar");
         private ToolStripMenuItem _statusBarMenuItem = new ToolStripMenuItem("Details bar");
 
-        public MainWinForm()
+        public MainForm()
         {
             InitializeComponent();
             _gamesLargeImageList.ColorDepth = ColorDepth.Depth32Bit;

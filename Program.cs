@@ -23,7 +23,7 @@ namespace AmpShell
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainWinForm());
+            Application.Run(new MainForm());
         }
     }
 }
