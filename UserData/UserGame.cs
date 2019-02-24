@@ -8,11 +8,13 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
 
+using System.Xml.Serialization;
+
 namespace AmpShell.UserData
 {
-    public class UserGame : UserCategory
+    public class UserGame
     {
-        public UserGame() : base()
+        public UserGame()
         {
             Name = string.Empty;
             SetupEXEPath = string.Empty;
@@ -30,6 +32,9 @@ namespace AmpShell.UserData
             QuitOnExit = false;
             CDIsAnImage = false;
         }
+
+        [XmlAttribute("Signature")]
+        public string Signature { get; set; }
 
         public string Name { get; set; }
 

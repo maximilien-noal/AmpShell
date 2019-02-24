@@ -21,15 +21,16 @@ namespace AmpShell.UserData
         /// <summary>
         /// List that will build up the tree of categories and games through the AddChild and RemoveChild and ListChildren methods
         /// </summary>
-        private List<UserDataRoot> _children;
+        private List<object> _children;
         public UserDataRoot()
         {
-            _children = new List<UserDataRoot>();
+            _children = new List<object>();
         }
+
         [XmlElement("Window", typeof(UserPrefs))]
         [XmlElement("Category", typeof(UserCategory))]
         [XmlElement("Game", typeof(UserGame))]
-        public UserDataRoot[] ListChildren
+        public object[] ListChildren
         {
             get => _children.ToArray();
             set
@@ -45,12 +46,12 @@ namespace AmpShell.UserData
             }
         }
 
-        public void AddChild(UserDataRoot child)
+        public void AddChild(object child)
         {
             _children.Add(child);
         }
 
-        public void MoveChildToFirst(UserDataRoot child)
+        public void MoveChildToFirst(object child)
         {
             if (_children.Contains(child))
             {
@@ -59,7 +60,7 @@ namespace AmpShell.UserData
             }
         }
 
-        public void MoveChildToPosition(UserDataRoot child, int index)
+        public void MoveChildToPosition(object child, int index)
         {
             if (_children.Contains(child))
             {
@@ -68,7 +69,7 @@ namespace AmpShell.UserData
             }
         }
 
-        public void RemoveChild(UserDataRoot child)
+        public void RemoveChild(object child)
         {
             _children.Remove(child);
         }
