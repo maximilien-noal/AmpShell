@@ -17,10 +17,10 @@ namespace AmpShell.WinForms
     public partial class Main_Prefs : Form
     {
         private UserPrefs _savedUserPrefs;
-        public Main_Prefs(UserPrefs ampCurrentInstance)
+        public Main_Prefs(UserPrefs currentUserPrefs)
         {
             InitializeComponent();
-            SavedUserPrefs = ampCurrentInstance;
+            SavedUserPrefs = currentUserPrefs;
         }
 
         public UserPrefs SavedUserPrefs
