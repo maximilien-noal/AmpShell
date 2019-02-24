@@ -75,7 +75,6 @@ namespace AmpShell.WinForms
             SavedUserPrefs.GamesNoConsole = NoConsoleCheckBox.Checked;
             SavedUserPrefs.GamesInFullScreen = FullscreenCheckBox.Checked;
             SavedUserPrefs.GamesQuitOnExit = QuitOnExitCheckBox.Checked;
-            SavedUserPrefs.OnlyNames = GameIconsCheckBox.Checked;
             if (File.Exists(EditorBinaryPathTextBox.Text))
             {
                 SavedUserPrefs.ConfigEditorPath = EditorBinaryPathTextBox.Text;
@@ -160,7 +159,6 @@ namespace AmpShell.WinForms
             ShowMenuBarCheckBox.Checked = SavedUserPrefs.MenuBarVisible;
             ShowToolBarCheckBox.Checked = SavedUserPrefs.ToolBarVisible;
             ShowDetailsBarCheckBox.Checked = SavedUserPrefs.StatusBarVisible;
-            GameIconsCheckBox.Checked = SavedUserPrefs.OnlyNames;
             QuitOnExitCheckBox.Checked = SavedUserPrefs.GamesQuitOnExit;
             NoConsoleCheckBox.Checked = SavedUserPrefs.GamesNoConsole;
             FullscreenCheckBox.Checked = SavedUserPrefs.GamesInFullScreen;

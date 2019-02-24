@@ -47,7 +47,6 @@ namespace AmpShell.UserData
         private bool _gamesInFullScreen;
         private bool _gamesQuitOnExit;
         private string _gamesAdditionalCommands;
-        private bool _onlyNames;
         private bool _fullscreen;
         private bool _menuBarVisible;
         private bool _toolBarVisible;
@@ -80,7 +79,6 @@ namespace AmpShell.UserData
             GamesNoConsole = false;
             GamesInFullScreen = false;
             GamesQuitOnExit = false;
-            OnlyNames = false;
             Fullscreen = false;
             GamesAdditionalCommands = string.Empty;
             GamesDefaultDir = string.Empty;
@@ -197,18 +195,6 @@ namespace AmpShell.UserData
                 if (value != _categoryDeletePrompt)
                 {
                     _categoryDeletePrompt = value;
-                }
-            }
-        }
-
-        public bool OnlyNames
-        {
-            get => _onlyNames;
-            set
-            {
-                if (value != _onlyNames)
-                {
-                    _onlyNames = value;
                 }
             }
         }

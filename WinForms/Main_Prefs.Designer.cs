@@ -50,7 +50,6 @@ namespace AmpShell.WinForms
             this.DOSBoxLangFileTextBox = new System.Windows.Forms.TextBox();
             this.DOSBoxPathTextBox = new System.Windows.Forms.TextBox();
             this.GamesTabPage = new System.Windows.Forms.TabPage();
-            this.GameIconsCheckBox = new System.Windows.Forms.CheckBox();
             this.GamesDirTextBox = new System.Windows.Forms.TextBox();
             this.GamesDirLabel = new System.Windows.Forms.Label();
             this.OtherOptionsGroupBox = new System.Windows.Forms.GroupBox();
@@ -235,7 +234,6 @@ namespace AmpShell.WinForms
             // GamesTabPage
             // 
             this.GamesTabPage.BackColor = System.Drawing.Color.Transparent;
-            this.GamesTabPage.Controls.Add(this.GameIconsCheckBox);
             this.GamesTabPage.Controls.Add(this.GamesDirTextBox);
             this.GamesTabPage.Controls.Add(this.GamesDirLabel);
             this.GamesTabPage.Controls.Add(this.OtherOptionsGroupBox);
@@ -251,16 +249,6 @@ namespace AmpShell.WinForms
             this.GamesTabPage.TabIndex = 3;
             this.GamesTabPage.Text = "Games";
             this.GamesTabPage.UseVisualStyleBackColor = true;
-            // 
-            // GameIconsCheckBox
-            // 
-            this.GameIconsCheckBox.AutoSize = true;
-            this.GameIconsCheckBox.Location = new System.Drawing.Point(268, 148);
-            this.GameIconsCheckBox.Name = "GameIconsCheckBox";
-            this.GameIconsCheckBox.Size = new System.Drawing.Size(165, 17);
-            this.GameIconsCheckBox.TabIndex = 18;
-            this.GameIconsCheckBox.Text = "Display only names (no icons)";
-            this.GameIconsCheckBox.UseVisualStyleBackColor = true;
             // 
             // GamesDirTextBox
             // 
@@ -914,7 +902,6 @@ namespace AmpShell.WinForms
         private System.Windows.Forms.TextBox GamesDirTextBox;
         private System.Windows.Forms.Button BrowseGamesDirButton;
         private System.Windows.Forms.Label GamesDirLabel;
-        private System.Windows.Forms.CheckBox GameIconsCheckBox;
         private System.Windows.Forms.ListView CategoriesListView;
         private System.Windows.Forms.GroupBox ShowGroupBox;
         private System.Windows.Forms.CheckBox ShowMenuBarCheckBox;

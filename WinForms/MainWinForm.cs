@@ -294,7 +294,7 @@ namespace AmpShell.WinForms
                 EditDefaultConfigurationButton.Enabled = true;
             }
             //Create the TabPages (categories) ListViews, and games inside the ListViews with DisplayUserData 
-            DisplayUserData(_userPrefs, _userPrefs.OnlyNames);
+            DisplayUserData(_userPrefs);
         }
 
         private string SearchCommonTextEditor()
@@ -457,7 +457,7 @@ namespace AmpShell.WinForms
         /// </summary>
         /// <param name="userPrefs">The main user data class instance</param>
         /// <param name="noIcons">whether we display icons for games or not at all</param>
-        private void DisplayUserData(UserPrefs userPrefs, bool noIcons)
+        private void DisplayUserData(UserPrefs userPrefs)
         {
             //applying the Height and Width previously saved.
             TabControl.Controls.Clear();
@@ -512,27 +512,24 @@ namespace AmpShell.WinForms
                         //take the game's signature into the ListViewItem .Name proprety
                         Name = gameToDisplay.Signature
                     };
-                    if (noIcons == false)
+                    tabltview.SmallImageList = _gamesSmallImageList;
+                    _gamesSmallImageList.ImageSize = new Size(16, 16);
+                    tabltview.LargeImageList = _gamesLargeImageList;
+                    _gamesLargeImageList.ImageSize = new Size(userPrefs.LargeViewModeSize, userPrefs.LargeViewModeSize);
+                    _gamesMediumImageList.ImageSize = new Size(32, 32);
+                    _gamesLargeImageList.Images.Add("DefaultIcon", global::AmpShell.Properties.Resources.Generic_Application.GetThumbnailImage(userPrefs.LargeViewModeSize, userPrefs.LargeViewModeSize, null, IntPtr.Zero));
+                    _gamesMediumImageList.Images.Add("DefaultIcon", global::AmpShell.Properties.Resources.Generic_Application1.GetThumbnailImage(32, 32, null, IntPtr.Zero));
+                    _gamesSmallImageList.Images.Add("DefaultIcon", global::AmpShell.Properties.Resources.Generic_Application1.GetThumbnailImage(16, 16, null, IntPtr.Zero));
+                    if (string.IsNullOrWhiteSpace(gameToDisplay.Icon) == false && File.Exists(gameToDisplay.Icon))
                     {
-                        tabltview.SmallImageList = _gamesSmallImageList;
-                        _gamesSmallImageList.ImageSize = new Size(16, 16);
-                        tabltview.LargeImageList = _gamesLargeImageList;
-                        _gamesLargeImageList.ImageSize = new Size(userPrefs.LargeViewModeSize, userPrefs.LargeViewModeSize);
-                        _gamesMediumImageList.ImageSize = new Size(32, 32);
-                        _gamesLargeImageList.Images.Add("DefaultIcon", global::AmpShell.Properties.Resources.Generic_Application.GetThumbnailImage(userPrefs.LargeViewModeSize, userPrefs.LargeViewModeSize, null, IntPtr.Zero));
-                        _gamesMediumImageList.Images.Add("DefaultIcon", global::AmpShell.Properties.Resources.Generic_Application1.GetThumbnailImage(32, 32, null, IntPtr.Zero));
-                        _gamesSmallImageList.Images.Add("DefaultIcon", global::AmpShell.Properties.Resources.Generic_Application1.GetThumbnailImage(16, 16, null, IntPtr.Zero));
-                        if (string.IsNullOrWhiteSpace(gameToDisplay.Icon) == false && File.Exists(gameToDisplay.Icon))
-                        {
-                            _gamesLargeImageList.Images.Add(gameToDisplay.Signature, Image.FromFile(gameToDisplay.Icon, true).GetThumbnailImage(userPrefs.LargeViewModeSize, userPrefs.LargeViewModeSize, null, IntPtr.Zero));
-                            _gamesMediumImageList.Images.Add(gameToDisplay.Signature, Image.FromFile(gameToDisplay.Icon, true).GetThumbnailImage(32, 32, null, IntPtr.Zero));
-                            _gamesSmallImageList.Images.Add(gameToDisplay.Signature, Image.FromFile(gameToDisplay.Icon, true).GetThumbnailImage(16, 16, null, IntPtr.Zero));
-                            gameforlt.ImageKey = gameToDisplay.Signature;
-                        }
-                        else
-                        {
-                            gameforlt.ImageKey = "DefaultIcon";
-                        }
+                        _gamesLargeImageList.Images.Add(gameToDisplay.Signature, Image.FromFile(gameToDisplay.Icon, true).GetThumbnailImage(userPrefs.LargeViewModeSize, userPrefs.LargeViewModeSize, null, IntPtr.Zero));
+                        _gamesMediumImageList.Images.Add(gameToDisplay.Signature, Image.FromFile(gameToDisplay.Icon, true).GetThumbnailImage(32, 32, null, IntPtr.Zero));
+                        _gamesSmallImageList.Images.Add(gameToDisplay.Signature, Image.FromFile(gameToDisplay.Icon, true).GetThumbnailImage(16, 16, null, IntPtr.Zero));
+                        gameforlt.ImageKey = gameToDisplay.Signature;
+                    }
+                    else
+                    {
+                        gameforlt.ImageKey = "DefaultIcon";
                     }
                     ListViewItem.ListViewSubItem gameDOSEXEPathLVSubItem = new ListViewItem.ListViewSubItem
                     {
@@ -827,25 +824,22 @@ namespace AmpShell.WinForms
                     _currentListView.FocusedItem.SubItems[9].Text = selectedGame.InFullScreen.ToString();
                     _currentListView.FocusedItem.SubItems[10].Text = selectedGame.QuitOnExit.ToString();
                 }
-                if (_userPrefs.OnlyNames == false)
+                if (string.IsNullOrWhiteSpace(oldIconSave) == false)
                 {
-                    if (string.IsNullOrWhiteSpace(oldIconSave) == false)
-                    {
-                        _gamesLargeImageList.Images.RemoveByKey(selectedGame.Signature);
-                        _gamesMediumImageList.Images.RemoveByKey(selectedGame.Signature);
-                        _gamesSmallImageList.Images.RemoveByKey(selectedGame.Signature);
-                    }
-                    if (string.IsNullOrWhiteSpace(selectedGame.Icon) == false)
-                    {
-                        _gamesSmallImageList.Images.Add(selectedGame.Signature, Image.FromFile(selectedGame.Icon).GetThumbnailImage(16, 16, null, IntPtr.Zero));
-                        _gamesMediumImageList.Images.Add(selectedGame.Signature, Image.FromFile(selectedGame.Icon).GetThumbnailImage(32, 32, null, IntPtr.Zero));
-                        _gamesLargeImageList.Images.Add(selectedGame.Signature, Image.FromFile(selectedGame.Icon).GetThumbnailImage(_userPrefs.LargeViewModeSize, _userPrefs.LargeViewModeSize, null, IntPtr.Zero));
-                        _currentListView.FocusedItem.ImageKey = selectedGame.Signature;
-                    }
-                    else
-                    {
-                        _currentListView.FocusedItem.ImageKey = "DefaultIcon";
-                    }
+                    _gamesLargeImageList.Images.RemoveByKey(selectedGame.Signature);
+                    _gamesMediumImageList.Images.RemoveByKey(selectedGame.Signature);
+                    _gamesSmallImageList.Images.RemoveByKey(selectedGame.Signature);
+                }
+                if (string.IsNullOrWhiteSpace(selectedGame.Icon) == false)
+                {
+                    _gamesSmallImageList.Images.Add(selectedGame.Signature, Image.FromFile(selectedGame.Icon).GetThumbnailImage(16, 16, null, IntPtr.Zero));
+                    _gamesMediumImageList.Images.Add(selectedGame.Signature, Image.FromFile(selectedGame.Icon).GetThumbnailImage(32, 32, null, IntPtr.Zero));
+                    _gamesLargeImageList.Images.Add(selectedGame.Signature, Image.FromFile(selectedGame.Icon).GetThumbnailImage(_userPrefs.LargeViewModeSize, _userPrefs.LargeViewModeSize, null, IntPtr.Zero));
+                    _currentListView.FocusedItem.ImageKey = selectedGame.Signature;
+                }
+                else
+                {
+                    _currentListView.FocusedItem.ImageKey = "DefaultIcon";
                 }
                 //if the game setup executable location has been changed and is now empty
                 if (string.IsNullOrWhiteSpace(selectedGame.SetupEXEPath))
@@ -1133,19 +1127,15 @@ namespace AmpShell.WinForms
                 newListView.Columns.Add("QuitOnExitColumn", "Quit on exit ?", newCategoryForm.Category.QuitOnExitColumnWidth);
                 newListView.Dock = DockStyle.Fill;
                 newListView.View = _userPrefs.CategoriesDefaultViewMode;
-                if (_userPrefs.OnlyNames == false)
+                if (_userPrefs.CategoriesDefaultViewMode == View.LargeIcon)
                 {
-                    if (_userPrefs.CategoriesDefaultViewMode == View.LargeIcon)
-                    {
-                        newListView.LargeImageList = _gamesLargeImageList;
-                    }
-                    else if (_userPrefs.CategoriesDefaultViewMode == View.Tile)
-                    {
-                        newListView.LargeImageList = _gamesMediumImageList;
-                    }
-
-                    newListView.SmallImageList = _gamesSmallImageList;
+                    newListView.LargeImageList = _gamesLargeImageList;
                 }
+                else if (_userPrefs.CategoriesDefaultViewMode == View.Tile)
+                {
+                    newListView.LargeImageList = _gamesMediumImageList;
+                }
+                newListView.SmallImageList = _gamesSmallImageList;
                 newListView.ContextMenuStrip = _currentListViewContextMenuStrip;
                 newListView.ColumnWidthChanged += new ColumnWidthChangedEventHandler(CurrentListView_ColumnWidthChanged);
                 newListView.ItemSelectionChanged += new ListViewItemSelectionChangedEventHandler(CurrentListView_ItemSelectionChanged);
@@ -1616,16 +1606,13 @@ namespace AmpShell.WinForms
                     gameToAdd.SubItems.Add(GameQuitOnExitLVSubItem);
                 }
                 _currentListView.Items.Add(gameToAdd);
-                if (!_userPrefs.OnlyNames)
+                if (string.IsNullOrWhiteSpace(newGameForm.GameInstance.Icon) == false)
                 {
-                    if (string.IsNullOrWhiteSpace(newGameForm.GameInstance.Icon) == false)
-                    {
-                        gameToAdd.ImageKey = newGameForm.GameInstance.Signature;
-                    }
-                    else
-                    {
-                        gameToAdd.ImageKey = "DefaultIcon";
-                    }
+                    gameToAdd.ImageKey = newGameForm.GameInstance.Signature;
+                }
+                else
+                {
+                    gameToAdd.ImageKey = "DefaultIcon";
                 }
             }
         }
@@ -1750,7 +1737,7 @@ namespace AmpShell.WinForms
                 _userPrefs.ListChildren = prefsForm.SavedUserPrefs.ListChildren;
                 _userPrefs.X = Location.X;
                 _userPrefs.Y = Location.Y;
-                DisplayUserData(_userPrefs, _userPrefs.OnlyNames);
+                DisplayUserData(_userPrefs);
             }
             UpdateButtonsState();
         }
