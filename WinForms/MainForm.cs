@@ -65,9 +65,6 @@ namespace AmpShell.WinForms
         public MainForm()
         {
             InitializeComponent();
-            _gamesLargeImageList.ColorDepth = ColorDepth.Depth32Bit;
-            _gamesMediumImageList.ColorDepth = ColorDepth.Depth32Bit;
-            _gamesSmallImageList.ColorDepth = ColorDepth.Depth32Bit;
             _menuBarMenuItem.Click += new EventHandler(MenuBar_AmpCMS_Click);
             _toolBarMenuItem.Click += new EventHandler(ToolBar_AmpCMS_Click);
             _statusBarMenuItem.Click += new EventHandler(StatusBar_AmpCMS_Click);
