@@ -343,7 +343,6 @@ namespace AmpShell.WinForms
             // 
             // RunDOSBoxToolStripMenuItem
             // 
-            this.RunDOSBoxToolStripMenuItem.Enabled = false;
             this.RunDOSBoxToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("RunDOSBoxToolStripMenuItem.Image")));
             this.RunDOSBoxToolStripMenuItem.Name = "RunDOSBoxToolStripMenuItem";
             this.RunDOSBoxToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
@@ -356,7 +355,6 @@ namespace AmpShell.WinForms
             // 
             // RunConfigurationEditorToolStripMenuItem
             // 
-            this.RunConfigurationEditorToolStripMenuItem.Enabled = false;
             this.RunConfigurationEditorToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("RunConfigurationEditorToolStripMenuItem.Image")));
             this.RunConfigurationEditorToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.RunConfigurationEditorToolStripMenuItem.Name = "RunConfigurationEditorToolStripMenuItem";
@@ -668,7 +666,6 @@ namespace AmpShell.WinForms
             // RunDOSBoxButton
             // 
             this.RunDOSBoxButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.RunDOSBoxButton.Enabled = false;
             this.RunDOSBoxButton.Image = ((System.Drawing.Image)(resources.GetObject("RunDOSBoxButton.Image")));
             this.RunDOSBoxButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.RunDOSBoxButton.Name = "RunDOSBoxButton";
@@ -682,7 +679,6 @@ namespace AmpShell.WinForms
             // RunConfigurationEditorButton
             // 
             this.RunConfigurationEditorButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.RunConfigurationEditorButton.Enabled = false;
             this.RunConfigurationEditorButton.Image = ((System.Drawing.Image)(resources.GetObject("RunConfigurationEditorButton.Image")));
             this.RunConfigurationEditorButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.RunConfigurationEditorButton.Name = "RunConfigurationEditorButton";
@@ -852,7 +848,7 @@ namespace AmpShell.WinForms
             this.TabControl.Size = new System.Drawing.Size(624, 290);
             this.TabControl.TabIndex = 1;
             // 
-            // MainWindow
+            // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoSize = true;
@@ -864,7 +860,7 @@ namespace AmpShell.WinForms
             this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip;
-            this.Name = "MainWindow";
+            this.Name = "MainForm";
             this.Text = "AmpShell";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AmpShell_FormClosing);
             this.Load += new System.EventHandler(this.AmpShell_Load);

@@ -31,7 +31,7 @@ namespace AmpShell.WinForms
             OK.Text = "&Save and apply";
             OK.Width = 102;
             OK.Location = new System.Drawing.Point(Cancel.Location.X - 107, 41);
-            OK.Image = global::AmpShell.Properties.Resources.saveHS;
+            OK.Image = Properties.Resources.saveHS;
             Cancel.Text = "&Don't save";
         }
 

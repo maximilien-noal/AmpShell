@@ -7,6 +7,8 @@
  * See the GNU General Public License for more details.
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
+using AmpShell.Backend;
+using AmpShell.Configuration;
 using AmpShell.UserData;
 using AmpShell.WinForms.UserControls;
 using System;
@@ -23,15 +25,6 @@ namespace AmpShell.WinForms
         private ImageList _gamesLargeImageList = new ImageList();
         private ImageList _gamesSmallImageList = new ImageList();
         private ImageList _gamesMediumImageList = new ImageList();
-        private ObjectSerializer _xmlSerializer = new ObjectSerializer();
-        /// <summary>
-        /// Window instance used mainly to do load and save user data through XML (de)serialization
-        /// </summary>
-        private UserPrefs _userPrefs = new UserPrefs();
-        /// <summary>
-        /// path to AmpShell.xml
-        /// </summary>
-        private string _userConfigDataPath;
         /// <summary>
         /// ListView instance used mainly to retrieve the current ListView (in tabcontrol.SelectedTab["GamesListView"])
         /// </summary>
@@ -175,280 +168,11 @@ namespace AmpShell.WinForms
 
         private void AmpShell_Load(object sender, EventArgs e)
         {
-            //If the file named AmpShell.xml doesn't exists inside the directory AmpShell uses the one in the user's profile Application Data directory
-            if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\AmpShell\\AmpShell.xml") == false && File.Exists(Application.StartupPath + "\\AmpShell.xml") == false)
-            {
-                //take the Windows Height and Width (saved on close with XML serializing)
-                Width = 640;
-                Height = 400;
-                _userPrefs.Width = Width;
-                _userPrefs.Height = Height;
-                //Setup the whole directory path
-                if (Directory.GetDirectoryRoot(Application.StartupPath) == Environment.GetFolderPath(System.Environment.SpecialFolder.ProgramFiles) || Directory.GetDirectoryRoot(Application.StartupPath) == Environment.SystemDirectory.Substring(0, 3) + "Program Files (x86)")
-                {
-                    _userConfigDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\AmpShell";
-                    //create the directory
-                    if (Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\AmpShell") == false)
-                    {
-                        Directory.CreateDirectory(_userConfigDataPath);
-                        _userConfigDataPath = _userConfigDataPath + "\\AmpShell.xml";
-                    }
-                }
-                else
-                {
-                    _userConfigDataPath = Application.StartupPath + "\\AmpShell.xml";
-                }
-                //Serializing the data inside Amp for the first run
-                _xmlSerializer.Serialize(_userConfigDataPath, _userPrefs, typeof(UserDataRoot));
-                _userPrefs = (UserPrefs)_xmlSerializer.Deserialize(_userConfigDataPath, typeof(UserDataRoot));
-            }
-            //if the file named AmpShell.xml exists inside that directory
-            else
-            {
-                //then, deserialize it in Amp.
-                if (File.Exists(Application.StartupPath + "\\AmpShell.xml"))
-                {
-                    _userConfigDataPath = Application.StartupPath + "\\AmpShell.xml";
-                }
-                else if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\AmpShell\\AmpShell.xml"))
-                {
-                    _userConfigDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\AmpShell\\AmpShell.xml";
-                }
-
-                _userPrefs = (UserPrefs)_xmlSerializer.Deserialize(_userConfigDataPath, typeof(UserDataRoot));
-                foreach (UserCategory ConcernedCategory in _userPrefs.ListChildren)
-                {
-                    foreach (UserGame ConcernedGame in ConcernedCategory.ListChildren)
-                    {
-                        ConcernedGame.DOSEXEPath = ConcernedGame.DOSEXEPath.Replace("AppPath", Application.StartupPath);
-                        ConcernedGame.DBConfPath = ConcernedGame.DBConfPath.Replace("AppPath", Application.StartupPath);
-                        ConcernedGame.AdditionalCommands = ConcernedGame.AdditionalCommands.Replace("AppPath", Application.StartupPath);
-                        ConcernedGame.Directory = ConcernedGame.Directory.Replace("AppPath", Application.StartupPath);
-                        ConcernedGame.CDPath = ConcernedGame.CDPath.Replace("AppPath", Application.StartupPath);
-                        ConcernedGame.SetupEXEPath = ConcernedGame.SetupEXEPath.Replace("AppPath", Application.StartupPath);
-                        ConcernedGame.Icon = ConcernedGame.Icon.Replace("AppPath", Application.StartupPath);
-
-                    }
-                }
-                _userPrefs.DBDefaultConfFilePath = _userPrefs.DBDefaultConfFilePath.Replace("AppPath", Application.StartupPath);
-                _userPrefs.DBDefaultLangFilePath = _userPrefs.DBDefaultLangFilePath.Replace("AppPath", Application.StartupPath);
-                _userPrefs.DBPath = _userPrefs.DBPath.Replace("AppPath", Application.StartupPath);
-                _userPrefs.ConfigEditorPath = _userPrefs.ConfigEditorPath.Replace("AppPath", Application.StartupPath);
-                _userPrefs.ConfigEditorAdditionalParameters = _userPrefs.ConfigEditorAdditionalParameters.Replace("AppPath", Application.StartupPath);
-            }
-            if (string.IsNullOrWhiteSpace(_userPrefs.DBPath))
-            {
-                _userPrefs.DBPath = SearchDOSBox();
-            }
-            else if (File.Exists(_userPrefs.DBPath) == false)
-            {
-                _userPrefs.DBPath = SearchDOSBox();
-                if (File.Exists(_userPrefs.DBPath))
-                {
-                    RunDOSBoxToolStripMenuItem.Enabled = true;
-                    RunDOSBoxButton.Enabled = true;
-                }
-            }
-            else
-            {
-                RunDOSBoxToolStripMenuItem.Enabled = true;
-                RunDOSBoxButton.Enabled = true;
-            }
-            if (string.IsNullOrWhiteSpace(_userPrefs.ConfigEditorPath))
-            {
-                _userPrefs.ConfigEditorPath = SearchCommonTextEditor();
-            }
-            else if (File.Exists(_userPrefs.ConfigEditorPath) == false)
-            {
-                _userPrefs.ConfigEditorPath = SearchCommonTextEditor();
-            }
-            else
-            {
-                RunConfigurationEditorButton.Enabled = true;
-                RunConfigurationEditorToolStripMenuItem.Enabled = true;
-            }
-            if (string.IsNullOrWhiteSpace(_userPrefs.DBDefaultConfFilePath))
-            {
-                _userPrefs.DBDefaultConfFilePath = SearchDOSBoxConf(_userPrefs.DBPath);
-            }
-            else if (File.Exists(_userPrefs.DBDefaultConfFilePath) == false)
-            {
-                _userPrefs.DBDefaultConfFilePath = SearchDOSBoxConf(_userPrefs.DBPath);
-            }
-
-            if (string.IsNullOrWhiteSpace(_userPrefs.DBDefaultLangFilePath) == false)
-            {
-                _userPrefs.DBDefaultLangFilePath = SearchDOSBoxLanguageFile(_userPrefs.DBPath);
-            }
-            else if (File.Exists(_userPrefs.DBDefaultLangFilePath) == false)
-            {
-                _userPrefs.DBDefaultLangFilePath = SearchDOSBoxLanguageFile(_userPrefs.DBPath);
-            }
-
-            if (string.IsNullOrWhiteSpace(_userPrefs.DBDefaultConfFilePath) == false && string.IsNullOrWhiteSpace(_userPrefs.ConfigEditorPath) == false)
-            {
-                EditDefaultConfigurationToolStripMenuItem.Enabled = true;
-                EditDefaultConfigurationButton.Enabled = true;
-            }
+            UserDataLoaderSaver.LoadUserSettings();
             //Create the TabPages (categories) ListViews, and games inside the ListViews with DisplayUserData 
-            DisplayUserData(_userPrefs);
+            DisplayUserData(UserDataLoaderSaver.UserPrefs);
         }
-
-        private string SearchCommonTextEditor()
-        {
-            string confEditorPath = string.Empty;
-            if (string.IsNullOrWhiteSpace(confEditorPath))
-            {
-                if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.System).Substring(0, Environment.GetFolderPath(Environment.SpecialFolder.System).Length - 8).ToString() + "notepad.exe"))
-                {
-                    confEditorPath = Environment.GetFolderPath(Environment.SpecialFolder.System).Substring(0, Environment.GetFolderPath(Environment.SpecialFolder.System).Length - 8).ToString() + "notepad.exe";
-                }
-            }
-            return confEditorPath;
-        }
-
-        private string SearchDOSBoxConf(string DOSBoxExecutablePath)
-        {
-            string confPath = string.Empty;
-            if (_userConfigDataPath == Application.StartupPath + "\\AmpShell.xml")
-            {
-                if (Directory.GetFiles((Application.StartupPath), "*.conf").Length > 0)
-                {
-                    confPath = Directory.GetFiles((Application.StartupPath), "*.conf")[0];
-                }
-            }
-            if (string.IsNullOrWhiteSpace(confPath))
-            {
-                //if Local Settings/Application Data/DOSBox exists
-                if (Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\DOSBox"))
-                {
-                    //then, the DOSBox.conf file inside it becomes the default one. 
-                    if (Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\DOSBox", "*dosbox*.conf").Length > 0)
-                    {
-                        confPath = Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\DOSBox", "*dosbox*.conf")[0];
-                    }
-                }
-                else
-                {
-                    //if dosbox.conf has been generated by DOSBox in the same directory as dosbox.exe
-                    //(behavior of DOSBox versions prior to DOSBox version 0.73)
-                    if (string.IsNullOrWhiteSpace(DOSBoxExecutablePath) == false)
-                    {
-                        if (File.Exists(Directory.GetParent(DOSBoxExecutablePath).FullName + "\\dosbox.conf"))
-                        {
-                            confPath = DOSBoxExecutablePath + "\\dosbox.conf";
-                        }
-                    }
-                }
-            }
-            return confPath;
-        }
-
-        private string SearchDOSBoxLanguageFile(string dosboxExecutablePath)
-        {
-            //returned string
-            string langPath = string.Empty;
-            //if LangPath is _still_ empty, Windows test cases take place.
-            if (string.IsNullOrWhiteSpace(langPath))
-            {
-                //if Local Settings/Application Data/DOSBox exists
-                if (Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\DOSBox"))
-                {
-                    //then, the DOSBox.conf file inside it becomes the default one.
-                    if (Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\DOSBox", "*.lng").Length > 0)
-                    {
-                        langPath = Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\DOSBox", "*.lng")[0];
-                    }
-                }
-                else
-                {
-                    //if dosbox.conf has been generated by DOSBox in the same directory as dosbox.exe
-                    //(behavior of DOSBox versions prior to DOSBox version 0.73)
-                    if (string.IsNullOrWhiteSpace(dosboxExecutablePath) == false)
-                    {
-                        if (Directory.GetFiles(Directory.GetParent(dosboxExecutablePath).FullName, "*.lng").Length > 0)
-                        {
-                            langPath = Directory.GetFiles(Directory.GetParent(dosboxExecutablePath).FullName, "*.lng")[0];
-                        }
-                    }
-                }
-            }
-            return langPath;
-        }
-
-        private string SearchDOSBox()
-        {
-            string dosboxPath = string.Empty;
-            if (_userConfigDataPath == Application.StartupPath + "\\AmpShell.xml" && _userPrefs.PortableMode)
-            {
-                if (File.Exists(Application.StartupPath + "\\dosbox.exe"))
-                {
-                    dosboxPath = Application.StartupPath + "\\dosbox.exe";
-                }
-            }
-            else
-            {
-                //test if DOSBox is in Program Files/DOSBox-?.?? (Windows x86)
-                if (Directory.GetDirectories(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "DOSBox*", SearchOption.TopDirectoryOnly).GetLength(0) != 0)
-                {
-                    dosboxPath = Directory.GetDirectories(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "DOSBox*", SearchOption.TopDirectoryOnly)[0];
-                    if (File.Exists(dosboxPath + "\\dosbox.exe"))
-                    {
-                        dosboxPath = dosboxPath + "\\dosbox.exe";
-                    }
-                }
-                else
-                {
-                    //test if the user is using Windows x64
-                    //in this case, DOSBox's installation directory is most likely in "Program Files (x86)"
-                    if (Directory.Exists(Environment.SystemDirectory.Substring(0, 3) + "Program Files (x86)"))
-                    {
-                        if (Directory.GetDirectories(Environment.SystemDirectory.Substring(0, 3) + "Program Files (x86)", "DOSBox*", SearchOption.TopDirectoryOnly).GetLength(0) != 0)
-                        {
-                            dosboxPath = Directory.GetDirectories(Environment.SystemDirectory.Substring(0, 3) + "Program Files (x86)", "DOSBox*", SearchOption.TopDirectoryOnly)[0];
-                            if (File.Exists(dosboxPath + "\\dosbox.exe"))
-                            {
-                                dosboxPath = dosboxPath + "\\dosbox.exe";
-                            }
-                        }
-                    }
-                }
-            }
-            //if DOSBoxPath is still empty, say to the user that dosbox's executable cannot be found
-            if (string.IsNullOrWhiteSpace(dosboxPath))
-            {
-                switch (MessageBox.Show("AmpShell cannot find DOSBox, do you want to indicate DOSBox's executable location now ? Choose 'Cancel' to quit.", "Cannot find DOSBox", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question))
-                {
-                    case DialogResult.Cancel:
-                        dosboxPath = string.Empty;
-                        Environment.Exit(0);
-                        break;
-                    case DialogResult.Yes:
-                        OpenFileDialog dosboxExeFileDialog = new OpenFileDialog
-                        {
-                            InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
-                            Title = "Please indicate DOSBox's executable location...",
-                            Filter = "DOSBox executable (dosbox*)|dosbox*"
-                        };
-                        if (dosboxExeFileDialog.ShowDialog(this) == DialogResult.OK)
-                        {
-                            //retrieve the selected dosbox.exe path into Amp.DBPath
-                            dosboxPath = dosboxExeFileDialog.FileName;
-                        }
-                        else
-                        {
-                            dosboxPath = string.Empty;
-                        }
-
-                        break;
-                    case DialogResult.No:
-                        dosboxPath = string.Empty;
-                        break;
-                }
-            }
-            return dosboxPath;
-        }
-
+        
         /// <summary>
         /// Create the TabPages (categories) ListViews, and games inside the ListViews
         /// </summary>
@@ -456,8 +180,25 @@ namespace AmpShell.WinForms
         /// <param name="noIcons">whether we display icons for games or not at all</param>
         private void DisplayUserData(UserPrefs userPrefs)
         {
+            if (string.IsNullOrWhiteSpace(UserDataLoaderSaver.UserPrefs.DBDefaultConfFilePath) == false && string.IsNullOrWhiteSpace(UserDataLoaderSaver.UserPrefs.ConfigEditorPath) == false)
+            {
+                EditDefaultConfigurationToolStripMenuItem.Enabled = true;
+                EditDefaultConfigurationButton.Enabled = true;
+            }
+
+            if (string.IsNullOrWhiteSpace(UserDataLoaderSaver.UserPrefs.ConfigEditorPath))
+            {
+                RunConfigurationEditorButton.Enabled = false;
+                RunConfigurationEditorToolStripMenuItem.Enabled = false;
+            }
+
+            if (string.IsNullOrWhiteSpace(UserDataLoaderSaver.UserPrefs.DBPath) || File.Exists(UserDataLoaderSaver.UserPrefs.DBPath) == false)
+            {
+                RunDOSBoxToolStripMenuItem.Enabled = false;
+                RunDOSBoxButton.Enabled = false;
+            }
+
             //applying the Height and Width previously saved.
-            TabControl.Controls.Clear();
             if (userPrefs.RememberWindowSize != false)
             {
                 Width = userPrefs.Width;
@@ -514,9 +255,9 @@ namespace AmpShell.WinForms
                     tabltview.LargeImageList = _gamesLargeImageList;
                     _gamesLargeImageList.ImageSize = new Size(userPrefs.LargeViewModeSize, userPrefs.LargeViewModeSize);
                     _gamesMediumImageList.ImageSize = new Size(32, 32);
-                    _gamesLargeImageList.Images.Add("DefaultIcon", global::AmpShell.Properties.Resources.Generic_Application.GetThumbnailImage(userPrefs.LargeViewModeSize, userPrefs.LargeViewModeSize, null, IntPtr.Zero));
-                    _gamesMediumImageList.Images.Add("DefaultIcon", global::AmpShell.Properties.Resources.Generic_Application1.GetThumbnailImage(32, 32, null, IntPtr.Zero));
-                    _gamesSmallImageList.Images.Add("DefaultIcon", global::AmpShell.Properties.Resources.Generic_Application1.GetThumbnailImage(16, 16, null, IntPtr.Zero));
+                    _gamesLargeImageList.Images.Add("DefaultIcon", Properties.Resources.Generic_Application.GetThumbnailImage(userPrefs.LargeViewModeSize, userPrefs.LargeViewModeSize, null, IntPtr.Zero));
+                    _gamesMediumImageList.Images.Add("DefaultIcon", Properties.Resources.Generic_Application1.GetThumbnailImage(32, 32, null, IntPtr.Zero));
+                    _gamesSmallImageList.Images.Add("DefaultIcon", Properties.Resources.Generic_Application1.GetThumbnailImage(16, 16, null, IntPtr.Zero));
                     if (string.IsNullOrWhiteSpace(gameToDisplay.Icon) == false && File.Exists(gameToDisplay.Icon))
                     {
                         _gamesLargeImageList.Images.Add(gameToDisplay.Signature, Image.FromFile(gameToDisplay.Icon, true).GetThumbnailImage(userPrefs.LargeViewModeSize, userPrefs.LargeViewModeSize, null, IntPtr.Zero));
@@ -647,7 +388,7 @@ namespace AmpShell.WinForms
                 //add the ListView, named "GamesListView", and now filled with it's games (ListViewItems), to it.
                 TabControl.SelectedTab.Controls.Add(tabltview);
                 //the ltview private field reference will be the selected TabPage's ListView
-                //this is where the .tag property of the ListView tabltview could have been used.
+                //this is where the Tag property of the ListView tabltview could have been used.
                 _currentListView = (ListView)TabControl.SelectedTab.Controls["GamesListView"];
                 //drag&drop begins with the ItemDrag eventhandler
                 _currentListView.ItemDrag += new ItemDragEventHandler(CurrentListView_ItemDrag);
@@ -713,7 +454,7 @@ namespace AmpShell.WinForms
 
         private UserCategory GetSelectedCategory()
         {
-            foreach (UserCategory selectedCategory in _userPrefs.ListChildren)
+            foreach (UserCategory selectedCategory in UserDataLoaderSaver.UserPrefs.ListChildren)
             {
                 if (selectedCategory.Signature == TabControl.SelectedTab.Name)
                 {
@@ -737,7 +478,7 @@ namespace AmpShell.WinForms
                 {
                     if (selectedGame.Signature == SelectedItem.Name)
                     {
-                        foreach (UserCategory targetCategory in _userPrefs.ListChildren)
+                        foreach (UserCategory targetCategory in UserDataLoaderSaver.UserPrefs.ListChildren)
                         {
                             if (targetCategory.Signature == TabControl.TabPages[_hoveredTabIndex].Name)
                             {
@@ -782,7 +523,7 @@ namespace AmpShell.WinForms
         {
             UserGame selectedGame = GetSelectedGame();
             //Make an instance of GameForm with the alternate constructor
-            GameForm gameEditForm = new GameForm(selectedGame, _userPrefs);
+            GameForm gameEditForm = new GameForm(selectedGame, UserDataLoaderSaver.UserPrefs);
             string oldIconSave = selectedGame.Icon;
             //show GameEdit
             if (gameEditForm.ShowDialog(this) == DialogResult.OK)
@@ -831,7 +572,7 @@ namespace AmpShell.WinForms
                 {
                     _gamesSmallImageList.Images.Add(selectedGame.Signature, Image.FromFile(selectedGame.Icon).GetThumbnailImage(16, 16, null, IntPtr.Zero));
                     _gamesMediumImageList.Images.Add(selectedGame.Signature, Image.FromFile(selectedGame.Icon).GetThumbnailImage(32, 32, null, IntPtr.Zero));
-                    _gamesLargeImageList.Images.Add(selectedGame.Signature, Image.FromFile(selectedGame.Icon).GetThumbnailImage(_userPrefs.LargeViewModeSize, _userPrefs.LargeViewModeSize, null, IntPtr.Zero));
+                    _gamesLargeImageList.Images.Add(selectedGame.Signature, Image.FromFile(selectedGame.Icon).GetThumbnailImage(UserDataLoaderSaver.UserPrefs.LargeViewModeSize, UserDataLoaderSaver.UserPrefs.LargeViewModeSize, null, IntPtr.Zero));
                     _currentListView.FocusedItem.ImageKey = selectedGame.Signature;
                 }
                 else
@@ -939,7 +680,7 @@ namespace AmpShell.WinForms
                         GameEditConfigurationButton.Enabled = true;
                         EditConfigToolStripMenuItem.Enabled = true;
                     }
-                    else if (string.IsNullOrWhiteSpace(_userPrefs.DBDefaultConfFilePath) == false)
+                    else if (string.IsNullOrWhiteSpace(UserDataLoaderSaver.UserPrefs.DBDefaultConfFilePath) == false)
                     {
                         CustomConfigurationLabel.Text = "Configuration : default";
                         _editGameConfigurationMenuItem.Enabled = false;
@@ -1101,14 +842,14 @@ namespace AmpShell.WinForms
                 Random randNumber = new Random();
                 newCategorySignature = randNumber.Next(1048576).ToString();
             }
-            while (IsItUnique(newCategorySignature, _userPrefs) == false);
+            while (UserDataLoaderSaver.UserPrefs.IsItAUniqueSignature(newCategorySignature) == false);
             newCategoryForm.Category.Signature = newCategorySignature;
             //displaying the CategoryForm prompting the user for the Category's title.
             if (newCategoryForm.ShowDialog(this) == DialogResult.OK)
             {
-                //if a proper has been entered
+                //if a proper name has been entered
                 //create the category (in Amp for the data and in tabControl for the display)
-                _userPrefs.AddChild(newCategoryForm.Category);
+                UserDataLoaderSaver.UserPrefs.AddChild(newCategoryForm.Category);
                 TabControl.TabPages.Add(newCategoryForm.Category.Title);
                 ListView newListView = new CustomListView();
                 newListView.Columns.Add("NameColumn", "Name", newCategoryForm.Category.NameColumnWidth);
@@ -1123,12 +864,12 @@ namespace AmpShell.WinForms
                 newListView.Columns.Add("FullscreenColumn", "Fullscreen ?", newCategoryForm.Category.FullscreenColumnWidth);
                 newListView.Columns.Add("QuitOnExitColumn", "Quit on exit ?", newCategoryForm.Category.QuitOnExitColumnWidth);
                 newListView.Dock = DockStyle.Fill;
-                newListView.View = _userPrefs.CategoriesDefaultViewMode;
-                if (_userPrefs.CategoriesDefaultViewMode == View.LargeIcon)
+                newListView.View = UserDataLoaderSaver.UserPrefs.CategoriesDefaultViewMode;
+                if (UserDataLoaderSaver.UserPrefs.CategoriesDefaultViewMode == View.LargeIcon)
                 {
                     newListView.LargeImageList = _gamesLargeImageList;
                 }
-                else if (_userPrefs.CategoriesDefaultViewMode == View.Tile)
+                else if (UserDataLoaderSaver.UserPrefs.CategoriesDefaultViewMode == View.Tile)
                 {
                     newListView.LargeImageList = _gamesMediumImageList;
                 }
@@ -1157,123 +898,6 @@ namespace AmpShell.WinForms
             }
         }
 
-        private string BuildArgs(bool forSetupExe)
-        {
-            //Arguments string for DOSBox.exe
-            string dosboxArgs = string.Empty;
-            if (string.IsNullOrWhiteSpace(_userPrefs.DBPath) == false && _userPrefs.DBPath != "dosbox.exe isn't is the same directory as AmpShell.exe!" && File.Exists(_userPrefs.DBPath))
-            {
-                UserGame selectedGame = GetSelectedGame();
-                string qt = char.ToString('"');
-                if (selectedGame.Directory[0] != '/')
-                {
-                    qt = "'";
-                }
-                //string for the Game's configuration file.
-                string dosboxConfigPath = string.Empty;
-                //if the "do not use any config file at all" has not been checked
-                if (selectedGame.NoConfig == false)
-                {
-                    //use at first the game's custom config file
-                    if (string.IsNullOrWhiteSpace(selectedGame.DBConfPath) == false)
-                    {
-                        dosboxConfigPath = selectedGame.DBConfPath;
-                    }
-                    //if not, use the default dosbox.conf file
-                    else if (string.IsNullOrWhiteSpace(_userPrefs.DBDefaultConfFilePath) == false && _userPrefs.DBDefaultConfFilePath != "No configuration file (*.conf) found in AmpShell's directory.")
-                    {
-                        dosboxConfigPath = _userPrefs.DBDefaultConfFilePath;
-                    }
-                }
-                //The arguments for DOSBox begins with the game executable (.exe, .bat, or .com)
-                if (string.IsNullOrWhiteSpace(selectedGame.DOSEXEPath) == false)
-                {
-                    if (!forSetupExe)
-                    {
-                        dosboxArgs = '"' + selectedGame.DOSEXEPath + '"';
-                    }
-                    else
-                    {
-                        dosboxArgs = '"' + selectedGame.SetupEXEPath + '"';
-                    }
-                }
-                //the game directory mounted as C (if the DOSEXEPath is specified, the DOSEXEPath parent directory will be mounted as C: by DOSBox
-                //hence the "else if" instead of "if".
-                else if (string.IsNullOrWhiteSpace(selectedGame.Directory) == false)
-                {
-                    dosboxArgs = " -c " + '"' + "mount c " + qt + selectedGame.Directory + qt + '"';
-                }
-                //puting DBCfgPath and Arguments together
-                if (string.IsNullOrWhiteSpace(dosboxConfigPath) == false)
-                {
-                    dosboxArgs = dosboxArgs + " -conf " + '"' + dosboxConfigPath + '"';
-                }
-                //Path for the default language file used for DOSBox and specified by the user in the Tools menu
-                if (string.IsNullOrWhiteSpace(_userPrefs.DBDefaultLangFilePath) == false && _userPrefs.DBDefaultLangFilePath != "No language file (*.lng) found in AmpShell's directory.")
-                {
-                    dosboxArgs = dosboxArgs + " -lang " + '"' + _userPrefs.DBDefaultLangFilePath + '"';
-                }
-                //Path for the game's CD image (.bin, .cue, or .iso) mounted as D:
-                if (string.IsNullOrWhiteSpace(selectedGame.CDPath) == false)
-                {
-                    //put ' and _not_ " after imgmount (or else the path will be misunderstood by DOSBox). Paths with spaces will NOT work either way on GNU/Linux!
-                    if (selectedGame.CDIsAnImage == true)
-                    {
-                        dosboxArgs = dosboxArgs + " -c " + '"' + "imgmount";
-                        if (selectedGame.MountAsFloppy == true)
-                        {
-                            dosboxArgs = dosboxArgs + " a " + qt + selectedGame.CDPath + qt + " -t floppy" + '"';
-                        }
-                        else
-                        {
-                            dosboxArgs = dosboxArgs + " d " + qt + selectedGame.CDPath + qt + " -t iso" + '"';
-                        }
-                    }
-                    else
-                    {
-                        if (selectedGame.UseIOCTL == true)
-                        {
-                            dosboxArgs = dosboxArgs + " -c " + '"' + "mount d " + qt + selectedGame.CDPath + qt + " -t cdrom -usecd 0 -ioctl" + '"';
-                        }
-                        else if (selectedGame.MountAsFloppy == true)
-                        {
-                            dosboxArgs = dosboxArgs + " -c " + '"' + "mount a " + qt + selectedGame.CDPath + qt + " -t floppy" + '"';
-                        }
-                        else
-                        {
-                            dosboxArgs = dosboxArgs + " -c " + '"' + "mount d " + qt + selectedGame.CDPath + qt;
-                        }
-                    }
-                }
-                //Additionnal user commands for the game
-                if (string.IsNullOrWhiteSpace(selectedGame.AdditionalCommands) == false)
-                {
-                    dosboxArgs = dosboxArgs + " " + selectedGame.AdditionalCommands;
-                }
-                //corresponds to the Fullscreen checkbox in GameForm
-                if (selectedGame.InFullScreen == true)
-                {
-                    dosboxArgs = dosboxArgs + " -fullscreen";
-                }
-                //corresponds to the "no console" checkbox in the GameForm
-                if (selectedGame.NoConsole == true)
-                {
-                    dosboxArgs = dosboxArgs + " -noconsole";
-                }
-                //corresponds to the "quit on exit (only for .exe)" checkbox in the GameForm
-                if (selectedGame.QuitOnExit == true)
-                {
-                    dosboxArgs = dosboxArgs + " -exit";
-                }
-
-                return dosboxArgs;
-            }
-            else
-            {
-                MessageBox.Show(this, "DOSBox cannot be run (was it deleted ?) !", _runGameMenuItem.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return null;
-            }
-        }
 
         /// <summary>
         /// EventHandler for when a game is double-clicked (activated), or activated by the Enter key.
@@ -1282,7 +906,22 @@ namespace AmpShell.WinForms
         /// <param name="e"></param>
         private void CurrentListView_ItemActivate(object sender, EventArgs e)
         {
-            StartDOSBox(BuildArgs(false));
+            StartDOSBox(UserDataLoaderSaver.UserPrefs.DBPath, GetSelectedGame(), false, UserDataLoaderSaver.UserPrefs.DBDefaultConfFilePath, UserDataLoaderSaver.UserPrefs.DBDefaultLangFilePath);
+        }
+
+        private void StartDOSBox(string dosboxPath, UserGame selectedGame, bool runSetup, string confFile, string langFile)
+        {
+            var dosboxProcess = DOSBoxLauncher.StartDOSBox(dosboxPath, DOSBoxLauncher.BuildArgs(selectedGame, runSetup, dosboxPath, confFile, langFile));
+            if (dosboxProcess != null)
+            {
+                this.WindowState = FormWindowState.Minimized;
+                dosboxProcess.Exited += OnDOSBoxExit;
+            }
+        }
+
+        private void OnDOSBoxExit(object sender, EventArgs e)
+        {
+            this.Invoke((MethodInvoker)(() => { this.WindowState = FormWindowState.Normal; }));
         }
 
         /// <summary>
@@ -1296,7 +935,7 @@ namespace AmpShell.WinForms
             if (e.KeyCode == Keys.Delete)
             {
                 //search for the selected category
-                foreach (UserCategory ConcernedCategory in _userPrefs.ListChildren)
+                foreach (UserCategory ConcernedCategory in UserDataLoaderSaver.UserPrefs.ListChildren)
                 {
                     if (ConcernedCategory.Signature == TabControl.SelectedTab.Name)
                     {
@@ -1308,7 +947,7 @@ namespace AmpShell.WinForms
                             {
                                 if (ConcernedGame.Signature == ConcernedItem.Name)
                                 {
-                                    if (_userPrefs.GameDeletePrompt == true)
+                                    if (UserDataLoaderSaver.UserPrefs.GameDeletePrompt == true)
                                     {
                                         if (MessageBox.Show(this, "Do you really want to delete this game : " + ConcernedGame.Name + " ?", GameDeleteButton.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                                         {
@@ -1340,33 +979,7 @@ namespace AmpShell.WinForms
         /// <param name="e"></param>
         private void AmpShell_FormClosing(object sender, FormClosingEventArgs e)
         {
-            //saves the data inside Amp by serliazing it in AmpShell.xml
-            if (!_userPrefs.PortableMode)
-            {
-                _xmlSerializer.Serialize(_userConfigDataPath, _userPrefs, typeof(UserDataRoot));
-            }
-            else
-            {
-                foreach (UserCategory category in _userPrefs.ListChildren)
-                {
-                    foreach (UserGame game in category.ListChildren)
-                    {
-                        game.DOSEXEPath = game.DOSEXEPath.Replace(Application.StartupPath, "AppPath");
-                        game.DBConfPath = game.DBConfPath.Replace(Application.StartupPath, "AppPath");
-                        game.AdditionalCommands = game.AdditionalCommands.Replace(Application.StartupPath, "AppPath");
-                        game.Directory = game.Directory.Replace(Application.StartupPath, "AppPath");
-                        game.CDPath = game.CDPath.Replace(Application.StartupPath, "AppPath");
-                        game.SetupEXEPath = game.SetupEXEPath.Replace(Application.StartupPath, "AppPath");
-                        game.Icon = game.Icon.Replace(Application.StartupPath, "AppPath");
-                    }
-                }
-                _userPrefs.DBDefaultConfFilePath = _userPrefs.DBDefaultConfFilePath.Replace(Application.StartupPath, "AppPath");
-                _userPrefs.DBDefaultLangFilePath = _userPrefs.DBDefaultLangFilePath.Replace(Application.StartupPath, "AppPath");
-                _userPrefs.DBPath = _userPrefs.DBPath.Replace(Application.StartupPath, "AppPath");
-                _userPrefs.ConfigEditorPath = _userPrefs.ConfigEditorPath.Replace(Application.StartupPath, "AppPath");
-                _userPrefs.ConfigEditorAdditionalParameters = _userPrefs.ConfigEditorAdditionalParameters.Replace(Application.StartupPath, "AppPath");
-                _xmlSerializer.Serialize(Application.StartupPath + "\\AmpShell.xml", _userPrefs, typeof(UserDataRoot));
-            }
+            UserDataLoaderSaver.SaveUserSettings();
         }
 
         /// <summary>
@@ -1391,16 +1004,12 @@ namespace AmpShell.WinForms
         private void CategoryDeleteButton_Click(object sender, EventArgs e)
         {
             UserCategory selectedCategory = GetSelectedCategory();
-            if (_userPrefs.CategoryDeletePrompt != true ||
+            if (UserDataLoaderSaver.UserPrefs.CategoryDeletePrompt != true ||
                 MessageBox.Show(this, "Do you really want to delete " + "'" + TabControl.SelectedTab.Text + "'" + " and all the games inside it ?",
                 _deleteCategoryMenuMenuItem.Text,
                 MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                //prompt the user if he really wants to delete it.
-                //remove the data (the game will be deleted also. List<AmpShell> is provided by RootAmpShell.cs.
-                //All the other classes derive from AmpShell, so it makes a tree).
-                _userPrefs.RemoveChild(selectedCategory);
-                //remove the corresponding displayed TabPage
+                UserDataLoaderSaver.UserPrefs.RemoveChild(selectedCategory);
                 TabControl.TabPages.Remove(TabControl.SelectedTab);
             }
             UpdateButtonsState();
@@ -1414,53 +1023,15 @@ namespace AmpShell.WinForms
         /// <param name="e"></param>
         private void RunDOSBox_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(_userPrefs.DBPath) == false)
-            {
-                //check first for the lang file
-                string languageFile = string.Empty;
-                if (string.IsNullOrWhiteSpace(_userPrefs.DBDefaultLangFilePath) == false)
-                {
-                    languageFile = " -lang " + '"' + _userPrefs.DBDefaultLangFilePath + '"';
-                }
-                //then for the conf file
-                if (string.IsNullOrWhiteSpace(_userPrefs.DBDefaultConfFilePath) == false)
-                {
-                    StartDOSBox(" -conf " + '"' + _userPrefs.DBDefaultConfFilePath + '"' + languageFile);
-                }
-                else
-                {
-                    StartDOSBox(languageFile);
-                }
-            }
-        }
+            var dosboxProcess = DOSBoxLauncher.RunDOSBox(UserDataLoaderSaver.UserPrefs.DBPath, UserDataLoaderSaver.UserPrefs.DBDefaultConfFilePath, UserDataLoaderSaver.UserPrefs.DBDefaultLangFilePath);
 
-        private void StartDOSBox(string args)
-        {
-            System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo(_userPrefs.DBPath);
-            if (string.IsNullOrWhiteSpace(args) == false)
+            if(dosboxProcess != null)
             {
-                psi.Arguments = args;
-            }
-            System.Diagnostics.Process dosboxProcess = System.Diagnostics.Process.Start(_userPrefs.DBPath, args);
-            if (dosboxProcess != null)
-            {
-                dosboxProcess.EnableRaisingEvents = true;
-                BeginInvoke(new Action(() =>
-                {
-                    WindowState = FormWindowState.Minimized;
-                }));
+                this.WindowState = FormWindowState.Minimized;
                 dosboxProcess.Exited += OnDOSBoxExit;
             }
         }
-
-        private void OnDOSBoxExit(object sender, EventArgs e)
-        {
-            BeginInvoke(new Action(() =>
-            {
-                WindowState = FormWindowState.Normal;
-            }));
-        }
-
+        
         /// <summary>
         /// EventHandler for when AmpShell is shown (happens after AmpShell_Load)
         /// </summary>
@@ -1470,8 +1041,6 @@ namespace AmpShell.WinForms
         {
             _ampShellShown = true;
             //select the first TabPage of tabcontrol 
-            //(if it exists, because AmpShell_Shown is called _automatically_,
-            //whether the user has created a category or none!)
             if (TabControl.HasChildren != false)
             {
                 //select the first TabPage
@@ -1508,14 +1077,14 @@ namespace AmpShell.WinForms
         /// <param name="e"></param>
         private void GameAddButton_Click(object sender, EventArgs e)
         {
-            GameForm newGameForm = new GameForm(_userPrefs);
+            GameForm newGameForm = new GameForm(UserDataLoaderSaver.UserPrefs);
             string newGameSignature = string.Empty;
             do
             {
                 Random rand = new Random();
                 newGameSignature = rand.Next(1048576).ToString();
             }
-            while (IsItUnique(newGameSignature, _userPrefs) == false);
+            while (UserDataLoaderSaver.UserPrefs.IsItAUniqueSignature(newGameSignature) == false);
             newGameForm.GameInstance.Signature = newGameSignature;
             if (newGameForm.ShowDialog(this) == DialogResult.OK)
             {
@@ -1523,7 +1092,7 @@ namespace AmpShell.WinForms
                 concernedCategory.AddChild(newGameForm.GameInstance);
                 if (string.IsNullOrWhiteSpace(newGameForm.GameInstance.Icon) == false)
                 {
-                    _gamesLargeImageList.Images.Add(newGameForm.GameInstance.Signature, Image.FromFile(newGameForm.GameInstance.Icon).GetThumbnailImage(_userPrefs.LargeViewModeSize, _userPrefs.LargeViewModeSize, null, IntPtr.Zero));
+                    _gamesLargeImageList.Images.Add(newGameForm.GameInstance.Signature, Image.FromFile(newGameForm.GameInstance.Icon).GetThumbnailImage(UserDataLoaderSaver.UserPrefs.LargeViewModeSize, UserDataLoaderSaver.UserPrefs.LargeViewModeSize, null, IntPtr.Zero));
                     _gamesMediumImageList.Images.Add(newGameForm.GameInstance.Signature, Image.FromFile(newGameForm.GameInstance.Icon).GetThumbnailImage(32, 32, null, IntPtr.Zero));
                     _gamesSmallImageList.Images.Add(newGameForm.GameInstance.Signature, Image.FromFile(newGameForm.GameInstance.Icon).GetThumbnailImage(16, 16, null, IntPtr.Zero));
                 }
@@ -1622,10 +1191,10 @@ namespace AmpShell.WinForms
         private void AmpShell_Resized(object sender, EventArgs e)
         {
             //change the data about the Window's dimensions (restored on next session).
-            if (_userPrefs.RememberWindowSize == true)
+            if (UserDataLoaderSaver.UserPrefs.RememberWindowSize == true)
             {
-                _userPrefs.Height = Height;
-                _userPrefs.Width = Width;
+                UserDataLoaderSaver.UserPrefs.Height = Height;
+                UserDataLoaderSaver.UserPrefs.Width = Width;
             }
         }
 
@@ -1656,10 +1225,7 @@ namespace AmpShell.WinForms
         /// <param name="e"></param>
         private void RunGameSetupButton_Click(object sender, EventArgs e)
         {
-            //Game arguments for DOSBox
-            string dosboxArgs = BuildArgs(true);
-            //start DOSBox (Amp.DBPath) with the arguments we've just build up.
-            StartDOSBox(dosboxArgs);
+            StartDOSBox(UserDataLoaderSaver.UserPrefs.DBPath, GetSelectedGame(), true, UserDataLoaderSaver.UserPrefs.DBDefaultConfFilePath, UserDataLoaderSaver.UserPrefs.DBDefaultLangFilePath);
         }
 
         /// <summary>
@@ -1673,56 +1239,24 @@ namespace AmpShell.WinForms
             {
                 if (WindowState == FormWindowState.Maximized)
                 {
-                    _userPrefs.Fullscreen = true;
+                    UserDataLoaderSaver.UserPrefs.Fullscreen = true;
                 }
                 else
                 {
-                    _userPrefs.Fullscreen = false;
+                    UserDataLoaderSaver.UserPrefs.Fullscreen = false;
                 }
             }
-        }
-
-        /// <summary>
-        /// Used when a new Category is created : it's signature must be unique
-        /// so AmpShell can recognize it instantly
-        /// </summary>
-        /// <param name="signatureToTest"></param>
-        /// <param name="userPrefs"></param>
-        /// <returns></returns>
-        private bool IsItUnique(string signatureToTest, UserPrefs userPrefs)
-        {
-            foreach (UserCategory otherCat in userPrefs.ListChildren)
-            {
-                if (otherCat.Signature != signatureToTest)
-                {
-                    if (otherCat.ListChildren.Length != 0)
-                    {
-                        foreach (UserGame otherGame in otherCat.ListChildren)
-                        {
-                            if (otherGame.Signature == signatureToTest)
-                            {
-                                return false;
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            return true;
         }
 
         private void PreferencesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            PreferencesForm prefsForm = new PreferencesForm(_userPrefs);
+            PreferencesForm prefsForm = new PreferencesForm(UserDataLoaderSaver.UserPrefs);
             if (prefsForm.ShowDialog(this) == DialogResult.OK)
             {
-                _gamesLargeImageList.ImageSize = new Size(_userPrefs.LargeViewModeSize, _userPrefs.LargeViewModeSize);
-                if (_userPrefs.PortableMode)
+                _gamesLargeImageList.ImageSize = new Size(UserDataLoaderSaver.UserPrefs.LargeViewModeSize, UserDataLoaderSaver.UserPrefs.LargeViewModeSize);
+                if (UserDataLoaderSaver.UserPrefs.PortableMode)
                 {
-                    _xmlSerializer.Serialize(Application.StartupPath + "\\AmpShell.xml", _userPrefs, typeof(UserDataRoot));
+                    UserDataLoaderSaver.SaveUserSettings();
                 }
 
                 menuStrip.Visible = prefsForm.SavedUserPrefs.MenuBarVisible;
@@ -1731,21 +1265,21 @@ namespace AmpShell.WinForms
                 _toolBarMenuItem.Checked = prefsForm.SavedUserPrefs.ToolBarVisible;
                 statusStrip.Visible = prefsForm.SavedUserPrefs.StatusBarVisible;
                 _statusBarMenuItem.Checked = prefsForm.SavedUserPrefs.StatusBarVisible;
-                _userPrefs.ListChildren = prefsForm.SavedUserPrefs.ListChildren;
-                _userPrefs.X = Location.X;
-                _userPrefs.Y = Location.Y;
-                DisplayUserData(_userPrefs);
+                UserDataLoaderSaver.UserPrefs.ListChildren = prefsForm.SavedUserPrefs.ListChildren;
+                UserDataLoaderSaver.UserPrefs.X = Location.X;
+                UserDataLoaderSaver.UserPrefs.Y = Location.Y;
+                DisplayUserData(UserDataLoaderSaver.UserPrefs);
             }
             UpdateButtonsState();
         }
 
         private void RunConfigurationEditorButton_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(_userPrefs.ConfigEditorPath) == false)
+            if (string.IsNullOrWhiteSpace(UserDataLoaderSaver.UserPrefs.ConfigEditorPath) == false)
             {
-                if (File.Exists(_userPrefs.ConfigEditorPath))
+                if (File.Exists(UserDataLoaderSaver.UserPrefs.ConfigEditorPath))
                 {
-                    System.Diagnostics.Process.Start(_userPrefs.ConfigEditorPath);
+                    System.Diagnostics.Process.Start(UserDataLoaderSaver.UserPrefs.ConfigEditorPath);
                 }
                 else
                 {
@@ -1756,10 +1290,10 @@ namespace AmpShell.WinForms
 
         private void GameEditConfigurationButton_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(_userPrefs.ConfigEditorPath) == false)
+            if (string.IsNullOrWhiteSpace(UserDataLoaderSaver.UserPrefs.ConfigEditorPath) == false)
             {
                 UserGame selectedGame = GetSelectedGame();
-                System.Diagnostics.Process.Start(_userPrefs.ConfigEditorPath, selectedGame.DBConfPath + " " + _userPrefs.ConfigEditorAdditionalParameters);
+                System.Diagnostics.Process.Start(UserDataLoaderSaver.UserPrefs.ConfigEditorPath, selectedGame.DBConfPath + " " + UserDataLoaderSaver.UserPrefs.ConfigEditorAdditionalParameters);
             }
         }
 
@@ -1823,7 +1357,7 @@ namespace AmpShell.WinForms
                 {
                     if (_currentListView.Name == selectedCategory.Signature)
                     {
-                        foreach (UserGame game in _userPrefs.ListChildren)
+                        foreach (UserGame game in UserDataLoaderSaver.UserPrefs.ListChildren)
                         {
                             if (listViewItem.Name == game.Signature)
                             {
@@ -1913,7 +1447,7 @@ namespace AmpShell.WinForms
                 _menuBarMenuItem.Checked = true;
                 menuStrip.Visible = true;
             }
-            _userPrefs.MenuBarVisible = menuStrip.Visible;
+            UserDataLoaderSaver.UserPrefs.MenuBarVisible = menuStrip.Visible;
         }
 
         private void ToolBar_AmpCMS_Click(object sender, EventArgs e)
@@ -1928,7 +1462,7 @@ namespace AmpShell.WinForms
                 _toolBarMenuItem.Checked = true;
                 toolStrip.Visible = true;
             }
-            _userPrefs.ToolBarVisible = toolStrip.Visible;
+            UserDataLoaderSaver.UserPrefs.ToolBarVisible = toolStrip.Visible;
         }
 
         private void StatusBar_AmpCMS_Click(object sender, EventArgs e)
@@ -1943,7 +1477,7 @@ namespace AmpShell.WinForms
                 _statusBarMenuItem.Checked = true;
                 statusStrip.Visible = true;
             }
-            _userPrefs.StatusBarVisible = statusStrip.Visible;
+            UserDataLoaderSaver.UserPrefs.StatusBarVisible = statusStrip.Visible;
         }
 
         /// <summary>
@@ -1953,16 +1487,16 @@ namespace AmpShell.WinForms
         /// <param name="e"></param>
         private void AmpShell_LocationChanged(object sender, EventArgs e)
         {
-            if (_userPrefs.RememberWindowPosition == true && WindowState != FormWindowState.Minimized)
+            if (UserDataLoaderSaver.UserPrefs.RememberWindowPosition == true && WindowState != FormWindowState.Minimized)
             {
-                _userPrefs.X = Location.X;
-                _userPrefs.Y = Location.Y;
+                UserDataLoaderSaver.UserPrefs.X = Location.X;
+                UserDataLoaderSaver.UserPrefs.Y = Location.Y;
             }
         }
 
         private void CurrentListView_ColumnWidthChanged(object sender, EventArgs e)
         {
-            foreach (UserCategory category in _userPrefs.ListChildren)
+            foreach (UserCategory category in UserDataLoaderSaver.UserPrefs.ListChildren)
             {
                 if (category.ViewMode == View.Details)
                 {
@@ -2042,7 +1576,7 @@ namespace AmpShell.WinForms
                 NewGameToolStripMenuItem.Enabled = true;
                 _addGameMenuItem.Enabled = true;
                 GameAddButton.Enabled = true;
-                if (string.IsNullOrWhiteSpace(_userPrefs.DBPath) == false)
+                if (string.IsNullOrWhiteSpace(UserDataLoaderSaver.UserPrefs.DBPath) == false)
                 {
                     RunGameButton.Enabled = true;
                     _runGameMenuItem.Enabled = true;
@@ -2060,12 +1594,12 @@ namespace AmpShell.WinForms
                 DeleteSelectedCategoryToolStripMenuItem.Enabled = true;
                 _deleteCategoryMenuMenuItem.Enabled = true;
                 GameEditButton.Enabled = true;
-                if (string.IsNullOrWhiteSpace(_userPrefs.ConfigEditorPath) == false)
+                if (string.IsNullOrWhiteSpace(UserDataLoaderSaver.UserPrefs.ConfigEditorPath) == false)
                 {
                     RunConfigurationEditorButton.Enabled = true;
                     RunConfigurationEditorToolStripMenuItem.Enabled = true;
                 }
-                if (string.IsNullOrWhiteSpace(_userPrefs.DBDefaultConfFilePath) == false)
+                if (string.IsNullOrWhiteSpace(UserDataLoaderSaver.UserPrefs.DBDefaultConfFilePath) == false)
                 {
                     EditDefaultConfigurationToolStripMenuItem.Enabled = true;
                     EditDefaultConfigurationButton.Enabled = true;
@@ -2093,9 +1627,9 @@ namespace AmpShell.WinForms
 
         private void EditDefaultConfigurationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(_userPrefs.DBDefaultConfFilePath) == false && File.Exists(_userPrefs.DBDefaultConfFilePath) && string.IsNullOrWhiteSpace(_userPrefs.ConfigEditorPath) == false && _userPrefs.ConfigEditorPath != "No text editor (Notepad in Windows' directory, or TextEditor.exe in AmpShell's directory) found." && File.Exists(_userPrefs.ConfigEditorPath))
+            if (string.IsNullOrWhiteSpace(UserDataLoaderSaver.UserPrefs.DBDefaultConfFilePath) == false && File.Exists(UserDataLoaderSaver.UserPrefs.DBDefaultConfFilePath) && string.IsNullOrWhiteSpace(UserDataLoaderSaver.UserPrefs.ConfigEditorPath) == false && UserDataLoaderSaver.UserPrefs.ConfigEditorPath != "No text editor (Notepad in Windows' directory, or TextEditor.exe in AmpShell's directory) found." && File.Exists(UserDataLoaderSaver.UserPrefs.ConfigEditorPath))
             {
-                System.Diagnostics.Process.Start(_userPrefs.ConfigEditorPath, _userPrefs.DBDefaultConfFilePath);
+                System.Diagnostics.Process.Start(UserDataLoaderSaver.UserPrefs.ConfigEditorPath, UserDataLoaderSaver.UserPrefs.DBDefaultConfFilePath);
             }
             else
             {
@@ -2111,12 +1645,12 @@ namespace AmpShell.WinForms
                 foreach (UserGame selectedGame in selectedCategory.ListChildren)
                 {
                     if (selectedGame.Signature == selecedViewItem.Name &&
-                        string.IsNullOrWhiteSpace(_userPrefs.DBDefaultConfFilePath) == false)
+                        string.IsNullOrWhiteSpace(UserDataLoaderSaver.UserPrefs.DBDefaultConfFilePath) == false)
                     {
-                        if ((!File.Exists(selectedGame.Directory + "\\" + Path.GetFileName(_userPrefs.DBDefaultConfFilePath))) || (MessageBox.Show(this, "'" + selectedGame.Directory + "\\" + Path.GetFileName(_userPrefs.DBDefaultConfFilePath) + "'" + "already exists, do you want to overwrite it ?", MakeConfigButton.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes))
+                        if ((!File.Exists(selectedGame.Directory + "\\" + Path.GetFileName(UserDataLoaderSaver.UserPrefs.DBDefaultConfFilePath))) || (MessageBox.Show(this, "'" + selectedGame.Directory + "\\" + Path.GetFileName(UserDataLoaderSaver.UserPrefs.DBDefaultConfFilePath) + "'" + "already exists, do you want to overwrite it ?", MakeConfigButton.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes))
                         {
-                            File.Copy(_userPrefs.DBDefaultConfFilePath, selectedGame.Directory + "\\" + Path.GetFileName(_userPrefs.DBDefaultConfFilePath), true);
-                            selectedGame.DBConfPath = selectedGame.Directory + "\\" + Path.GetFileName(_userPrefs.DBDefaultConfFilePath);
+                            File.Copy(UserDataLoaderSaver.UserPrefs.DBDefaultConfFilePath, selectedGame.Directory + "\\" + Path.GetFileName(UserDataLoaderSaver.UserPrefs.DBDefaultConfFilePath), true);
+                            selectedGame.DBConfPath = selectedGame.Directory + "\\" + Path.GetFileName(UserDataLoaderSaver.UserPrefs.DBDefaultConfFilePath);
                         }
                     }
                 }

@@ -14,9 +14,9 @@ using System.Xml.Serialization;
 
 namespace AmpShell.UserData
 {
-    public class ObjectSerializer
+    public static class ObjectSerializer
     {
-        public object Deserialize<T>(string xmlPath, T targetObjectType) where T : Type
+        public static object Deserialize<T>(string xmlPath, T targetObjectType) where T : Type
         {
             XmlSerializer deserializer = new XmlSerializer(targetObjectType);
             TextReader reader;
@@ -27,7 +27,7 @@ namespace AmpShell.UserData
             return targetObjectInstance;
         }
 
-        public void Serialize<T>(string xmlPath, object objectToSerialize, T typeOfObjectToSerialize) where T : Type
+        public static void Serialize<T>(string xmlPath, object objectToSerialize, T typeOfObjectToSerialize) where T : Type
         {
             XmlSerializer serializer = new XmlSerializer(typeOfObjectToSerialize);
             TextWriter writer;

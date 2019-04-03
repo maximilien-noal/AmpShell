@@ -21,11 +21,11 @@ namespace AmpShell.WinForms
         {
             InitializeComponent();
             GameInstance = new UserGame();
-            SavedUserPrefs = userPrefs;
-            NoConsoleCheckBox.Checked = SavedUserPrefs.GamesNoConsole;
-            FullscreenCheckBox.Checked = SavedUserPrefs.GamesInFullScreen;
-            QuitOnExitCheckBox.Checked = SavedUserPrefs.GamesQuitOnExit;
-            GameAdditionalCommandsTextBox.Text = SavedUserPrefs.GamesAdditionalCommands;
+            UserPrefs = userPrefs;
+            NoConsoleCheckBox.Checked = UserPrefs.GamesNoConsole;
+            FullscreenCheckBox.Checked = UserPrefs.GamesInFullScreen;
+            QuitOnExitCheckBox.Checked = UserPrefs.GamesQuitOnExit;
+            GameAdditionalCommandsTextBox.Text = UserPrefs.GamesAdditionalCommands;
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace AmpShell.WinForms
         {
             InitializeComponent();
             GameInstance = editedGame;
-            SavedUserPrefs = userPrefs;
+            UserPrefs = userPrefs;
 
             //fill the form with the Game's data.
             Text = "Editing " + GameInstance.Name + "...";
@@ -84,7 +84,7 @@ namespace AmpShell.WinForms
 
         public UserGame GameInstance { get; private set; }
 
-        public UserPrefs SavedUserPrefs { get; private set; }
+        public UserPrefs UserPrefs { get; private set; }
 
         private void Cancel_Click(object sender, EventArgs e)
         {
@@ -161,7 +161,7 @@ namespace AmpShell.WinForms
         private void GameLocationBrowseButton_Click(object sender, EventArgs e)
         {
             OpenFileDialog gameExeFileDialog = new OpenFileDialog();
-            if (SavedUserPrefs.PortableMode == true)
+            if (UserPrefs.PortableMode == true)
             {
                 gameExeFileDialog.InitialDirectory = Application.StartupPath;
             }
@@ -190,7 +190,7 @@ namespace AmpShell.WinForms
         private void GameCustomConfigurationBrowseButton_Click(object sender, EventArgs e)
         {
             OpenFileDialog customConfigFileDialog = new OpenFileDialog();
-            if (SavedUserPrefs.PortableMode == true)
+            if (UserPrefs.PortableMode == true)
             {
                 customConfigFileDialog.InitialDirectory = Application.StartupPath;
             }
@@ -242,13 +242,13 @@ namespace AmpShell.WinForms
                 Title = GameCDPathLabel.Text,
                 Filter = "DOSBox compatible CD images (*.bin;*.cue;*.iso;*.img)|*.bin;*.cue;*.iso;*.img;*.BIN;*.CUE;*.ISO;*.IMG"
             };
-            if (SavedUserPrefs.PortableMode == true)
+            if (UserPrefs.PortableMode == true)
             {
                 cdImageFileDialog.InitialDirectory = Application.StartupPath;
             }
-            else if (string.IsNullOrWhiteSpace(SavedUserPrefs.CDsDefaultDir) == false && Directory.Exists(SavedUserPrefs.CDsDefaultDir))
+            else if (string.IsNullOrWhiteSpace(UserPrefs.CDsDefaultDir) == false && Directory.Exists(UserPrefs.CDsDefaultDir))
             {
-                cdImageFileDialog.InitialDirectory = SavedUserPrefs.CDsDefaultDir;
+                cdImageFileDialog.InitialDirectory = UserPrefs.CDsDefaultDir;
             }
             else
             {
@@ -403,7 +403,7 @@ namespace AmpShell.WinForms
                 Title = GameSetupLabel.Text,
                 Filter = "DOS executable files (*.bat;*.com;*.exe)|*.bat;*.com;*.exe;*.BAT;*.COM;*.EXE"
             };
-            if (SavedUserPrefs.PortableMode == true)
+            if (UserPrefs.PortableMode == true)
             {
                 setupExeFileDialog.InitialDirectory = Application.StartupPath;
             }
@@ -450,7 +450,7 @@ namespace AmpShell.WinForms
                 {
                     Filter = "Image files (*.bmp;*.exif;*.gif;*.ico;*.jp*;*.png;*.tif*)|*.bmp;*.BMP;*.exif;*.EXIF;*.gif;*.GIF;*.ico;*.ICO;*.jp*;*.JP*;*.png;*.PNG;*.tif*;*.TIF*"
                 };
-                if (SavedUserPrefs.PortableMode == true)
+                if (UserPrefs.PortableMode == true)
                 {
                     iconFileDialog.InitialDirectory = Application.StartupPath;
                 }
@@ -474,7 +474,7 @@ namespace AmpShell.WinForms
                 MessageBox.Show(this, "There was an error in the image file, or it's format is not supported. Please check the file.", "Changing the game's icon", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 if (string.IsNullOrWhiteSpace(GameInstance.Icon))
                 {
-                    GameIconPictureBox.Image = global::AmpShell.Properties.Resources.Generic_Application1;
+                    GameIconPictureBox.Image = Properties.Resources.Generic_Application1;
                 }
                 else
                 {
@@ -512,9 +512,9 @@ namespace AmpShell.WinForms
             {
                 initialDirectory = Directory.GetParent(GameInstance.DBConfPath).FullName;
             }
-            else if (string.IsNullOrWhiteSpace(SavedUserPrefs.GamesDefaultDir) == false && Directory.Exists(SavedUserPrefs.GamesDefaultDir))
+            else if (string.IsNullOrWhiteSpace(UserPrefs.GamesDefaultDir) == false && Directory.Exists(UserPrefs.GamesDefaultDir))
             {
-                initialDirectory = SavedUserPrefs.GamesDefaultDir;
+                initialDirectory = UserPrefs.GamesDefaultDir;
             }
 
             if (string.IsNullOrWhiteSpace(initialDirectory))
