@@ -224,7 +224,7 @@ namespace AmpShell.WinForms
             {
                 ListViewItem ItemToAdd = new ListViewItem(CategoryToDisplay.Title)
                 {
-                    Name = CategoryToDisplay.Signature
+                    Tag = CategoryToDisplay.Signature
                 };
                 CategoriesListView.Items.Add(ItemToAdd);
             }
@@ -386,7 +386,7 @@ namespace AmpShell.WinForms
             ListViewItem listViewItemCopy = new ListViewItem
             {
                 Text = CategoriesListView.FocusedItem.Text,
-                Name = CategoriesListView.FocusedItem.Name
+                Tag = CategoriesListView.FocusedItem.Name
             };
             CategoriesListView.Items.RemoveAt(CategoriesListView.FocusedItem.Index);
             CategoriesListView.Items.Insert(index, listViewItemCopy);

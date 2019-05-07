@@ -247,8 +247,7 @@ namespace AmpShell.WinForms
                 {
                     ListViewItem gameforlt = new ListViewItem(gameToDisplay.Name)
                     {
-                        //take the game's signature into the ListViewItem .Name proprety
-                        Name = gameToDisplay.Signature
+                        Tag = gameToDisplay.Signature
                     };
                     tabltview.SmallImageList = _gamesSmallImageList;
                     _gamesSmallImageList.ImageSize = new Size(16, 16);
@@ -380,7 +379,7 @@ namespace AmpShell.WinForms
                 TabControl.TabPages.Add(categoryToDisplay.Title);
                 //select the last TabPage (the one we just created)
                 TabControl.SelectTab(TabControl.TabPages.Count - 1);
-                TabControl.SelectedTab.Name = categoryToDisplay.Signature;
+                TabControl.SelectedTab.Tag = categoryToDisplay.Signature;
                 TabControl.DragOver += new DragEventHandler(SelectedTab_DragOver);
                 //EventHandler binding for drag&drop (DragEnter is the event for the control where the drop will occur)
                 TabControl.DragEnter += new DragEventHandler(TabControl_DragEnter);
@@ -456,7 +455,7 @@ namespace AmpShell.WinForms
         {
             foreach (UserCategory selectedCategory in UserDataLoaderSaver.UserPrefs.ListChildren)
             {
-                if (selectedCategory.Signature == TabControl.SelectedTab.Name)
+                if (selectedCategory.Signature == TabControl.SelectedTab.Tag)
                 {
                     return selectedCategory;
                 }
@@ -474,13 +473,13 @@ namespace AmpShell.WinForms
             UserCategory selectedCategory = GetSelectedCategory();
             foreach (UserGame selectedGame in selectedCategory.ListChildren)
             {
-                foreach (ListViewItem SelectedItem in _currentListView.SelectedItems)
+                foreach (ListViewItem selectedItem in _currentListView.SelectedItems)
                 {
-                    if (selectedGame.Signature == SelectedItem.Name)
+                    if (selectedGame.Signature == (string)selectedItem.Tag)
                     {
                         foreach (UserCategory targetCategory in UserDataLoaderSaver.UserPrefs.ListChildren)
                         {
-                            if (targetCategory.Signature == TabControl.TabPages[_hoveredTabIndex].Name)
+                            if (targetCategory.Signature == (string)TabControl.TabPages[_hoveredTabIndex].Tag)
                             {
                                 targetCategory.AddChild(selectedGame);
                             }
@@ -494,7 +493,7 @@ namespace AmpShell.WinForms
             {
                 ListViewItem clonedItem = new ListViewItem();
                 clonedItem = (ListViewItem)itemToMove.Clone();
-                clonedItem.Name = itemToMove.Name;
+                clonedItem.Tag = itemToMove.Tag;
                 clonedItem.ImageKey = itemToMove.ImageKey;
                 _currentListView.Items.Remove(itemToMove);
                 _currentListView.Items.Add(clonedItem);
@@ -506,7 +505,7 @@ namespace AmpShell.WinForms
             UserCategory selectedCategory = GetSelectedCategory();
             foreach (UserGame selectedGame in selectedCategory.ListChildren)
             {
-                if (selectedGame.Signature == _currentListView.FocusedItem.Name)
+                if (selectedGame.Signature == (string)_currentListView.FocusedItem.Tag)
                 {
                     return selectedGame;
                 }
@@ -885,7 +884,7 @@ namespace AmpShell.WinForms
                 TabControl.TabPages[TabControl.TabPages.Count - 1].Controls.Add(newListView);
                 //the last created category is selected.
                 TabControl.SelectTab(TabControl.TabPages.Count - 1);
-                TabControl.SelectedTab.Name = newCategoryForm.Category.Signature;
+                TabControl.SelectedTab.Tag = newCategoryForm.Category.Signature;
                 TabControl.SelectedTab.AllowDrop = true;
                 //make the Category buttons available.
                 CategoryEditButton.Enabled = true;
@@ -937,7 +936,7 @@ namespace AmpShell.WinForms
                 //search for the selected category
                 foreach (UserCategory ConcernedCategory in UserDataLoaderSaver.UserPrefs.ListChildren)
                 {
-                    if (ConcernedCategory.Signature == TabControl.SelectedTab.Name)
+                    if (ConcernedCategory.Signature == (string)TabControl.SelectedTab.Tag)
                     {
                         //search for the selected game
                         foreach (UserGame ConcernedGame in ConcernedCategory.ListChildren)
@@ -945,7 +944,7 @@ namespace AmpShell.WinForms
                             //delete the game data
                             foreach (ListViewItem ConcernedItem in _currentListView.SelectedItems)
                             {
-                                if (ConcernedGame.Signature == ConcernedItem.Name)
+                                if (ConcernedGame.Signature == (string)ConcernedItem.Tag)
                                 {
                                     if (UserDataLoaderSaver.UserPrefs.GameDeletePrompt == true)
                                     {
@@ -1100,7 +1099,7 @@ namespace AmpShell.WinForms
                 //add the ListViewItem corresponding to the new game.
                 ListViewItem gameToAdd = new ListViewItem(newGameForm.GameInstance.Name)
                 {
-                    Name = newGameForm.GameInstance.Signature
+                    Tag = newGameForm.GameInstance.Signature
                 };
                 ListViewItem.ListViewSubItem GameDOSEXEPathLVSubItem = new ListViewItem.ListViewSubItem
                 {
@@ -1355,11 +1354,11 @@ namespace AmpShell.WinForms
                 _currentListView.Columns["QuitOnExitColumn"].Width = selectedCategory.QuitOnExitColumnWidth;
                 foreach (ListViewItem listViewItem in _currentListView.Items)
                 {
-                    if (_currentListView.Name == selectedCategory.Signature)
+                    if ((string)_currentListView.Tag == selectedCategory.Signature)
                     {
                         foreach (UserGame game in UserDataLoaderSaver.UserPrefs.ListChildren)
                         {
-                            if (listViewItem.Name == game.Signature)
+                            if ((string)listViewItem.Tag == game.Signature)
                             {
                                 if (listViewItem.SubItems.Count == 2)
                                 {
@@ -1500,7 +1499,7 @@ namespace AmpShell.WinForms
             {
                 if (category.ViewMode == View.Details)
                 {
-                    if (TabControl.SelectedTab.Name == category.Signature && _currentListView.Columns.Count > 0)
+                    if ((string)TabControl.SelectedTab.Tag == category.Signature && _currentListView.Columns.Count > 0)
                     {
                         category.NameColumnWidth = _currentListView.Columns["NameColumn"].Width;
                         category.ExecutableColumnWidth = _currentListView.Columns["ExecutableColumn"].Width;
@@ -1644,7 +1643,7 @@ namespace AmpShell.WinForms
             {
                 foreach (UserGame selectedGame in selectedCategory.ListChildren)
                 {
-                    if (selectedGame.Signature == selecedViewItem.Name &&
+                    if (selectedGame.Signature == (string)selecedViewItem.Tag &&
                         string.IsNullOrWhiteSpace(UserDataLoaderSaver.UserPrefs.DBDefaultConfFilePath) == false)
                     {
                         if ((!File.Exists(selectedGame.Directory + "\\" + Path.GetFileName(UserDataLoaderSaver.UserPrefs.DBDefaultConfFilePath))) || (MessageBox.Show(this, "'" + selectedGame.Directory + "\\" + Path.GetFileName(UserDataLoaderSaver.UserPrefs.DBDefaultConfFilePath) + "'" + "already exists, do you want to overwrite it ?", MakeConfigButton.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes))
