@@ -16,7 +16,7 @@ namespace AmpShell
     static class Program
     {
         /// <summary>
-        /// Point d'entrée principal de l'application.
+        /// Application entry point
         /// </summary>
         [STAThread]
         static void Main()
