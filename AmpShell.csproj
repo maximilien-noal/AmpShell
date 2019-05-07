@@ -242,7 +242,6 @@
     <None Include="Resources\SmallIcons.png" />
     <None Include="Resources\Tiles.png" />
     <None Include="Resources\PlayHS.png" />
-    <Content Include="TODO.txt" />
     <None Include="Resources\Go.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
