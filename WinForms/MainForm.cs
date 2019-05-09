@@ -455,7 +455,7 @@ namespace AmpShell.WinForms
         {
             foreach (UserCategory selectedCategory in UserDataLoaderSaver.UserPrefs.ListChildren)
             {
-                if (selectedCategory.Signature == TabControl.SelectedTab.Tag)
+                if (selectedCategory.Signature == (string)TabControl.SelectedTab.Tag)
                 {
                     return selectedCategory;
                 }
