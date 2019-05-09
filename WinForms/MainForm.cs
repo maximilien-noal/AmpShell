@@ -59,9 +59,9 @@ namespace AmpShell.WinForms
         public MainForm()
         {
             InitializeComponent();
-            _menuBarMenuItem.Click += new EventHandler(MenuBar_AmpCMS_Click);
-            _toolBarMenuItem.Click += new EventHandler(ToolBar_AmpCMS_Click);
-            _statusBarMenuItem.Click += new EventHandler(StatusBar_AmpCMS_Click);
+            _menuBarMenuItem.Click += new EventHandler(MenuBar_ContextMenu_Click);
+            _toolBarMenuItem.Click += new EventHandler(ToolBar_ContextMenu_Click);
+            _statusBarMenuItem.Click += new EventHandler(StatusBar_ContextMenu_Click);
             _windowContextMenu.Items.Add(_menuBarMenuItem);
             _windowContextMenu.Items.Add(_toolBarMenuItem);
             _windowContextMenu.Items.Add(_statusBarMenuItem);
@@ -1034,7 +1034,7 @@ namespace AmpShell.WinForms
         {
             _ampShellShown = true;
             //select the first TabPage of tabcontrol 
-            if (TabControl.HasChildren != false)
+            if (TabControl.HasChildren)
             {
                 //select the first TabPage
                 TabControl.SelectedTab = TabControl.TabPages[0];
@@ -1424,7 +1424,7 @@ namespace AmpShell.WinForms
             }
         }
 
-        private void MenuBar_AmpCMS_Click(object sender, EventArgs e)
+        private void MenuBar_ContextMenu_Click(object sender, EventArgs e)
         {
             if (menuStrip.Visible == true)
             {
@@ -1439,7 +1439,7 @@ namespace AmpShell.WinForms
             UserDataLoaderSaver.UserPrefs.MenuBarVisible = menuStrip.Visible;
         }
 
-        private void ToolBar_AmpCMS_Click(object sender, EventArgs e)
+        private void ToolBar_ContextMenu_Click(object sender, EventArgs e)
         {
             if (toolStrip.Visible == true)
             {
@@ -1454,7 +1454,7 @@ namespace AmpShell.WinForms
             UserDataLoaderSaver.UserPrefs.ToolBarVisible = toolStrip.Visible;
         }
 
-        private void StatusBar_AmpCMS_Click(object sender, EventArgs e)
+        private void StatusBar_ContextMenu_Click(object sender, EventArgs e)
         {
             if (statusStrip.Visible == true)
             {
