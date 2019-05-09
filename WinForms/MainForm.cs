@@ -219,7 +219,6 @@ namespace AmpShell.WinForms
             _toolBarMenuItem.Checked = userPrefs.ToolBarVisible;
             statusStrip.Visible = userPrefs.StatusBarVisible;
             _statusBarMenuItem.Checked = userPrefs.StatusBarVisible;
-            //for each Category, create a ListView instance.
             foreach (UserCategory categoryToDisplay in userPrefs.ListChildren)
             {
                 ListView tabltview = new CustomListView
@@ -337,14 +336,12 @@ namespace AmpShell.WinForms
                         Text = gameToDisplay.QuitOnExit.ToString()
                     };
                     gameforlt.SubItems.Add(gameQuitOnExitLVSubItem);
-                    //add the game to the ListView
                     tabltview.Items.Add(gameforlt);
                 }
                 //the context menu of the ListView created earlier is the same for all of them.
                 tabltview.ContextMenuStrip = _currentListViewContextMenuStrip;
                 //Name property used only inside the code. Never displayed.
                 tabltview.Name = "GamesListView";
-                //fill the TabPage
                 tabltview.Dock = DockStyle.Fill;
                 if (userPrefs.DefaultIconViewOverride == false)
                 {
@@ -394,9 +391,9 @@ namespace AmpShell.WinForms
                 //if the reference is not null
                 if (_currentListView != null)
                 {
-                    //sort the items (by their names in alphabetical order)
                     GameAddButton.Enabled = true;
                     NewGameToolStripMenuItem.Enabled = true;
+                    //sort the items (by their names in alphabetical order)
                     _currentListView.Sort();
                 }
             }
