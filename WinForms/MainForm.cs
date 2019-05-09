@@ -20,6 +20,7 @@ namespace AmpShell.WinForms
 {
     public partial class MainForm : Form
     {
+        private const string _listViewName = "GamesListView";
         private bool _ampShellShown;
         private int _hoveredTabIndex;
         private ImageList _gamesLargeImageList = new ImageList();
@@ -124,8 +125,6 @@ namespace AmpShell.WinForms
             ToolStripSeparator ltview_ContextMenuStripSeparator = new ToolStripSeparator();
             _currentListViewContextMenuStrip.Items.Add(ltview_ContextMenuStripSeparator);
             //The Categories are the tabs inside the TabControl. Each tab has only one ListView.
-            //They are _all_ named "GamesListView" for casting (retrieving their reference into ltview)
-            //The tag propriety of the ListView object could have been used instead of naming + casting...
             _addCategoryMenuMenuItem.Image = CategoryAddButton.Image;
             _addCategoryMenuMenuItem.Text = CategoryAddButton.Text;
             _addCategoryMenuMenuItem.Click += new EventHandler(CategoryAddButton_Click);
@@ -341,7 +340,7 @@ namespace AmpShell.WinForms
                 //the context menu of the ListView created earlier is the same for all of them.
                 tabltview.ContextMenuStrip = _currentListViewContextMenuStrip;
                 //Name property used only inside the code. Never displayed.
-                tabltview.Name = "GamesListView";
+                tabltview.Name = _listViewName;
                 tabltview.Dock = DockStyle.Fill;
                 if (userPrefs.DefaultIconViewOverride == false)
                 {
@@ -385,7 +384,7 @@ namespace AmpShell.WinForms
                 TabControl.SelectedTab.Controls.Add(tabltview);
                 //the ltview private field reference will be the selected TabPage's ListView
                 //this is where the Tag property of the ListView tabltview could have been used.
-                _currentListView = (ListView)TabControl.SelectedTab.Controls["GamesListView"];
+                _currentListView = (ListView)TabControl.SelectedTab.Controls[_listViewName];
                 //drag&drop begins with the ItemDrag eventhandler
                 _currentListView.ItemDrag += new ItemDragEventHandler(CurrentListView_ItemDrag);
                 //if the reference is not null
@@ -814,7 +813,7 @@ namespace AmpShell.WinForms
             {
                 if (TabControl.SelectedTab.Controls.Count > 0)
                 {
-                    _currentListView = (ListView)TabControl.SelectedTab.Controls["GamesListView"];
+                    _currentListView = (ListView)TabControl.SelectedTab.Controls[_listViewName];
                     _currentListView.AllowDrop = true;
                     TabControl.SelectedTab.AllowDrop = true;
                     _currentListView.ItemDrag += new ItemDragEventHandler(CurrentListView_ItemDrag);
@@ -875,7 +874,7 @@ namespace AmpShell.WinForms
                 newListView.KeyDown += new KeyEventHandler(CurrentListView_KeyDown);
                 newListView.Width = Width;
                 newListView.Height = Height;
-                newListView.Name = "GamesListView";
+                newListView.Name = _listViewName;
                 TabControl.TabPages[TabControl.TabPages.Count - 1].Controls.Add(newListView);
                 //the last created category is selected.
                 TabControl.SelectTab(TabControl.TabPages.Count - 1);
@@ -1047,7 +1046,7 @@ namespace AmpShell.WinForms
                 CategoryDeleteButton.Enabled = true;
                 DeleteSelectedCategoryToolStripMenuItem.Enabled = true;
                 //reference the selected TabPage's ListView into ltview (with a cast)
-                _currentListView = (ListView)TabControl.SelectedTab.Controls["GamesListView"];
+                _currentListView = (ListView)TabControl.SelectedTab.Controls[_listViewName];
             }
             //if tabcontrol has no children, then it has no TabPages (categories)
             //so we prompt the user for the title of the first category.
@@ -1090,8 +1089,7 @@ namespace AmpShell.WinForms
                     _gamesMediumImageList.Images.Add(newGameForm.GameInstance.Signature, Image.FromFile(newGameForm.GameInstance.Icon).GetThumbnailImage(32, 32, null, IntPtr.Zero));
                     _gamesSmallImageList.Images.Add(newGameForm.GameInstance.Signature, Image.FromFile(newGameForm.GameInstance.Icon).GetThumbnailImage(16, 16, null, IntPtr.Zero));
                 }
-                _currentListView = (ListView)TabControl.SelectedTab.Controls["GamesListView"];
-                //add the ListViewItem corresponding to the new game.
+                _currentListView = (ListView)TabControl.SelectedTab.Controls[_listViewName];
                 ListViewItem gameToAdd = new ListViewItem(newGameForm.GameInstance.Name)
                 {
                     Tag = newGameForm.GameInstance.Signature
