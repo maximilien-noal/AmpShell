@@ -1646,7 +1646,6 @@ namespace AmpShell.WinForms
             }
         }
 
-        #region HelpDisplayMessages
         private void FileToolStripMenuItem_MouseEnter(object sender, EventArgs e)
         {
             DisplayHelpMessage(FileToolStripMenuItem.ToolTipText);
@@ -1775,7 +1774,5 @@ namespace AmpShell.WinForms
         {
             DisplayHelpMessage(MakeConfigurationFileToolStripMenuItem.ToolTipText);
         }
-
-        #endregion
     }
 }
