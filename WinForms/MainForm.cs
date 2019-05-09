@@ -521,10 +521,8 @@ namespace AmpShell.WinForms
         private void GameEditButton_Click(object sender, EventArgs e)
         {
             UserGame selectedGame = GetSelectedGame();
-            //Make an instance of GameForm with the alternate constructor
             GameForm gameEditForm = new GameForm(selectedGame, UserDataLoaderSaver.UserPrefs);
             string oldIconSave = selectedGame.Icon;
-            //show GameEdit
             if (gameEditForm.ShowDialog(this) == DialogResult.OK)
             {
                 _currentListView.FocusedItem.Text = selectedGame.Name;
@@ -1206,10 +1204,7 @@ namespace AmpShell.WinForms
         {
             //search the selected category
             UserCategory selectedCategory = GetSelectedCategory();
-            CategoryForm catEditForm = new CategoryForm(selectedCategory)
-            {
-                Text = "Editing " + selectedCategory.Title + "..."
-            };
+            CategoryForm catEditForm = new CategoryForm(selectedCategory);
             if (catEditForm.ShowDialog(this) == DialogResult.OK)
             {
                 //modify the displayed category (TabPage) text

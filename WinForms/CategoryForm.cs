@@ -33,6 +33,7 @@ namespace AmpShell.WinForms
             OK.Location = new System.Drawing.Point(Cancel.Location.X - 107, 41);
             OK.Image = Properties.Resources.saveHS;
             Cancel.Text = "&Don't save";
+            Text = "Editing " + editedCategory.Title + "...";
         }
 
         public UserCategory Category { get; private set; }
