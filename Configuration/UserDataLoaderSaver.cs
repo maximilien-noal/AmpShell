@@ -115,7 +115,6 @@ namespace AmpShell.Configuration
                         ConcernedGame.CDPath = ConcernedGame.CDPath.Replace("AppPath", Application.StartupPath);
                         ConcernedGame.SetupEXEPath = ConcernedGame.SetupEXEPath.Replace("AppPath", Application.StartupPath);
                         ConcernedGame.Icon = ConcernedGame.Icon.Replace("AppPath", Application.StartupPath);
-
                     }
                 }
                 UserPrefs.DBDefaultConfFilePath = UserPrefs.DBDefaultConfFilePath.Replace("AppPath", Application.StartupPath);

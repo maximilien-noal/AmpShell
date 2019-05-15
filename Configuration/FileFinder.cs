@@ -169,6 +169,5 @@ namespace AmpShell.Configuration
             }
             return dosboxPath;
         }
-
     }
 }

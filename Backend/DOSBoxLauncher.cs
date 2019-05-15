@@ -174,7 +174,7 @@ namespace AmpShell.Backend
         /// <param name="dosboxDefaultConfFilePath">Path to DOSBox.conf</param>
         /// <param name="dosboxDefaultLangFilePath">Path to DOSBox.lng</param>
         /// <returns>The DOSBox process if it started successfully, null otherwise</returns>
-        internal static Process RunDOSBox(string dosboxPath, string dosboxDefaultConfFilePath, string dosboxDefaultLangFilePath)
+        public static Process RunDOSBox(string dosboxPath, string dosboxDefaultConfFilePath, string dosboxDefaultLangFilePath)
         {
             if (string.IsNullOrWhiteSpace(dosboxPath) == true)
             {
