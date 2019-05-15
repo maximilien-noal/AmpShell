@@ -23,9 +23,9 @@ namespace AmpShell.WinForms
         private const string _listViewName = "GamesListView";
         private bool _ampShellShown;
         private int _hoveredTabIndex;
-        private ImageList _gamesLargeImageList = new ImageList();
-        private ImageList _gamesSmallImageList = new ImageList();
-        private ImageList _gamesMediumImageList = new ImageList();
+        private readonly ImageList _gamesLargeImageList = new ImageList();
+        private readonly ImageList _gamesSmallImageList = new ImageList();
+        private readonly ImageList _gamesMediumImageList = new ImageList();
         /// <summary>
         /// ListView instance used mainly to retrieve the current ListView (in tabcontrol.SelectedTab["GamesListView"])
         /// </summary>
@@ -33,28 +33,28 @@ namespace AmpShell.WinForms
         /// <summary>
         /// //Contextual pop-up menu (right click)
         /// </summary>
-        private ContextMenuStrip _currentListViewContextMenuStrip = new ContextMenuStrip();
+        private readonly ContextMenuStrip _currentListViewContextMenuStrip = new ContextMenuStrip();
         /// <summary>
         /// The items of the context pop-up menu
         /// </summary>
-        private ContextMenuStrip _tabContextMenu = new ContextMenuStrip();
-        private ToolStripMenuItem _addCategoryMenuMenuItem = new ToolStripMenuItem();
-        private ToolStripMenuItem _deleteCategoryMenuMenuItem = new ToolStripMenuItem();
-        private ToolStripMenuItem _editCategoryMenuMenuItem = new ToolStripMenuItem();
-        private ToolStripMenuItem _addCategoryMenuItem = new ToolStripMenuItem();
-        private ToolStripMenuItem _deleteCategoryMenuItem = new ToolStripMenuItem();
-        private ToolStripMenuItem _editCategoryMenuItem = new ToolStripMenuItem();
-        private ToolStripMenuItem _addGameMenuItem = new ToolStripMenuItem();
-        private ToolStripMenuItem _deleteGameMenuItem = new ToolStripMenuItem();
-        private ToolStripMenuItem _editGameMenuItem = new ToolStripMenuItem();
-        private ToolStripMenuItem _editGameConfigurationMenuItem = new ToolStripMenuItem();
-        private ToolStripMenuItem _makeGameConfigurationMenuItem = new ToolStripMenuItem();
-        private ToolStripMenuItem _runGameMenuItem = new ToolStripMenuItem();
-        private ToolStripMenuItem _runGameSetupMenuItem = new ToolStripMenuItem();
-        private ContextMenuStrip _windowContextMenu = new ContextMenuStrip();
-        private ToolStripMenuItem _menuBarMenuItem = new ToolStripMenuItem("Menu bar");
-        private ToolStripMenuItem _toolBarMenuItem = new ToolStripMenuItem("Tool bar");
-        private ToolStripMenuItem _statusBarMenuItem = new ToolStripMenuItem("Details bar");
+        private readonly ContextMenuStrip _tabContextMenu = new ContextMenuStrip();
+        private readonly ToolStripMenuItem _addCategoryMenuMenuItem = new ToolStripMenuItem();
+        private readonly ToolStripMenuItem _deleteCategoryMenuMenuItem = new ToolStripMenuItem();
+        private readonly ToolStripMenuItem _editCategoryMenuMenuItem = new ToolStripMenuItem();
+        private readonly ToolStripMenuItem _addCategoryMenuItem = new ToolStripMenuItem();
+        private readonly ToolStripMenuItem _deleteCategoryMenuItem = new ToolStripMenuItem();
+        private readonly ToolStripMenuItem _editCategoryMenuItem = new ToolStripMenuItem();
+        private readonly ToolStripMenuItem _addGameMenuItem = new ToolStripMenuItem();
+        private readonly ToolStripMenuItem _deleteGameMenuItem = new ToolStripMenuItem();
+        private readonly ToolStripMenuItem _editGameMenuItem = new ToolStripMenuItem();
+        private readonly ToolStripMenuItem _editGameConfigurationMenuItem = new ToolStripMenuItem();
+        private readonly ToolStripMenuItem _makeGameConfigurationMenuItem = new ToolStripMenuItem();
+        private readonly ToolStripMenuItem _runGameMenuItem = new ToolStripMenuItem();
+        private readonly ToolStripMenuItem _runGameSetupMenuItem = new ToolStripMenuItem();
+        private readonly ContextMenuStrip _windowContextMenu = new ContextMenuStrip();
+        private readonly ToolStripMenuItem _menuBarMenuItem = new ToolStripMenuItem("Menu bar");
+        private readonly ToolStripMenuItem _toolBarMenuItem = new ToolStripMenuItem("Tool bar");
+        private readonly ToolStripMenuItem _statusBarMenuItem = new ToolStripMenuItem("Details bar");
 
         public MainForm()
         {
@@ -702,7 +702,7 @@ namespace AmpShell.WinForms
                         DMountLabel.Text = "'D:' mount :" + selectedGame.CDPath;
                         if (selectedGame.UseIOCTL)
                         {
-                            DMountLabel.Text = DMountLabel.Text + " (IOCTL in use)";
+                            DMountLabel.Text += " (IOCTL in use)";
                         }
                     }
                     else
@@ -1071,7 +1071,7 @@ namespace AmpShell.WinForms
         private void GameAddButton_Click(object sender, EventArgs e)
         {
             GameForm newGameForm = new GameForm(UserDataLoaderSaver.UserPrefs);
-            string newGameSignature = string.Empty;
+            string newGameSignature;
             do
             {
                 Random rand = new Random();

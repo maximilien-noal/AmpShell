@@ -115,7 +115,7 @@ namespace AmpShell.Configuration
                     dosboxPath = Directory.GetDirectories(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "DOSBox*", SearchOption.TopDirectoryOnly)[0];
                     if (File.Exists(dosboxPath + "\\dosbox.exe"))
                     {
-                        dosboxPath = dosboxPath + "\\dosbox.exe";
+                        dosboxPath += "\\dosbox.exe";
                     }
                 }
                 else
@@ -129,7 +129,7 @@ namespace AmpShell.Configuration
                             dosboxPath = Directory.GetDirectories(Environment.SystemDirectory.Substring(0, 3) + "Program Files (x86)", "DOSBox*", SearchOption.TopDirectoryOnly)[0];
                             if (File.Exists(dosboxPath + "\\dosbox.exe"))
                             {
-                                dosboxPath = dosboxPath + "\\dosbox.exe";
+                                dosboxPath += "\\dosbox.exe";
                             }
                         }
                     }

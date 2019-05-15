@@ -79,7 +79,7 @@ namespace AmpShell.Configuration
                     if (Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\AmpShell") == false)
                     {
                         Directory.CreateDirectory(UserConfigFileDataPath);
-                        UserConfigFileDataPath = UserConfigFileDataPath + "\\AmpShell.xml";
+                        UserConfigFileDataPath += "\\AmpShell.xml";
                     }
                 }
                 else

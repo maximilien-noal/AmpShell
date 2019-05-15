@@ -21,7 +21,7 @@ namespace AmpShell.UserData
         /// <summary>
         /// List that will build up the tree of categories and games through the AddChild and RemoveChild and ListChildren methods
         /// </summary>
-        private List<object> _children;
+        private readonly List<object> _children;
         public UserDataRoot()
         {
             _children = new List<object>();

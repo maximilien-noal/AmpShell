@@ -145,17 +145,17 @@ namespace AmpShell.Backend
                 //corresponds to the Fullscreen checkbox in GameForm
                 if (selectedGame.InFullScreen == true)
                 {
-                    dosboxArgs = dosboxArgs + " -fullscreen";
+                    dosboxArgs += " -fullscreen";
                 }
                 //corresponds to the "no console" checkbox in the GameForm
                 if (selectedGame.NoConsole == true)
                 {
-                    dosboxArgs = dosboxArgs + " -noconsole";
+                    dosboxArgs += " -noconsole";
                 }
                 //corresponds to the "quit on exit (only for .exe)" checkbox in the GameForm
                 if (selectedGame.QuitOnExit == true)
                 {
-                    dosboxArgs = dosboxArgs + " -exit";
+                    dosboxArgs += " -exit";
                 }
 
                 return dosboxArgs;
