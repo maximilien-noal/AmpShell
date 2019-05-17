@@ -9,7 +9,9 @@
  * If not, see <http://www.gnu.org/licenses/>.*/
 using AmpShell.UserData;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace AmpShell.WinForms
@@ -113,9 +115,11 @@ namespace AmpShell.WinForms
                 SavedUserPrefs.CategoriesDefaultViewMode = View.Details;
             }
 
+            List<ListViewItem> tabs = CategoriesListView.Items.Cast<ListViewItem>().ToList();
+
             foreach (UserCategory ConcernedCategory in SavedUserPrefs.ListChildren)
             {
-                SavedUserPrefs.MoveChildToPosition(ConcernedCategory, CategoriesListView.Items[ConcernedCategory.Signature].Index);
+                SavedUserPrefs.MoveChildToPosition(ConcernedCategory, tabs.IndexOf(tabs.FirstOrDefault(x => Convert.ToString(x.Tag) == ConcernedCategory.Signature)));
             }
 
             SavedUserPrefs.PortableMode = PortableModeCheckBox.Checked;
@@ -386,11 +390,11 @@ namespace AmpShell.WinForms
             ListViewItem listViewItemCopy = new ListViewItem
             {
                 Text = CategoriesListView.FocusedItem.Text,
-                Tag = CategoriesListView.FocusedItem.Name
+                Tag = CategoriesListView.FocusedItem.Tag
             };
             CategoriesListView.Items.RemoveAt(CategoriesListView.FocusedItem.Index);
             CategoriesListView.Items.Insert(index, listViewItemCopy);
-            CategoriesListView.FocusedItem = CategoriesListView.Items[listViewItemCopy.Name];
+            CategoriesListView.FocusedItem = CategoriesListView.Items[(string)listViewItemCopy.Tag];
         }
 
         private void PortableModeCheckBox_CheckedChanged(object sender, EventArgs e)
