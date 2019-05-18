@@ -170,16 +170,16 @@ namespace AmpShell.WinForms
         {
             UserDataLoaderSaver.LoadUserSettings();
             //Create the TabPages (categories) ListViews, and games inside the ListViews with DisplayUserData 
-            DisplayUserData(UserDataLoaderSaver.UserPrefs);
+            DisplayUserData();
         }
         
         /// <summary>
         /// Create the TabPages (categories) ListViews, and games inside the ListViews
         /// </summary>
-        /// <param name="userPrefs">The main user data class instance</param>
         /// <param name="noIcons">whether we display icons for games or not at all</param>
-        private void DisplayUserData(UserPrefs userPrefs)
+        private void DisplayUserData()
         {
+            var userPrefs = UserDataLoaderSaver.UserPrefs;
             while (TabControl.TabPages.Count >= 1)
             {
                 TabControl.TabPages.RemoveAt(0);
@@ -525,7 +525,7 @@ namespace AmpShell.WinForms
             GameForm gameEditForm = new GameForm(selectedGame, UserDataLoaderSaver.UserPrefs);
             if (gameEditForm.ShowDialog(this) == DialogResult.OK)
             {
-                DisplayUserData(UserDataLoaderSaver.UserPrefs);
+                DisplayUserData();
             }
         }
 
@@ -761,7 +761,7 @@ namespace AmpShell.WinForms
         private void CategoryAddButton_Click(object sender, EventArgs e)
         {
             CategoryForm newCategoryForm = new CategoryForm();
-            string newCategorySignature = string.Empty;
+            string newCategorySignature;
             do
             {
                 Random randNumber = new Random();
@@ -769,57 +769,11 @@ namespace AmpShell.WinForms
             }
             while (UserDataLoaderSaver.UserPrefs.IsItAUniqueSignature(newCategorySignature) == false);
             newCategoryForm.Category.Signature = newCategorySignature;
-            //displaying the CategoryForm prompting the user for the Category's title.
             if (newCategoryForm.ShowDialog(this) == DialogResult.OK)
             {
-                //if a proper name has been entered
-                //create the category (in Amp for the data and in tabControl for the display)
                 UserDataLoaderSaver.UserPrefs.AddChild(newCategoryForm.Category);
-                TabControl.TabPages.Add(newCategoryForm.Category.Title);
-                ListView newListView = new CustomListView();
-                newListView.Columns.Add("NameColumn", "Name", newCategoryForm.Category.NameColumnWidth);
-                newListView.Columns.Add("ExecutableColumn", "Executable", newCategoryForm.Category.ExecutableColumnWidth);
-                newListView.Columns.Add("CMountColumn", "C: Mount", newCategoryForm.Category.CMountColumnWidth);
-                newListView.Columns.Add("SetupExecutableColumn", "Setup executable", newCategoryForm.Category.SetupExecutableColumnWidth);
-                newListView.Columns.Add("CustomConfigurationColumn", "Custom configuration", newCategoryForm.Category.CustomConfigurationColumnWidth);
-                newListView.Columns.Add("DMountColumn", "D: Mount", newCategoryForm.Category.DMountColumnWidth);
-                newListView.Columns.Add("MountingOptionsColumn", "Mounting options", newCategoryForm.Category.MountingOptionsColumnWidth);
-                newListView.Columns.Add("AdditionnalCommandsColumn", "Additionnal commands", newCategoryForm.Category.AdditionnalCommandsColumnWidth);
-                newListView.Columns.Add("NoConsoleColumn", "No Console ?", newCategoryForm.Category.NoConsoleColumnWidth);
-                newListView.Columns.Add("FullscreenColumn", "Fullscreen ?", newCategoryForm.Category.FullscreenColumnWidth);
-                newListView.Columns.Add("QuitOnExitColumn", "Quit on exit ?", newCategoryForm.Category.QuitOnExitColumnWidth);
-                newListView.Dock = DockStyle.Fill;
-                newListView.View = UserDataLoaderSaver.UserPrefs.CategoriesDefaultViewMode;
-                if (UserDataLoaderSaver.UserPrefs.CategoriesDefaultViewMode == View.LargeIcon)
-                {
-                    newListView.LargeImageList = _gamesLargeImageList;
-                }
-                else if (UserDataLoaderSaver.UserPrefs.CategoriesDefaultViewMode == View.Tile)
-                {
-                    newListView.LargeImageList = _gamesMediumImageList;
-                }
-                newListView.SmallImageList = _gamesSmallImageList;
-                newListView.ContextMenuStrip = _currentListViewContextMenuStrip;
-                newListView.ColumnWidthChanged += new ColumnWidthChangedEventHandler(CurrentListView_ColumnWidthChanged);
-                newListView.ItemSelectionChanged += new ListViewItemSelectionChangedEventHandler(CurrentListView_ItemSelectionChanged);
-                newListView.ItemActivate += new EventHandler(CurrentListView_ItemActivate);
-                newListView.KeyDown += new KeyEventHandler(CurrentListView_KeyDown);
-                newListView.Width = Width;
-                newListView.Height = Height;
-                newListView.Name = _listViewName;
-                TabControl.TabPages[TabControl.TabPages.Count - 1].Controls.Add(newListView);
-                //the last created category is selected.
+                DisplayUserData();
                 TabControl.SelectTab(TabControl.TabPages.Count - 1);
-                TabControl.SelectedTab.Tag = newCategoryForm.Category.Signature;
-                TabControl.SelectedTab.AllowDrop = true;
-                //make the Category buttons available.
-                CategoryEditButton.Enabled = true;
-                EditSelectedcategoryToolStripMenuItem.Enabled = true;
-                CategoryDeleteButton.Enabled = true;
-                DeleteSelectedCategoryToolStripMenuItem.Enabled = true;
-                _deleteCategoryMenuMenuItem.Enabled = true;
-                NewGameToolStripMenuItem.Enabled = true;
-                GameAddButton.Enabled = true;
             }
         }
 
@@ -1015,13 +969,13 @@ namespace AmpShell.WinForms
             {
                 UserCategory concernedCategory = GetSelectedCategory();
                 concernedCategory.AddChild(newGameForm.GameInstance);
-                DisplayUserData(UserDataLoaderSaver.UserPrefs);
-                SelectTab(concernedCategory.Signature);
+                DisplayUserData();
+                SelectCategory(concernedCategory.Signature);
                 SelectLastGame();
             }
         }
 
-        private void SelectTab(string signature)
+        private void SelectCategory(string signature)
         {
             TabControl.SelectedTab = TabControl.TabPages.Cast<TabPage>().FirstOrDefault(x => (string)x.Tag == signature);
         }
@@ -1053,12 +1007,10 @@ namespace AmpShell.WinForms
         /// <param name="e"></param>
         private void CategoryEditButton_Click(object sender, EventArgs e)
         {
-            //search the selected category
             UserCategory selectedCategory = GetSelectedCategory();
             CategoryForm catEditForm = new CategoryForm(selectedCategory);
             if (catEditForm.ShowDialog(this) == DialogResult.OK)
             {
-                //modify the displayed category (TabPage) text
                 TabControl.SelectedTab.Text = selectedCategory.Title;
             }
         }
@@ -1113,7 +1065,7 @@ namespace AmpShell.WinForms
                 UserDataLoaderSaver.UserPrefs.ListChildren = prefsForm.SavedUserPrefs.ListChildren;
                 UserDataLoaderSaver.UserPrefs.X = Location.X;
                 UserDataLoaderSaver.UserPrefs.Y = Location.Y;
-                DisplayUserData(UserDataLoaderSaver.UserPrefs);
+                DisplayUserData();
             }
             UpdateButtonsState();
         }
