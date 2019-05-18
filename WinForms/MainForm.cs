@@ -28,10 +28,6 @@ namespace AmpShell.WinForms
         private readonly ImageList _gamesSmallImageList = new ImageList();
         private readonly ImageList _gamesMediumImageList = new ImageList();
         /// <summary>
-        /// ListView instance used mainly to retrieve the current ListView (in tabcontrol.SelectedTab["GamesListView"])
-        /// </summary>
-        private ListView _currentListView = new CustomListView();
-        /// <summary>
         /// //Contextual pop-up menu (right click)
         /// </summary>
         private readonly ContextMenuStrip _currentListViewContextMenuStrip = new ContextMenuStrip();
@@ -163,16 +159,30 @@ namespace AmpShell.WinForms
             _currentListViewContextMenuStrip.Items.Add(_deleteCategoryMenuMenuItem);
             _tabContextMenu.Items.Add(_deleteCategoryMenuItem);
             TabControl.ContextMenuStrip = _tabContextMenu;
-            _currentListView.ColumnWidthChanged += new ColumnWidthChangedEventHandler(CurrentListView_ColumnWidthChanged);
+            SelectedListView.ColumnWidthChanged += new ColumnWidthChangedEventHandler(CurrentListView_ColumnWidthChanged);
+        }
+
+        /// <summary>
+        /// ListView instance used mainly to retrieve the current ListView (in tabcontrol.SelectedTab["GamesListView"])
+        /// </summary>
+        private ListView SelectedListView
+        {
+            get
+            {
+                if(TabControl.HasChildren == false)
+                {
+                    return new ListView();
+                }
+                return (ListView)TabControl.SelectedTab.Controls[_listViewName];
+            }
         }
 
         private void AmpShell_Load(object sender, EventArgs e)
         {
             UserDataLoaderSaver.LoadUserSettings();
-            //Create the TabPages (categories) ListViews, and games inside the ListViews with DisplayUserData 
             DisplayUserData();
         }
-        
+
         /// <summary>
         /// Create the TabPages (categories) ListViews, and games inside the ListViews
         /// </summary>
@@ -180,10 +190,7 @@ namespace AmpShell.WinForms
         private void DisplayUserData()
         {
             var userPrefs = UserDataLoaderSaver.UserPrefs;
-            while (TabControl.TabPages.Count >= 1)
-            {
-                TabControl.TabPages.RemoveAt(0);
-            }
+            TabControl.TabPages.Clear();
             if (string.IsNullOrWhiteSpace(UserDataLoaderSaver.UserPrefs.DBDefaultConfFilePath) == false && string.IsNullOrWhiteSpace(UserDataLoaderSaver.UserPrefs.ConfigEditorPath) == false)
             {
                 EditDefaultConfigurationToolStripMenuItem.Enabled = true;
@@ -367,49 +374,43 @@ namespace AmpShell.WinForms
                 }
 
                 tabltview.ColumnWidthChanged += new ColumnWidthChangedEventHandler(CurrentListView_ColumnWidthChanged);
-                //when an item is double-clicked on activated by the Enter key.
                 tabltview.ItemActivate += new EventHandler(CurrentListView_ItemActivate);
-                //EventHandler when the selected ListViewItem has changed.
                 tabltview.ItemSelectionChanged += new ListViewItemSelectionChangedEventHandler(CurrentListView_ItemSelectionChanged);
-                //EventHandler used for the "delete" key (the selected game will be deleted)
                 tabltview.KeyDown += new KeyEventHandler(CurrentListView_KeyDown);
-                //make the ListView size equal to it's parent control (tabControl) so it will fill it.
                 tabltview.Width = TabControl.Width;
                 tabltview.Height = TabControl.Height;
-                //add the Category by ading a TabPages wich has it's title
                 TabControl.TabPages.Add(categoryToDisplay.Title);
-                //select the last TabPage (the one we just created)
-                TabControl.SelectTab(TabControl.TabPages.Count - 1);
-                TabControl.SelectedTab.Tag = categoryToDisplay.Signature;
-                TabControl.DragOver += new DragEventHandler(SelectedTab_DragOver);
-                //EventHandler binding for drag&drop (DragEnter is the event for the control where the drop will occur)
+                TabControl.TabPages[TabControl.TabPages.Count - 1].Tag = categoryToDisplay.Signature;
+                TabControl.DragOver += new DragEventHandler(TabControl_DragOver);
                 TabControl.DragEnter += new DragEventHandler(TabControl_DragEnter);
                 TabControl.DragDrop += new DragEventHandler(TabControl_DragDrop);
-                //add the ListView, named "GamesListView", and now filled with it's games (ListViewItems), to it.
-                TabControl.SelectedTab.Controls.Add(tabltview);
-                //the ltview private field reference will be the selected TabPage's ListView
-                //this is where the Tag property of the ListView tabltview could have been used.
-                _currentListView = (ListView)TabControl.SelectedTab.Controls[_listViewName];
-                //drag&drop begins with the ItemDrag eventhandler
-                _currentListView.ItemDrag += new ItemDragEventHandler(CurrentListView_ItemDrag);
-                //if the reference is not null
-                if (_currentListView != null)
+                TabControl.TabPages[TabControl.TabPages.Count - 1].Controls.Add(tabltview);
+                var listView = (ListView)TabControl.TabPages[TabControl.TabPages.Count - 1].Controls[_listViewName];
+                if (listView != null)
                 {
+                    listView.ItemDrag += new ItemDragEventHandler(CurrentListView_ItemDrag);
                     GameAddButton.Enabled = true;
                     NewGameToolStripMenuItem.Enabled = true;
-                    //sort the items (by their names in alphabetical order)
-                    _currentListView.Sort();
+                    SelectedListView.Sort();
                 }
             }
-            if (TabControl.HasChildren)
-            {
-                TabControl.SelectTab(0);
-            }
-            //EventHandler when a TabPage is selected by the user
-            TabControl.Selected += new TabControlEventHandler(Tabcontrol_Selected);
         }
 
-        private void SelectedTab_DragOver(object sender, DragEventArgs e)
+        /// <summary>
+        /// EventHandler for when a drag&drop is initiated (drag)
+        /// </summary>
+        private void CurrentListView_ItemDrag(object sender, EventArgs e)
+        {
+            if (SelectedListView.FocusedItem != null)
+            {
+                SelectedListView.DoDragDrop(SelectedListView.FocusedItem.Text, DragDropEffects.Move);
+            }
+        }
+
+        /// <summary>
+        /// EventHandler for when items are dragged over a Tab
+        /// </summary>
+        private void TabControl_DragOver(object sender, DragEventArgs e)
         {
             Point pos = TabControl.PointToClient(MousePosition);
             for (int ix = 0; ix < TabControl.TabCount; ix++)
@@ -423,23 +424,8 @@ namespace AmpShell.WinForms
         }
 
         /// <summary>
-        /// EventHandler for when a drag&drop is initiated (drag)
+        /// EventHandler for when a drop begins
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void CurrentListView_ItemDrag(object sender, EventArgs e)
-        {
-            if (_currentListView.FocusedItem != null)
-            {
-                _currentListView.DoDragDrop(_currentListView.FocusedItem.Text, DragDropEffects.Move);
-            }
-        }
-
-        /// <summary>
-        /// EventHandler for when a drop begins (drag&drop)
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void TabControl_DragEnter(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.UnicodeText))
@@ -452,73 +438,44 @@ namespace AmpShell.WinForms
             }
         }
 
-        private UserCategory GetSelectedCategory()
-        {
-            foreach (UserCategory selectedCategory in UserDataLoaderSaver.UserPrefs.ListChildren)
-            {
-                if (selectedCategory.Signature == (string)TabControl.SelectedTab.Tag)
-                {
-                    return selectedCategory;
-                }
-            }
-            return null;
-        }
-
         /// <summary>
-        /// EventHandler for drag&drop
+        /// EventHandler for when a drop ends
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void TabControl_DragDrop(object sender, DragEventArgs e)
         {
-            UserCategory selectedCategory = GetSelectedCategory();
-            foreach (UserGame selectedGame in selectedCategory.ListChildren)
+            foreach (ListViewItem itemToMove in SelectedListView.SelectedItems)
             {
-                foreach (ListViewItem selectedItem in _currentListView.SelectedItems)
-                {
-                    if (selectedGame.Signature == (string)selectedItem.Tag)
-                    {
-                        foreach (UserCategory targetCategory in UserDataLoaderSaver.UserPrefs.ListChildren)
-                        {
-                            if (targetCategory.Signature == (string)TabControl.TabPages[_hoveredTabIndex].Tag)
-                            {
-                                targetCategory.AddChild(selectedGame);
-                            }
-                        }
-                        selectedCategory.RemoveChild(selectedGame);
-                    }
-                }
-            }
-            TabControl.SelectTab(_hoveredTabIndex);
-            foreach (ListViewItem itemToMove in _currentListView.SelectedItems)
-            {
-                ListViewItem clonedItem = new ListViewItem();
-                clonedItem = (ListViewItem)itemToMove.Clone();
-                clonedItem.Tag = itemToMove.Tag;
-                clonedItem.ImageKey = itemToMove.ImageKey;
-                _currentListView.Items.Remove(itemToMove);
-                _currentListView.Items.Add(clonedItem);
+                SelectedListView.Items.Remove(itemToMove);
+                var droppedGame = UserDataLoaderSaver.UserPrefs.ListChildren.Cast<UserCategory>().Select(x => x.ListChildren.Cast<UserGame>()).SelectMany(x => x).FirstOrDefault(x => x.Signature == (string)itemToMove.Tag);
+                GetSelectedCategory().RemoveChild(droppedGame);
+                TabControl.SelectTab(_hoveredTabIndex);
+                SelectedListView.Items.Add((ListViewItem)itemToMove.Clone());
+                GetSelectedCategory(_hoveredTabIndex).AddChild(droppedGame);
             }
         }
 
         private UserGame GetSelectedGame()
         {
-            UserCategory selectedCategory = GetSelectedCategory();
-            foreach (UserGame selectedGame in selectedCategory.ListChildren)
+            if(SelectedListView.FocusedItem == null)
             {
-                if (selectedGame.Signature == (string)_currentListView.FocusedItem.Tag)
-                {
-                    return selectedGame;
-                }
+                return null;
             }
-            return null;
+            return GetSelectedCategory().ListChildren.Cast<UserGame>().FirstOrDefault(x => x.Signature == (string)SelectedListView.FocusedItem.Tag);
+        }
+
+        private UserCategory GetSelectedCategory()
+        {
+            return UserDataLoaderSaver.UserPrefs.ListChildren.Cast<UserCategory>().FirstOrDefault(x => x.Signature == (string)TabControl.SelectedTab.Tag);
+        }
+
+        private UserCategory GetSelectedCategory(int hoveredTabIndex)
+        {
+            return UserDataLoaderSaver.UserPrefs.ListChildren.Cast<UserCategory>().FirstOrDefault(x => x.Signature == (string)TabControl.TabPages[hoveredTabIndex].Tag);
         }
 
         /// <summary>
         /// Called when the user wants to edit an existing game
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void GameEditButton_Click(object sender, EventArgs e)
         {
             UserGame selectedGame = GetSelectedGame();
@@ -532,8 +489,6 @@ namespace AmpShell.WinForms
         /// <summary>
         /// EventHandler for when lvtview (the current tab's ListView) item selection changes
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void CurrentListView_ItemSelectionChanged(object sender, EventArgs e)
         {
             AdditionnalCommandsLabel.Text = string.Empty;
@@ -548,7 +503,7 @@ namespace AmpShell.WinForms
             //several games can be selected at once, but it is only meant for drag&drop between categories
             //Besides, running more than one game (one DOSBox instance) at once can be CPU intensive...
             //if 1 game has been selected
-            if (_currentListView.SelectedItems.Count == 1)
+            if (SelectedListView.SelectedItems.Count == 1)
             {
                 _deleteGameMenuItem.Enabled = true;
                 DeleteSelectedGameToolStripMenuItem.Enabled = true;
@@ -691,7 +646,7 @@ namespace AmpShell.WinForms
                 }
             }
             //if more than one game have been selected
-            else if (_currentListView.SelectedItems.Count > 1)
+            else if (SelectedListView.SelectedItems.Count > 1)
             {
                 //make all the game buttons disabled (except the ones for deleting games)
                 _editGameMenuItem.Enabled = false;
@@ -711,7 +666,7 @@ namespace AmpShell.WinForms
                 _makeGameConfigurationMenuItem.Enabled = true;
             }
             //if no game has been selected
-            else if (_currentListView.SelectedItems.Count == 0)
+            else if (SelectedListView.SelectedItems.Count == 0)
             {
                 _deleteGameMenuItem.Enabled = false;
                 DeleteSelectedGameToolStripMenuItem.Enabled = false;
@@ -735,29 +690,8 @@ namespace AmpShell.WinForms
         }
 
         /// <summary>
-        /// EventHandler when a TabPage (a category) is selected
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Tabcontrol_Selected(object sender, EventArgs e)
-        {
-            if (TabControl.Controls.Count > 0)
-            {
-                if (TabControl.SelectedTab.Controls.Count > 0)
-                {
-                    _currentListView = (ListView)TabControl.SelectedTab.Controls[_listViewName];
-                    _currentListView.AllowDrop = true;
-                    TabControl.SelectedTab.AllowDrop = true;
-                    _currentListView.ItemDrag += new ItemDragEventHandler(CurrentListView_ItemDrag);
-                }
-            }
-        }
-
-        /// <summary>
         /// EventHandler when a Category (a TabPage) is added (created)
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void CategoryAddButton_Click(object sender, EventArgs e)
         {
             CategoryForm newCategoryForm = new CategoryForm();
@@ -781,8 +715,6 @@ namespace AmpShell.WinForms
         /// <summary>
         /// EventHandler for when a game is double-clicked (activated), or activated by the Enter key.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void CurrentListView_ItemActivate(object sender, EventArgs e)
         {
             StartDOSBox(UserDataLoaderSaver.UserPrefs.DBPath, GetSelectedGame(), false, UserDataLoaderSaver.UserPrefs.DBDefaultConfFilePath, UserDataLoaderSaver.UserPrefs.DBDefaultLangFilePath);
@@ -806,56 +738,28 @@ namespace AmpShell.WinForms
         /// <summary>
         /// EventHandler for when a key is pressed while ltview has focus
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void CurrentListView_KeyDown(object sender, KeyEventArgs e)
         {
-            //if it was the delete key
-            if (e.KeyCode == Keys.Delete)
+            if (e.KeyCode != Keys.Delete)
             {
-                //search for the selected category
-                foreach (UserCategory ConcernedCategory in UserDataLoaderSaver.UserPrefs.ListChildren)
-                {
-                    if (ConcernedCategory.Signature == (string)TabControl.SelectedTab.Tag)
-                    {
-                        //search for the selected game
-                        foreach (UserGame ConcernedGame in ConcernedCategory.ListChildren)
-                        {
-                            //delete the game data
-                            foreach (ListViewItem ConcernedItem in _currentListView.SelectedItems)
-                            {
-                                if (ConcernedGame.Signature == (string)ConcernedItem.Tag)
-                                {
-                                    if (UserDataLoaderSaver.UserPrefs.GameDeletePrompt == true)
-                                    {
-                                        if (MessageBox.Show(this, "Do you really want to delete this game : " + ConcernedGame.Name + " ?", GameDeleteButton.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                                        {
-                                            ConcernedCategory.RemoveChild(ConcernedGame);
-                                            //delete the corresponding ListViewItem
-                                            _currentListView.Items.Remove(ConcernedItem);
-                                        }
-                                    }
-                                    else
-                                    {
-                                        ConcernedCategory.RemoveChild(ConcernedGame);
-                                        //delete the corresponding ListViewItem
-                                        _currentListView.Items.Remove(ConcernedItem);
-                                    }
-                                    break;
-                                }
-                            }
-                        }
-                        break;
-                    }
-                }
+                return;
             }
+            ListViewItem selectedItem;
+            do
+            {
+                selectedItem = SelectedListView.Items.Cast<ListViewItem>().FirstOrDefault(x => (string)x.Tag == GetSelectedGame().Signature);
+                if (MessageBox.Show(this, "Do you really want to delete this game : " + GetSelectedGame().Name + " ?", GameDeleteButton.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+                {
+                    continue;
+                }
+                SelectedListView.Items.Remove(selectedItem);
+                GetSelectedCategory().RemoveChild(GetSelectedGame());
+            } while (selectedItem != null);
         }
 
         /// <summary>
         /// EventHandler for when AmpShell is closed
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void AmpShell_FormClosing(object sender, FormClosingEventArgs e)
         {
             UserDataLoaderSaver.SaveUserSettings();
@@ -871,20 +775,16 @@ namespace AmpShell.WinForms
         /// <summary>
         /// EventHandler for when the delete button game is clicked
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void GameDeleteButton_Click(object sender, EventArgs e) { KeyEventArgs k = new KeyEventArgs(Keys.Delete); CurrentListView_KeyDown(sender, k); }
 
         /// <summary>
         /// EventHandler for when the Category delete button is clicked
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void CategoryDeleteButton_Click(object sender, EventArgs e)
         {
             UserCategory selectedCategory = GetSelectedCategory();
             if (UserDataLoaderSaver.UserPrefs.CategoryDeletePrompt != true ||
-                MessageBox.Show(this, "Do you really want to delete " + "'" + TabControl.SelectedTab.Text + "'" + " and all the games inside it ?",
+                MessageBox.Show(this, "Do you really want to delete " + "'" + selectedCategory.Title + "'" + " and all the games inside it ?",
                 _deleteCategoryMenuMenuItem.Text,
                 MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
@@ -898,24 +798,20 @@ namespace AmpShell.WinForms
         /// EventHandler when the user clicks on Tools -> Run DOSBox
         /// wich runs DOSBox only with the default .conf (configuration) and .lng (language) files.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void RunDOSBox_Click(object sender, EventArgs e)
         {
             var dosboxProcess = DOSBoxLauncher.RunDOSBox(UserDataLoaderSaver.UserPrefs.DBPath, UserDataLoaderSaver.UserPrefs.DBDefaultConfFilePath, UserDataLoaderSaver.UserPrefs.DBDefaultLangFilePath);
 
-            if(dosboxProcess != null)
+            if (dosboxProcess != null)
             {
                 this.WindowState = FormWindowState.Minimized;
                 dosboxProcess.Exited += OnDOSBoxExit;
             }
         }
-        
+
         /// <summary>
         /// EventHandler for when AmpShell is shown (happens after AmpShell_Load)
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void AmpShell_Shown(object sender, EventArgs e)
         {
             _ampShellShown = true;
@@ -931,8 +827,6 @@ namespace AmpShell.WinForms
                 _deleteCategoryMenuMenuItem.Enabled = true;
                 CategoryDeleteButton.Enabled = true;
                 DeleteSelectedCategoryToolStripMenuItem.Enabled = true;
-                //reference the selected TabPage's ListView into ltview (with a cast)
-                _currentListView = (ListView)TabControl.SelectedTab.Controls[_listViewName];
             }
             //if tabcontrol has no children, then it has no TabPages (categories)
             //so we prompt the user for the title of the first category.
@@ -945,15 +839,11 @@ namespace AmpShell.WinForms
         /// <summary>
         /// EventHander for File -> Quit.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void QuitToolStripMenuItem_Click(object sender, EventArgs e) { Application.Exit(); }
 
         /// <summary>
         /// EventHandler for when the user has clicked on the GameAddButton
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void GameAddButton_Click(object sender, EventArgs e)
         {
             GameForm newGameForm = new GameForm(UserDataLoaderSaver.UserPrefs);
@@ -982,14 +872,12 @@ namespace AmpShell.WinForms
 
         private void SelectLastGame()
         {
-            _currentListView.FocusedItem = _currentListView.Items.Cast<ListViewItem>().LastOrDefault();
+            SelectedListView.FocusedItem = SelectedListView.Items.Cast<ListViewItem>().LastOrDefault();
         }
 
         /// <summary>
         /// EventHandler for when the user has finished resizing the window.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void AmpShell_Resized(object sender, EventArgs e)
         {
             //change the data about the Window's dimensions (restored on next session).
@@ -1003,8 +891,6 @@ namespace AmpShell.WinForms
         /// <summary>
         /// EventHandler for when a category is edited (CategoryEditButton has been clicked)
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void CategoryEditButton_Click(object sender, EventArgs e)
         {
             UserCategory selectedCategory = GetSelectedCategory();
@@ -1018,8 +904,6 @@ namespace AmpShell.WinForms
         /// <summary>
         /// EventHandler for when the RunGameSetupButton is clicked
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void RunGameSetupButton_Click(object sender, EventArgs e)
         {
             StartDOSBox(UserDataLoaderSaver.UserPrefs.DBPath, GetSelectedGame(), true, UserDataLoaderSaver.UserPrefs.DBDefaultConfFilePath, UserDataLoaderSaver.UserPrefs.DBDefaultLangFilePath);
@@ -1028,8 +912,6 @@ namespace AmpShell.WinForms
         /// <summary>
         /// EventHandler for when the window is (un)maximized
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void AmpShell_Resize(object sender, EventArgs e)
         {
             if (_ampShellShown == true)
@@ -1096,140 +978,35 @@ namespace AmpShell.WinForms
 
         private void LargeIconViewButton_Click(object sender, EventArgs e)
         {
-            _currentListView.View = View.LargeIcon;
-            _currentListView.LargeImageList = _gamesLargeImageList;
-            UserCategory selectedCategory = GetSelectedCategory();
-            selectedCategory.ViewMode = _currentListView.View;
+            ChangeTabDisplayMode(View.LargeIcon);
         }
 
         private void SmallIconViewButton_Click(object sender, EventArgs e)
         {
-            _currentListView.View = View.SmallIcon;
-            UserCategory selectedCategory = GetSelectedCategory();
-            selectedCategory.ViewMode = _currentListView.View;
+            ChangeTabDisplayMode(View.SmallIcon);
         }
 
         private void TileViewButton_Click(object sender, EventArgs e)
         {
-            _currentListView.View = View.Tile;
-            _currentListView.LargeImageList = _gamesMediumImageList;
-            UserCategory selectedCategory = GetSelectedCategory();
-            selectedCategory.ViewMode = _currentListView.View;
-            foreach (ListViewItem ltviewitem in _currentListView.Items)
-            {
-                while (ltviewitem.SubItems.Count > 3)
-                {
-                    ltviewitem.SubItems.RemoveAt(ltviewitem.SubItems.Count - 1);
-                }
-            }
+            ChangeTabDisplayMode(View.Tile);
         }
 
         private void ListViewButton_Click(object sender, EventArgs e)
         {
-            _currentListView.View = View.List;
-            _currentListView.Columns[0].Width = _currentListView.Width;
-            UserCategory selectedCategory = GetSelectedCategory();
-            selectedCategory.ViewMode = _currentListView.View;
+            ChangeTabDisplayMode(View.List);
         }
 
         private void DetailsViewButton_Click(object sender, EventArgs e)
         {
-            if (_currentListView.Columns.Count > 0)
-            {
-                _currentListView.View = View.Details;
-                UserCategory selectedCategory = GetSelectedCategory();
-                selectedCategory.ViewMode = _currentListView.View;
-                _currentListView.Columns["NameColumn"].Width = selectedCategory.NameColumnWidth;
-                _currentListView.Columns["ExecutableColumn"].Width = selectedCategory.ExecutableColumnWidth;
-                _currentListView.Columns["CMountColumn"].Width = selectedCategory.CMountColumnWidth;
-                _currentListView.Columns["SetupExecutableColumn"].Width = selectedCategory.SetupExecutableColumnWidth;
-                _currentListView.Columns["CustomConfigurationColumn"].Width = selectedCategory.CustomConfigurationColumnWidth;
-                _currentListView.Columns["DMountColumn"].Width = selectedCategory.DMountColumnWidth;
-                _currentListView.Columns["MountingOptionsColumn"].Width = selectedCategory.MountingOptionsColumnWidth;
-                _currentListView.Columns["AdditionnalCommandsColumn"].Width = selectedCategory.AdditionnalCommandsColumnWidth;
-                _currentListView.Columns["NoConsoleColumn"].Width = selectedCategory.NoConsoleColumnWidth;
-                _currentListView.Columns["FullscreenColumn"].Width = selectedCategory.FullscreenColumnWidth;
-                _currentListView.Columns["QuitOnExitColumn"].Width = selectedCategory.QuitOnExitColumnWidth;
-                foreach (ListViewItem listViewItem in _currentListView.Items)
-                {
-                    if ((string)_currentListView.Tag == selectedCategory.Signature)
-                    {
-                        foreach (UserGame game in UserDataLoaderSaver.UserPrefs.ListChildren)
-                        {
-                            if ((string)listViewItem.Tag == game.Signature)
-                            {
-                                if (listViewItem.SubItems.Count == 2)
-                                {
-                                    ListViewItem.ListViewSubItem gameSetupLVSubItem = new ListViewItem.ListViewSubItem
-                                    {
-                                        Text = game.SetupEXEPath
-                                    };
-                                    listViewItem.SubItems.Add(gameSetupLVSubItem);
-                                    ListViewItem.ListViewSubItem gameCustomConfigurationLVSubItem = new ListViewItem.ListViewSubItem
-                                    {
-                                        Name = "GameCustomConfiguration"
-                                    };
-                                    if (game.NoConfig == true)
-                                    {
-                                        gameCustomConfigurationLVSubItem.Text = "None at all";
-                                    }
-                                    else
-                                    {
-                                        gameCustomConfigurationLVSubItem.Text = game.DBConfPath;
-                                    }
+            ChangeTabDisplayMode(View.Details);
+        }
 
-                                    listViewItem.SubItems.Add(gameCustomConfigurationLVSubItem);
-                                    ListViewItem.ListViewSubItem gameDMountLVSubItem = new ListViewItem.ListViewSubItem
-                                    {
-                                        Text = game.CDPath
-                                    };
-                                    listViewItem.SubItems.Add(gameDMountLVSubItem);
-                                    ListViewItem.ListViewSubItem gameMountingOptionsLVSubItem = new ListViewItem.ListViewSubItem();
-                                    if (game.UseIOCTL == true)
-                                    {
-                                        gameMountingOptionsLVSubItem.Text = "Use IOCTL";
-                                    }
-                                    else if (game.MountAsFloppy == true)
-                                    {
-                                        gameMountingOptionsLVSubItem.Text = "Mount as a floppy disk (A:)";
-                                    }
-                                    else
-                                    {
-                                        gameMountingOptionsLVSubItem.Text = "None";
-                                    }
-
-                                    listViewItem.SubItems.Add(gameMountingOptionsLVSubItem);
-                                    ListViewItem.ListViewSubItem gameAdditionnalCommandsLVSubItem = new ListViewItem.ListViewSubItem
-                                    {
-                                        Text = game.AdditionalCommands
-                                    };
-                                    listViewItem.SubItems.Add(gameAdditionnalCommandsLVSubItem);
-                                    ListViewItem.ListViewSubItem gameNoConsoleLVSubItem = new ListViewItem.ListViewSubItem
-                                    {
-                                        Text = game.NoConsole.ToString()
-                                    };
-                                    listViewItem.SubItems.Add(gameNoConsoleLVSubItem);
-                                    ListViewItem.ListViewSubItem gameFullscreenLVSubItem = new ListViewItem.ListViewSubItem
-                                    {
-                                        Text = game.InFullScreen.ToString()
-                                    };
-                                    listViewItem.SubItems.Add(gameFullscreenLVSubItem);
-                                    ListViewItem.ListViewSubItem gameQuitOnExitLVSubItem = new ListViewItem.ListViewSubItem
-                                    {
-                                        Text = game.QuitOnExit.ToString()
-                                    };
-                                    listViewItem.SubItems.Add(gameQuitOnExitLVSubItem);
-                                }
-                                else
-                                {
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                    break;
-                }
-            }
+        private void ChangeTabDisplayMode(View mode)
+        {
+            var selectedIndex = TabControl.SelectedIndex;
+            GetSelectedCategory().ViewMode = mode;
+            DisplayUserData();
+            TabControl.SelectedIndex = selectedIndex;
         }
 
         private void MenuBar_ContextMenu_Click(object sender, EventArgs e)
@@ -1280,8 +1057,6 @@ namespace AmpShell.WinForms
         /// <summary>
         /// EventHandler for when the window is moved
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void AmpShell_LocationChanged(object sender, EventArgs e)
         {
             if (UserDataLoaderSaver.UserPrefs.RememberWindowPosition == true && WindowState != FormWindowState.Minimized)
@@ -1293,27 +1068,22 @@ namespace AmpShell.WinForms
 
         private void CurrentListView_ColumnWidthChanged(object sender, EventArgs e)
         {
-            foreach (UserCategory category in UserDataLoaderSaver.UserPrefs.ListChildren)
+            var category = GetSelectedCategory();
+            if (category.ViewMode != View.Details || SelectedListView.Columns.Count == 0)
             {
-                if (category.ViewMode == View.Details)
-                {
-                    if ((string)TabControl.SelectedTab.Tag == category.Signature && _currentListView.Columns.Count > 0)
-                    {
-                        category.NameColumnWidth = _currentListView.Columns["NameColumn"].Width;
-                        category.ExecutableColumnWidth = _currentListView.Columns["ExecutableColumn"].Width;
-                        category.CMountColumnWidth = _currentListView.Columns["CMountColumn"].Width;
-                        category.SetupExecutableColumnWidth = _currentListView.Columns["SetupExecutableColumn"].Width;
-                        category.CustomConfigurationColumnWidth = _currentListView.Columns["CustomConfigurationColumn"].Width;
-                        category.DMountColumnWidth = _currentListView.Columns["DMountColumn"].Width;
-                        category.MountingOptionsColumnWidth = _currentListView.Columns["MountingOptionsColumn"].Width;
-                        category.AdditionnalCommandsColumnWidth = _currentListView.Columns["AdditionnalCommandsColumn"].Width;
-                        category.NoConsoleColumnWidth = _currentListView.Columns["NoConsoleColumn"].Width;
-                        category.FullscreenColumnWidth = _currentListView.Columns["FullscreenColumn"].Width;
-                        category.QuitOnExitColumnWidth = _currentListView.Columns["QuitOnExitColumn"].Width;
-                        break;
-                    }
-                }
+                return;
             }
+            category.NameColumnWidth = SelectedListView.Columns["NameColumn"].Width;
+            category.ExecutableColumnWidth = SelectedListView.Columns["ExecutableColumn"].Width;
+            category.CMountColumnWidth = SelectedListView.Columns["CMountColumn"].Width;
+            category.SetupExecutableColumnWidth = SelectedListView.Columns["SetupExecutableColumn"].Width;
+            category.CustomConfigurationColumnWidth = SelectedListView.Columns["CustomConfigurationColumn"].Width;
+            category.DMountColumnWidth = SelectedListView.Columns["DMountColumn"].Width;
+            category.MountingOptionsColumnWidth = SelectedListView.Columns["MountingOptionsColumn"].Width;
+            category.AdditionnalCommandsColumnWidth = SelectedListView.Columns["AdditionnalCommandsColumn"].Width;
+            category.NoConsoleColumnWidth = SelectedListView.Columns["NoConsoleColumn"].Width;
+            category.FullscreenColumnWidth = SelectedListView.Columns["FullscreenColumn"].Width;
+            category.QuitOnExitColumnWidth = SelectedListView.Columns["QuitOnExitColumn"].Width;
         }
 
         private void UpdateButtonsState()
@@ -1436,21 +1206,11 @@ namespace AmpShell.WinForms
 
         private void MakeConfigButton_Click(object sender, EventArgs e)
         {
-            UserCategory selectedCategory = GetSelectedCategory();
-            foreach (ListViewItem selecedViewItem in _currentListView.SelectedItems)
+            var selectedGame = GetSelectedGame();
+            if ((!File.Exists(selectedGame.Directory + "\\" + Path.GetFileName(UserDataLoaderSaver.UserPrefs.DBDefaultConfFilePath))) || (MessageBox.Show(this, "'" + selectedGame.Directory + "\\" + Path.GetFileName(UserDataLoaderSaver.UserPrefs.DBDefaultConfFilePath) + "'" + "already exists, do you want to overwrite it ?", MakeConfigButton.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes))
             {
-                foreach (UserGame selectedGame in selectedCategory.ListChildren)
-                {
-                    if (selectedGame.Signature == (string)selecedViewItem.Tag &&
-                        string.IsNullOrWhiteSpace(UserDataLoaderSaver.UserPrefs.DBDefaultConfFilePath) == false)
-                    {
-                        if ((!File.Exists(selectedGame.Directory + "\\" + Path.GetFileName(UserDataLoaderSaver.UserPrefs.DBDefaultConfFilePath))) || (MessageBox.Show(this, "'" + selectedGame.Directory + "\\" + Path.GetFileName(UserDataLoaderSaver.UserPrefs.DBDefaultConfFilePath) + "'" + "already exists, do you want to overwrite it ?", MakeConfigButton.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes))
-                        {
-                            File.Copy(UserDataLoaderSaver.UserPrefs.DBDefaultConfFilePath, selectedGame.Directory + "\\" + Path.GetFileName(UserDataLoaderSaver.UserPrefs.DBDefaultConfFilePath), true);
-                            selectedGame.DBConfPath = selectedGame.Directory + "\\" + Path.GetFileName(UserDataLoaderSaver.UserPrefs.DBDefaultConfFilePath);
-                        }
-                    }
-                }
+                File.Copy(UserDataLoaderSaver.UserPrefs.DBDefaultConfFilePath, selectedGame.Directory + "\\" + Path.GetFileName(UserDataLoaderSaver.UserPrefs.DBDefaultConfFilePath), true);
+                selectedGame.DBConfPath = selectedGame.Directory + "\\" + Path.GetFileName(UserDataLoaderSaver.UserPrefs.DBDefaultConfFilePath);
             }
         }
 
