@@ -500,7 +500,7 @@ namespace AmpShell.WinForms
         }
 
         /// <summary>
-        /// EventHandler for when lvtview (the current tab's ListView) item selection changes
+        /// EventHandler for when SelectedListView (the current tab's ListView) item selection changes
         /// </summary>
         private void CurrentListView_ItemSelectionChanged(object sender, EventArgs e)
         {
