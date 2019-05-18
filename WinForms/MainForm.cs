@@ -489,9 +489,9 @@ namespace AmpShell.WinForms
         private void RedrawAllUserData()
         {
             UserGame selectedGame = GetSelectedGame();
-            UserCategory concernedCategory = GetSelectedCategory();
+            UserCategory selectedCategory = GetSelectedCategory();
             DisplayUserData();
-            SelectCategory(concernedCategory.Signature);
+            SelectCategory(selectedCategory.Signature);
             if(selectedGame != null)
             {
                 SelectedListView.FocusedItem = SelectedListView.Items.Cast<ListViewItem>().FirstOrDefault(x => (string)x.Tag == selectedGame.Signature);
