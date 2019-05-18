@@ -15,6 +15,25 @@ namespace AmpShell.Configuration
 {
     public static class FileFinder
     {
+        public static bool HasWriteAccessToAssemblyLocationFolder()
+        {
+            string folderPath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            try
+            {
+                string tmpFilePath = Path.Combine(folderPath, Path.GetRandomFileName());
+                while(File.Exists(tmpFilePath) == true)
+                {
+                    tmpFilePath = Path.Combine(folderPath, Path.GetRandomFileName());
+                }
+                File.Create(tmpFilePath);
+                return true;
+            }
+            catch (UnauthorizedAccessException)
+            {
+                return false;
+            }
+        }
+
         public static string SearchCommonTextEditor()
         {
             string confEditorPath = string.Empty;

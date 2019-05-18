@@ -7,6 +7,7 @@
  * See the GNU General Public License for more details.
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
+using AmpShell.Configuration;
 using AmpShell.UserData;
 using System;
 using System.Collections.Generic;
@@ -133,11 +134,11 @@ namespace AmpShell.WinForms
 
         private void Main_Prefs_Load(object sender, EventArgs e)
         {
-            if (Directory.GetDirectoryRoot(Application.StartupPath) == Environment.GetFolderPath(System.Environment.SpecialFolder.ProgramFiles) || Directory.GetDirectoryRoot(Application.StartupPath) == Environment.GetFolderPath(System.Environment.SpecialFolder.ProgramFiles) + " (x86)")
+            if (FileFinder.HasWriteAccessToAssemblyLocationFolder() == false)
             {
                 PortableModeCheckBox.Enabled = false;
                 PortableModeCheckBox.Checked = false;
-                StatusStripLabel.Text = "Portable Mode : unavailable (AmpShell is in the Program Files system directory).";
+                StatusStripLabel.Text = "Portable Mode : unavailable (AmpShell cannot write in the folder where it is located).";
             }
             else
             {
