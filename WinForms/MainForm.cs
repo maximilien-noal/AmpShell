@@ -179,6 +179,10 @@ namespace AmpShell.WinForms
         /// <param name="noIcons">whether we display icons for games or not at all</param>
         private void DisplayUserData(UserPrefs userPrefs)
         {
+            while (TabControl.TabPages.Count >= 1)
+            {
+                TabControl.TabPages.RemoveAt(0);
+            }
             if (string.IsNullOrWhiteSpace(UserDataLoaderSaver.UserPrefs.DBDefaultConfFilePath) == false && string.IsNullOrWhiteSpace(UserDataLoaderSaver.UserPrefs.ConfigEditorPath) == false)
             {
                 EditDefaultConfigurationToolStripMenuItem.Enabled = true;
@@ -1257,10 +1261,6 @@ namespace AmpShell.WinForms
                 UserDataLoaderSaver.UserPrefs.ListChildren = prefsForm.SavedUserPrefs.ListChildren;
                 UserDataLoaderSaver.UserPrefs.X = Location.X;
                 UserDataLoaderSaver.UserPrefs.Y = Location.Y;
-                while(TabControl.TabPages.Count >= 1)
-                {
-                    TabControl.TabPages.RemoveAt(0);
-                }
                 DisplayUserData(UserDataLoaderSaver.UserPrefs);
             }
             UpdateButtonsState();
