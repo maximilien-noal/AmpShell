@@ -116,15 +116,26 @@ namespace AmpShell.WinForms
                 SavedUserPrefs.CategoriesDefaultViewMode = View.Details;
             }
 
+            SavedUserPrefs.PortableMode = PortableModeCheckBox.Checked;
+
+            SyncCategoriesOrderWithTabOrder();
+
+            Close();
+        }
+
+        private void SyncCategoriesOrderWithTabOrder()
+        {
+            if (CategoriesListView.Items.Count < 2)
+            {
+                return;
+            }
+
             List<ListViewItem> tabs = CategoriesListView.Items.Cast<ListViewItem>().ToList();
 
             foreach (UserCategory ConcernedCategory in SavedUserPrefs.ListChildren)
             {
                 SavedUserPrefs.MoveChildToPosition(ConcernedCategory, tabs.IndexOf(tabs.FirstOrDefault(x => Convert.ToString(x.Tag) == ConcernedCategory.Signature)));
             }
-
-            SavedUserPrefs.PortableMode = PortableModeCheckBox.Checked;
-            Close();
         }
 
         private void Cancel_Click(object sender, EventArgs e)
