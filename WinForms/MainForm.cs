@@ -1257,6 +1257,10 @@ namespace AmpShell.WinForms
                 UserDataLoaderSaver.UserPrefs.ListChildren = prefsForm.SavedUserPrefs.ListChildren;
                 UserDataLoaderSaver.UserPrefs.X = Location.X;
                 UserDataLoaderSaver.UserPrefs.Y = Location.Y;
+                while(TabControl.TabPages.Count >= 1)
+                {
+                    TabControl.TabPages.RemoveAt(0);
+                }
                 DisplayUserData(UserDataLoaderSaver.UserPrefs);
             }
             UpdateButtonsState();
