@@ -467,6 +467,9 @@ namespace AmpShell.WinForms
             }
         }
 
+        /// <summary>
+        /// We use a timer to let the drag&drop finish first (or else it loops forever)
+        /// </summary>
         private void RedrawWaitTimer_Tick(object sender, EventArgs e)
         {
             _redrawWaitTimer.Enabled = false;
@@ -474,6 +477,7 @@ namespace AmpShell.WinForms
             {
                 return;
             }
+            //we need to redraw only when needed, as the drag&drop operation loops a few times otherwise
             if (_redrawableTabs.Contains((TabPage)_redrawWaitTimer.Tag))
             {
                 _redrawableTabs.Remove((TabPage)_redrawWaitTimer.Tag);
