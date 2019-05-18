@@ -748,7 +748,7 @@ namespace AmpShell.WinForms
         }
 
         /// <summary>
-        /// EventHandler for when a key is pressed while ltview has focus
+        /// EventHandler for when a key is pressed while SelectedListView has focus
         /// </summary>
         private void CurrentListView_KeyDown(object sender, KeyEventArgs e)
         {
