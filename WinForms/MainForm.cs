@@ -482,7 +482,20 @@ namespace AmpShell.WinForms
             GameForm gameEditForm = new GameForm(selectedGame, UserDataLoaderSaver.UserPrefs);
             if (gameEditForm.ShowDialog(this) == DialogResult.OK)
             {
-                DisplayUserData();
+                RedrawAllUserData();
+            }
+        }
+
+        private void RedrawAllUserData()
+        {
+            UserGame selectedGame = GetSelectedGame();
+            UserCategory concernedCategory = GetSelectedCategory();
+            DisplayUserData();
+            SelectCategory(concernedCategory.Signature);
+            if(selectedGame != null)
+            {
+                SelectedListView.FocusedItem = SelectedListView.Items.Cast<ListViewItem>().FirstOrDefault(x => (string)x.Tag == selectedGame.Signature);
+                SelectedListView.FocusedItem.Selected = true;
             }
         }
 
@@ -748,6 +761,10 @@ namespace AmpShell.WinForms
             do
             {
                 selectedItem = SelectedListView.Items.Cast<ListViewItem>().FirstOrDefault(x => (string)x.Tag == GetSelectedGame().Signature);
+                if(selectedItem == null)
+                {
+                    return;
+                }
                 if (MessageBox.Show(this, "Do you really want to delete this game : " + GetSelectedGame().Name + " ?", GameDeleteButton.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
                 {
                     continue;
