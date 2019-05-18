@@ -14,6 +14,7 @@ using AmpShell.WinForms.UserControls;
 using System;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace AmpShell.WinForms
@@ -1087,96 +1088,20 @@ namespace AmpShell.WinForms
             {
                 UserCategory concernedCategory = GetSelectedCategory();
                 concernedCategory.AddChild(newGameForm.GameInstance);
-                if (string.IsNullOrWhiteSpace(newGameForm.GameInstance.Icon) == false)
-                {
-                    _gamesLargeImageList.Images.Add(newGameForm.GameInstance.Signature, Image.FromFile(newGameForm.GameInstance.Icon).GetThumbnailImage(UserDataLoaderSaver.UserPrefs.LargeViewModeSize, UserDataLoaderSaver.UserPrefs.LargeViewModeSize, null, IntPtr.Zero));
-                    _gamesMediumImageList.Images.Add(newGameForm.GameInstance.Signature, Image.FromFile(newGameForm.GameInstance.Icon).GetThumbnailImage(32, 32, null, IntPtr.Zero));
-                    _gamesSmallImageList.Images.Add(newGameForm.GameInstance.Signature, Image.FromFile(newGameForm.GameInstance.Icon).GetThumbnailImage(16, 16, null, IntPtr.Zero));
-                }
-                _currentListView = (ListView)TabControl.SelectedTab.Controls[_listViewName];
-                ListViewItem gameToAdd = new ListViewItem(newGameForm.GameInstance.Name)
-                {
-                    Tag = newGameForm.GameInstance.Signature
-                };
-                ListViewItem.ListViewSubItem GameDOSEXEPathLVSubItem = new ListViewItem.ListViewSubItem
-                {
-                    Text = newGameForm.GameInstance.DOSEXEPath
-                };
-                gameToAdd.SubItems.Add(GameDOSEXEPathLVSubItem);
-                ListViewItem.ListViewSubItem GameCMountLVSubItem = new ListViewItem.ListViewSubItem
-                {
-                    Text = newGameForm.GameInstance.Directory
-                };
-                gameToAdd.SubItems.Add(GameCMountLVSubItem);
-                if (_currentListView.View != View.Tile)
-                {
-                    ListViewItem.ListViewSubItem GameSetupLVSubItem = new ListViewItem.ListViewSubItem
-                    {
-                        Text = newGameForm.GameInstance.SetupEXEPath
-                    };
-                    gameToAdd.SubItems.Add(GameSetupLVSubItem);
-                    ListViewItem.ListViewSubItem GameCustomConfigurationLVSubItem = new ListViewItem.ListViewSubItem();
-                    if (newGameForm.GameInstance.NoConfig == true)
-                    {
-                        GameCustomConfigurationLVSubItem.Text = "None at all";
-                    }
-                    else
-                    {
-                        GameCustomConfigurationLVSubItem.Text = newGameForm.GameInstance.DBConfPath;
-                    }
-
-                    gameToAdd.SubItems.Add(GameCustomConfigurationLVSubItem);
-                    ListViewItem.ListViewSubItem GameDMountLVSubItem = new ListViewItem.ListViewSubItem
-                    {
-                        Text = newGameForm.GameInstance.CDPath
-                    };
-                    gameToAdd.SubItems.Add(GameDMountLVSubItem);
-                    ListViewItem.ListViewSubItem GameMountingOptionsLVSubItem = new ListViewItem.ListViewSubItem();
-                    if (newGameForm.GameInstance.UseIOCTL == true)
-                    {
-                        GameMountingOptionsLVSubItem.Text = "Use IOCTL";
-                    }
-                    else if (newGameForm.GameInstance.MountAsFloppy == true)
-                    {
-                        GameMountingOptionsLVSubItem.Text = "Mount as a floppy disk (A:)";
-                    }
-                    else
-                    {
-                        GameMountingOptionsLVSubItem.Text = "None";
-                    }
-
-                    gameToAdd.SubItems.Add(GameMountingOptionsLVSubItem);
-                    ListViewItem.ListViewSubItem GameAdditionnalCommandsLVSubItem = new ListViewItem.ListViewSubItem
-                    {
-                        Text = newGameForm.GameInstance.AdditionalCommands
-                    };
-                    gameToAdd.SubItems.Add(GameAdditionnalCommandsLVSubItem);
-                    ListViewItem.ListViewSubItem GameNoConsoleLVSubItem = new ListViewItem.ListViewSubItem
-                    {
-                        Text = newGameForm.GameInstance.NoConsole.ToString()
-                    };
-                    gameToAdd.SubItems.Add(GameNoConsoleLVSubItem);
-                    ListViewItem.ListViewSubItem GameFullscreenLVSubItem = new ListViewItem.ListViewSubItem
-                    {
-                        Text = newGameForm.GameInstance.InFullScreen.ToString()
-                    };
-                    gameToAdd.SubItems.Add(GameFullscreenLVSubItem);
-                    ListViewItem.ListViewSubItem GameQuitOnExitLVSubItem = new ListViewItem.ListViewSubItem
-                    {
-                        Text = newGameForm.GameInstance.QuitOnExit.ToString()
-                    };
-                    gameToAdd.SubItems.Add(GameQuitOnExitLVSubItem);
-                }
-                _currentListView.Items.Add(gameToAdd);
-                if (string.IsNullOrWhiteSpace(newGameForm.GameInstance.Icon) == false)
-                {
-                    gameToAdd.ImageKey = newGameForm.GameInstance.Signature;
-                }
-                else
-                {
-                    gameToAdd.ImageKey = "DefaultIcon";
-                }
+                DisplayUserData(UserDataLoaderSaver.UserPrefs);
+                SelectTab(concernedCategory.Signature);
+                SelectLastGame();
             }
+        }
+
+        private void SelectTab(string signature)
+        {
+            TabControl.SelectedTab = TabControl.TabPages.Cast<TabPage>().FirstOrDefault(x => (string)x.Tag == signature);
+        }
+
+        private void SelectLastGame()
+        {
+            _currentListView.FocusedItem = _currentListView.Items.Cast<ListViewItem>().LastOrDefault();
         }
 
         /// <summary>
