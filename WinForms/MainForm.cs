@@ -523,82 +523,9 @@ namespace AmpShell.WinForms
         {
             UserGame selectedGame = GetSelectedGame();
             GameForm gameEditForm = new GameForm(selectedGame, UserDataLoaderSaver.UserPrefs);
-            string oldIconSave = selectedGame.Icon;
             if (gameEditForm.ShowDialog(this) == DialogResult.OK)
             {
-                _currentListView.FocusedItem.Text = selectedGame.Name;
-                _currentListView.FocusedItem.SubItems[1].Text = selectedGame.DOSEXEPath;
-                _currentListView.FocusedItem.SubItems[2].Text = selectedGame.Directory;
-                if (_currentListView.FocusedItem.SubItems.Count > 3)
-                {
-                    _currentListView.FocusedItem.SubItems[3].Text = selectedGame.SetupEXEPath;
-                    if (selectedGame.NoConfig == true)
-                    {
-                        _currentListView.FocusedItem.SubItems[4].Text = "None at all";
-                    }
-                    else
-                    {
-                        _currentListView.FocusedItem.SubItems[4].Text = selectedGame.DBConfPath;
-                    }
-
-                    _currentListView.FocusedItem.SubItems[5].Text = selectedGame.CDPath;
-                    if (selectedGame.UseIOCTL == true)
-                    {
-                        _currentListView.FocusedItem.SubItems[6].Text = "Use IOCTL";
-                    }
-                    else if (selectedGame.MountAsFloppy == true)
-                    {
-                        _currentListView.FocusedItem.SubItems[6].Text = "Mount as a floppy disk (A:)";
-                    }
-                    else
-                    {
-                        _currentListView.FocusedItem.SubItems[6].Text = "None";
-                    }
-
-                    _currentListView.FocusedItem.SubItems[7].Text = selectedGame.AdditionalCommands;
-                    _currentListView.FocusedItem.SubItems[8].Text = selectedGame.NoConsole.ToString();
-                    _currentListView.FocusedItem.SubItems[9].Text = selectedGame.InFullScreen.ToString();
-                    _currentListView.FocusedItem.SubItems[10].Text = selectedGame.QuitOnExit.ToString();
-                }
-                if (string.IsNullOrWhiteSpace(oldIconSave) == false)
-                {
-                    _gamesLargeImageList.Images.RemoveByKey(selectedGame.Signature);
-                    _gamesMediumImageList.Images.RemoveByKey(selectedGame.Signature);
-                    _gamesSmallImageList.Images.RemoveByKey(selectedGame.Signature);
-                }
-                if (string.IsNullOrWhiteSpace(selectedGame.Icon) == false)
-                {
-                    _gamesSmallImageList.Images.Add(selectedGame.Signature, Image.FromFile(selectedGame.Icon).GetThumbnailImage(16, 16, null, IntPtr.Zero));
-                    _gamesMediumImageList.Images.Add(selectedGame.Signature, Image.FromFile(selectedGame.Icon).GetThumbnailImage(32, 32, null, IntPtr.Zero));
-                    _gamesLargeImageList.Images.Add(selectedGame.Signature, Image.FromFile(selectedGame.Icon).GetThumbnailImage(UserDataLoaderSaver.UserPrefs.LargeViewModeSize, UserDataLoaderSaver.UserPrefs.LargeViewModeSize, null, IntPtr.Zero));
-                    _currentListView.FocusedItem.ImageKey = selectedGame.Signature;
-                }
-                else
-                {
-                    _currentListView.FocusedItem.ImageKey = "DefaultIcon";
-                }
-                //if the game setup executable location has been changed and is now empty
-                if (string.IsNullOrWhiteSpace(selectedGame.SetupEXEPath))
-                {
-                    _runGameSetupMenuItem.Enabled = false;
-                    RunGameSetupButton.Enabled = false;
-                }
-                else
-                {
-                    _runGameSetupMenuItem.Enabled = true;
-                    RunGameSetupButton.Enabled = true;
-                }
-                if (string.IsNullOrWhiteSpace(selectedGame.DBConfPath) == false)
-                {
-                    GameEditConfigurationButton.Enabled = true;
-                    _editGameConfigurationMenuItem.Enabled = true;
-                }
-                else
-                {
-                    GameEditConfigurationButton.Enabled = false;
-                    _editGameConfigurationMenuItem.Enabled = false;
-                }
-                _currentListView.Sort();
+                DisplayUserData(UserDataLoaderSaver.UserPrefs);
             }
         }
 
