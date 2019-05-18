@@ -12,6 +12,7 @@ using AmpShell.Configuration;
 using AmpShell.UserData;
 using AmpShell.WinForms.UserControls;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -181,6 +182,7 @@ namespace AmpShell.WinForms
         {
             UserDataLoaderSaver.LoadUserSettings();
             DisplayUserData();
+            _redrawableTabs = TabControl.TabPages.Cast<TabPage>().Where(x => ((ListView)x.Controls[_listViewName]).Items.Count == 0).ToList();
         }
 
         /// <summary>
@@ -438,6 +440,9 @@ namespace AmpShell.WinForms
             }
         }
 
+        private readonly Timer _redrawWaitTimer = new Timer();
+        private List<TabPage> _redrawableTabs = new List<TabPage>();
+
         /// <summary>
         /// EventHandler for when a drop ends
         /// </summary>
@@ -452,6 +457,34 @@ namespace AmpShell.WinForms
                 SelectedListView.Items.Add((ListViewItem)itemToMove.Clone());
                 GetSelectedCategory(_hoveredTabIndex).AddChild(droppedGame);
             }
+            //Avoid yet again a nasty UI bug where the very first item in a TabPage has no icon.
+            if(SelectedListView.Items.Count == 1)
+            {
+                _redrawWaitTimer.Interval = 1;
+                _redrawWaitTimer.Tick += RedrawWaitTimer_Tick;
+                _redrawWaitTimer.Enabled = true;
+                _redrawWaitTimer.Tag = TabControl.TabPages[_hoveredTabIndex];
+            }
+        }
+
+        private void RedrawWaitTimer_Tick(object sender, EventArgs e)
+        {
+            _redrawWaitTimer.Enabled = false;
+            if (_redrawableTabs.Count == 0)
+            {
+                return;
+            }
+            if (_redrawableTabs.Contains((TabPage)_redrawWaitTimer.Tag))
+            {
+                _redrawableTabs.Remove((TabPage)_redrawWaitTimer.Tag);
+            }
+            else
+            {
+                return;
+            }
+            TabControl.AllowDrop = false;
+            RedrawAllUserData();
+            TabControl.AllowDrop = true;
         }
 
         private UserGame GetSelectedGame()
