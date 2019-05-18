@@ -719,8 +719,7 @@ namespace AmpShell.WinForms
             if (newCategoryForm.ShowDialog(this) == DialogResult.OK)
             {
                 UserDataLoaderSaver.UserPrefs.AddChild(newCategoryForm.Category);
-                DisplayUserData();
-                TabControl.SelectTab(TabControl.TabPages.Count - 1);
+                RedrawAllUserData();
             }
         }
 
@@ -876,20 +875,13 @@ namespace AmpShell.WinForms
             {
                 UserCategory concernedCategory = GetSelectedCategory();
                 concernedCategory.AddChild(newGameForm.GameInstance);
-                DisplayUserData();
-                SelectCategory(concernedCategory.Signature);
-                SelectLastGame();
+                RedrawAllUserData();
             }
         }
 
         private void SelectCategory(string signature)
         {
             TabControl.SelectedTab = TabControl.TabPages.Cast<TabPage>().FirstOrDefault(x => (string)x.Tag == signature);
-        }
-
-        private void SelectLastGame()
-        {
-            SelectedListView.FocusedItem = SelectedListView.Items.Cast<ListViewItem>().LastOrDefault();
         }
 
         /// <summary>
@@ -964,7 +956,7 @@ namespace AmpShell.WinForms
                 UserDataLoaderSaver.UserPrefs.ListChildren = prefsForm.SavedUserPrefs.ListChildren;
                 UserDataLoaderSaver.UserPrefs.X = Location.X;
                 UserDataLoaderSaver.UserPrefs.Y = Location.Y;
-                DisplayUserData();
+                RedrawAllUserData();
             }
             UpdateButtonsState();
         }
@@ -1022,7 +1014,7 @@ namespace AmpShell.WinForms
         {
             var selectedIndex = TabControl.SelectedIndex;
             GetSelectedCategory().ViewMode = mode;
-            DisplayUserData();
+            RedrawAllUserData();
             TabControl.SelectedIndex = selectedIndex;
         }
 
