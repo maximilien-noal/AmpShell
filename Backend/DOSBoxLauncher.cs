@@ -184,7 +184,7 @@ namespace AmpShell.Backend
                 return false;
             }
             var configContent = File.ReadAllText(selectedGame.DBConfPath);
-            return configContent.ToUpper().Contains("[MOUNT ]");
+            return configContent.ToUpper().Contains("MOUNT ");
         }
 
         private static bool ConfigMountsHDDrive(UserGame selectedGame)
