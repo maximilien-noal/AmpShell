@@ -8,7 +8,7 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
 using AmpShell.UserData;
-
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
@@ -26,14 +26,20 @@ namespace AmpShell.Backend
         /// <param name="dosboxPath">Path to DOSBox.exe</param>
         /// <param name="args">Command line args passed to DOSBox</param>
         /// <returns>True if DOSBox started, false if it did not</returns>
-        public static Process StartDOSBox(string dosboxPath, string args)
+        public static Process StartDOSBox(string dosboxPath, string args, string workingDir = "")
         {
             var psi = new ProcessStartInfo(dosboxPath);
+
+            if(string.IsNullOrWhiteSpace(workingDir) == false)
+            {
+                psi.WorkingDirectory = workingDir;
+            }
+
             if (string.IsNullOrWhiteSpace(args) == false)
             {
                 psi.Arguments = args;
             }
-            Process dosboxProcess =Process.Start(dosboxPath, args);
+            Process dosboxProcess = Process.Start(psi);
             if (dosboxProcess != null)
             {
                 dosboxProcess.EnableRaisingEvents = true;
@@ -57,10 +63,7 @@ namespace AmpShell.Backend
             if (string.IsNullOrWhiteSpace(dosBoxExePath) == false && dosBoxExePath != "dosbox.exe isn't is the same directory as AmpShell.exe!" && File.Exists(dosBoxExePath))
             {
                 string quote = char.ToString('"');
-                if (selectedGame.Directory[0] != '/')
-                {
-                    quote = "'";
-                }
+                
                 //string for the Game's configuration file.
                 string dosboxConfigPath = string.Empty;
                 //if the "do not use any config file at all" has not been checked
@@ -78,7 +81,7 @@ namespace AmpShell.Backend
                     }
                 }
                 //The arguments for DOSBox begins with the game executable (.exe, .bat, or .com)
-                if (string.IsNullOrWhiteSpace(selectedGame.DOSEXEPath) == false)
+                if (string.IsNullOrWhiteSpace(selectedGame.DOSEXEPath) == false && ConfigLaunchsTheGame(selectedGame))
                 {
                     if (!forSetupExe)
                     {
@@ -91,7 +94,7 @@ namespace AmpShell.Backend
                 }
                 //the game directory mounted as C (if the DOSEXEPath is specified, the DOSEXEPath parent directory will be mounted as C: by DOSBox
                 //hence the "else if" instead of "if".
-                else if (string.IsNullOrWhiteSpace(selectedGame.Directory) == false)
+                else if (string.IsNullOrWhiteSpace(selectedGame.Directory) == false && ConfigMountsHDDrive(selectedGame) == false)
                 {
                     dosboxArgs = " -c " + '"' + "mount c " + quote + selectedGame.Directory + quote + '"';
                 }
@@ -108,17 +111,21 @@ namespace AmpShell.Backend
                 //Path for the game's CD image (.bin, .cue, or .iso) mounted as D:
                 if (string.IsNullOrWhiteSpace(selectedGame.CDPath) == false)
                 {
-                    //put ' and _not_ " after imgmount (or else the path will be misunderstood by DOSBox). Paths with spaces will NOT work either way on GNU/Linux!
+                    //put ' and _not_ " after imgmount (or else the path will be misunderstood by DOSBox).
                     if (selectedGame.CDIsAnImage == true)
                     {
-                        dosboxArgs = dosboxArgs + " -c " + '"' + "imgmount";
-                        if (selectedGame.MountAsFloppy == true)
+                        if(ConfigMountsAnImage(selectedGame) == false)
                         {
-                            dosboxArgs = dosboxArgs + " a " + quote + selectedGame.CDPath + quote + " -t floppy" + '"';
-                        }
-                        else
-                        {
-                            dosboxArgs = dosboxArgs + " d " + quote + selectedGame.CDPath + quote + " -t iso" + '"';
+                            dosboxArgs = dosboxArgs + " -c " + '"' + "imgmount";
+                            if (selectedGame.MountAsFloppy == true)
+                            {
+                                dosboxArgs = dosboxArgs + " a " + quote + selectedGame.CDPath + quote + " -t floppy" + '"';
+                            }
+                            else
+                            {
+                                dosboxArgs = dosboxArgs + " d " + quote + selectedGame.CDPath + quote + " -t iso" + '"';
+                            }
+
                         }
                     }
                     else
@@ -165,6 +172,39 @@ namespace AmpShell.Backend
                 MessageBox.Show("DOSBox cannot be run (was it deleted ?) !", "Game Launch", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return string.Empty;
             }
+        }
+
+        /// <summary>
+        /// TODO: IMPROVE IT !
+        /// </summary>
+        private static bool ConfigLaunchsTheGame(UserGame selectedGame)
+        {
+            if (string.IsNullOrWhiteSpace(selectedGame.DBConfPath) || File.Exists(selectedGame.DBConfPath) == false)
+            {
+                return false;
+            }
+            var configContent = File.ReadAllText(selectedGame.DBConfPath);
+            return configContent.ToUpper().Contains("[AUTOEXEC]");
+        }
+
+        private static bool ConfigMountsHDDrive(UserGame selectedGame)
+        {
+            if (string.IsNullOrWhiteSpace(selectedGame.DBConfPath) || File.Exists(selectedGame.DBConfPath) == false)
+            {
+                return false;
+            }
+            var configContent = File.ReadAllText(selectedGame.DBConfPath);
+            return configContent.ToUpper().Contains("MOUNT C");
+        }
+
+        private static bool ConfigMountsAnImage(UserGame selectedGame)
+        {
+            if(string.IsNullOrWhiteSpace(selectedGame.DBConfPath) || File.Exists(selectedGame.DBConfPath) == false)
+            {
+                return false;
+            }
+            var configContent = File.ReadAllText(selectedGame.DBConfPath);
+            return configContent.ToUpper().Contains("IMGMOUNT");
         }
 
         /// <summary>

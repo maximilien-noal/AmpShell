@@ -63,6 +63,7 @@ namespace AmpShell.WinForms
             NoConfigCheckBox.Checked = GameInstance.NoConfig;
             GameCDPathTextBox.Text = GameInstance.CDPath;
             GameAdditionalCommandsTextBox.Text = GameInstance.AdditionalCommands;
+            AlternateDOSBoxLocationTextbox.Text = GameInstance.AlternateDOSBoxExePath;
             NoConsoleCheckBox.Checked = GameInstance.NoConsole;
             QuitOnExitCheckBox.Checked = GameInstance.QuitOnExit;
             FullscreenCheckBox.Checked = GameInstance.InFullScreen;
@@ -80,6 +81,7 @@ namespace AmpShell.WinForms
             GameCDPathTextBox.Text = GameCDPathTextBox.Text.Replace("AppPath", Application.StartupPath);
             GameAdditionalCommandsTextBox.Text = GameAdditionalCommandsTextBox.Text.Replace("AppPath", Application.StartupPath);
             GameSetupTextBox.Text = GameSetupTextBox.Text.Replace("AppPath", Application.StartupPath);
+            AlternateDOSBoxLocationTextbox.Text = AlternateDOSBoxLocationTextbox.Text.Replace("AppPath", Application.StartupPath);
         }
 
         public UserGame GameInstance { get; private set; }
@@ -120,6 +122,7 @@ namespace AmpShell.WinForms
                     GameInstance.Name = GameNameTextbox.Text;
                     GameInstance.CDPath = GameCDPathTextBox.Text;
                     GameInstance.SetupEXEPath = GameSetupTextBox.Text;
+                    GameInstance.AlternateDOSBoxExePath = AlternateDOSBoxLocationTextbox.Text;
                     if (string.IsNullOrWhiteSpace(GameIconPictureBox.ImageLocation) == false)
                     {
                         GameInstance.Icon = GameIconPictureBox.ImageLocation;
@@ -487,6 +490,34 @@ namespace AmpShell.WinForms
         {
             GameIconPictureBox.Image = Properties.Resources.Generic_Application1;
             GameIconPictureBox.ImageLocation = string.Empty;
+        }
+
+        private void AlternateDOSBoxLocationBrowsSearchButton_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog alternateDOSBoxExeFileDialog = new OpenFileDialog();
+            if (UserPrefs.PortableMode == true)
+            {
+                alternateDOSBoxExeFileDialog.InitialDirectory = Application.StartupPath;
+            }
+            else if (string.IsNullOrWhiteSpace(AlternateDOSBoxLocationTextbox.Text) == false && Directory.Exists(Directory.GetParent(AlternateDOSBoxLocationTextbox.Text).FullName))
+            {
+                alternateDOSBoxExeFileDialog.InitialDirectory = Directory.GetParent(AlternateDOSBoxLocationTextbox.Text).FullName;
+            }
+            else if(string.IsNullOrWhiteSpace(UserPrefs.DBPath) == false && Directory.Exists(Directory.GetParent(UserPrefs.DBPath).FullName))
+            {
+                alternateDOSBoxExeFileDialog.InitialDirectory = UserPrefs.DBPath;
+            }
+            else
+            {
+                alternateDOSBoxExeFileDialog.InitialDirectory = SearchFolderDialogStartDirectory();
+            }
+
+            alternateDOSBoxExeFileDialog.Title = AlternateDOSBoxLocationLabel.Text;
+            alternateDOSBoxExeFileDialog.Filter = "DOSBox executable file (*.exe)|*.exe;*.EXE";
+            if (alternateDOSBoxExeFileDialog.ShowDialog(this) == DialogResult.OK)
+            {
+                AlternateDOSBoxLocationTextbox.Text = alternateDOSBoxExeFileDialog.FileName;
+            }
         }
 
         private string SearchFolderDialogStartDirectory()

@@ -766,12 +766,12 @@ namespace AmpShell.WinForms
         /// </summary>
         private void CurrentListView_ItemActivate(object sender, EventArgs e)
         {
-            StartDOSBox(UserDataLoaderSaver.UserPrefs.DBPath, GetSelectedGame(), false, UserDataLoaderSaver.UserPrefs.DBDefaultConfFilePath, UserDataLoaderSaver.UserPrefs.DBDefaultLangFilePath);
+            StartDOSBox(GetDOSBoxPath(), GetSelectedGame(), false, UserDataLoaderSaver.UserPrefs.DBDefaultConfFilePath, UserDataLoaderSaver.UserPrefs.DBDefaultLangFilePath);
         }
 
         private void StartDOSBox(string dosboxPath, UserGame selectedGame, bool runSetup, string confFile, string langFile)
         {
-            var dosboxProcess = DOSBoxLauncher.StartDOSBox(dosboxPath, DOSBoxLauncher.BuildArgs(selectedGame, runSetup, dosboxPath, confFile, langFile));
+            var dosboxProcess = DOSBoxLauncher.StartDOSBox(dosboxPath, DOSBoxLauncher.BuildArgs(selectedGame, runSetup, dosboxPath, confFile, langFile), Directory.GetParent(selectedGame.Directory).FullName);
             if (dosboxProcess != null)
             {
                 this.WindowState = FormWindowState.Minimized;
@@ -952,7 +952,18 @@ namespace AmpShell.WinForms
         /// </summary>
         private void RunGameSetupButton_Click(object sender, EventArgs e)
         {
-            StartDOSBox(UserDataLoaderSaver.UserPrefs.DBPath, GetSelectedGame(), true, UserDataLoaderSaver.UserPrefs.DBDefaultConfFilePath, UserDataLoaderSaver.UserPrefs.DBDefaultLangFilePath);
+            StartDOSBox(GetDOSBoxPath(), GetSelectedGame(), true, UserDataLoaderSaver.UserPrefs.DBDefaultConfFilePath, UserDataLoaderSaver.UserPrefs.DBDefaultLangFilePath);
+        }
+
+        private string GetDOSBoxPath()
+        {
+            string dosboxPath = GetSelectedGame().AlternateDOSBoxExePath;
+            if (string.IsNullOrWhiteSpace(dosboxPath))
+            {
+                dosboxPath = UserDataLoaderSaver.UserPrefs.DBPath;
+            }
+
+            return dosboxPath;
         }
 
         /// <summary>

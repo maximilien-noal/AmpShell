@@ -23,6 +23,7 @@ namespace AmpShell.UserData
             DOSEXEPath = string.Empty;
             CDPath = string.Empty;
             AdditionalCommands = string.Empty;
+            AlternateDOSBoxExePath = string.Empty;
             Icon = string.Empty;
             UseIOCTL = false;
             MountAsFloppy = false;
@@ -102,5 +103,10 @@ namespace AmpShell.UserData
         public bool CDIsAnImage { get; set; }
 
         public string Icon { get; set; }
+
+        /// <summary>
+        /// If we want to use DOSBox Daum, ECE, SVN, or other instead of the one set in the global preferences
+        /// </summary>
+        public string AlternateDOSBoxExePath { get; set; }
     }
 }
