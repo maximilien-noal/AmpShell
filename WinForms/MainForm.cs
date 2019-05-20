@@ -9,6 +9,7 @@
  * If not, see <http://www.gnu.org/licenses/>.*/
 using AmpShell.Backend;
 using AmpShell.Configuration;
+using AmpShell.Shell;
 using AmpShell.UserData;
 using AmpShell.WinForms.UserControls;
 using System;
@@ -391,10 +392,32 @@ namespace AmpShell.WinForms
                 if (listView != null)
                 {
                     listView.ItemDrag += new ItemDragEventHandler(CurrentListView_ItemDrag);
+                    listView.DragOver += CurrentListView_DragOver;
+                    listView.DragDrop += CurrentListView_DragDrop;
                     GameAddButton.Enabled = true;
                     NewGameToolStripMenuItem.Enabled = true;
                     SelectedListView.Sort();
                 }
+            }
+        }
+
+        private void CurrentListView_DragDrop(object sender, DragEventArgs e)
+        {
+            if(e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                GameAddButton_Click(this, e);
+            }
+        }
+
+        private void CurrentListView_DragOver(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                e.Effect = DragDropEffects.Copy;
+            }
+            else
+            {
+                e.Effect = DragDropEffects.None;
             }
         }
 
@@ -899,7 +922,26 @@ namespace AmpShell.WinForms
         /// </summary>
         private void GameAddButton_Click(object sender, EventArgs e)
         {
-            GameForm newGameForm = new GameForm(UserDataLoaderSaver.UserPrefs);
+            var newGame = new UserGame();
+            if (e is DragEventArgs dragArgs)
+            {
+                string[] files = (string[])dragArgs.Data.GetData(DataFormats.FileDrop);
+                var firstFile = files.FirstOrDefault();
+                if (string.IsNullOrWhiteSpace(firstFile) == false)
+                {
+                    if (Path.GetExtension(firstFile).ToUpper() == ".LNK")
+                    {
+                        firstFile = LinkTarget.ResolveShortcut(firstFile);
+                    }
+                    newGame.Name = Directory.GetParent(firstFile).Name;
+                    newGame.Directory = Path.GetDirectoryName(firstFile);
+                    if (File.Exists(firstFile) && (Path.GetExtension(firstFile).ToUpper() == ".COM" || Path.GetExtension(firstFile).ToUpper() == ".EXE" || Path.GetExtension(firstFile).ToUpper() == ".BAT"))
+                    {
+                        newGame.DOSEXEPath = firstFile;
+                    }
+                }
+            }
+
             string newGameSignature;
             do
             {
@@ -907,7 +949,10 @@ namespace AmpShell.WinForms
                 newGameSignature = rand.Next(1048576).ToString();
             }
             while (UserDataLoaderSaver.UserPrefs.IsItAUniqueSignature(newGameSignature) == false);
-            newGameForm.GameInstance.Signature = newGameSignature;
+            newGame.Signature = newGameSignature;
+
+            GameForm newGameForm = new GameForm(newGame, UserDataLoaderSaver.UserPrefs);
+            
             if (newGameForm.ShowDialog(this) == DialogResult.OK)
             {
                 UserCategory concernedCategory = GetSelectedCategory();

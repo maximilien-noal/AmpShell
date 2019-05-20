@@ -335,7 +335,7 @@ namespace AmpShell.WinForms
             this.RunConfigurationEditorToolStripMenuItem,
             this.EditDefaultConfigurationToolStripMenuItem});
             this.ToolsToolStripMenuItem.Name = "ToolsToolStripMenuItem";
-            this.ToolsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
+            this.ToolsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
             this.ToolsToolStripMenuItem.Text = "&Tools";
             this.ToolsToolStripMenuItem.ToolTipText = "Run DOSBox or your text editor";
             this.ToolsToolStripMenuItem.MouseEnter += new System.EventHandler(this.ToolsToolStripMenuItem_MouseEnter);
@@ -850,6 +850,7 @@ namespace AmpShell.WinForms
             // 
             // MainForm
             // 
+            this.AllowDrop = true;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(624, 361);

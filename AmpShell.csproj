@@ -90,6 +90,7 @@
     <Compile Include="Backend\DOSBoxLauncher.cs" />
     <Compile Include="Configuration\FileFinder.cs" />
     <Compile Include="Configuration\UserDataLoaderSaver.cs" />
+    <Compile Include="Shell\LinkTarget.cs" />
     <Compile Include="UserData\UserPrefsQuery.cs" />
     <Compile Include="WinForms\AboutBox.cs">
       <SubType>Form</SubType>
