@@ -58,6 +58,8 @@ namespace AmpShell.Backend
         /// <returns></returns>
         public static string BuildArgs(UserGame selectedGame, bool forSetupExe, string dosBoxExePath, string dosboxDefaultConfFilePath, string dosboxDefaultLangFilePath)
         {
+            var configFile = new DOSBoxConfigFile(selectedGame.DBConfPath);
+
             //Arguments string for DOSBox.exe
             string dosboxArgs = string.Empty;
             if (string.IsNullOrWhiteSpace(dosBoxExePath) == false && dosBoxExePath != "dosbox.exe isn't is the same directory as AmpShell.exe!" && File.Exists(dosBoxExePath))
@@ -80,41 +82,41 @@ namespace AmpShell.Backend
                         dosboxConfigPath = dosboxDefaultConfFilePath;
                     }
                 }
-                //The arguments for DOSBox begins with the game executable (.exe, .bat, or .com)
-                if (string.IsNullOrWhiteSpace(selectedGame.DOSEXEPath) == false && ConfigLaunchsTheGame(selectedGame))
+                if(configFile.IsAutoExecSectionUsed() == false)
                 {
-                    if (!forSetupExe)
+                    //The arguments for DOSBox begins with the game executable (.exe, .bat, or .com)
+                    if (string.IsNullOrWhiteSpace(selectedGame.DOSEXEPath) == false)
                     {
-                        dosboxArgs = '"' + selectedGame.DOSEXEPath + '"';
+                        if (!forSetupExe)
+                        {
+                            dosboxArgs = '"' + selectedGame.DOSEXEPath + '"';
+                        }
+                        else
+                        {
+                            dosboxArgs = '"' + selectedGame.SetupEXEPath + '"';
+                        }
                     }
-                    else
+                    //the game directory mounted as C (if the DOSEXEPath is specified, the DOSEXEPath parent directory will be mounted as C: by DOSBox
+                    //hence the "else if" instead of "if".
+                    else if (string.IsNullOrWhiteSpace(selectedGame.Directory) == false)
                     {
-                        dosboxArgs = '"' + selectedGame.SetupEXEPath + '"';
+                        dosboxArgs = " -c " + '"' + "mount c " + quote + selectedGame.Directory + quote + '"';
                     }
-                }
-                //the game directory mounted as C (if the DOSEXEPath is specified, the DOSEXEPath parent directory will be mounted as C: by DOSBox
-                //hence the "else if" instead of "if".
-                else if (string.IsNullOrWhiteSpace(selectedGame.Directory) == false && ConfigMountsHDDrive(selectedGame) == false)
-                {
-                    dosboxArgs = " -c " + '"' + "mount c " + quote + selectedGame.Directory + quote + '"';
-                }
-                //puting DBCfgPath and Arguments together
-                if (string.IsNullOrWhiteSpace(dosboxConfigPath) == false)
-                {
-                    dosboxArgs = dosboxArgs + " -conf " + '"' + dosboxConfigPath + '"';
-                }
-                //Path for the default language file used for DOSBox and specified by the user in the Tools menu
-                if (string.IsNullOrWhiteSpace(dosboxDefaultLangFilePath) == false && dosboxDefaultLangFilePath != "No language file (*.lng) found in AmpShell's directory.")
-                {
-                    dosboxArgs = dosboxArgs + " -lang " + '"' + dosboxDefaultLangFilePath + '"';
-                }
-                //Path for the game's CD image (.bin, .cue, or .iso) mounted as D:
-                if (string.IsNullOrWhiteSpace(selectedGame.CDPath) == false)
-                {
-                    //put ' and _not_ " after imgmount (or else the path will be misunderstood by DOSBox).
-                    if (selectedGame.CDIsAnImage == true)
+                    //puting DBCfgPath and Arguments together
+                    if (string.IsNullOrWhiteSpace(dosboxConfigPath) == false)
                     {
-                        if(ConfigMountsAnImage(selectedGame) == false)
+                        dosboxArgs = dosboxArgs + " -conf " + '"' + dosboxConfigPath + '"';
+                    }
+                    //Path for the default language file used for DOSBox and specified by the user in the Tools menu
+                    if (string.IsNullOrWhiteSpace(dosboxDefaultLangFilePath) == false && dosboxDefaultLangFilePath != "No language file (*.lng) found in AmpShell's directory.")
+                    {
+                        dosboxArgs = dosboxArgs + " -lang " + '"' + dosboxDefaultLangFilePath + '"';
+                    }
+                    //Path for the game's CD image (.bin, .cue, or .iso) mounted as D:
+                    if (string.IsNullOrWhiteSpace(selectedGame.CDPath) == false)
+                    {
+                        //put ' and _not_ " after imgmount (or else the path will be misunderstood by DOSBox).
+                        if (selectedGame.CDIsAnImage == true)
                         {
                             dosboxArgs = dosboxArgs + " -c " + '"' + "imgmount";
                             if (selectedGame.MountAsFloppy == true)
@@ -125,29 +127,28 @@ namespace AmpShell.Backend
                             {
                                 dosboxArgs = dosboxArgs + " d " + quote + selectedGame.CDPath + quote + " -t iso" + '"';
                             }
-
-                        }
-                    }
-                    else
-                    {
-                        if (selectedGame.UseIOCTL == true)
-                        {
-                            dosboxArgs = dosboxArgs + " -c " + '"' + "mount d " + quote + selectedGame.CDPath + quote + " -t cdrom -usecd 0 -ioctl" + '"';
-                        }
-                        else if (selectedGame.MountAsFloppy == true)
-                        {
-                            dosboxArgs = dosboxArgs + " -c " + '"' + "mount a " + quote + selectedGame.CDPath + quote + " -t floppy" + '"';
                         }
                         else
                         {
-                            dosboxArgs = dosboxArgs + " -c " + '"' + "mount d " + quote + selectedGame.CDPath + quote;
+                            if (selectedGame.UseIOCTL == true)
+                            {
+                                dosboxArgs = dosboxArgs + " -c " + '"' + "mount d " + quote + selectedGame.CDPath + quote + " -t cdrom -usecd 0 -ioctl" + '"';
+                            }
+                            else if (selectedGame.MountAsFloppy == true)
+                            {
+                                dosboxArgs = dosboxArgs + " -c " + '"' + "mount a " + quote + selectedGame.CDPath + quote + " -t floppy" + '"';
+                            }
+                            else
+                            {
+                                dosboxArgs = dosboxArgs + " -c " + '"' + "mount d " + quote + selectedGame.CDPath + quote;
+                            }
                         }
                     }
-                }
-                //Additionnal user commands for the game
-                if (string.IsNullOrWhiteSpace(selectedGame.AdditionalCommands) == false)
-                {
-                    dosboxArgs = dosboxArgs + " " + selectedGame.AdditionalCommands;
+                    //Additionnal user commands for the game
+                    if (string.IsNullOrWhiteSpace(selectedGame.AdditionalCommands) == false)
+                    {
+                        dosboxArgs = dosboxArgs + " " + selectedGame.AdditionalCommands;
+                    }
                 }
                 //corresponds to the Fullscreen checkbox in GameForm
                 if (selectedGame.InFullScreen == true)
@@ -172,39 +173,6 @@ namespace AmpShell.Backend
                 MessageBox.Show("DOSBox cannot be run (was it deleted ?) !", "Game Launch", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return string.Empty;
             }
-        }
-
-        /// <summary>
-        /// TODO: IMPROVE IT !
-        /// </summary>
-        private static bool ConfigLaunchsTheGame(UserGame selectedGame)
-        {
-            if (string.IsNullOrWhiteSpace(selectedGame.DBConfPath) || File.Exists(selectedGame.DBConfPath) == false)
-            {
-                return false;
-            }
-            var configContent = File.ReadAllText(selectedGame.DBConfPath);
-            return configContent.ToUpper().Contains("MOUNT ");
-        }
-
-        private static bool ConfigMountsHDDrive(UserGame selectedGame)
-        {
-            if (string.IsNullOrWhiteSpace(selectedGame.DBConfPath) || File.Exists(selectedGame.DBConfPath) == false)
-            {
-                return false;
-            }
-            var configContent = File.ReadAllText(selectedGame.DBConfPath);
-            return configContent.ToUpper().Contains("MOUNT C");
-        }
-
-        private static bool ConfigMountsAnImage(UserGame selectedGame)
-        {
-            if(string.IsNullOrWhiteSpace(selectedGame.DBConfPath) || File.Exists(selectedGame.DBConfPath) == false)
-            {
-                return false;
-            }
-            var configContent = File.ReadAllText(selectedGame.DBConfPath);
-            return configContent.ToUpper().Contains("IMGMOUNT");
         }
 
         /// <summary>
