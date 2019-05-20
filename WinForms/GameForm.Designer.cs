@@ -89,7 +89,6 @@ namespace AmpShell.WinForms
             // 
             this.tabControl1.Controls.Add(this.BasicTabPage);
             this.tabControl1.Controls.Add(this.AdvancedTabPage);
-            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -115,8 +114,6 @@ namespace AmpShell.WinForms
             this.BasicTabPage.Controls.Add(this.GameCDPathBrowseButton);
             this.BasicTabPage.Controls.Add(this.GameCDPathLabel);
             this.BasicTabPage.Controls.Add(this.GameCDPathTextBox);
-            this.BasicTabPage.Controls.Add(this.Cancel);
-            this.BasicTabPage.Controls.Add(this.OK);
             this.BasicTabPage.Controls.Add(this.GameNameTextbox);
             this.BasicTabPage.Controls.Add(this.GameNameLabel);
             this.BasicTabPage.Controls.Add(this.GameCustomConfigurationBrowseButton);
@@ -395,7 +392,7 @@ namespace AmpShell.WinForms
             this.Cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.Cancel.Image = global::AmpShell.Properties.Resources.DeleteHS;
             this.Cancel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.Cancel.Location = new System.Drawing.Point(338, 425);
+            this.Cancel.Location = new System.Drawing.Point(347, 482);
             this.Cancel.Name = "Cancel";
             this.Cancel.Size = new System.Drawing.Size(82, 23);
             this.Cancel.TabIndex = 58;
@@ -408,7 +405,7 @@ namespace AmpShell.WinForms
             // 
             this.OK.Image = ((System.Drawing.Image)(resources.GetObject("OK.Image")));
             this.OK.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.OK.Location = new System.Drawing.Point(236, 425);
+            this.OK.Location = new System.Drawing.Point(245, 482);
             this.OK.Name = "OK";
             this.OK.Size = new System.Drawing.Size(96, 23);
             this.OK.TabIndex = 56;
@@ -549,8 +546,10 @@ namespace AmpShell.WinForms
             // GameForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(433, 480);
+            this.ClientSize = new System.Drawing.Size(433, 507);
             this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.OK);
+            this.Controls.Add(this.Cancel);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
