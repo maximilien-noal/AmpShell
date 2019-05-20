@@ -82,8 +82,26 @@ namespace AmpShell.Backend
                         dosboxConfigPath = dosboxDefaultConfFilePath;
                     }
                 }
-                if(configFile.IsAutoExecSectionUsed() == false)
+
+                //puting DBCfgPath and Arguments together
+                if (string.IsNullOrWhiteSpace(dosboxConfigPath) == false)
                 {
+                    dosboxArgs = dosboxArgs + " -conf " + '"' + dosboxConfigPath + '"';
+                }
+                //Path for the default language file used for DOSBox and specified by the user in the Tools menu
+                if (string.IsNullOrWhiteSpace(dosboxDefaultLangFilePath) == false && dosboxDefaultLangFilePath != "No language file (*.lng) found in AmpShell's directory.")
+                {
+                    dosboxArgs = dosboxArgs + " -lang " + '"' + dosboxDefaultLangFilePath + '"';
+                }
+
+                if (configFile.IsAutoExecSectionUsed() == false)
+                {
+                    //Additionnal user commands for the game
+                    if (string.IsNullOrWhiteSpace(selectedGame.AdditionalCommands) == false)
+                    {
+                        dosboxArgs = dosboxArgs + " " + selectedGame.AdditionalCommands;
+                    }
+
                     //The arguments for DOSBox begins with the game executable (.exe, .bat, or .com)
                     if (string.IsNullOrWhiteSpace(selectedGame.DOSEXEPath) == false)
                     {
@@ -102,16 +120,7 @@ namespace AmpShell.Backend
                     {
                         dosboxArgs = " -c " + '"' + "mount c " + quote + selectedGame.Directory + quote + '"';
                     }
-                    //puting DBCfgPath and Arguments together
-                    if (string.IsNullOrWhiteSpace(dosboxConfigPath) == false)
-                    {
-                        dosboxArgs = dosboxArgs + " -conf " + '"' + dosboxConfigPath + '"';
-                    }
-                    //Path for the default language file used for DOSBox and specified by the user in the Tools menu
-                    if (string.IsNullOrWhiteSpace(dosboxDefaultLangFilePath) == false && dosboxDefaultLangFilePath != "No language file (*.lng) found in AmpShell's directory.")
-                    {
-                        dosboxArgs = dosboxArgs + " -lang " + '"' + dosboxDefaultLangFilePath + '"';
-                    }
+                    
                     //Path for the game's CD image (.bin, .cue, or .iso) mounted as D:
                     if (string.IsNullOrWhiteSpace(selectedGame.CDPath) == false)
                     {
@@ -143,11 +152,6 @@ namespace AmpShell.Backend
                                 dosboxArgs = dosboxArgs + " -c " + '"' + "mount d " + quote + selectedGame.CDPath + quote;
                             }
                         }
-                    }
-                    //Additionnal user commands for the game
-                    if (string.IsNullOrWhiteSpace(selectedGame.AdditionalCommands) == false)
-                    {
-                        dosboxArgs = dosboxArgs + " " + selectedGame.AdditionalCommands;
                     }
                 }
                 //corresponds to the Fullscreen checkbox in GameForm
