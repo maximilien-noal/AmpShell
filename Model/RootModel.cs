@@ -10,26 +10,26 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace AmpShell.UserData
+namespace AmpShell.Model
 {
     /// <summary>
     /// Root node for the xml file
     /// </summary>
     [XmlRoot("AmpShell")]
-    public class UserDataRoot
+    public class RootModel
     {
         /// <summary>
         /// List that will build up the tree of categories and games through the AddChild and RemoveChild and ListChildren methods
         /// </summary>
         private readonly List<object> _children;
-        public UserDataRoot()
+        public RootModel()
         {
             _children = new List<object>();
         }
 
-        [XmlElement("Window", typeof(UserPrefs))]
-        [XmlElement("Category", typeof(UserCategory))]
-        [XmlElement("Game", typeof(UserGame))]
+        [XmlElement("Window", typeof(Preferences))]
+        [XmlElement("Category", typeof(Category))]
+        [XmlElement("Game", typeof(Game))]
         public object[] ListChildren
         {
             get => _children.ToArray();

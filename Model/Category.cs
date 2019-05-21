@@ -10,11 +10,11 @@
 using System;
 using System.Xml.Serialization;
 
-namespace AmpShell.UserData
+namespace AmpShell.Model
 {
-    public class UserCategory : UserDataRoot
+    public class Category : RootModel
     {
-        public UserCategory() : base()
+        public Category() : base()
         {
             Title = string.Empty;
             Random RandSignature = new Random();
@@ -33,7 +33,7 @@ namespace AmpShell.UserData
             QuitOnExitColumnWidth = 100;
         }
 
-        public UserCategory(string CategoryTitle, string CategorySignature)
+        public Category(string CategoryTitle, string CategorySignature)
         {
             Title = CategoryTitle;
             Signature = CategorySignature;

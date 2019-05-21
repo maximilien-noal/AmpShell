@@ -12,7 +12,7 @@ using System.IO;
 using System.Text;
 using System.Xml.Serialization;
 
-namespace AmpShell.UserData
+namespace AmpShell.Serialization
 {
     public static class ObjectSerializer
     {

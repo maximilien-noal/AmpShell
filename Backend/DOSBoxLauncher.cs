@@ -7,7 +7,7 @@
  * See the GNU General Public License for more details.
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
-using AmpShell.UserData;
+using AmpShell.Model;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -56,7 +56,7 @@ namespace AmpShell.Backend
         /// <param name="dosboxDefaultConfFilePath">The .conf file to use for DOSBox</param>
         /// <param name="dosboxDefaultLangFilePath">The .lng file to use for DOSBox</param>
         /// <returns></returns>
-        public static string BuildArgs(UserGame selectedGame, bool forSetupExe, string dosBoxExePath, string dosboxDefaultConfFilePath, string dosboxDefaultLangFilePath)
+        public static string BuildArgs(Game selectedGame, bool forSetupExe, string dosBoxExePath, string dosboxDefaultConfFilePath, string dosboxDefaultLangFilePath)
         {
             var configFile = new DOSBoxConfigFile(selectedGame.DBConfPath);
 

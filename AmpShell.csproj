@@ -90,8 +90,11 @@
     <Compile Include="Backend\DOSBoxLauncher.cs" />
     <Compile Include="Configuration\FileFinder.cs" />
     <Compile Include="Configuration\UserDataLoaderSaver.cs" />
+    <Compile Include="Notification\PropertyChangedEventArgs.cs" />
+    <Compile Include="Notification\PropertyChangedNotifier.cs" />
     <Compile Include="Shell\LinkTarget.cs" />
-    <Compile Include="UserData\UserPrefsQuery.cs" />
+    <Compile Include="Model\PrefsQuery.cs" />
+    <Compile Include="ViewModel\CategoryViewModel.cs" />
     <Compile Include="WinForms\AboutBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -119,14 +122,14 @@
     <Compile Include="WinForms\PreferencesForm.Designer.cs">
       <DependentUpon>PreferencesForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserData\UserDataRoot.cs" />
+    <Compile Include="Model\RootModel.cs" />
     <Compile Include="WinForms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="WinForms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserData\UserCategory.cs" />
+    <Compile Include="Model\Category.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="WinForms\AboutBox.resx">
@@ -165,9 +168,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="UserData\UserPrefs.cs" />
-    <Compile Include="UserData\UserGame.cs" />
-    <Compile Include="UserData\ObjectSerializer.cs" />
+    <Compile Include="Model\Preferences.cs" />
+    <Compile Include="Model\Game.cs" />
+    <Compile Include="Serialization\ObjectSerializer.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -246,6 +249,7 @@
     <None Include="Resources\PlayHS.png" />
     <None Include="Resources\Go.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

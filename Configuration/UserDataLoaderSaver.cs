@@ -7,8 +7,8 @@
  * See the GNU General Public License for more details.
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
-using AmpShell.UserData;
-
+using AmpShell.Model;
+using AmpShell.Serialization;
 using System;
 using System.IO;
 using System.Windows.Forms;
@@ -19,7 +19,7 @@ namespace AmpShell.Configuration
     {
         static UserDataLoaderSaver()
         {
-            UserPrefs = new UserPrefs();
+            UserPrefs = new Preferences();
         }
 
         /// <summary>
@@ -30,20 +30,20 @@ namespace AmpShell.Configuration
         /// <summary>
         /// Object to load and save user data through XML (de)serialization
         /// </summary>
-        public static UserPrefs UserPrefs { get; private set; }
+        public static Preferences UserPrefs { get; private set; }
 
         public static void SaveUserSettings()
         {
             //saves the data inside Amp by serliazing it in AmpShell.xml
             if (!UserPrefs.PortableMode)
             {
-                ObjectSerializer.Serialize(UserDataLoaderSaver.UserConfigFileDataPath, UserPrefs, typeof(UserDataRoot));
+                ObjectSerializer.Serialize(UserDataLoaderSaver.UserConfigFileDataPath, UserPrefs, typeof(RootModel));
             }
             else
             {
-                foreach (UserCategory category in UserPrefs.ListChildren)
+                foreach (Category category in UserPrefs.ListChildren)
                 {
-                    foreach (UserGame game in category.ListChildren)
+                    foreach (Game game in category.ListChildren)
                     {
                         game.DOSEXEPath = game.DOSEXEPath.Replace(Application.StartupPath, "AppPath");
                         game.DBConfPath = game.DBConfPath.Replace(Application.StartupPath, "AppPath");
@@ -59,7 +59,7 @@ namespace AmpShell.Configuration
                 UserPrefs.DBPath = UserPrefs.DBPath.Replace(Application.StartupPath, "AppPath");
                 UserPrefs.ConfigEditorPath = UserPrefs.ConfigEditorPath.Replace(Application.StartupPath, "AppPath");
                 UserPrefs.ConfigEditorAdditionalParameters = UserPrefs.ConfigEditorAdditionalParameters.Replace(Application.StartupPath, "AppPath");
-                ObjectSerializer.Serialize(Application.StartupPath + "\\AmpShell.xml", UserPrefs, typeof(UserDataRoot));
+                ObjectSerializer.Serialize(Application.StartupPath + "\\AmpShell.xml", UserPrefs, typeof(RootModel));
             }
         }
 
@@ -87,8 +87,8 @@ namespace AmpShell.Configuration
                     UserConfigFileDataPath = Application.StartupPath + "\\AmpShell.xml";
                 }
                 //Serializing the data inside Amp for the first run
-                ObjectSerializer.Serialize(UserConfigFileDataPath, UserPrefs, typeof(UserDataRoot));
-                UserPrefs = (UserPrefs)ObjectSerializer.Deserialize(UserConfigFileDataPath, typeof(UserDataRoot));
+                ObjectSerializer.Serialize(UserConfigFileDataPath, UserPrefs, typeof(RootModel));
+                UserPrefs = (Preferences)ObjectSerializer.Deserialize(UserConfigFileDataPath, typeof(RootModel));
             }
             //if the file named AmpShell.xml exists inside that directory
             else
@@ -103,10 +103,10 @@ namespace AmpShell.Configuration
                     UserConfigFileDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\AmpShell\\AmpShell.xml";
                 }
 
-                UserPrefs = (UserPrefs)ObjectSerializer.Deserialize(UserConfigFileDataPath, typeof(UserDataRoot));
-                foreach (UserCategory ConcernedCategory in UserPrefs.ListChildren)
+                UserPrefs = (Preferences)ObjectSerializer.Deserialize(UserConfigFileDataPath, typeof(RootModel));
+                foreach (Category ConcernedCategory in UserPrefs.ListChildren)
                 {
-                    foreach (UserGame ConcernedGame in ConcernedCategory.ListChildren)
+                    foreach (Game ConcernedGame in ConcernedCategory.ListChildren)
                     {
                         ConcernedGame.DOSEXEPath = ConcernedGame.DOSEXEPath.Replace("AppPath", Application.StartupPath);
                         ConcernedGame.DBConfPath = ConcernedGame.DBConfPath.Replace("AppPath", Application.StartupPath);

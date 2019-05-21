@@ -10,7 +10,7 @@
 using AmpShell.Backend;
 using AmpShell.Configuration;
 using AmpShell.Shell;
-using AmpShell.UserData;
+using AmpShell.Model;
 using AmpShell.WinForms.UserControls;
 using System;
 using System.Collections.Generic;
@@ -233,7 +233,7 @@ namespace AmpShell.WinForms
             _toolBarMenuItem.Checked = userPrefs.ToolBarVisible;
             statusStrip.Visible = userPrefs.StatusBarVisible;
             _statusBarMenuItem.Checked = userPrefs.StatusBarVisible;
-            foreach (UserCategory categoryToDisplay in userPrefs.ListChildren)
+            foreach (Category categoryToDisplay in userPrefs.ListChildren)
             {
                 ListView tabltview = new CustomListView
                 {
@@ -256,7 +256,7 @@ namespace AmpShell.WinForms
                 tabltview.Columns.Add("FullscreenColumn", "Fullscreen ?", categoryToDisplay.FullscreenColumnWidth);
                 tabltview.Columns.Add("QuitOnExitColumn", "Quit on exit ?", categoryToDisplay.QuitOnExitColumnWidth);
                 //for each game, create a ListViewItem instance.
-                foreach (UserGame gameToDisplay in categoryToDisplay.ListChildren)
+                foreach (Game gameToDisplay in categoryToDisplay.ListChildren)
                 {
                     ListViewItem gameforlt = new ListViewItem(gameToDisplay.Name)
                     {
@@ -474,7 +474,7 @@ namespace AmpShell.WinForms
             foreach (ListViewItem itemToMove in SelectedListView.SelectedItems)
             {
                 SelectedListView.Items.Remove(itemToMove);
-                var droppedGame = UserDataLoaderSaver.UserPrefs.ListChildren.Cast<UserCategory>().Select(x => x.ListChildren.Cast<UserGame>()).SelectMany(x => x).FirstOrDefault(x => x.Signature == (string)itemToMove.Tag);
+                var droppedGame = UserDataLoaderSaver.UserPrefs.ListChildren.Cast<Category>().Select(x => x.ListChildren.Cast<Game>()).SelectMany(x => x).FirstOrDefault(x => x.Signature == (string)itemToMove.Tag);
                 GetSelectedCategory().RemoveChild(droppedGame);
                 TabControl.SelectTab(_hoveredTabIndex);
                 SelectedListView.Items.Add((ListViewItem)itemToMove.Clone());
@@ -514,23 +514,23 @@ namespace AmpShell.WinForms
             TabControl.AllowDrop = true;
         }
 
-        private UserGame GetSelectedGame()
+        private Game GetSelectedGame()
         {
             if(SelectedListView.FocusedItem == null)
             {
                 return null;
             }
-            return GetSelectedCategory().ListChildren.Cast<UserGame>().FirstOrDefault(x => x.Signature == (string)SelectedListView.FocusedItem.Tag);
+            return GetSelectedCategory().ListChildren.Cast<Game>().FirstOrDefault(x => x.Signature == (string)SelectedListView.FocusedItem.Tag);
         }
 
-        private UserCategory GetSelectedCategory()
+        private Category GetSelectedCategory()
         {
-            return UserDataLoaderSaver.UserPrefs.ListChildren.Cast<UserCategory>().FirstOrDefault(x => x.Signature == (string)TabControl.SelectedTab.Tag);
+            return UserDataLoaderSaver.UserPrefs.ListChildren.Cast<Category>().FirstOrDefault(x => x.Signature == (string)TabControl.SelectedTab.Tag);
         }
 
-        private UserCategory GetSelectedCategory(int hoveredTabIndex)
+        private Category GetSelectedCategory(int hoveredTabIndex)
         {
-            return UserDataLoaderSaver.UserPrefs.ListChildren.Cast<UserCategory>().FirstOrDefault(x => x.Signature == (string)TabControl.TabPages[hoveredTabIndex].Tag);
+            return UserDataLoaderSaver.UserPrefs.ListChildren.Cast<Category>().FirstOrDefault(x => x.Signature == (string)TabControl.TabPages[hoveredTabIndex].Tag);
         }
 
         /// <summary>
@@ -538,7 +538,7 @@ namespace AmpShell.WinForms
         /// </summary>
         private void GameEditButton_Click(object sender, EventArgs e)
         {
-            UserGame selectedGame = GetSelectedGame();
+            Game selectedGame = GetSelectedGame();
             GameForm gameEditForm = new GameForm(selectedGame, UserDataLoaderSaver.UserPrefs);
             if (gameEditForm.ShowDialog(this) == DialogResult.OK)
             {
@@ -548,8 +548,8 @@ namespace AmpShell.WinForms
 
         private void RedrawAllUserData()
         {
-            UserGame selectedGame = GetSelectedGame();
-            UserCategory selectedCategory = GetSelectedCategory();
+            Game selectedGame = GetSelectedGame();
+            Category selectedCategory = GetSelectedCategory();
             DisplayUserData();
             SelectCategory(selectedCategory.Signature);
             if(selectedGame != null)
@@ -590,7 +590,7 @@ namespace AmpShell.WinForms
                 RunGameToolStripMenuItem.Enabled = true;
                 _runGameMenuItem.Enabled = true;
                 RunGameButton.Enabled = true;
-                UserGame selectedGame = GetSelectedGame();
+                Game selectedGame = GetSelectedGame();
                 //if the selected game has a setup executable
                 if (string.IsNullOrWhiteSpace(selectedGame.SetupEXEPath) == false)
                 {
@@ -792,7 +792,7 @@ namespace AmpShell.WinForms
             StartDOSBox(GetDOSBoxPath(), GetSelectedGame(), false, UserDataLoaderSaver.UserPrefs.DBDefaultConfFilePath, UserDataLoaderSaver.UserPrefs.DBDefaultLangFilePath);
         }
 
-        private void StartDOSBox(string dosboxPath, UserGame selectedGame, bool runSetup, string confFile, string langFile)
+        private void StartDOSBox(string dosboxPath, Game selectedGame, bool runSetup, string confFile, string langFile)
         {
             var dosboxProcess = DOSBoxLauncher.StartDOSBox(dosboxPath, DOSBoxLauncher.BuildArgs(selectedGame, runSetup, dosboxPath, confFile, langFile), Directory.GetParent(selectedGame.Directory).FullName);
             if (dosboxProcess != null)
@@ -858,7 +858,7 @@ namespace AmpShell.WinForms
         /// </summary>
         private void CategoryDeleteButton_Click(object sender, EventArgs e)
         {
-            UserCategory selectedCategory = GetSelectedCategory();
+            Category selectedCategory = GetSelectedCategory();
             if (UserDataLoaderSaver.UserPrefs.CategoryDeletePrompt != true ||
                 MessageBox.Show(this, "Do you really want to delete " + "'" + selectedCategory.Title + "'" + " and all the games inside it ?",
                 _deleteCategoryMenuMenuItem.Text,
@@ -922,7 +922,7 @@ namespace AmpShell.WinForms
         /// </summary>
         private void GameAddButton_Click(object sender, EventArgs e)
         {
-            var newGame = new UserGame();
+            var newGame = new Game();
             if (e is DragEventArgs dragArgs)
             {
                 string[] files = (string[])dragArgs.Data.GetData(DataFormats.FileDrop);
@@ -955,7 +955,7 @@ namespace AmpShell.WinForms
             
             if (newGameForm.ShowDialog(this) == DialogResult.OK)
             {
-                UserCategory concernedCategory = GetSelectedCategory();
+                Category concernedCategory = GetSelectedCategory();
                 concernedCategory.AddChild(newGameForm.GameInstance);
                 RedrawAllUserData();
             }
@@ -984,7 +984,7 @@ namespace AmpShell.WinForms
         /// </summary>
         private void CategoryEditButton_Click(object sender, EventArgs e)
         {
-            UserCategory selectedCategory = GetSelectedCategory();
+            Category selectedCategory = GetSelectedCategory();
             CategoryForm catEditForm = new CategoryForm(selectedCategory);
             if (catEditForm.ShowDialog(this) == DialogResult.OK)
             {
@@ -1073,7 +1073,7 @@ namespace AmpShell.WinForms
         {
             if (string.IsNullOrWhiteSpace(UserDataLoaderSaver.UserPrefs.ConfigEditorPath) == false)
             {
-                UserGame selectedGame = GetSelectedGame();
+                Game selectedGame = GetSelectedGame();
                 System.Diagnostics.Process.Start(UserDataLoaderSaver.UserPrefs.ConfigEditorPath, selectedGame.DBConfPath + " " + UserDataLoaderSaver.UserPrefs.ConfigEditorAdditionalParameters);
             }
         }

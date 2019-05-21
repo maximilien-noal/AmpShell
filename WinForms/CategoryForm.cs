@@ -7,7 +7,7 @@
  * See the GNU General Public License for more details.
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
-using AmpShell.UserData;
+using AmpShell.Model;
 using System;
 using System.Windows.Forms;
 
@@ -18,10 +18,10 @@ namespace AmpShell.WinForms
         public CategoryForm()
         {
             InitializeComponent();
-            Category = new UserCategory();
+            Category = new Category();
         }
 
-        public CategoryForm(UserCategory editedCategory)
+        public CategoryForm(Category editedCategory)
         {
             InitializeComponent();
             Category = editedCategory;
@@ -36,7 +36,7 @@ namespace AmpShell.WinForms
             Text = "Editing " + editedCategory.Title + "...";
         }
 
-        public UserCategory Category { get; private set; }
+        public Category Category { get; private set; }
 
         private void Cancel_Click(object sender, EventArgs e)
         {

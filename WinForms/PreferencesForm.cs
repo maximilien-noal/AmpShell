@@ -8,7 +8,7 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
 using AmpShell.Configuration;
-using AmpShell.UserData;
+using AmpShell.Model;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -19,13 +19,13 @@ namespace AmpShell.WinForms
 {
     public partial class PreferencesForm : Form
     {
-        public PreferencesForm(UserPrefs currentUserPrefs)
+        public PreferencesForm(Preferences currentUserPrefs)
         {
             InitializeComponent();
             SavedUserPrefs = currentUserPrefs;
         }
 
-        public UserPrefs SavedUserPrefs { get; private set; }
+        public Preferences SavedUserPrefs { get; private set; }
 
         private void BrowseForEditorButton_Click(object sender, EventArgs e)
         {
@@ -88,7 +88,7 @@ namespace AmpShell.WinForms
             SavedUserPrefs.ConfigEditorAdditionalParameters = AdditionnalParametersTextBox.Text;
             if (LargeViewModeSizeComboBox.SelectedIndex >= 0)
             {
-                SavedUserPrefs.LargeViewModeSize = UserPrefs.LargeViewModeSizes[LargeViewModeSizeComboBox.SelectedIndex];
+                SavedUserPrefs.LargeViewModeSize = Preferences.LargeViewModeSizes[LargeViewModeSizeComboBox.SelectedIndex];
             }
 
             if (LargeIconsRadioButton.Checked == true)
@@ -132,7 +132,7 @@ namespace AmpShell.WinForms
 
             List<ListViewItem> tabs = CategoriesListView.Items.Cast<ListViewItem>().ToList();
 
-            foreach (UserCategory ConcernedCategory in SavedUserPrefs.ListChildren)
+            foreach (Category ConcernedCategory in SavedUserPrefs.ListChildren)
             {
                 SavedUserPrefs.MoveChildToPosition(ConcernedCategory, tabs.IndexOf(tabs.FirstOrDefault(x => Convert.ToString(x.Tag) == ConcernedCategory.Signature)));
             }
@@ -156,7 +156,7 @@ namespace AmpShell.WinForms
                 PortableModeCheckBox.Checked = SavedUserPrefs.PortableMode;
                 StatusStripLabel.Text = "Portable Mode : available (but disabled).";
             }
-            LargeViewModeSizeComboBox.Text = LargeViewModeSizeComboBox.Items[UserPrefs.LargeViewModeSizes.IndexOf(SavedUserPrefs.LargeViewModeSize)].ToString();
+            LargeViewModeSizeComboBox.Text = LargeViewModeSizeComboBox.Items[Preferences.LargeViewModeSizes.IndexOf(SavedUserPrefs.LargeViewModeSize)].ToString();
             CategoyDeletePromptCheckBox.Checked = SavedUserPrefs.CategoryDeletePrompt;
             GameDeletePromptCheckBox.Checked = SavedUserPrefs.GameDeletePrompt;
             WindowPositionCheckBox.Checked = SavedUserPrefs.RememberWindowPosition;
@@ -236,7 +236,7 @@ namespace AmpShell.WinForms
             CategoriesListView.Columns.Add("Name");
             CategoriesListView.Columns[0].Width = CategoriesListView.Width;
             CategoriesListView.Items.Clear();
-            foreach (UserCategory CategoryToDisplay in SavedUserPrefs.ListChildren)
+            foreach (Category CategoryToDisplay in SavedUserPrefs.ListChildren)
             {
                 ListViewItem ItemToAdd = new ListViewItem(CategoryToDisplay.Title)
                 {
