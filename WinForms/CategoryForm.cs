@@ -8,6 +8,7 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
 using AmpShell.Model;
+using AmpShell.ViewModel;
 using System;
 using System.Windows.Forms;
 

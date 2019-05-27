@@ -1,0 +1,123 @@
+﻿<Window x:Class="AmpShell.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AmpShell"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip"
+        Title="AmpShell" Height="450" Width="800" Icon="/AmpShell;component/AmpShell.ico">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0">
+            <Menu Name="menuStrip" MinHeight="25" HorizontalAlignment="Stretch" VerticalAlignment="Top" >
+                <MenuItem Header="_File" Name="FileToolStripMenuItem" >
+                    <MenuItem Header="New _category..." Name="NewCategoryToolStripMenuItem" ></MenuItem>
+                    <MenuItem Header="_New game..." Name="NewGameToolStripMenuItem" ></MenuItem>
+                    <MenuItem Header="_Run selected game" Name="RunGameToolStripMenuItem" ></MenuItem>
+                    <MenuItem Header="Run game _setup" Name="RunGameSetupToolStripMenuItem" ></MenuItem>
+                    <MenuItem Header="" Name="toolStripSeparator1" ></MenuItem>
+                    <MenuItem Header="_Quit" Name="QuitterToolStripMenuItem" ></MenuItem>
+                </MenuItem>
+                <MenuItem Header="_Edit" Name="EditToolStripMenuItem" >
+                    <MenuItem Header="_Edit selected game..." Name="EditSelectedgameToolStripMenuItem" ></MenuItem>
+                    <MenuItem Header="Edit game configuration _file..." Name="EditConfigToolStripMenuItem" ></MenuItem>
+                    <MenuItem Header="_Make configuration file..." Name="MakeConfigurationFileToolStripMenuItem" ></MenuItem>
+                    <MenuItem Header="Edit selected _category..." Name="EditSelectedcategoryToolStripMenuItem" ></MenuItem>
+                    <MenuItem Header="_Delete selected game" Name="DeleteSelectedGameToolStripMenuItem" ></MenuItem>
+                    <MenuItem Header="Delete _selected category..." Name="DeleteSelectedCategoryToolStripMenuItem" ></MenuItem>
+                    <MenuItem Header="" Name="toolStripSeparator2" ></MenuItem>
+                    <MenuItem Header="_Preferences..." Name="PreferencesToolStripMenuItem" ></MenuItem>
+                </MenuItem>
+                <MenuItem Header="_Tools" Name="ToolsToolStripMenuItem" >
+                    <MenuItem Header="_Run DOSBox" Name="RunDOSBoxToolStripMenuItem" ></MenuItem>
+                    <MenuItem Header="Run configuration _editor" Name="RunConfigurationEditorToolStripMenuItem" ></MenuItem>
+                    <MenuItem Header="Edit default configuration" Name="EditDefaultConfigurationToolStripMenuItem" ></MenuItem>
+                </MenuItem>
+                <MenuItem Header="_View" Name="ViewToolStripMenuItem" >
+                    <MenuItem Header="_Large icons" Name="LargeIconToolStripMenuItem" ></MenuItem>
+                    <MenuItem Header="_Small icons" Name="SmallIconToolStripMenuItem" ></MenuItem>
+                    <MenuItem Header="_Tiles" Name="TileToolStripMenuItem" ></MenuItem>
+                    <MenuItem Header="_List" Name="ListToolStripMenuItem" ></MenuItem>
+                    <MenuItem Header="_Details" Name="DetailsToolStripMenuItem" ></MenuItem>
+                </MenuItem>
+                <MenuItem Header="_Help" Name="HelpToolStripMenuItem" >
+                    <MenuItem Header="_About..." Name="AboutToolStripMenuItem" ></MenuItem>
+                </MenuItem>
+            </Menu>
+            <ToolBar Name="toolStrip" MinHeight="25" HorizontalAlignment="Stretch" VerticalAlignment="Top" >
+            <Button Name= "CategoryAddButton">
+                <Image/>
+            </Button>
+            <Button Name= "GameAddButton">
+                <Image/>
+            </Button>
+            <Button Name= "RunGameButton">
+                <Image/>
+            </Button>
+            <Button Name= "RunGameSetupButton">
+                <Image/>
+            </Button>
+            <Button Name= "toolStripSeparator7">
+                <Image/>
+            </Button>
+            <Button Name= "GameEditButton">
+                <Image/>
+            </Button>
+            <Button Name= "GameEditConfigurationButton">
+                <Image/>
+            </Button>
+            <Button Name= "MakeConfigButton">
+                <Image/>
+            </Button>
+            <Button Name= "CategoryEditButton">
+                <Image/>
+            </Button>
+            <Button Name= "GameDeleteButton">
+                <Image/>
+            </Button>
+            <Button Name= "CategoryDeleteButton">
+                <Image/>
+            </Button>
+            <Button Name= "toolStripSeparator4">
+                <Image/>
+            </Button>
+            <Button Name= "RunDOSBoxButton">
+                <Image/>
+            </Button>
+            <Button Name= "RunConfigurationEditorButton">
+                <Image/>
+            </Button>
+            <Button Name= "EditDefaultConfigurationButton">
+                <Image/>
+            </Button>
+            <Button Name= "toolStripSeparator5">
+                <Image/>
+            </Button>
+            <Button Name= "LargeIconViewButton">
+                <Image/>
+            </Button>
+            <Button Name= "SmallIconViewButton">
+                <Image/>
+            </Button>
+            <Button Name= "TilesViewButton">
+                <Image/>
+            </Button>
+            <Button Name= "ListViewButton">
+                <Image/>
+            </Button>
+            <Button Name= "DetailsViewButton">
+                <Image/>
+            </Button>
+        </ToolBar>
+        </StackPanel>
+        <Grid Grid.Row="1">
+            <TabControl Name="MainTabControl" TabStripPlacement= "Top" />
+            <StatusBar Name="statusStrip" MinHeight="25" VerticalAlignment="Bottom"></StatusBar>
+        </Grid>
+    </Grid>
+</Window>
+

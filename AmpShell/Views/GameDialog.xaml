@@ -1,0 +1,92 @@
+﻿<Window x:Class="AmpShell.Views.GameDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AmpShell.Views"
+        mc:Ignorable="d" ResizeMode="CanResizeWithGrip" SizeToContent="WidthAndHeight"
+        Title="Add a game..." >
+    <StackPanel>
+        <TabControl Name="ConfigTabControl" TabStripPlacement="Top">
+            <TabItem Name="BasicTabPage" Header="Basic Configuration">
+                <StackPanel Orientation="Vertical" Name="GrdBasicTabPage">
+                    <Button Opacity="0">
+                        <Image Name="GameIconImage" />
+                    </Button>
+                    <Label Name="GameNameLabel">Game name :</Label>
+                    <TextBox Name="GameNameTextbox" TextWrapping="Wrap"></TextBox>
+
+                    <Button Opacity="0">
+                        <Image />
+                    </Button>
+                    <Button Name="ResetIconButton" Grid.Column="2" Grid.Row="0">Reset icon</Button>
+                    
+                    <Label Name="GameLocationLabel">Game executable location (optional if a directory is mounted as C:) :</Label>
+                    <TextBox Name="GameLocationTextbox" MinWidth="300" Margin="5" TextWrapping="Wrap"></TextBox>
+                    <Button Name="GameLocationBrowseButton">...</Button>
+
+                    <Label Name="GameCustomCofigurationLabel">Custom configuration location (optional) :</Label>
+                    <TextBox Name="GameCustomConfigurationTextbox" TextWrapping="Wrap"></TextBox>
+                    <Button Name="GameCustomConfigurationBrowseButton">...</Button>
+                    <CheckBox Name="NoConfigCheckBox">No config file at all (may not work with DOSBox 0.73 or newer)</CheckBox>
+
+                    <Label Name="GameCDPathLabel">CD image file or directory mounted as D: (optional) :</Label>
+                    <TextBox Name="GameCDPathTextBox" TextWrapping="Wrap"></TextBox>
+                    <Button Name="GameCDPathBrowseButton">...</Button>
+                    <Button Name="GameCDDirBrowseButton">...</Button>
+                    
+                    <GroupBox>
+                        <GroupBox.Header>
+                            <TextBlock Text="Mounting options"/>
+                        </GroupBox.Header>
+                        <StackPanel Orientation="Horizontal" Height="23" Width="396">
+                            <RadioButton Name="NoneRadioButton">None</RadioButton>
+                            <RadioButton Name="UseIOCTLRadioButton">Use IOCTL (for a CD drive)</RadioButton>
+                            <RadioButton Name="IsAFloppyDiskRadioButton">Floppy disk image (mounted as A:)</RadioButton>
+                        </StackPanel>
+                    </GroupBox>
+
+                    <Label Name="GameSetupLabel">Game setup executable location (optional) :</Label>
+                    <TextBox Name="GameSetupTextBox" TextWrapping="Wrap"></TextBox>
+                    <Button Name="GameSetupBrowseButton">...</Button>
+
+                    <Label Name="GameDirectoryLabel">Directory mounted as C: (optional) :</Label>
+                    <TextBox Name="GameDirectoryTextbox" TextWrapping="Wrap"></TextBox>
+                    <Button Name="GameDirectoryBrowseButton">...</Button>
+                    
+                    <Label Name="GameAdditionalCommandsLabel">Additional DOSBox commands (-c "command") (optional) :</Label>
+                    <TextBox Name="GameAdditionalCommandsTextBox" TextWrapping="Wrap"></TextBox>
+
+                    <GroupBox>
+                        <GroupBox.Header>
+                            <TextBlock Text="Other options"/>
+                        </GroupBox.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Name="FullscreenCheckBox">fullscreen</CheckBox>
+                            <CheckBox Name="NoConsoleCheckBox">no console</CheckBox>
+                            <CheckBox Name="QuitOnExitCheckBox">quit on exit</CheckBox>
+                        </StackPanel>
+                    </GroupBox>
+                </StackPanel>
+            </TabItem>
+            <TabItem Name="AdvancedTabPage" Header="Advanced Configuration">
+                <StackPanel Orientation="Vertical" Name="GrdAdvancedTabPage">
+                    <Label Name="AlternateDOSBoxLocationLabel">Use another DOSBox executable (DOSBox ECE, DOSBox SVN, ...) :</Label>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBox Grid.Column="0" Margin="5" Name="AlternateDOSBoxLocationTextbox" MinWidth="300" TextWrapping="Wrap"></TextBox>
+                        <Button Grid.Column="1" Margin="5" MinWidth="25" Name="AlternateDOSBoxLocationBrowsSearchButton">...</Button>
+                    </Grid>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+        <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Right" Orientation="Horizontal">
+            <Button Name="Cancel" Margin="5">Cancel</Button>
+            <Button Name="OK" IsDefault="True" Margin="5">OK</Button>
+        </StackPanel>
+    </StackPanel>
+</Window>
+
