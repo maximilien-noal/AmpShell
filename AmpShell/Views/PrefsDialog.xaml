@@ -8,8 +8,8 @@
         Title="Preferences" SizeToContent="WidthAndHeight" ResizeMode="CanResizeWithGrip" WindowStyle="ToolWindow" WindowStartupLocation="CenterOwner">
     <StackPanel>
         <TabControl Name="PrefsTabControl" TabStripPlacement="Top">
-            <TabItem Name="DOSBoxTabPage" Header="DOSBox" Background="Transparent">
-                <StackPanel Name="canDOSBoxTabPage">
+            <TabItem Name="DOSBoxTabPage" Header="DOSBox">
+                <StackPanel Name="GrdDOSBoxTabPage">
                     <Label Name="DOSBoxExecutableLabel" MinHeight="25">DOSBox executable path :</Label>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -52,32 +52,66 @@
                     </GroupBox>
                 </StackPanel>
             </TabItem>
-            <TabItem Name="GamesTabPage" Header="Games" Background="Transparent">
-                <Grid Name="GrdGamesTabPage">
-                    <TextBox Name="GamesDirTextBox" Height="20" Width="589" TabIndex="10" Margin="-4,10,49,217" HorizontalAlignment="Right" VerticalAlignment="Bottom" TextWrapping="Wrap"></TextBox>
-                    <Label Name="GamesDirLabel" Height="22" Width="253" FontSize="11" FontFamily="Microsoft Sans Serif" TabIndex="0" Margin="3,-6,378,231" HorizontalAlignment="Right" VerticalAlignment="Bottom">Default directory to open when looking for games :</Label>
-                    <GroupBox  HorizontalAlignment="Left" Margin="0,20,0,0" VerticalAlignment="Center">
+            <TabItem Name="GamesTabPage" Header="Games">
+                <StackPanel Name="GrdGamesTabPage">
+                    <Label Name="GamesDirLabel" MinHeight="25">Default directory to open when looking for games :</Label>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBox Name="GamesDirTextBox" Grid.Column="0" MinHeight="20" MinWidth="300" TextWrapping="Wrap"></TextBox>
+                        <Button Name="BrowseGamesDirButton" Grid.Column="1" Margin="5" MinHeight="25" MinWidth="25">...</Button>
+                    </Grid>
+                    <Label Name="CDImageDirLabel" MinHeight="25">Default directory to open when looking for image files (such as CD image files) :</Label>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBox Name="CDImageDirTextBox" Grid.Column="0" TextWrapping="Wrap"></TextBox>
+                        <Button Name="BrowseCDImageDirButton" Grid.Column="1" Margin="5" MinHeight="25" MinWidth="25">...</Button>
+                    </Grid>
+                    <GroupBox>
                         <GroupBox.Header>
                             <TextBlock Text="Other options for each new game :"/>
                         </GroupBox.Header>
                         <StackPanel Orientation="Horizontal">
-                            <CheckBox Name="FullscreenCheckBox" Height="17" Width="71">fullscreen</CheckBox>
-                            <CheckBox Name="NoConsoleCheckBox" Height="17" Width="78">no console</CheckBox>
-                            <CheckBox Name="QuitOnExitCheckBox" Height="17" Width="100">quit on exit</CheckBox>
+                            <CheckBox Name="FullscreenCheckBox" MinHeight="17" MinWidth="71">fullscreen</CheckBox>
+                            <CheckBox Name="NoConsoleCheckBox" MinHeight="17" MinWidth="78">no console</CheckBox>
+                            <CheckBox Name="QuitOnExitCheckBox" MinHeight="17" MinWidth="80">quit on exit</CheckBox>
                         </StackPanel>
                     </GroupBox>
-                    <Label Name="GameAdditionalCommandsLabel" Height="22" Width="337" FontSize="11" FontFamily="Microsoft Sans Serif" TabIndex="0" Margin="3,72,294,153" HorizontalAlignment="Right" VerticalAlignment="Bottom">Additional DOSBox commands for each new game (-c \"command\") :</Label>
-                    <TextBox Name="GameAdditionalCommandsTextBox" Height="20" Width="589" TabIndex="14" Margin="-4,88,49,139" HorizontalAlignment="Right" VerticalAlignment="Bottom" TextWrapping="Wrap"></TextBox>
-                    <TextBox Name="CDImageDirTextBox" Height="20" Width="589" TabIndex="12" Margin="-4,49,49,178" HorizontalAlignment="Right" VerticalAlignment="Bottom" TextWrapping="Wrap"></TextBox>
-                    <Label Name="CDImageDirLabel" Height="22" Width="387" FontSize="11" FontFamily="Microsoft Sans Serif" TabIndex="0" Margin="3,33,244,192" HorizontalAlignment="Right" VerticalAlignment="Bottom">Default directory to open when looking for image files (such as CD image files) :" +    "</Label>
-                    <Button Name="BrowseGamesDirButton" Height="23" Width="24" TabIndex="11" Margin="591,10,19,214" HorizontalAlignment="Right" VerticalAlignment="Bottom">...</Button>
-                    <Button Name="BrowseCDImageDirButton" Height="23" Width="24" TabIndex="13"  Margin="591,49,19,175" HorizontalAlignment="Right" VerticalAlignment="Bottom">...</Button>
-                </Grid>
+                    <Label Name="GameAdditionalCommandsLabel" MinHeight="25">Additional DOSBox commands for each new game (-c "command") :</Label>
+                    <TextBox Name="GameAdditionalCommandsTextBox" MinHeight="20" TextWrapping="Wrap"></TextBox>
+                </StackPanel>
             </TabItem>
-            <TabItem Name="CategoriesTabPage" Header="Categories" Background="Transparent">
-                <Canvas Name="canCategoriesTabPage" Height="171" Width="628" Background="Transparent">
-                    <Label Name="LargeViewModeSizeLabel" Height="22" Width="173" FontSize="11" FontFamily="Microsoft Sans Serif" TabIndex="0" Margin="3,-9,458,234" HorizontalAlignment="Right" VerticalAlignment="Bottom">Large icon size for all categories :</Label>
-                    <ComboBox Name="LargeViewModeSizeComboBox" Height="21" Width="121" TabIndex="32" Margin="163,-12,350,238" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <TabItem Name="CategoriesTabPage" Header="Categories">
+                <StackPanel Name="GrdCategoriesTabPage">
+                    <ListView Name="CategoriesListView">
+                        <ListView.View>
+                            <GridView>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Name="SortByNameButton" MinHeight="25" MinWidth="50" Margin="5">Sort</Button>
+                        <Button Name="MoveLastButton" MinHeight="25" MinWidth="25" Margin="5"></Button>
+                        <Button Name="MoveNextButton" MinHeight="25" MinWidth="25" Margin="5"></Button>
+                        <Button Name="MoveBackButton" MinHeight="25" MinWidth="25" Margin="5"></Button>
+                        <Button Name="MoveFirstButton" MinHeight="25" MinWidth="25" Margin="5"></Button>
+                    </StackPanel>
+                    <Label Name="IconsViewLabel" MinHeight="22" MinWidth="81">Default view :</Label>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox Name="AllOfThemCheckBox" MinHeight="17" MinWidth="75">All of them</CheckBox>
+                        <RadioButton Name="LargeIconsRadioButton" MinHeight="17" MinWidth="52">Large</RadioButton>
+                        <RadioButton Name="SmallIconsRadioButton" MinHeight="17" MinWidth="50">Small</RadioButton>
+                        <RadioButton Name="TilesIconsRadioButton" MinHeight="17" MinWidth="47">Tiles</RadioButton>
+                        <RadioButton Name="ListsIconsRadioButton" MinHeight="17" MinWidth="46">Lists</RadioButton>
+                        <RadioButton Name="DetailsIconsRadioButton" MinHeight="17" MinWidth="57">Details</RadioButton>
+                    </StackPanel>
+                    <Label Name="LargeViewModeSizeLabel">Large icon size for all categories :</Label>
+                    <ComboBox Name="LargeViewModeSizeComboBox">
                         <ComboBoxItem>48x48</ComboBoxItem>
                         <ComboBoxItem>64x64</ComboBoxItem>
                         <ComboBoxItem>80x80</ComboBoxItem>
@@ -93,71 +127,68 @@
                         <ComboBoxItem>240x240</ComboBoxItem>
                         <ComboBoxItem>256x256</ComboBoxItem>
                     </ComboBox>
-                    <CheckBox Name="AllOfThemCheckBox" Height="17" Width="75" TabIndex="31" Margin="534,135,25,95" HorizontalAlignment="Right" VerticalAlignment="Bottom">All of them</CheckBox>
-                    <RadioButton Name="LargeIconsRadioButton" Height="17" Width="52" TabIndex="26" Margin="252,135,330,95" HorizontalAlignment="Right" VerticalAlignment="Bottom">Large</RadioButton>
-                    <RadioButton Name="SmallIconsRadioButton" Height="17" Width="50" TabIndex="27" Margin="310,135,274,95" HorizontalAlignment="Right" VerticalAlignment="Bottom">Small</RadioButton>
-                    <RadioButton Name="TilesIconsRadioButton" Height="17" Width="47" TabIndex="28" Margin="366,135,221,95" HorizontalAlignment="Right" VerticalAlignment="Bottom">Tiles</RadioButton>
-                    <RadioButton Name="ListsIconsRadioButton" Height="17" Width="46" TabIndex="29" Margin="419,135,169,95" HorizontalAlignment="Right" VerticalAlignment="Bottom">Lists</RadioButton>
-                    <RadioButton Name="DetailsIconsRadioButton" Height="17" Width="57" TabIndex="30" Margin="471,135,106,95" HorizontalAlignment="Right" VerticalAlignment="Bottom">Details</RadioButton>
-                    <Label Name="IconsViewLabel" Height="22" Width="81" FontSize="11" FontFamily="Microsoft Sans Serif" TabIndex="0" Margin="184,135,369,90" HorizontalAlignment="Right" VerticalAlignment="Bottom">Default view :</Label>
-                    <ListView Name="CategoriesListView" Height="112" Width="621" Margin="-6,15,19,120" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                        <ListView.View>
-                            <GridView>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-                    <Button Name="SortByNameButton" Height="23" Width="50" TabIndex="24" Margin="118,130,466,94" HorizontalAlignment="Right" VerticalAlignment="Bottom">Sort</Button>
-                    <Button Name="MoveLastButton" Height="23" Width="24" TabIndex="23" Margin="88,130,522,94" HorizontalAlignment="Right" VerticalAlignment="Bottom"></Button>
-                    <Button Name="MoveNextButton" Height="23" Width="24" TabIndex="22" Margin="58,130,552,94" HorizontalAlignment="Right" VerticalAlignment="Bottom"></Button>
-                    <Button Name="MoveBackButton" Height="23" Width="24" TabIndex="21" Margin="28,130,582,94" HorizontalAlignment="Right" VerticalAlignment="Bottom"></Button>
-                    <Button Name="MoveFirstButton" Height="23" Width="24" TabIndex="20" Margin="-2,130,612,94" HorizontalAlignment="Right" VerticalAlignment="Bottom"></Button>
-                </Canvas>
+                </StackPanel>
             </TabItem>
-            <TabItem Name="ConfigEditorTabPage" Header="Config Editor" Background="Transparent">
-                <Canvas Name="canConfigEditorTabPage" Height="171" Width="628" Background="Transparent">
-                    <TextBox Name="EditorBinaryPathTextBox" Height="20" Width="586" TabIndex="33" Margin="-4,4,52,223" HorizontalAlignment="Right" VerticalAlignment="Bottom" TextWrapping="Wrap"></TextBox>
-                    <Label Name="AddtionnalEditorParametersLabel" Height="22" Width="270" FontSize="11" FontFamily="Microsoft Sans Serif" TabIndex="0" Margin="3,27,361,198" HorizontalAlignment="Right" VerticalAlignment="Bottom">Additional parameters to use with the editor (optional) :</Label>
-                    <TextBox Name="AdditionnalParametersTextBox" Height="20" Width="586" TabIndex="35" Margin="-4,43,52,184" HorizontalAlignment="Right" VerticalAlignment="Bottom" TextWrapping="Wrap"></TextBox>
-                    <Label Name="ConfigEditorPathLabel" Height="22" Width="336" FontSize="11" FontFamily="Microsoft Sans Serif" TabIndex="0" Margin="3,-12,295,237" HorizontalAlignment="Right" VerticalAlignment="Bottom">Open DOSBox configuration files with the following editor (optional) :</Label>
-                    <Button Name="BrowseForEditorButton" Height="23" Width="24" TabIndex="34" Margin="588,2,22,222" HorizontalAlignment="Right" VerticalAlignment="Bottom">...</Button>
-                </Canvas>
+            <TabItem Name="ConfigEditorTabPage" Header="Config Editor">
+                <StackPanel Name="canConfigEditorTabPage">
+                    <Label Name="ConfigEditorPathLabel">Open DOSBox configuration files with the following editor (optional) :</Label>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBox Name="EditorBinaryPathTextBox" Grid.Column="0" TextWrapping="Wrap"></TextBox>
+                        <Button Name="BrowseForEditorButton" Grid.Column="1" Margin="5" MinWidth="25" MinHeight="25">...</Button>
+                    </Grid>
+                    <Label Name="AddtionnalEditorParametersLabel">Additional parameters to use with the editor (optional) :</Label>
+                    <TextBox Name="AdditionnalParametersTextBox" TextWrapping="Wrap"></TextBox>
+                </StackPanel>
             </TabItem>
-            <TabItem Name="BehaviorTabPage" Header="Behavior" Background="Transparent">
-                <Canvas Name="canBehaviorTabPage" Height="171" Width="628" Background="Transparent">
-                    <GroupBox Margin="214,-9,211,175" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <TabItem Name="BehaviorTabPage" Header="Behavior">
+                <UniformGrid Name="GrdBehaviorTabPage">
+                    <GroupBox>
                         <GroupBox.Header>
                             <TextBlock Text="Prompt before..."/>
                         </GroupBox.Header>
-                        <Canvas Height="57" Width="185">
-                            <CheckBox Name="CategoyDeletePromptCheckBox" Height="17" Width="185" TabIndex="38" Margin="-4,4,453,226" HorizontalAlignment="Right" VerticalAlignment="Bottom">Prompt before deleting a category</CheckBox>
-                            <CheckBox Name="GameDeletePromptCheckBox" Height="17" Width="170" TabIndex="39" Margin="-4,27,468,203" HorizontalAlignment="Right" VerticalAlignment="Bottom">Prompt before deleting a game</CheckBox>
-                        </Canvas>
+                        <StackPanel>
+                            <CheckBox Name="CategoyDeletePromptCheckBox">Prompt before deleting a category</CheckBox>
+                            <CheckBox Name="GameDeletePromptCheckBox">Prompt before deleting a game</CheckBox>
+                        </StackPanel>
                     </GroupBox>
-                    <GroupBox Margin="8,-9,417,175" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                    <GroupBox>
                         <GroupBox.Header>
                             <TextBlock Text="Remember..."/>
                         </GroupBox.Header>
-                        <Canvas Height="57" Width="185">
-                            <CheckBox Name="WindowSizeCheckBox" Height="17" Width="86" TabIndex="36" Margin="-4,4,552,226" HorizontalAlignment="Right" VerticalAlignment="Bottom">Window size</CheckBox>
-                            <CheckBox Name="WindowPositionCheckBox" Height="17" Width="104" TabIndex="37" Margin="-4,27,534,203" HorizontalAlignment="Right" VerticalAlignment="Bottom">Window position</CheckBox>
-                        </Canvas>
+                        <StackPanel>
+                            <CheckBox Name="WindowSizeCheckBox">Window size</CheckBox>
+                            <CheckBox Name="WindowPositionCheckBox">Window position</CheckBox>
+                        </StackPanel>
                     </GroupBox>
-                    <GroupBox Margin="8,66,417,88" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                    <GroupBox>
                         <GroupBox.Header>
                             <TextBlock Text="Show..."/>
                         </GroupBox.Header>
-                        <Canvas Height="69" Width="185">
-                            <CheckBox Name="ShowMenuBarCheckBox" Height="17" Width="71" TabIndex="40" Margin="-4,4,567,226" HorizontalAlignment="Right" VerticalAlignment="Bottom">Menu bar</CheckBox>
-                            <CheckBox Name="ShowDetailsBarCheckBox" Height="17" Width="76" TabIndex="42" Margin="-4,50,562,180" HorizontalAlignment="Right" VerticalAlignment="Bottom">Details bar</CheckBox>
-                            <CheckBox Name="ShowToolBarCheckBox" Height="17" Width="65" TabIndex="41" Margin="-4,27,573,203" HorizontalAlignment="Right" VerticalAlignment="Bottom">Tool bar</CheckBox>
-                        </Canvas>
+                        <StackPanel>
+                            <CheckBox Name="ShowMenuBarCheckBox">Menu bar</CheckBox>
+                            <CheckBox Name="ShowDetailsBarCheckBox">Details bar</CheckBox>
+                            <CheckBox Name="ShowToolBarCheckBox">Tool bar</CheckBox>
+                        </StackPanel>
                     </GroupBox>
-                </Canvas>
+                    <GroupBox>
+                        <GroupBox.Header>
+                            <TextBlock Text="Do when a game is launched..."/>
+                        </GroupBox.Header>
+                        <StackPanel>
+                            <CheckBox Name="GoToTaskbarButton">Minimize to the taskbar</CheckBox>
+                            <CheckBox Name="ExitButton">Exit AmpShell</CheckBox>
+                        </StackPanel>
+                    </GroupBox>
+                </UniformGrid>
             </TabItem>
         </TabControl>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Name="OKButton" IsDefault="True" Margin="5">OK</Button>
-            <Button Name="FormCancelButton" IsCancel="True" Margin="5">Cancel</Button>
+            <Button Name="OKButton" MinWidth="25" MinHeight="25" IsDefault="True" Margin="5">OK</Button>
+            <Button Name="FormCancelButton" MinWidth="25" MinHeight="25" IsCancel="True" Margin="5">Cancel</Button>
         </StackPanel>
     </StackPanel>
 </Window>
