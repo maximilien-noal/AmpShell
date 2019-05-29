@@ -7,10 +7,11 @@
  * See the GNU General Public License for more details.
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
+
 using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace AmpShell.Model
+namespace AmpShell.Model.Core
 {
     /// <summary>
     /// Root node for the xml file
@@ -22,6 +23,7 @@ namespace AmpShell.Model
         /// List that will build up the tree of categories and games through the AddChild and RemoveChild and ListChildren methods
         /// </summary>
         private readonly List<object> _children;
+
         public RootModel()
         {
             _children = new List<object>();

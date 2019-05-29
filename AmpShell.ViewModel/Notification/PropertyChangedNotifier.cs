@@ -15,6 +15,7 @@ namespace AmpShell.ViewModel.Notification
                 OnPropertyChanged(this, new PropertyChangedExtendedEventArgs<T>(GetPropertyName(expression), oldValue, value));
             }
         }
+
         protected string GetPropertyName<T>(Expression<Func<T>> expression)
         {
             MemberExpression memberExpression = (MemberExpression)expression.Body;

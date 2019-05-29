@@ -14,7 +14,7 @@ namespace AmpShell.Model.DOSBox
 
         public DOSBoxConfigFile(string configFilePath)
         {
-            if(string.IsNullOrWhiteSpace(configFilePath) || File.Exists(configFilePath) == false)
+            if (string.IsNullOrWhiteSpace(configFilePath) || File.Exists(configFilePath) == false)
             {
                 return;
             }
@@ -32,7 +32,7 @@ namespace AmpShell.Model.DOSBox
             get
             {
                 int index = configFileContent.LastIndexOf("[AUTOEXEC]");
-                if(index != -1)
+                if (index != -1)
                 {
                     var range = new Tuple<int, int>(index + 1, Math.Abs(index - (configFileContent.Count() - 1)));
                     var section = configFileContent.GetRange(range.Item1, range.Item2);
@@ -42,6 +42,5 @@ namespace AmpShell.Model.DOSBox
                 return string.Empty;
             }
         }
-
     }
 }

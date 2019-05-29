@@ -7,11 +7,13 @@
  * See the GNU General Public License for more details.
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
-using AmpShell.Model;
+
 using AmpShell.Model.Configuration;
+using AmpShell.Model.Core;
 using AmpShell.Model.Shell;
-using AmpShell.ViewModel;
+using AmpShell.ViewModel.DOSBox;
 using AmpShell.WinForms.UserControls;
+
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -29,14 +31,17 @@ namespace AmpShell.WinForms
         private readonly ImageList _gamesLargeImageList = new ImageList();
         private readonly ImageList _gamesSmallImageList = new ImageList();
         private readonly ImageList _gamesMediumImageList = new ImageList();
+
         /// <summary>
         /// //Contextual pop-up menu (right click)
         /// </summary>
         private readonly ContextMenuStrip _currentListViewContextMenuStrip = new ContextMenuStrip();
+
         /// <summary>
         /// The items of the context pop-up menu
         /// </summary>
         private readonly ContextMenuStrip _tabContextMenu = new ContextMenuStrip();
+
         private readonly ToolStripMenuItem _addCategoryMenuMenuItem = new ToolStripMenuItem();
         private readonly ToolStripMenuItem _deleteCategoryMenuMenuItem = new ToolStripMenuItem();
         private readonly ToolStripMenuItem _editCategoryMenuMenuItem = new ToolStripMenuItem();
@@ -171,7 +176,7 @@ namespace AmpShell.WinForms
         {
             get
             {
-                if(TabControl.HasChildren == false)
+                if (TabControl.HasChildren == false)
                 {
                     return new ListView();
                 }
@@ -403,7 +408,7 @@ namespace AmpShell.WinForms
 
         private void CurrentListView_DragDrop(object sender, DragEventArgs e)
         {
-            if(e.Data.GetDataPresent(DataFormats.FileDrop))
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
                 GameAddButton_Click(this, e);
             }
@@ -481,7 +486,7 @@ namespace AmpShell.WinForms
                 GetSelectedCategory(_hoveredTabIndex).AddChild(droppedGame);
             }
             //Avoid yet again a nasty UI bug where the very first item in a TabPage has no icon.
-            if(SelectedListView.Items.Count == 1)
+            if (SelectedListView.Items.Count == 1)
             {
                 _redrawWaitTimer.Interval = 1;
                 _redrawWaitTimer.Tick += RedrawWaitTimer_Tick;
@@ -516,7 +521,7 @@ namespace AmpShell.WinForms
 
         private Game GetSelectedGame()
         {
-            if(SelectedListView.FocusedItem == null)
+            if (SelectedListView.FocusedItem == null)
             {
                 return null;
             }
@@ -552,7 +557,7 @@ namespace AmpShell.WinForms
             Category selectedCategory = GetSelectedCategory();
             DisplayUserData();
             SelectCategory(selectedCategory.Signature);
-            if(selectedGame != null)
+            if (selectedGame != null)
             {
                 SelectedListView.FocusedItem = SelectedListView.Items.Cast<ListViewItem>().FirstOrDefault(x => (string)x.Tag == selectedGame.Signature);
                 SelectedListView.FocusedItem.Selected = true;
@@ -783,7 +788,6 @@ namespace AmpShell.WinForms
             }
         }
 
-
         /// <summary>
         /// EventHandler for when a game is double-clicked (activated), or activated by the Enter key.
         /// </summary>
@@ -820,7 +824,7 @@ namespace AmpShell.WinForms
             do
             {
                 selectedItem = SelectedListView.Items.Cast<ListViewItem>().FirstOrDefault(x => (string)x.Tag == GetSelectedGame().Signature);
-                if(selectedItem == null)
+                if (selectedItem == null)
                 {
                     return;
                 }
@@ -891,7 +895,7 @@ namespace AmpShell.WinForms
         private void AmpShell_Shown(object sender, EventArgs e)
         {
             _ampShellShown = true;
-            //select the first TabPage of tabcontrol 
+            //select the first TabPage of tabcontrol
             if (TabControl.HasChildren)
             {
                 //select the first TabPage
@@ -952,7 +956,7 @@ namespace AmpShell.WinForms
             newGame.Signature = newGameSignature;
 
             GameForm newGameForm = new GameForm(newGame, UserDataLoaderSaver.UserPrefs);
-            
+
             if (newGameForm.ShowDialog(this) == DialogResult.OK)
             {
                 Category concernedCategory = GetSelectedCategory();
@@ -1375,6 +1379,7 @@ namespace AmpShell.WinForms
         {
             DisplayHelpMessage(CategoryEditButton.ToolTipText);
         }
+
         private void GameDeleteButton_MouseEnter(object sender, EventArgs e)
         {
             DisplayHelpMessage(GameDeleteButton.ToolTipText);

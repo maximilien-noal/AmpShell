@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AmpShell.Views"
         mc:Ignorable="d" ResizeMode="CanResizeWithGrip" SizeToContent="WidthAndHeight"
-        Title="Add a game..." >
+        Title="Add a game...">
     <StackPanel>
         <TabControl Name="ConfigTabControl" TabStripPlacement="Top">
             <TabItem Name="BasicTabPage" Header="Basic Configuration">
@@ -20,7 +20,7 @@
                         <Image />
                     </Button>
                     <Button Name="ResetIconButton" Grid.Column="2" Grid.Row="0">Reset icon</Button>
-                    
+
                     <Label Name="GameLocationLabel">Game executable location (optional if a directory is mounted as C:) :</Label>
                     <TextBox Name="GameLocationTextbox" MinWidth="300" Margin="5" TextWrapping="Wrap"></TextBox>
                     <Button Name="GameLocationBrowseButton">...</Button>
@@ -34,10 +34,10 @@
                     <TextBox Name="GameCDPathTextBox" TextWrapping="Wrap"></TextBox>
                     <Button Name="GameCDPathBrowseButton">...</Button>
                     <Button Name="GameCDDirBrowseButton">...</Button>
-                    
+
                     <GroupBox>
                         <GroupBox.Header>
-                            <TextBlock Text="Mounting options"/>
+                            <TextBlock Text="Mounting options" />
                         </GroupBox.Header>
                         <StackPanel Orientation="Horizontal" Height="23" Width="396">
                             <RadioButton Name="NoneRadioButton">None</RadioButton>
@@ -53,13 +53,13 @@
                     <Label Name="GameDirectoryLabel">Directory mounted as C: (optional) :</Label>
                     <TextBox Name="GameDirectoryTextbox" TextWrapping="Wrap"></TextBox>
                     <Button Name="GameDirectoryBrowseButton">...</Button>
-                    
+
                     <Label Name="GameAdditionalCommandsLabel">Additional DOSBox commands (-c "command") (optional) :</Label>
                     <TextBox Name="GameAdditionalCommandsTextBox" TextWrapping="Wrap"></TextBox>
 
                     <GroupBox>
                         <GroupBox.Header>
-                            <TextBlock Text="Other options"/>
+                            <TextBlock Text="Other options" />
                         </GroupBox.Header>
                         <StackPanel Orientation="Horizontal">
                             <CheckBox Name="FullscreenCheckBox">fullscreen</CheckBox>
@@ -89,4 +89,3 @@
         </StackPanel>
     </StackPanel>
 </Window>
-

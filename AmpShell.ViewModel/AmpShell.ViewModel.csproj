@@ -59,10 +59,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CategoryViewModel.cs" />
-    <Compile Include="DOSBoxViewModel.cs" />
-    <Compile Include="GameViewModel.cs" />
-    <Compile Include="MainViewModel.cs" />
+    <Compile Include="Core\CategoryViewModel.cs" />
+    <Compile Include="DOSBox\DOSBoxViewModel.cs" />
+    <Compile Include="Core\GameViewModel.cs" />
+    <Compile Include="Core\MainViewModel.cs" />
     <Compile Include="Notification\PropertyChangedEventArgs.cs" />
     <Compile Include="Notification\PropertyChangedNotifier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

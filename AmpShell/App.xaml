@@ -1,8 +1,8 @@
 <Application x:Class="AmpShell.App" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:AmpShell" StartupUri="Views/MainWindow.xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" d1p1:Ignorable="d" xmlns:d1p1="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm1="clr-namespace:AmpShell.ViewModel;assembly=AmpShell.ViewModel">
-  <Application.Resources>
-    <ResourceDictionary>
-        <vm1:ViewModelLocator xmlns:vm="clr-namespace:AmpShell" x:Key="Locator" d:IsDataSource="True" />
-    </ResourceDictionary>
-  </Application.Resources>
+    <Application.Resources>
+        <ResourceDictionary>
+            <vm1:ViewModelLocator xmlns:vm="clr-namespace:AmpShell" x:Key="Locator" d:IsDataSource="True" />
+        </ResourceDictionary>
+    </Application.Resources>
 </Application>

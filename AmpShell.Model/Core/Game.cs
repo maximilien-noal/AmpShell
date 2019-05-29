@@ -10,7 +10,7 @@
 
 using System.Xml.Serialization;
 
-namespace AmpShell.Model
+namespace AmpShell.Model.Core
 {
     public class Game
     {

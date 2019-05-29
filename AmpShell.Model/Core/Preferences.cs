@@ -7,13 +7,13 @@
  * See the GNU General Public License for more details.
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
-using System;
+
 using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace AmpShell.Model
+namespace AmpShell.Model.Core
 {
-    [XmlType(TypeName="Window")]
+    [XmlType(TypeName = "Window")]
     public class Preferences : RootModel
     {
         public static readonly List<int> LargeViewModeSizes = new List<int> { 48, 64, 80, 96, 112, 128, 144, 160, 176, 192, 208, 224, 240, 256 };

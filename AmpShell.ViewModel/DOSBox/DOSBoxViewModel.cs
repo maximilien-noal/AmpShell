@@ -7,14 +7,15 @@
  * See the GNU General Public License for more details.
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
-using AmpShell.Model;
+
+using AmpShell.Model.Core;
 using AmpShell.Model.DOSBox;
-using System;
+
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 
-namespace AmpShell.ViewModel
+namespace AmpShell.ViewModel.DOSBox
 {
     /// <summary>
     /// Used to start DOSBox
@@ -31,7 +32,7 @@ namespace AmpShell.ViewModel
         {
             var psi = new ProcessStartInfo(dosboxPath);
 
-            if(string.IsNullOrWhiteSpace(workingDir) == false)
+            if (string.IsNullOrWhiteSpace(workingDir) == false)
             {
                 psi.WorkingDirectory = workingDir;
             }
@@ -66,7 +67,7 @@ namespace AmpShell.ViewModel
             if (string.IsNullOrWhiteSpace(dosBoxExePath) == false && dosBoxExePath != "dosbox.exe isn't is the same directory as AmpShell.exe!" && File.Exists(dosBoxExePath))
             {
                 string quote = char.ToString('"');
-                
+
                 //string for the Game's configuration file.
                 string dosboxConfigPath = string.Empty;
                 //if the "do not use any config file at all" has not been checked
@@ -121,7 +122,7 @@ namespace AmpShell.ViewModel
                     {
                         dosboxArgs = " -c " + '"' + "mount c " + quote + selectedGame.Directory + quote + '"';
                     }
-                    
+
                     //Path for the game's CD image (.bin, .cue, or .iso) mounted as D:
                     if (string.IsNullOrWhiteSpace(selectedGame.CDPath) == false)
                     {

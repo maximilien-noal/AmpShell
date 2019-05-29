@@ -74,7 +74,7 @@
                     </Grid>
                     <GroupBox>
                         <GroupBox.Header>
-                            <TextBlock Text="Other options for each new game :"/>
+                            <TextBlock Text="Other options for each new game :" />
                         </GroupBox.Header>
                         <StackPanel Orientation="Horizontal">
                             <CheckBox Name="FullscreenCheckBox" MinHeight="17" MinWidth="71">fullscreen</CheckBox>
@@ -148,7 +148,7 @@
                 <UniformGrid Name="GrdBehaviorTabPage">
                     <GroupBox>
                         <GroupBox.Header>
-                            <TextBlock Text="Prompt before..."/>
+                            <TextBlock Text="Prompt before..." />
                         </GroupBox.Header>
                         <StackPanel>
                             <CheckBox Name="CategoyDeletePromptCheckBox">Prompt before deleting a category</CheckBox>
@@ -157,7 +157,7 @@
                     </GroupBox>
                     <GroupBox>
                         <GroupBox.Header>
-                            <TextBlock Text="Remember..."/>
+                            <TextBlock Text="Remember..." />
                         </GroupBox.Header>
                         <StackPanel>
                             <CheckBox Name="WindowSizeCheckBox">Window size</CheckBox>
@@ -166,7 +166,7 @@
                     </GroupBox>
                     <GroupBox>
                         <GroupBox.Header>
-                            <TextBlock Text="Show..."/>
+                            <TextBlock Text="Show..." />
                         </GroupBox.Header>
                         <StackPanel>
                             <CheckBox Name="ShowMenuBarCheckBox">Menu bar</CheckBox>
@@ -176,7 +176,7 @@
                     </GroupBox>
                     <GroupBox>
                         <GroupBox.Header>
-                            <TextBlock Text="Do when a game is launched..."/>
+                            <TextBlock Text="Do when a game is launched..." />
                         </GroupBox.Header>
                         <StackPanel>
                             <CheckBox Name="GoToTaskbarButton">Minimize to the taskbar</CheckBox>

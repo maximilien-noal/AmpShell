@@ -7,7 +7,9 @@
  * See the GNU General Public License for more details.
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
-using AmpShell.Model;
+
+using AmpShell.Model.Core;
+
 using System;
 using System.Drawing;
 using System.IO;
@@ -327,7 +329,7 @@ namespace AmpShell.WinForms
                     //if this textbox is empty
                     else
                     {
-                        //make the controls for the game's executable location available 
+                        //make the controls for the game's executable location available
                         GameLocationTextbox.Enabled = true;
                         GameLocationBrowseButton.Enabled = true;
                         GameLocationLabel.Enabled = true;
@@ -503,7 +505,7 @@ namespace AmpShell.WinForms
             {
                 alternateDOSBoxExeFileDialog.InitialDirectory = Directory.GetParent(AlternateDOSBoxLocationTextbox.Text).FullName;
             }
-            else if(string.IsNullOrWhiteSpace(UserPrefs.DBPath) == false && Directory.Exists(Directory.GetParent(UserPrefs.DBPath).FullName))
+            else if (string.IsNullOrWhiteSpace(UserPrefs.DBPath) == false && Directory.Exists(Directory.GetParent(UserPrefs.DBPath).FullName))
             {
                 alternateDOSBoxExeFileDialog.InitialDirectory = UserPrefs.DBPath;
             }

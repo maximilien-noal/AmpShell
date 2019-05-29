@@ -4,7 +4,7 @@
       <vm:ViewModelLocator xmlns:vm="clr-namespace:AmpShell"
                            x:Key="Locator" />
   </Application.Resources>
-  
+
   In the View:
   DataContext="{Binding Source={StaticResource Locator}, Path=ViewModelName}"
 
@@ -12,7 +12,10 @@
   See http://www.galasoft.ch/mvvm
 */
 
+using AmpShell.ViewModel.Core;
+
 using CommonServiceLocator;
+
 using GalaSoft.MvvmLight.Ioc;
 
 namespace AmpShell.ViewModel
@@ -51,7 +54,7 @@ namespace AmpShell.ViewModel
                 return ServiceLocator.Current.GetInstance<MainViewModel>();
             }
         }
-        
+
         public static void Cleanup()
         {
             // TODO Clear the ViewModels

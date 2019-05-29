@@ -7,6 +7,7 @@
  * See the GNU General Public License for more details.
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
+
 using System;
 using System.IO;
 using System.Windows.Forms;
@@ -21,7 +22,7 @@ namespace AmpShell.Model.Configuration
             try
             {
                 string tmpFilePath = Path.Combine(folderPath, Path.GetRandomFileName());
-                while(File.Exists(tmpFilePath) == true)
+                while (File.Exists(tmpFilePath) == true)
                 {
                     tmpFilePath = Path.Combine(folderPath, Path.GetRandomFileName());
                 }
@@ -62,7 +63,7 @@ namespace AmpShell.Model.Configuration
                 //if Local Settings/Application Data/DOSBox exists
                 if (Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\DOSBox"))
                 {
-                    //then, the DOSBox.conf file inside it becomes the default one. 
+                    //then, the DOSBox.conf file inside it becomes the default one.
                     if (Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\DOSBox", "*dosbox*.conf").Length > 0)
                     {
                         confPath = Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\DOSBox", "*dosbox*.conf")[0];
@@ -163,6 +164,7 @@ namespace AmpShell.Model.Configuration
                         dosboxPath = string.Empty;
                         Environment.Exit(0);
                         break;
+
                     case DialogResult.Yes:
                         OpenFileDialog dosboxExeFileDialog = new OpenFileDialog
                         {
@@ -181,6 +183,7 @@ namespace AmpShell.Model.Configuration
                         }
 
                         break;
+
                     case DialogResult.No:
                         dosboxPath = string.Empty;
                         break;

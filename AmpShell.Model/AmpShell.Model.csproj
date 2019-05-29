@@ -59,14 +59,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Category.cs" />
+    <Compile Include="Core\Category.cs" />
     <Compile Include="Configuration\FileFinder.cs" />
     <Compile Include="Configuration\UserDataLoaderSaver.cs" />
     <Compile Include="DOSBox\DOSBoxConfigFile.cs" />
-    <Compile Include="Game.cs" />
-    <Compile Include="Preferences.cs" />
-    <Compile Include="PrefsQuery.cs" />
-    <Compile Include="RootModel.cs" />
+    <Compile Include="Core\Game.cs" />
+    <Compile Include="Core\Preferences.cs" />
+    <Compile Include="Core\PrefsQuery.cs" />
+    <Compile Include="Core\RootModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Serialization\ObjectSerializer.cs" />
     <Compile Include="Shell\LinkTarget.cs" />

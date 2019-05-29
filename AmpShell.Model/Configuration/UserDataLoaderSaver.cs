@@ -7,7 +7,10 @@
  * See the GNU General Public License for more details.
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
+
+using AmpShell.Model.Core;
 using AmpShell.Model.Serialization;
+
 using System;
 using System.IO;
 using System.Windows.Forms;
@@ -138,7 +141,7 @@ namespace AmpShell.Model.Configuration
             {
                 UserPrefs.ConfigEditorPath = FileFinder.SearchCommonTextEditor();
             }
-            
+
             if (string.IsNullOrWhiteSpace(UserPrefs.DBDefaultConfFilePath))
             {
                 UserPrefs.DBDefaultConfFilePath = FileFinder.SearchDOSBoxConf(UserConfigFileDataPath, UserPrefs.DBPath);

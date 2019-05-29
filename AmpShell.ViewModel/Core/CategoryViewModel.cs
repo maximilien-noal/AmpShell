@@ -1,10 +1,6 @@
 ﻿using AmpShell.ViewModel.Notification;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace AmpShell.ViewModel
+namespace AmpShell.ViewModel.Core
 {
     public class CategoryViewModel : PropertyChangedNotifier
     {

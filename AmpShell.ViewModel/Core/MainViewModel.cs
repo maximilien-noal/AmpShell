@@ -1,6 +1,6 @@
 using GalaSoft.MvvmLight;
 
-namespace AmpShell.ViewModel
+namespace AmpShell.ViewModel.Core
 {
     /// <summary>
     /// This class contains properties that the main View can data bind to.

@@ -7,19 +7,21 @@
  * See the GNU General Public License for more details.
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
+
 using AmpShell.WinForms;
+
 using System;
 using System.Windows.Forms;
 
 namespace AmpShell
 {
-    static class Program
+    internal static class Program
     {
         /// <summary>
         /// Application entry point
         /// </summary>
         [STAThread]
-        static void Main()
+        private static void Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

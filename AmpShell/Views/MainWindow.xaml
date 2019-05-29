@@ -13,8 +13,8 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0">
-            <Menu Name="menuStrip" MinHeight="25" HorizontalAlignment="Stretch" VerticalAlignment="Top" >
-                <MenuItem Header="_File" Name="FileToolStripMenuItem" >
+            <Menu Name="menuStrip" MinHeight="25" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                <MenuItem Header="_File" Name="FileToolStripMenuItem">
                     <MenuItem Header="New _category..." Name="NewCategoryToolStripMenuItem" ></MenuItem>
                     <MenuItem Header="_New game..." Name="NewGameToolStripMenuItem" ></MenuItem>
                     <MenuItem Header="_Run selected game" Name="RunGameToolStripMenuItem" ></MenuItem>
@@ -22,7 +22,7 @@
                     <MenuItem Header="" Name="toolStripSeparator1" ></MenuItem>
                     <MenuItem Header="_Quit" Name="QuitterToolStripMenuItem" ></MenuItem>
                 </MenuItem>
-                <MenuItem Header="_Edit" Name="EditToolStripMenuItem" >
+                <MenuItem Header="_Edit" Name="EditToolStripMenuItem">
                     <MenuItem Header="_Edit selected game..." Name="EditSelectedgameToolStripMenuItem" ></MenuItem>
                     <MenuItem Header="Edit game configuration _file..." Name="EditConfigToolStripMenuItem" ></MenuItem>
                     <MenuItem Header="_Make configuration file..." Name="MakeConfigurationFileToolStripMenuItem" ></MenuItem>
@@ -32,85 +32,85 @@
                     <MenuItem Header="" Name="toolStripSeparator2" ></MenuItem>
                     <MenuItem Header="_Preferences..." Name="PreferencesToolStripMenuItem" ></MenuItem>
                 </MenuItem>
-                <MenuItem Header="_Tools" Name="ToolsToolStripMenuItem" >
+                <MenuItem Header="_Tools" Name="ToolsToolStripMenuItem">
                     <MenuItem Header="_Run DOSBox" Name="RunDOSBoxToolStripMenuItem" ></MenuItem>
                     <MenuItem Header="Run configuration _editor" Name="RunConfigurationEditorToolStripMenuItem" ></MenuItem>
                     <MenuItem Header="Edit default configuration" Name="EditDefaultConfigurationToolStripMenuItem" ></MenuItem>
                 </MenuItem>
-                <MenuItem Header="_View" Name="ViewToolStripMenuItem" >
+                <MenuItem Header="_View" Name="ViewToolStripMenuItem">
                     <MenuItem Header="_Large icons" Name="LargeIconToolStripMenuItem" ></MenuItem>
                     <MenuItem Header="_Small icons" Name="SmallIconToolStripMenuItem" ></MenuItem>
                     <MenuItem Header="_Tiles" Name="TileToolStripMenuItem" ></MenuItem>
                     <MenuItem Header="_List" Name="ListToolStripMenuItem" ></MenuItem>
                     <MenuItem Header="_Details" Name="DetailsToolStripMenuItem" ></MenuItem>
                 </MenuItem>
-                <MenuItem Header="_Help" Name="HelpToolStripMenuItem" >
+                <MenuItem Header="_Help" Name="HelpToolStripMenuItem">
                     <MenuItem Header="_About..." Name="AboutToolStripMenuItem" ></MenuItem>
                 </MenuItem>
             </Menu>
-            <ToolBar Name="toolStrip" MinHeight="25" HorizontalAlignment="Stretch" VerticalAlignment="Top" >
+            <ToolBar Name="toolStrip" MinHeight="25" HorizontalAlignment="Stretch" VerticalAlignment="Top">
             <Button Name= "CategoryAddButton">
-                <Image/>
+                <Image />
             </Button>
             <Button Name= "GameAddButton">
-                <Image/>
+                <Image />
             </Button>
             <Button Name= "RunGameButton">
-                <Image/>
+                <Image />
             </Button>
             <Button Name= "RunGameSetupButton">
-                <Image/>
+                <Image />
             </Button>
             <Button Name= "toolStripSeparator7">
-                <Image/>
+                <Image />
             </Button>
             <Button Name= "GameEditButton">
-                <Image/>
+                <Image />
             </Button>
             <Button Name= "GameEditConfigurationButton">
-                <Image/>
+                <Image />
             </Button>
             <Button Name= "MakeConfigButton">
-                <Image/>
+                <Image />
             </Button>
             <Button Name= "CategoryEditButton">
-                <Image/>
+                <Image />
             </Button>
             <Button Name= "GameDeleteButton">
-                <Image/>
+                <Image />
             </Button>
             <Button Name= "CategoryDeleteButton">
-                <Image/>
+                <Image />
             </Button>
             <Button Name= "toolStripSeparator4">
-                <Image/>
+                <Image />
             </Button>
             <Button Name= "RunDOSBoxButton">
-                <Image/>
+                <Image />
             </Button>
             <Button Name= "RunConfigurationEditorButton">
-                <Image/>
+                <Image />
             </Button>
             <Button Name= "EditDefaultConfigurationButton">
-                <Image/>
+                <Image />
             </Button>
             <Button Name= "toolStripSeparator5">
-                <Image/>
+                <Image />
             </Button>
             <Button Name= "LargeIconViewButton">
-                <Image/>
+                <Image />
             </Button>
             <Button Name= "SmallIconViewButton">
-                <Image/>
+                <Image />
             </Button>
             <Button Name= "TilesViewButton">
-                <Image/>
+                <Image />
             </Button>
             <Button Name= "ListViewButton">
-                <Image/>
+                <Image />
             </Button>
             <Button Name= "DetailsViewButton">
-                <Image/>
+                <Image />
             </Button>
         </ToolBar>
         </StackPanel>
@@ -120,4 +120,3 @@
         </Grid>
     </Grid>
 </Window>
-
