@@ -9,6 +9,7 @@
  * If not, see <http://www.gnu.org/licenses/>.*/
 
 using System;
+using System.Windows.Forms;
 using System.Xml.Serialization;
 
 namespace AmpShell.Model.Core
@@ -20,7 +21,7 @@ namespace AmpShell.Model.Core
             Title = string.Empty;
             Random RandSignature = new Random();
             Signature = RandSignature.Next(1048576).ToString();
-            ViewMode = System.Windows.Forms.View.List;
+            ViewMode = View.LargeIcon;
             NameColumnWidth = 150;
             ExecutableColumnWidth = 150;
             CMountColumnWidth = 150;
@@ -68,6 +69,6 @@ namespace AmpShell.Model.Core
 
         public int QuitOnExitColumnWidth { get; set; }
 
-        public System.Windows.Forms.View ViewMode { get; set; }
+        public View ViewMode { get; set; }
     }
 }

@@ -18,13 +18,12 @@ namespace AmpShell.Model.Configuration
     {
         public static bool HasWriteAccessToAssemblyLocationFolder()
         {
-            string folderPath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
             try
             {
-                string tmpFilePath = Path.Combine(folderPath, Path.GetRandomFileName());
+                string tmpFilePath = Path.Combine(PathFinder.GetStartupPath(), Path.GetRandomFileName());
                 while (File.Exists(tmpFilePath) == true)
                 {
-                    tmpFilePath = Path.Combine(folderPath, Path.GetRandomFileName());
+                    tmpFilePath = Path.Combine(PathFinder.GetStartupPath(), Path.GetRandomFileName());
                 }
                 File.Create(tmpFilePath);
                 return true;
@@ -51,11 +50,11 @@ namespace AmpShell.Model.Configuration
         public static string SearchDOSBoxConf(string userConfigDataPath, string DOSBoxExecutablePath)
         {
             string confPath = string.Empty;
-            if (userConfigDataPath == Application.StartupPath + "\\AmpShell.xml")
+            if (userConfigDataPath == PathFinder.GetStartupPath() + "\\AmpShell.xml")
             {
-                if (Directory.GetFiles((Application.StartupPath), "*.conf").Length > 0)
+                if (Directory.GetFiles((PathFinder.GetStartupPath()), "*.conf").Length > 0)
                 {
-                    confPath = Directory.GetFiles((Application.StartupPath), "*.conf")[0];
+                    confPath = Directory.GetFiles((PathFinder.GetStartupPath()), "*.conf")[0];
                 }
             }
             if (string.IsNullOrWhiteSpace(confPath))
@@ -120,11 +119,11 @@ namespace AmpShell.Model.Configuration
         public static string SearchDOSBox(string userConfigDataPath, bool portableMode)
         {
             string dosboxPath = string.Empty;
-            if (userConfigDataPath == Application.StartupPath + "\\AmpShell.xml" && portableMode)
+            if (userConfigDataPath == PathFinder.GetStartupPath() + "\\AmpShell.xml" && portableMode)
             {
-                if (File.Exists(Application.StartupPath + "\\dosbox.exe"))
+                if (File.Exists(PathFinder.GetStartupPath() + "\\dosbox.exe"))
                 {
-                    dosboxPath = Application.StartupPath + "\\dosbox.exe";
+                    dosboxPath = PathFinder.GetStartupPath() + "\\dosbox.exe";
                 }
             }
             else
@@ -153,40 +152,6 @@ namespace AmpShell.Model.Configuration
                             }
                         }
                     }
-                }
-            }
-            //if DOSBoxPath is still empty, say to the user that dosbox's executable cannot be found
-            if (string.IsNullOrWhiteSpace(dosboxPath))
-            {
-                switch (MessageBox.Show("AmpShell cannot find DOSBox, do you want to indicate DOSBox's executable location now ? Choose 'Cancel' to quit.", "Cannot find DOSBox", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question))
-                {
-                    case DialogResult.Cancel:
-                        dosboxPath = string.Empty;
-                        Environment.Exit(0);
-                        break;
-
-                    case DialogResult.Yes:
-                        OpenFileDialog dosboxExeFileDialog = new OpenFileDialog
-                        {
-                            InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
-                            Title = "Please indicate DOSBox's executable location...",
-                            Filter = "DOSBox executable (dosbox*)|dosbox*"
-                        };
-                        if (dosboxExeFileDialog.ShowDialog() == DialogResult.OK)
-                        {
-                            //retrieve the selected dosbox.exe path into Amp.DBPath
-                            dosboxPath = dosboxExeFileDialog.FileName;
-                        }
-                        else
-                        {
-                            dosboxPath = string.Empty;
-                        }
-
-                        break;
-
-                    case DialogResult.No:
-                        dosboxPath = string.Empty;
-                        break;
                 }
             }
             return dosboxPath;
