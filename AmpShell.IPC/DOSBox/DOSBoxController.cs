@@ -16,12 +16,12 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 
-namespace AmpShell.ViewModel.DOSBox
+namespace AmpShell.IPC.DOSBox
 {
     /// <summary>
-    /// Used to start DOSBox
+    /// Used to start DOSBox with a game in it
     /// </summary>
-    public static class DOSBoxViewModel
+    public static class DOSBoxController
     {
         public static void AskForDOSBox()
         {
@@ -239,11 +239,11 @@ namespace AmpShell.ViewModel.DOSBox
             //then for the conf file
             if (string.IsNullOrWhiteSpace(dosboxDefaultLangFilePath) == false)
             {
-                return DOSBoxViewModel.StartDOSBox(dosboxPath, " -conf " + '"' + dosboxDefaultConfFilePath + '"' + languageFile);
+                return DOSBoxController.StartDOSBox(dosboxPath, " -conf " + '"' + dosboxDefaultConfFilePath + '"' + languageFile);
             }
             else
             {
-                return DOSBoxViewModel.StartDOSBox(dosboxPath, languageFile);
+                return DOSBoxController.StartDOSBox(dosboxPath, languageFile);
             }
         }
     }

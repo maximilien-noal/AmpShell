@@ -197,9 +197,9 @@
     <Resource Include="Resources\autoList.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AmpShell.ViewModel\AmpShell.ViewModel.csproj">
+    <ProjectReference Include="..\AmpShell.ViewModel\AmpShell.IPC.csproj">
       <Project>{5f7feb20-f31f-40d2-9d7d-b03283f694cc}</Project>
-      <Name>AmpShell.ViewModel</Name>
+      <Name>AmpShell.IPC</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

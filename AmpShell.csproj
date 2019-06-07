@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -33,7 +33,6 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <SourceAnalysisOverrideSettingsFile>C:\Users\max\AppData\Roaming\ICSharpCode/SharpDevelop3.0\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
     <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
     <NoStdLib>False</NoStdLib>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
@@ -44,6 +43,8 @@
     </UpgradeBackupLocation>
     <OldToolsVersion>3.5</OldToolsVersion>
     <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -55,6 +56,7 @@
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -65,6 +67,7 @@
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
@@ -86,6 +89,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\FileFinder.cs" />
+    <Compile Include="Configuration\PathFinder.cs" />
+    <Compile Include="Configuration\UserDataLoaderSaver.cs" />
+    <Compile Include="Core\Category.cs" />
+    <Compile Include="Core\Game.cs" />
+    <Compile Include="Core\Preferences.cs" />
+    <Compile Include="Core\PrefsQuery.cs" />
+    <Compile Include="Core\RootModel.cs" />
+    <Compile Include="DOSBox\DOSBoxConfigFile.cs" />
+    <Compile Include="DOSBox\DOSBoxController.cs" />
+    <Compile Include="Serialization\ObjectSerializer.cs" />
+    <Compile Include="Shell\LinkTarget.cs" />
     <Compile Include="WinForms\AboutBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -235,22 +250,5 @@
     <None Include="Resources\PlayHS.png" />
     <None Include="Resources\Go.png" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="AmpShell.Model\AmpShell.Model.csproj">
-      <Project>{F9082585-A17B-4BB8-8DEA-6F43817E861B}</Project>
-      <Name>AmpShell.Model</Name>
-    </ProjectReference>
-    <ProjectReference Include="AmpShell.ViewModel\AmpShell.ViewModel.csproj">
-      <Project>{5f7feb20-f31f-40d2-9d7d-b03283f694cc}</Project>
-      <Name>AmpShell.ViewModel</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

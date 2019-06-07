@@ -10,7 +10,6 @@
 
 using System;
 using System.IO;
-using System.Windows.Forms;
 
 namespace AmpShell.Model.Configuration
 {

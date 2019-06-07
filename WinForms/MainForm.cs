@@ -8,10 +8,10 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
 
+using AmpShell.DOSBox;
 using AmpShell.Model.Configuration;
 using AmpShell.Model.Core;
 using AmpShell.Model.Shell;
-using AmpShell.ViewModel.DOSBox;
 using AmpShell.WinForms.UserControls;
 
 using System;
@@ -190,7 +190,7 @@ namespace AmpShell.WinForms
         private void AmpShell_Load(object sender, EventArgs e)
         {
             UserDataLoaderSaver.LoadUserSettings();
-            DOSBoxViewModel.AskForDOSBox();
+            DOSBoxController.AskForDOSBox();
             DisplayUserData();
             _redrawableTabs = TabControl.TabPages.Cast<TabPage>().Where(x => ((ListView)x.Controls[_listViewName]).Items.Count == 0).ToList();
         }
@@ -799,7 +799,7 @@ namespace AmpShell.WinForms
 
         private void StartDOSBox(string dosboxPath, Game selectedGame, bool runSetup, string confFile, string langFile)
         {
-            var dosboxProcess = DOSBoxViewModel.StartDOSBox(dosboxPath, DOSBoxViewModel.BuildArgs(selectedGame, runSetup, dosboxPath, confFile, langFile), Directory.GetParent(selectedGame.Directory).FullName);
+            var dosboxProcess = DOSBoxController.StartDOSBox(dosboxPath, DOSBoxController.BuildArgs(selectedGame, runSetup, dosboxPath, confFile, langFile), Directory.GetParent(selectedGame.Directory).FullName);
             if (dosboxProcess != null)
             {
                 this.WindowState = FormWindowState.Minimized;
@@ -881,7 +881,7 @@ namespace AmpShell.WinForms
         /// </summary>
         private void RunDOSBox_Click(object sender, EventArgs e)
         {
-            var dosboxProcess = DOSBoxViewModel.RunDOSBox(UserDataLoaderSaver.UserPrefs.DBPath, UserDataLoaderSaver.UserPrefs.DBDefaultConfFilePath, UserDataLoaderSaver.UserPrefs.DBDefaultLangFilePath);
+            var dosboxProcess = DOSBoxController.RunDOSBox(UserDataLoaderSaver.UserPrefs.DBPath, UserDataLoaderSaver.UserPrefs.DBDefaultConfFilePath, UserDataLoaderSaver.UserPrefs.DBDefaultLangFilePath);
 
             if (dosboxProcess != null)
             {

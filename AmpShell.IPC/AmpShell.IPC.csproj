@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F9082585-A17B-4BB8-8DEA-6F43817E861B}</ProjectGuid>
+    <ProjectGuid>{5F7FEB20-F31F-40D2-9D7D-B03283F694CC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AmpShell.Model</RootNamespace>
-    <AssemblyName>AmpShell.Model</AssemblyName>
+    <RootNamespace>AmpShell.ICP</RootNamespace>
+    <AssemblyName>AmpShell.IPC</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -43,7 +43,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DOSBox\DOSBoxController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AmpShell.Model\AmpShell.Model.csproj">
+      <Project>{f9082585-a17b-4bb8-8dea-6f43817e861b}</Project>
+      <Name>AmpShell.Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
