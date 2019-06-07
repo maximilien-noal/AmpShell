@@ -8,9 +8,10 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
 
+using AmpShell.Model.Configuration;
 using AmpShell.Model.Core;
 using AmpShell.Model.DOSBox;
-
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
@@ -22,6 +23,41 @@ namespace AmpShell.ViewModel.DOSBox
     /// </summary>
     public static class DOSBoxViewModel
     {
+        public static void AskForDOSBox()
+        {
+            //if DOSBoxPath is still empty, say to the user that dosbox's executable cannot be found
+            if (string.IsNullOrWhiteSpace(UserDataLoaderSaver.UserPrefs.DBPath))
+            {
+                switch (MessageBox.Show("AmpShell cannot find DOSBox, do you want to indicate DOSBox's executable location now ? Choose 'Cancel' to quit.", "Cannot find DOSBox", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question))
+                {
+                    case DialogResult.Cancel:
+                        Environment.Exit(0);
+                        break;
+
+                    case DialogResult.Yes:
+                        OpenFileDialog dosboxExeFileDialog = new OpenFileDialog
+                        {
+                            InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
+                            Title = "Please indicate DOSBox's executable location...",
+                            Filter = "DOSBox executable (dosbox*)|dosbox*"
+                        };
+                        if (dosboxExeFileDialog.ShowDialog() == DialogResult.OK)
+                        {
+                            UserDataLoaderSaver.UserPrefs.DBPath = dosboxExeFileDialog.FileName;
+                        }
+                        else
+                        {
+                            Environment.Exit(0);
+                        }
+                        break;
+
+                    case DialogResult.No:
+                        UserDataLoaderSaver.UserPrefs.DBPath = string.Empty;
+                        break;
+                }
+            }
+        }
+
         /// <summary>
         /// Starts DOSBox, and returns whether it was successful.
         /// </summary>

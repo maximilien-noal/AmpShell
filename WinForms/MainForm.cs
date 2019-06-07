@@ -187,37 +187,7 @@ namespace AmpShell.WinForms
         private void AmpShell_Load(object sender, EventArgs e)
         {
             UserDataLoaderSaver.LoadUserSettings();
-            //if DOSBoxPath is still empty, say to the user that dosbox's executable cannot be found
-            if (string.IsNullOrWhiteSpace(UserDataLoaderSaver.UserPrefs.DBPath))
-            {
-                switch (MessageBox.Show("AmpShell cannot find DOSBox, do you want to indicate DOSBox's executable location now ? Choose 'Cancel' to quit.", "Cannot find DOSBox", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question))
-                {
-                    case DialogResult.Cancel:
-                        Environment.Exit(0);
-                        break;
-
-                    case DialogResult.Yes:
-                        OpenFileDialog dosboxExeFileDialog = new OpenFileDialog
-                        {
-                            InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
-                            Title = "Please indicate DOSBox's executable location...",
-                            Filter = "DOSBox executable (dosbox*)|dosbox*"
-                        };
-                        if (dosboxExeFileDialog.ShowDialog() == DialogResult.OK)
-                        {
-                            UserDataLoaderSaver.UserPrefs.DBPath = dosboxExeFileDialog.FileName;
-                        }
-                        else
-                        {
-                            Environment.Exit(0);
-                        }
-                        break;
-
-                    case DialogResult.No:
-                        UserDataLoaderSaver.UserPrefs.DBPath = string.Empty;
-                        break;
-                }
-            }
+            DOSBoxViewModel.AskForDOSBox();
             DisplayUserData();
             _redrawableTabs = TabControl.TabPages.Cast<TabPage>().Where(x => ((ListView)x.Controls[_listViewName]).Items.Count == 0).ToList();
         }
