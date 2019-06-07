@@ -28,6 +28,9 @@ namespace AmpShell.WinForms
         private const string _listViewName = "GamesListView";
         private bool _ampShellShown;
         private int _hoveredTabIndex;
+        private readonly Timer _redrawWaitTimer = new Timer();
+        private List<TabPage> _redrawableTabs = new List<TabPage>();
+
         private readonly ImageList _gamesLargeImageList = new ImageList();
         private readonly ImageList _gamesSmallImageList = new ImageList();
         private readonly ImageList _gamesMediumImageList = new ImageList();
@@ -468,9 +471,6 @@ namespace AmpShell.WinForms
                 e.Effect = DragDropEffects.None;
             }
         }
-
-        private readonly Timer _redrawWaitTimer = new Timer();
-        private List<TabPage> _redrawableTabs = new List<TabPage>();
 
         /// <summary>
         /// EventHandler for when a drop ends
