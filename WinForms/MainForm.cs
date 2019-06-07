@@ -36,12 +36,12 @@ namespace AmpShell.WinForms
         private readonly ImageList _gamesMediumImageList = new ImageList();
 
         /// <summary>
-        /// //Contextual pop-up menu (right click)
+        /// Context Menu for the ListView
         /// </summary>
         private readonly ContextMenuStrip _currentListViewContextMenuStrip = new ContextMenuStrip();
 
         /// <summary>
-        /// The items of the context pop-up menu
+        /// Context Menu for the TabPages
         /// </summary>
         private readonly ContextMenuStrip _tabContextMenu = new ContextMenuStrip();
 
