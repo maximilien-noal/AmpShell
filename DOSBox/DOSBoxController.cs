@@ -101,116 +101,144 @@ namespace AmpShell.DOSBox
 
             //Arguments string for DOSBox.exe
             string dosboxArgs = string.Empty;
-            if (string.IsNullOrWhiteSpace(dosBoxExePath) == false && dosBoxExePath != "dosbox.exe isn't is the same directory as AmpShell.exe!" && File.Exists(dosBoxExePath))
+            if (string.IsNullOrWhiteSpace(dosBoxExePath) == true || dosBoxExePath == "dosbox.exe isn't is the same directory as AmpShell.exe!" || File.Exists(dosBoxExePath) == false)
             {
+                throw new FileNotFoundException("DOSBox not found!");
+            }
 
-                //string for the Game's configuration file.
-                string dosboxConfigPath = string.Empty;
-                //if the "do not use any config file at all" has not been checked
-                if (selectedGame.NoConfig == false)
-                {
-                    //use at first the game's custom config file
-                    if (string.IsNullOrWhiteSpace(selectedGame.DBConfPath) == false)
-                    {
-                        dosboxConfigPath = selectedGame.DBConfPath;
-                    }
-                    //if not, use the default dosbox.conf file
-                    else if (string.IsNullOrWhiteSpace(dosboxDefaultConfFilePath) == false && dosboxDefaultConfFilePath != "No configuration file (*.conf) found in AmpShell's directory.")
-                    {
-                        dosboxConfigPath = dosboxDefaultConfFilePath;
-                    }
-                }
+            dosboxArgs += AddCustomConfigFile(selectedGame, dosboxDefaultConfFilePath);
 
-                if (string.IsNullOrWhiteSpace(dosboxConfigPath) == false)
-                {
-                    dosboxArgs = dosboxArgs + " -conf " + '"' + dosboxConfigPath + '"';
-                }
-                //Path for the default language file used for DOSBox and specified by the user in the Tools menu
-                if (string.IsNullOrWhiteSpace(dosboxDefaultLangFilePath) == false && dosboxDefaultLangFilePath != "No language file (*.lng) found in AmpShell's directory.")
-                {
-                    dosboxArgs = dosboxArgs + " -lang " + '"' + dosboxDefaultLangFilePath + '"';
-                }
+            dosboxArgs += AddPrefsLangFile(dosboxDefaultLangFilePath);
 
-                //Additionnal user commands for the game
-                if (string.IsNullOrWhiteSpace(selectedGame.AdditionalCommands) == false)
-                {
-                    dosboxArgs = dosboxArgs + " " + selectedGame.AdditionalCommands;
-                }
+            dosboxArgs += AddAdditionnalCommands(selectedGame, forSetupExe, configFile);
 
-                //The arguments for DOSBox begins with the game executable (.exe, .bat, or .com)
-                if (string.IsNullOrWhiteSpace(selectedGame.DOSEXEPath) == false)
-                {
-                    if (!forSetupExe)
-                    {
-                        dosboxArgs = '"' + selectedGame.DOSEXEPath + '"';
-                    }
-                    else
-                    {
-                        dosboxArgs = '"' + selectedGame.SetupEXEPath + '"';
-                    }
-                }
-                //the game directory mounted as C (if the DOSEXEPath is specified, the DOSEXEPath parent directory will be mounted as C: by DOSBox
-                //hence the "else if" instead of "if".
-                else if (string.IsNullOrWhiteSpace(selectedGame.Directory) == false)
-                {
-                    dosboxArgs = " -c " + '"' + "mount c " + "'" + selectedGame.Directory + "'" + '"';
-                }
+            //corresponds to the Fullscreen checkbox in GameForm
+            if (selectedGame.InFullScreen == true)
+            {
+                dosboxArgs += " -fullscreen";
+            }
+            //corresponds to the "no console" checkbox in the GameForm
+            if (selectedGame.NoConsole == true)
+            {
+                dosboxArgs += " -noconsole";
+            }
+            //corresponds to the "quit on exit (only for .exe)" checkbox in the GameForm
+            if (selectedGame.QuitOnExit == true)
+            {
+                dosboxArgs += " -exit";
+            }
 
-                //Path for the game's CD image (.bin, .cue, or .iso) mounted as D:
-                if (string.IsNullOrWhiteSpace(selectedGame.CDPath) == false)
-                {
-                    //put ' and _not_ " after imgmount (or else the path will be misunderstood by DOSBox).
-                    if (selectedGame.CDIsAnImage == true)
-                    {
-                        dosboxArgs = dosboxArgs + " -c " + '"' + "imgmount";
-                        if (selectedGame.MountAsFloppy == true)
-                        {
-                            dosboxArgs = dosboxArgs + " a " + "'" + selectedGame.CDPath + "'" + " -t floppy" + '"';
-                        }
-                        else
-                        {
-                            dosboxArgs = dosboxArgs + " d " + "'" + selectedGame.CDPath + "'" + " -t iso" + '"';
-                        }
-                    }
-                    else
-                    {
-                        if (selectedGame.UseIOCTL == true)
-                        {
-                            dosboxArgs = dosboxArgs + " -c " + '"' + "mount d " + "'" + selectedGame.CDPath + "'" + " -t cdrom -usecd 0 -ioctl" + '"';
-                        }
-                        else if (selectedGame.MountAsFloppy == true)
-                        {
-                            dosboxArgs = dosboxArgs + " -c " + '"' + "mount a " + "'" + selectedGame.CDPath + "'" + " -t floppy" + '"';
-                        }
-                        else
-                        {
-                            dosboxArgs = dosboxArgs + " -c " + '"' + "mount d " + "'" + selectedGame.CDPath + "'";
-                        }
-                    }
-                }
-                //corresponds to the Fullscreen checkbox in GameForm
-                if (selectedGame.InFullScreen == true)
-                {
-                    dosboxArgs += " -fullscreen";
-                }
-                //corresponds to the "no console" checkbox in the GameForm
-                if (selectedGame.NoConsole == true)
-                {
-                    dosboxArgs += " -noconsole";
-                }
-                //corresponds to the "quit on exit (only for .exe)" checkbox in the GameForm
-                if (selectedGame.QuitOnExit == true)
-                {
-                    dosboxArgs += " -exit";
-                }
+            return dosboxArgs;
+        }
 
+        private static string AddCustomConfigFile(Game selectedGame, string dosboxDefaultConfFilePath)
+        {
+            string gameConfigFilePath = string.Empty;
+
+            //if the "do not use any config file at all" has not been checked
+            if (selectedGame.NoConfig == false)
+            {
+                //use at first the game's custom config file
+                if (string.IsNullOrWhiteSpace(selectedGame.DBConfPath) == false)
+                {
+                    gameConfigFilePath = selectedGame.DBConfPath;
+                }
+                //if not, use the default dosbox.conf file
+                else if (string.IsNullOrWhiteSpace(dosboxDefaultConfFilePath) == false && dosboxDefaultConfFilePath != "No configuration file (*.conf) found in AmpShell's directory.")
+                {
+                    gameConfigFilePath = dosboxDefaultConfFilePath;
+                }
+            }
+            string dosboxArgs = "";
+            if (string.IsNullOrWhiteSpace(gameConfigFilePath) == false)
+            {
+                dosboxArgs += " -conf " + '"' + gameConfigFilePath + '"';
+            }
+
+            return dosboxArgs;
+        }
+
+        /// <summary>
+        /// Path for the default language file used for DOSBox and specified by the user in the Tools menu
+        /// </summary>
+        /// <param name="dosboxDefaultLangFilePath"></param>
+        /// <returns></returns>
+        private static string AddPrefsLangFile(string dosboxDefaultLangFilePath)
+        {
+            string dosboxArgs = "";
+            if (string.IsNullOrWhiteSpace(dosboxDefaultLangFilePath) == false && dosboxDefaultLangFilePath != "No language file (*.lng) found in AmpShell's directory.")
+            {
+                dosboxArgs += " -lang " + '"' + dosboxDefaultLangFilePath + '"';
+            }
+
+            return dosboxArgs;
+        }
+
+        private static string AddAdditionnalCommands(Game selectedGame, bool forSetupExe, DOSBoxConfigFile configFile)
+        {
+            string dosboxArgs = "";
+            if (configFile.IsAutoExecSectionUsed() == true)
+            {
                 return dosboxArgs;
             }
-            else
+            //The arguments for DOSBox begins with the game executable (.exe, .bat, or .com)
+            if (string.IsNullOrWhiteSpace(selectedGame.DOSEXEPath) == false)
             {
-                MessageBox.Show("DOSBox cannot be run (was it deleted ?) !", "Game Launch", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return string.Empty;
+                if (!forSetupExe)
+                {
+                    dosboxArgs = '"' + selectedGame.DOSEXEPath + '"';
+                }
+                else
+                {
+                    dosboxArgs = '"' + selectedGame.SetupEXEPath + '"';
+                }
             }
+            //the game directory mounted as C (if the DOSEXEPath is specified, the DOSEXEPath parent directory will be mounted as C: by DOSBox
+            //hence the "else if" instead of "if".
+            else if (string.IsNullOrWhiteSpace(selectedGame.Directory) == false)
+            {
+                dosboxArgs = " -c " + '"' + "mount c " + "'" + selectedGame.Directory + "'" + '"';
+            }
+
+            //Path for the game's CD image (.bin, .cue, or .iso) mounted as D:
+            if (string.IsNullOrWhiteSpace(selectedGame.CDPath) == false)
+            {
+                //put ' and _not_ " after imgmount (or else the path will be misunderstood by DOSBox).
+                if (selectedGame.CDIsAnImage == true)
+                {
+                    dosboxArgs += " -c " + '"' + "imgmount";
+                    if (selectedGame.MountAsFloppy == true)
+                    {
+                        dosboxArgs += " a " + "'" + selectedGame.CDPath + "'" + " -t floppy" + '"';
+                    }
+                    else
+                    {
+                        dosboxArgs += " d " + "'" + selectedGame.CDPath + "'" + " -t iso" + '"';
+                    }
+                }
+                else
+                {
+                    if (selectedGame.UseIOCTL == true)
+                    {
+                        dosboxArgs += " -c " + '"' + "mount d " + "'" + selectedGame.CDPath + "'" + " -t cdrom -usecd 0 -ioctl" + '"';
+                    }
+                    else if (selectedGame.MountAsFloppy == true)
+                    {
+                        dosboxArgs += " -c " + '"' + "mount a " + "'" + selectedGame.CDPath + "'" + " -t floppy" + '"';
+                    }
+                    else
+                    {
+                        dosboxArgs += " -c " + '"' + "mount d " + "'" + selectedGame.CDPath + "'";
+                    }
+                }
+            }
+            //Additionnal user commands for the game
+            if (string.IsNullOrWhiteSpace(selectedGame.AdditionalCommands) == false)
+            {
+                dosboxArgs += " " + selectedGame.AdditionalCommands;
+            }
+
+            return dosboxArgs;
         }
 
         /// <summary>
@@ -220,7 +248,7 @@ namespace AmpShell.DOSBox
         /// <param name="dosboxDefaultConfFilePath">Path to DOSBox.conf</param>
         /// <param name="dosboxDefaultLangFilePath">Path to DOSBox.lng</param>
         /// <returns>The DOSBox process if it started successfully, null otherwise</returns>
-        public static Process RunDOSBox(string dosboxPath, string dosboxDefaultConfFilePath, string dosboxDefaultLangFilePath)
+        public static Process RunOnlyDOSBox(string dosboxPath, string dosboxDefaultConfFilePath, string dosboxDefaultLangFilePath)
         {
             if (string.IsNullOrWhiteSpace(dosboxPath) == true)
             {

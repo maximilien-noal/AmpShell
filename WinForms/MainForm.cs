@@ -799,11 +799,18 @@ namespace AmpShell.WinForms
 
         private void StartDOSBox(string dosboxPath, Game selectedGame, bool runSetup, string confFile, string langFile)
         {
-            var dosboxProcess = DOSBoxController.StartDOSBox(dosboxPath, DOSBoxController.BuildArgs(selectedGame, runSetup, dosboxPath, confFile, langFile), Directory.GetParent(selectedGame.Directory).FullName);
-            if (dosboxProcess != null)
+            try
             {
-                this.WindowState = FormWindowState.Minimized;
-                dosboxProcess.Exited += OnDOSBoxExit;
+                var dosboxProcess = DOSBoxController.StartDOSBox(dosboxPath, DOSBoxController.BuildArgs(selectedGame, runSetup, dosboxPath, confFile, langFile), Directory.GetParent(selectedGame.Directory).FullName);
+                if (dosboxProcess != null)
+                {
+                    this.WindowState = FormWindowState.Minimized;
+                    dosboxProcess.Exited += OnDOSBoxExit;
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                MessageBox.Show("DOSBox cannot be run (was it deleted ?) !", "Game Launch", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -881,7 +888,7 @@ namespace AmpShell.WinForms
         /// </summary>
         private void RunDOSBox_Click(object sender, EventArgs e)
         {
-            var dosboxProcess = DOSBoxController.RunDOSBox(UserDataLoaderSaver.UserPrefs.DBPath, UserDataLoaderSaver.UserPrefs.DBDefaultConfFilePath, UserDataLoaderSaver.UserPrefs.DBDefaultLangFilePath);
+            var dosboxProcess = DOSBoxController.RunOnlyDOSBox(UserDataLoaderSaver.UserPrefs.DBPath, UserDataLoaderSaver.UserPrefs.DBDefaultConfFilePath, UserDataLoaderSaver.UserPrefs.DBDefaultLangFilePath);
 
             if (dosboxProcess != null)
             {
