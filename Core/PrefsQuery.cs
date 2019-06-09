@@ -8,9 +8,9 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
 
-namespace AmpShell.UserData
+namespace AmpShell.Model.Core
 {
-    public static class UserPrefsQuery
+    public static class PrefsQuery
     {
         /// <summary>
         /// Used when a new Category or Game is created : it's signature must be unique
@@ -19,15 +19,15 @@ namespace AmpShell.UserData
         /// <param name="signatureToTest">A Category's or Game's signature</param>
         /// <param name="userPrefs">The UserData, containing all the categories and games and their signatures</param>
         /// <returns>Whether the signature equals none of the other ones, or not</returns>
-        public static bool IsItAUniqueSignature(this UserPrefs userPrefs, string signatureToTest)
+        public static bool IsItAUniqueSignature(this Preferences userPrefs, string signatureToTest)
         {
-            foreach (UserCategory otherCat in userPrefs.ListChildren)
+            foreach (Category otherCat in userPrefs.ListChildren)
             {
                 if (otherCat.Signature != signatureToTest)
                 {
                     if (otherCat.ListChildren.Length != 0)
                     {
-                        foreach (UserGame otherGame in otherCat.ListChildren)
+                        foreach (Game otherGame in otherCat.ListChildren)
                         {
                             if (otherGame.Signature == signatureToTest)
                             {

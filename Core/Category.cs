@@ -7,19 +7,21 @@
  * See the GNU General Public License for more details.
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
+
 using System;
+using System.Windows.Forms;
 using System.Xml.Serialization;
 
-namespace AmpShell.UserData
+namespace AmpShell.Model.Core
 {
-    public class UserCategory : UserDataRoot
+    public class Category : RootModel
     {
-        public UserCategory() : base()
+        public Category() : base()
         {
             Title = string.Empty;
             Random RandSignature = new Random();
             Signature = RandSignature.Next(1048576).ToString();
-            ViewMode = System.Windows.Forms.View.List;
+            ViewMode = View.LargeIcon;
             NameColumnWidth = 150;
             ExecutableColumnWidth = 150;
             CMountColumnWidth = 150;
@@ -33,7 +35,7 @@ namespace AmpShell.UserData
             QuitOnExitColumnWidth = 100;
         }
 
-        public UserCategory(string CategoryTitle, string CategorySignature)
+        public Category(string CategoryTitle, string CategorySignature)
         {
             Title = CategoryTitle;
             Signature = CategorySignature;
@@ -67,6 +69,6 @@ namespace AmpShell.UserData
 
         public int QuitOnExitColumnWidth { get; set; }
 
-        public System.Windows.Forms.View ViewMode { get; set; }
+        public View ViewMode { get; set; }
     }
 }

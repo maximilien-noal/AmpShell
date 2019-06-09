@@ -7,7 +7,9 @@
  * See the GNU General Public License for more details.
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
-using AmpShell.UserData;
+
+using AmpShell.Model.Core;
+
 using System;
 using System.Drawing;
 using System.IO;
@@ -17,10 +19,10 @@ namespace AmpShell.WinForms
 {
     public partial class GameForm : Form
     {
-        public GameForm(UserPrefs userPrefs)
+        public GameForm(Preferences userPrefs)
         {
             InitializeComponent();
-            GameInstance = new UserGame();
+            GameInstance = new Game();
             UserPrefs = userPrefs;
             NoConsoleCheckBox.Checked = UserPrefs.GamesNoConsole;
             FullscreenCheckBox.Checked = UserPrefs.GamesInFullScreen;
@@ -33,7 +35,7 @@ namespace AmpShell.WinForms
         /// </summary>
         /// <param name="editedGame"></param>
         /// <param name="userPrefs"></param>
-        public GameForm(UserGame editedGame, UserPrefs userPrefs)
+        public GameForm(Game editedGame, Preferences userPrefs)
         {
             InitializeComponent();
             GameInstance = editedGame;
@@ -84,9 +86,9 @@ namespace AmpShell.WinForms
             AlternateDOSBoxLocationTextbox.Text = AlternateDOSBoxLocationTextbox.Text.Replace("AppPath", Application.StartupPath);
         }
 
-        public UserGame GameInstance { get; private set; }
+        public Game GameInstance { get; private set; }
 
-        public UserPrefs UserPrefs { get; private set; }
+        public Preferences UserPrefs { get; private set; }
 
         private void Cancel_Click(object sender, EventArgs e)
         {
@@ -327,7 +329,7 @@ namespace AmpShell.WinForms
                     //if this textbox is empty
                     else
                     {
-                        //make the controls for the game's executable location available 
+                        //make the controls for the game's executable location available
                         GameLocationTextbox.Enabled = true;
                         GameLocationBrowseButton.Enabled = true;
                         GameLocationLabel.Enabled = true;
@@ -503,7 +505,7 @@ namespace AmpShell.WinForms
             {
                 alternateDOSBoxExeFileDialog.InitialDirectory = Directory.GetParent(AlternateDOSBoxLocationTextbox.Text).FullName;
             }
-            else if(string.IsNullOrWhiteSpace(UserPrefs.DBPath) == false && Directory.Exists(Directory.GetParent(UserPrefs.DBPath).FullName))
+            else if (string.IsNullOrWhiteSpace(UserPrefs.DBPath) == false && Directory.Exists(Directory.GetParent(UserPrefs.DBPath).FullName))
             {
                 alternateDOSBoxExeFileDialog.InitialDirectory = UserPrefs.DBPath;
             }

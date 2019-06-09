@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace AmpShell.Backend
+namespace AmpShell.Model.DOSBox
 {
     /// <summary>
     /// Represents a DOSBox Config File
     /// </summary>
-    class DOSBoxConfigFile
+    public class DOSBoxConfigFile
     {
         private List<string> configFileContent = new List<string>();
 
         public DOSBoxConfigFile(string configFilePath)
         {
-            if(string.IsNullOrWhiteSpace(configFilePath) || File.Exists(configFilePath) == false)
+            if (string.IsNullOrWhiteSpace(configFilePath) || File.Exists(configFilePath) == false)
             {
                 return;
             }
@@ -32,7 +32,7 @@ namespace AmpShell.Backend
             get
             {
                 int index = configFileContent.LastIndexOf("[AUTOEXEC]");
-                if(index != -1)
+                if (index != -1)
                 {
                     var range = new Tuple<int, int>(index + 1, Math.Abs(index - (configFileContent.Count() - 1)));
                     var section = configFileContent.GetRange(range.Item1, range.Item2);
@@ -42,6 +42,5 @@ namespace AmpShell.Backend
                 return string.Empty;
             }
         }
-
     }
 }

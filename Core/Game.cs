@@ -10,11 +10,11 @@
 
 using System.Xml.Serialization;
 
-namespace AmpShell.UserData
+namespace AmpShell.Model.Core
 {
-    public class UserGame
+    public class Game
     {
-        public UserGame()
+        public Game()
         {
             Name = string.Empty;
             SetupEXEPath = string.Empty;

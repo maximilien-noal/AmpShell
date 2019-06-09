@@ -8,24 +8,13 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
 
-using AmpShell.WinForms;
-
-using System;
-using System.Windows.Forms;
-
-namespace AmpShell
+namespace AmpShell.Model.Configuration
 {
-    internal static class Program
+    public static class PathFinder
     {
-        /// <summary>
-        /// Application entry point
-        /// </summary>
-        [STAThread]
-        private static void Main()
+        public static string GetStartupPath()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+            return System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
         }
     }
 }

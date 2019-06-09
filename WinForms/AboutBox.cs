@@ -7,6 +7,7 @@
  * See the GNU General Public License for more details.
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
+
 using System;
 using System.Reflection;
 using System.Windows.Forms;
@@ -24,6 +25,7 @@ namespace AmpShell.WinForms
             LabelCopyright.Text = AssemblyCopyright;
             TextBoxDescription.Text = AssemblyDescription;
         }
+
         #region Accesseurs d'attribut de l'assembly
 
         public string AssemblyTitle
@@ -102,6 +104,7 @@ namespace AmpShell.WinForms
                 return ((AssemblyCompanyAttribute)attributes[0]).Company;
             }
         }
-        #endregion
+
+        #endregion Accesseurs d'attribut de l'assembly
     }
 }
