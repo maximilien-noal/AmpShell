@@ -13,7 +13,7 @@ using System.IO;
 using System.Text;
 using System.Xml.Serialization;
 
-namespace AmpShell.Model.Serialization
+namespace AmpShell.Serialization
 {
     public static class ObjectSerializer
     {

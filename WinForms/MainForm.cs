@@ -9,9 +9,9 @@
  * If not, see <http://www.gnu.org/licenses/>.*/
 
 using AmpShell.DOSBox;
-using AmpShell.Model.Configuration;
-using AmpShell.Model.Core;
-using AmpShell.Model.Shell;
+using AmpShell.Configuration;
+using AmpShell.Model;
+using AmpShell.WinShell;
 using AmpShell.WinForms.UserControls;
 
 using System;

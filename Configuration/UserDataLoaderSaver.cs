@@ -8,13 +8,13 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
 
-using AmpShell.Model.Core;
-using AmpShell.Model.Serialization;
+using AmpShell.Model;
+using AmpShell.Serialization;
 
 using System;
 using System.IO;
 
-namespace AmpShell.Model.Configuration
+namespace AmpShell.Configuration
 {
     public static class UserDataLoaderSaver
     {

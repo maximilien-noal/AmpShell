@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace AmpShell.Model.DOSBox
+namespace AmpShell.DOSBox
 {
     /// <summary>
     /// Represents a DOSBox Config File

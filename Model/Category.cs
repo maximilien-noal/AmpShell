@@ -12,7 +12,7 @@ using System;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 
-namespace AmpShell.Model.Core
+namespace AmpShell.Model
 {
     public class Category : RootModel
     {

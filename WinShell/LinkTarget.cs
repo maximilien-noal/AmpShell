@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace AmpShell.Model.Shell
+namespace AmpShell.WinShell
 {
     [Flags()]
     internal enum SLGP_FLAGS

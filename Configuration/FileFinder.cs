@@ -11,7 +11,7 @@
 using System;
 using System.IO;
 
-namespace AmpShell.Model.Configuration
+namespace AmpShell.Configuration
 {
     public static class FileFinder
     {

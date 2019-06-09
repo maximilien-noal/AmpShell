@@ -11,7 +11,7 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace AmpShell.Model.Core
+namespace AmpShell.Model
 {
     /// <summary>
     /// Root node for the xml file
