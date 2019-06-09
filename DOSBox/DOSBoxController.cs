@@ -64,13 +64,13 @@ namespace AmpShell.DOSBox
         /// <param name="dosboxPath">Path to DOSBox.exe</param>
         /// <param name="args">Command line args passed to DOSBox</param>
         /// <returns>True if DOSBox started, false if it did not</returns>
-        public static Process StartDOSBox(string dosboxPath, string args, string workingDir = "")
+        public static Process StartDOSBox(string dosboxPath, string args, string customConfFilePath = "")
         {
             var psi = new ProcessStartInfo(dosboxPath);
 
-            if (string.IsNullOrWhiteSpace(workingDir) == false)
+            if (string.IsNullOrWhiteSpace(customConfFilePath) == false)
             {
-                psi.WorkingDirectory = workingDir;
+                psi.WorkingDirectory = Path.GetDirectoryName(customConfFilePath);
             }
 
             if (string.IsNullOrWhiteSpace(args) == false)

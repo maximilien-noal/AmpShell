@@ -801,7 +801,7 @@ namespace AmpShell.WinForms
         {
             try
             {
-                var dosboxProcess = DOSBoxController.StartDOSBox(dosboxPath, DOSBoxController.BuildArgs(selectedGame, runSetup, dosboxPath, confFile, langFile), Directory.GetParent(selectedGame.Directory).FullName);
+                var dosboxProcess = DOSBoxController.StartDOSBox(dosboxPath, DOSBoxController.BuildArgs(selectedGame, runSetup, dosboxPath, confFile, langFile), selectedGame.DBConfPath);
                 if (dosboxProcess != null)
                 {
                     this.WindowState = FormWindowState.Minimized;
