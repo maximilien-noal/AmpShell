@@ -147,17 +147,7 @@ namespace AmpShell.WinForms
 
         private void Main_Prefs_Load(object sender, EventArgs e)
         {
-            if (FileFinder.HasWriteAccessToAssemblyLocationFolder() == false)
-            {
-                PortableModeCheckBox.Enabled = false;
-                PortableModeCheckBox.Checked = false;
-                StatusStripLabel.Text = "Portable Mode : unavailable (AmpShell cannot write in the folder where it is located).";
-            }
-            else
-            {
-                PortableModeCheckBox.Checked = SavedUserPrefs.PortableMode;
-                StatusStripLabel.Text = "Portable Mode : available (but disabled).";
-            }
+            CheckForPortableModeAvailability();
             LargeViewModeSizeComboBox.Text = LargeViewModeSizeComboBox.Items[Preferences.LargeViewModeSizes.IndexOf(SavedUserPrefs.LargeViewModeSize)].ToString();
             CategoyDeletePromptCheckBox.Checked = SavedUserPrefs.CategoryDeletePrompt;
             GameDeletePromptCheckBox.Checked = SavedUserPrefs.GameDeletePrompt;
@@ -248,6 +238,21 @@ namespace AmpShell.WinForms
             }
             PortableModeCheckBox.Checked = SavedUserPrefs.PortableMode;
             PortableModeCheckBox_CheckedChanged(sender, EventArgs.Empty);
+        }
+
+        private void CheckForPortableModeAvailability()
+        {
+            if (FileFinder.HasWriteAccessToAssemblyLocationFolder() == false)
+            {
+                PortableModeCheckBox.Enabled = false;
+                PortableModeCheckBox.Checked = false;
+                StatusStripLabel.Text = "Portable Mode : unavailable (AmpShell cannot write in the folder where it is located).";
+            }
+            else
+            {
+                PortableModeCheckBox.Checked = SavedUserPrefs.PortableMode;
+                StatusStripLabel.Text = "Portable Mode : available (but disabled).";
+            }
         }
 
         private void MoveFirstButton_Click(object sender, EventArgs e)
@@ -493,6 +498,7 @@ namespace AmpShell.WinForms
                 EditorBinaryPathTextBox.Text = SavedUserPrefs.ConfigEditorPath;
                 StatusStripLabel.Text = "Portable Mode : available (but disabled).";
             }
+            CheckForPortableModeAvailability();
         }
 
         private void ReScanDirButton_Click(object sender, EventArgs e)
