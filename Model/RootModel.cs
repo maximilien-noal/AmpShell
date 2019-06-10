@@ -53,15 +53,6 @@ namespace AmpShell.Model
             _children.Add(child);
         }
 
-        public void MoveChildToFirst(object child)
-        {
-            if (_children.Contains(child))
-            {
-                _children.Remove(child);
-                _children.Insert(0, child);
-            }
-        }
-
         public void MoveChildToPosition(object child, int index)
         {
             if (_children.Contains(child))
