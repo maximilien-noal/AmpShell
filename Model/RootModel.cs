@@ -22,7 +22,7 @@ namespace AmpShell.Model
         /// <summary>
         /// List that will build up the tree of categories and games through the AddChild and RemoveChild and ListChildren methods
         /// </summary>
-        private readonly List<object> _children;
+        private readonly List<object> _children = new List<object>();
 
         public RootModel()
         {
@@ -38,12 +38,9 @@ namespace AmpShell.Model
             set
             {
                 _children.Clear();
-                if (value != _children.ToArray())
+                if (value != null && value != _children.ToArray())
                 {
-                    if (value != null)
-                    {
-                        _children.AddRange(value);
-                    }
+                    _children.AddRange(value);
                 }
             }
         }
