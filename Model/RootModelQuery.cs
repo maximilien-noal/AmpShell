@@ -17,11 +17,11 @@ namespace AmpShell.Model
         /// so AmpShell can recognize it instantly
         /// </summary>
         /// <param name="signatureToTest">A Category's or Game's signature</param>
-        /// <param name="userPrefs">The UserData, containing all the categories and games and their signatures</param>
+        /// <param name="userData">The UserData, containing all the categories and games and their signatures</param>
         /// <returns>Whether the signature equals none of the other ones, or not</returns>
-        public static bool IsItAUniqueSignature(this RootModel userPrefs, string signatureToTest)
+        public static bool IsItAUniqueSignature(this RootModel userData, string signatureToTest)
         {
-            foreach (Category otherCat in userPrefs.ListChildren)
+            foreach (Category otherCat in userData.ListChildren)
             {
                 if (otherCat.Signature != signatureToTest)
                 {

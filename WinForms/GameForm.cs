@@ -19,11 +19,11 @@ namespace AmpShell.WinForms
 {
     public partial class GameForm : Form
     {
-        public GameForm(RootModel userPrefs)
+        public GameForm(RootModel userData)
         {
             InitializeComponent();
             GameInstance = new Game();
-            UserPrefs = userPrefs;
+            UserPrefs = userData;
             NoConsoleCheckBox.Checked = UserPrefs.GamesNoConsole;
             FullscreenCheckBox.Checked = UserPrefs.GamesInFullScreen;
             QuitOnExitCheckBox.Checked = UserPrefs.GamesQuitOnExit;
@@ -34,12 +34,12 @@ namespace AmpShell.WinForms
         /// Alternate constructor for when an existing game is going to be edited
         /// </summary>
         /// <param name="editedGame"></param>
-        /// <param name="userPrefs"></param>
-        public GameForm(Game editedGame, RootModel userPrefs)
+        /// <param name="userData"></param>
+        public GameForm(Game editedGame, RootModel userData)
         {
             InitializeComponent();
             GameInstance = editedGame;
-            UserPrefs = userPrefs;
+            UserPrefs = userData;
 
             //fill the form with the Game's data.
             Text = "Editing " + GameInstance.Name + "...";

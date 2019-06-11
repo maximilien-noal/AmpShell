@@ -20,7 +20,7 @@ namespace AmpShell.Configuration
     {
         static UserDataLoaderSaver()
         {
-            UserPrefs = new RootModel();
+            UserData = new RootModel();
         }
 
         /// <summary>
@@ -31,18 +31,18 @@ namespace AmpShell.Configuration
         /// <summary>
         /// Object to load and save user data through XML (de)serialization
         /// </summary>
-        public static RootModel UserPrefs { get; private set; }
+        public static RootModel UserData { get; private set; }
 
         public static void SaveUserSettings()
         {
             //saves the data inside Amp by serliazing it in AmpShell.xml
-            if (!UserPrefs.PortableMode)
+            if (!UserData.PortableMode)
             {
-                ObjectSerializer.Serialize(UserDataLoaderSaver.UserConfigFileDataPath, UserPrefs, typeof(ModelWithChildren));
+                ObjectSerializer.Serialize(UserDataLoaderSaver.UserConfigFileDataPath, UserData, typeof(ModelWithChildren));
             }
             else
             {
-                foreach (Category category in UserPrefs.ListChildren)
+                foreach (Category category in UserData.ListChildren)
                 {
                     foreach (Game game in category.ListChildren)
                     {
@@ -55,12 +55,12 @@ namespace AmpShell.Configuration
                         game.Icon = game.Icon.Replace(PathFinder.GetStartupPath(), "AppPath");
                     }
                 }
-                UserPrefs.DBDefaultConfFilePath = UserPrefs.DBDefaultConfFilePath.Replace(PathFinder.GetStartupPath(), "AppPath");
-                UserPrefs.DBDefaultLangFilePath = UserPrefs.DBDefaultLangFilePath.Replace(PathFinder.GetStartupPath(), "AppPath");
-                UserPrefs.DBPath = UserPrefs.DBPath.Replace(PathFinder.GetStartupPath(), "AppPath");
-                UserPrefs.ConfigEditorPath = UserPrefs.ConfigEditorPath.Replace(PathFinder.GetStartupPath(), "AppPath");
-                UserPrefs.ConfigEditorAdditionalParameters = UserPrefs.ConfigEditorAdditionalParameters.Replace(PathFinder.GetStartupPath(), "AppPath");
-                ObjectSerializer.Serialize(PathFinder.GetStartupPath() + "\\AmpShell.xml", UserPrefs, typeof(ModelWithChildren));
+                UserData.DBDefaultConfFilePath = UserData.DBDefaultConfFilePath.Replace(PathFinder.GetStartupPath(), "AppPath");
+                UserData.DBDefaultLangFilePath = UserData.DBDefaultLangFilePath.Replace(PathFinder.GetStartupPath(), "AppPath");
+                UserData.DBPath = UserData.DBPath.Replace(PathFinder.GetStartupPath(), "AppPath");
+                UserData.ConfigEditorPath = UserData.ConfigEditorPath.Replace(PathFinder.GetStartupPath(), "AppPath");
+                UserData.ConfigEditorAdditionalParameters = UserData.ConfigEditorAdditionalParameters.Replace(PathFinder.GetStartupPath(), "AppPath");
+                ObjectSerializer.Serialize(PathFinder.GetStartupPath() + "\\AmpShell.xml", UserData, typeof(ModelWithChildren));
             }
         }
 
@@ -70,8 +70,8 @@ namespace AmpShell.Configuration
             if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\AmpShell\\AmpShell.xml") == false && File.Exists(PathFinder.GetStartupPath() + "\\AmpShell.xml") == false)
             {
                 //take the Windows Height and Width (saved on close with XML serializing)
-                UserPrefs.Width = 640;
-                UserPrefs.Height = 400;
+                UserData.Width = 640;
+                UserData.Height = 400;
                 //Setup the whole directory path
                 if (Directory.GetDirectoryRoot(PathFinder.GetStartupPath()) == Environment.GetFolderPath(System.Environment.SpecialFolder.ProgramFiles) || Directory.GetDirectoryRoot(PathFinder.GetStartupPath()) == Environment.SystemDirectory.Substring(0, 3) + "Program Files (x86)")
                 {
@@ -88,8 +88,8 @@ namespace AmpShell.Configuration
                     UserConfigFileDataPath = PathFinder.GetStartupPath() + "\\AmpShell.xml";
                 }
                 //Serializing the data inside Amp for the first run
-                ObjectSerializer.Serialize(UserConfigFileDataPath, UserPrefs, typeof(ModelWithChildren));
-                UserPrefs = (RootModel)ObjectSerializer.Deserialize(UserConfigFileDataPath, typeof(ModelWithChildren));
+                ObjectSerializer.Serialize(UserConfigFileDataPath, UserData, typeof(ModelWithChildren));
+                UserData = (RootModel)ObjectSerializer.Deserialize(UserConfigFileDataPath, typeof(ModelWithChildren));
             }
             //if the file named AmpShell.xml exists inside that directory
             else
@@ -104,8 +104,8 @@ namespace AmpShell.Configuration
                     UserConfigFileDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\AmpShell\\AmpShell.xml";
                 }
 
-                UserPrefs = (RootModel)ObjectSerializer.Deserialize(UserConfigFileDataPath, typeof(ModelWithChildren));
-                foreach (Category ConcernedCategory in UserPrefs.ListChildren)
+                UserData = (RootModel)ObjectSerializer.Deserialize(UserConfigFileDataPath, typeof(ModelWithChildren));
+                foreach (Category ConcernedCategory in UserData.ListChildren)
                 {
                     foreach (Game ConcernedGame in ConcernedCategory.ListChildren)
                     {
@@ -118,45 +118,45 @@ namespace AmpShell.Configuration
                         ConcernedGame.Icon = ConcernedGame.Icon.Replace("AppPath", PathFinder.GetStartupPath());
                     }
                 }
-                UserPrefs.DBDefaultConfFilePath = UserPrefs.DBDefaultConfFilePath.Replace("AppPath", PathFinder.GetStartupPath());
-                UserPrefs.DBDefaultLangFilePath = UserPrefs.DBDefaultLangFilePath.Replace("AppPath", PathFinder.GetStartupPath());
-                UserPrefs.DBPath = UserPrefs.DBPath.Replace("AppPath", PathFinder.GetStartupPath());
-                UserPrefs.ConfigEditorPath = UserPrefs.ConfigEditorPath.Replace("AppPath", PathFinder.GetStartupPath());
-                UserPrefs.ConfigEditorAdditionalParameters = UserPrefs.ConfigEditorAdditionalParameters.Replace("AppPath", PathFinder.GetStartupPath());
+                UserData.DBDefaultConfFilePath = UserData.DBDefaultConfFilePath.Replace("AppPath", PathFinder.GetStartupPath());
+                UserData.DBDefaultLangFilePath = UserData.DBDefaultLangFilePath.Replace("AppPath", PathFinder.GetStartupPath());
+                UserData.DBPath = UserData.DBPath.Replace("AppPath", PathFinder.GetStartupPath());
+                UserData.ConfigEditorPath = UserData.ConfigEditorPath.Replace("AppPath", PathFinder.GetStartupPath());
+                UserData.ConfigEditorAdditionalParameters = UserData.ConfigEditorAdditionalParameters.Replace("AppPath", PathFinder.GetStartupPath());
             }
-            if (string.IsNullOrWhiteSpace(UserPrefs.DBPath))
+            if (string.IsNullOrWhiteSpace(UserData.DBPath))
             {
-                UserPrefs.DBPath = FileFinder.SearchDOSBox(UserConfigFileDataPath, UserPrefs.PortableMode);
+                UserData.DBPath = FileFinder.SearchDOSBox(UserConfigFileDataPath, UserData.PortableMode);
             }
-            else if (File.Exists(UserPrefs.DBPath) == false)
+            else if (File.Exists(UserData.DBPath) == false)
             {
-                UserPrefs.DBPath = FileFinder.SearchDOSBox(UserConfigFileDataPath, UserPrefs.PortableMode);
+                UserData.DBPath = FileFinder.SearchDOSBox(UserConfigFileDataPath, UserData.PortableMode);
             }
-            if (string.IsNullOrWhiteSpace(UserPrefs.ConfigEditorPath))
+            if (string.IsNullOrWhiteSpace(UserData.ConfigEditorPath))
             {
-                UserPrefs.ConfigEditorPath = FileFinder.SearchCommonTextEditor();
+                UserData.ConfigEditorPath = FileFinder.SearchCommonTextEditor();
             }
-            else if (File.Exists(UserPrefs.ConfigEditorPath) == false)
+            else if (File.Exists(UserData.ConfigEditorPath) == false)
             {
-                UserPrefs.ConfigEditorPath = FileFinder.SearchCommonTextEditor();
-            }
-
-            if (string.IsNullOrWhiteSpace(UserPrefs.DBDefaultConfFilePath))
-            {
-                UserPrefs.DBDefaultConfFilePath = FileFinder.SearchDOSBoxConf(UserConfigFileDataPath, UserPrefs.DBPath);
-            }
-            else if (File.Exists(UserPrefs.DBDefaultConfFilePath) == false)
-            {
-                UserPrefs.DBDefaultConfFilePath = FileFinder.SearchDOSBoxConf(UserConfigFileDataPath, UserPrefs.DBPath);
+                UserData.ConfigEditorPath = FileFinder.SearchCommonTextEditor();
             }
 
-            if (string.IsNullOrWhiteSpace(UserPrefs.DBDefaultLangFilePath) == false)
+            if (string.IsNullOrWhiteSpace(UserData.DBDefaultConfFilePath))
             {
-                UserPrefs.DBDefaultLangFilePath = FileFinder.SearchDOSBoxLanguageFile(UserPrefs.DBPath);
+                UserData.DBDefaultConfFilePath = FileFinder.SearchDOSBoxConf(UserConfigFileDataPath, UserData.DBPath);
             }
-            else if (File.Exists(UserPrefs.DBDefaultLangFilePath) == false)
+            else if (File.Exists(UserData.DBDefaultConfFilePath) == false)
             {
-                UserPrefs.DBDefaultLangFilePath = FileFinder.SearchDOSBoxLanguageFile(UserPrefs.DBPath);
+                UserData.DBDefaultConfFilePath = FileFinder.SearchDOSBoxConf(UserConfigFileDataPath, UserData.DBPath);
+            }
+
+            if (string.IsNullOrWhiteSpace(UserData.DBDefaultLangFilePath) == false)
+            {
+                UserData.DBDefaultLangFilePath = FileFinder.SearchDOSBoxLanguageFile(UserData.DBPath);
+            }
+            else if (File.Exists(UserData.DBDefaultLangFilePath) == false)
+            {
+                UserData.DBDefaultLangFilePath = FileFinder.SearchDOSBoxLanguageFile(UserData.DBPath);
             }
         }
     }
