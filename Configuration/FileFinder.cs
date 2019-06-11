@@ -24,7 +24,7 @@ namespace AmpShell.Configuration
                 {
                     tmpFilePath = Path.Combine(PathFinder.GetStartupPath(), Path.GetRandomFileName());
                 }
-                File.Create(tmpFilePath);
+                File.Create(tmpFilePath, 1, FileOptions.DeleteOnClose).Close();
                 return true;
             }
             catch (UnauthorizedAccessException)

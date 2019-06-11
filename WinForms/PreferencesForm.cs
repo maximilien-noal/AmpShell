@@ -147,7 +147,7 @@ namespace AmpShell.WinForms
 
         private void Main_Prefs_Load(object sender, EventArgs e)
         {
-            CheckForPortableModeAvailability();
+            CheckForPortableModeAvailabilityAndUpdateUI();
             LargeViewModeSizeComboBox.Text = LargeViewModeSizeComboBox.Items[Preferences.LargeViewModeSizes.IndexOf(SavedUserPrefs.LargeViewModeSize)].ToString();
             CategoyDeletePromptCheckBox.Checked = SavedUserPrefs.CategoryDeletePrompt;
             GameDeletePromptCheckBox.Checked = SavedUserPrefs.GameDeletePrompt;
@@ -240,7 +240,7 @@ namespace AmpShell.WinForms
             PortableModeCheckBox_CheckedChanged(sender, EventArgs.Empty);
         }
 
-        private void CheckForPortableModeAvailability()
+        private void CheckForPortableModeAvailabilityAndUpdateUI()
         {
             if (FileFinder.HasWriteAccessToAssemblyLocationFolder() == false)
             {
@@ -496,9 +496,7 @@ namespace AmpShell.WinForms
                 GamesDirTextBox.Text = SavedUserPrefs.GamesDefaultDir;
                 CDImageDirTextBox.Text = SavedUserPrefs.CDsDefaultDir;
                 EditorBinaryPathTextBox.Text = SavedUserPrefs.ConfigEditorPath;
-                StatusStripLabel.Text = "Portable Mode : available (but disabled).";
             }
-            CheckForPortableModeAvailability();
         }
 
         private void ReScanDirButton_Click(object sender, EventArgs e)
