@@ -19,7 +19,7 @@ namespace AmpShell.WinForms
 {
     public partial class GameForm : Form
     {
-        public GameForm(Preferences userPrefs)
+        public GameForm(RootModel userPrefs)
         {
             InitializeComponent();
             GameInstance = new Game();
@@ -35,7 +35,7 @@ namespace AmpShell.WinForms
         /// </summary>
         /// <param name="editedGame"></param>
         /// <param name="userPrefs"></param>
-        public GameForm(Game editedGame, Preferences userPrefs)
+        public GameForm(Game editedGame, RootModel userPrefs)
         {
             InitializeComponent();
             GameInstance = editedGame;
@@ -88,7 +88,7 @@ namespace AmpShell.WinForms
 
         public Game GameInstance { get; private set; }
 
-        public Preferences UserPrefs { get; private set; }
+        public RootModel UserPrefs { get; private set; }
 
         private void Cancel_Click(object sender, EventArgs e)
         {

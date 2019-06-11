@@ -20,7 +20,7 @@ namespace AmpShell.Configuration
     {
         static UserDataLoaderSaver()
         {
-            UserPrefs = new Preferences();
+            UserPrefs = new RootModel();
         }
 
         /// <summary>
@@ -31,14 +31,14 @@ namespace AmpShell.Configuration
         /// <summary>
         /// Object to load and save user data through XML (de)serialization
         /// </summary>
-        public static Preferences UserPrefs { get; private set; }
+        public static RootModel UserPrefs { get; private set; }
 
         public static void SaveUserSettings()
         {
             //saves the data inside Amp by serliazing it in AmpShell.xml
             if (!UserPrefs.PortableMode)
             {
-                ObjectSerializer.Serialize(UserDataLoaderSaver.UserConfigFileDataPath, UserPrefs, typeof(RootModel));
+                ObjectSerializer.Serialize(UserDataLoaderSaver.UserConfigFileDataPath, UserPrefs, typeof(ModelWithChildren));
             }
             else
             {
@@ -60,7 +60,7 @@ namespace AmpShell.Configuration
                 UserPrefs.DBPath = UserPrefs.DBPath.Replace(PathFinder.GetStartupPath(), "AppPath");
                 UserPrefs.ConfigEditorPath = UserPrefs.ConfigEditorPath.Replace(PathFinder.GetStartupPath(), "AppPath");
                 UserPrefs.ConfigEditorAdditionalParameters = UserPrefs.ConfigEditorAdditionalParameters.Replace(PathFinder.GetStartupPath(), "AppPath");
-                ObjectSerializer.Serialize(PathFinder.GetStartupPath() + "\\AmpShell.xml", UserPrefs, typeof(RootModel));
+                ObjectSerializer.Serialize(PathFinder.GetStartupPath() + "\\AmpShell.xml", UserPrefs, typeof(ModelWithChildren));
             }
         }
 
@@ -88,8 +88,8 @@ namespace AmpShell.Configuration
                     UserConfigFileDataPath = PathFinder.GetStartupPath() + "\\AmpShell.xml";
                 }
                 //Serializing the data inside Amp for the first run
-                ObjectSerializer.Serialize(UserConfigFileDataPath, UserPrefs, typeof(RootModel));
-                UserPrefs = (Preferences)ObjectSerializer.Deserialize(UserConfigFileDataPath, typeof(RootModel));
+                ObjectSerializer.Serialize(UserConfigFileDataPath, UserPrefs, typeof(ModelWithChildren));
+                UserPrefs = (RootModel)ObjectSerializer.Deserialize(UserConfigFileDataPath, typeof(ModelWithChildren));
             }
             //if the file named AmpShell.xml exists inside that directory
             else
@@ -104,7 +104,7 @@ namespace AmpShell.Configuration
                     UserConfigFileDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\AmpShell\\AmpShell.xml";
                 }
 
-                UserPrefs = (Preferences)ObjectSerializer.Deserialize(UserConfigFileDataPath, typeof(RootModel));
+                UserPrefs = (RootModel)ObjectSerializer.Deserialize(UserConfigFileDataPath, typeof(ModelWithChildren));
                 foreach (Category ConcernedCategory in UserPrefs.ListChildren)
                 {
                     foreach (Game ConcernedGame in ConcernedCategory.ListChildren)

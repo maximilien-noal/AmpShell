@@ -13,55 +13,94 @@ using System.Xml.Serialization;
 
 namespace AmpShell.Model
 {
-    /// <summary>
-    /// Root node for the xml file
-    /// </summary>
-    [XmlRoot("AmpShell")]
-    public class RootModel
+    [XmlType(TypeName = "Window")]
+    public class RootModel : ModelWithChildren
     {
-        /// <summary>
-        /// List that will build up the tree of categories and games through the AddChild and RemoveChild and ListChildren methods
-        /// </summary>
-        private readonly List<object> _children = new List<object>();
+        public static readonly List<int> LargeViewModeSizes = new List<int> { 48, 64, 80, 96, 112, 128, 144, 160, 176, 192, 208, 224, 240, 256 };
 
-        public RootModel()
+        public RootModel() : base()
         {
-            _children = new List<object>();
+            Width = 0;
+            Height = 0;
+            X = 0;
+            Y = 0;
+            PortableMode = false;
+            DefaultIconViewOverride = false;
+            GameDeletePrompt = true;
+            CategoryDeletePrompt = true;
+            ConfigEditorPath = string.Empty;
+            ConfigEditorAdditionalParameters = string.Empty;
+            MenuBarVisible = true;
+            ToolBarVisible = true;
+            StatusBarVisible = true;
+            DBPath = string.Empty;
+            GamesNoConsole = false;
+            GamesInFullScreen = false;
+            GamesQuitOnExit = false;
+            Fullscreen = false;
+            GamesAdditionalCommands = string.Empty;
+            GamesDefaultDir = string.Empty;
+            CDsDefaultDir = string.Empty;
+            DBDefaultConfFilePath = string.Empty;
+            DBDefaultLangFilePath = string.Empty;
+            RememberWindowPosition = true;
+            RememberWindowSize = true;
+            LargeViewModeSize = 48;
+            CategoriesDefaultViewMode = System.Windows.Forms.View.LargeIcon;
         }
 
-        [XmlElement("Window", typeof(Preferences))]
-        [XmlElement("Category", typeof(Category))]
-        [XmlElement("Game", typeof(Game))]
-        public object[] ListChildren
-        {
-            get => _children.ToArray();
-            set
-            {
-                _children.Clear();
-                if (value != null && value != _children.ToArray())
-                {
-                    _children.AddRange(value);
-                }
-            }
-        }
+        public bool PortableMode { get; set; }
 
-        public void AddChild(object child)
-        {
-            _children.Add(child);
-        }
+        public bool DefaultIconViewOverride { get; set; }
 
-        public void MoveChildToPosition(object child, int index)
-        {
-            if (_children.Contains(child))
-            {
-                _children.Remove(child);
-                _children.Insert(index, child);
-            }
-        }
+        public int X { get; set; }
 
-        public void RemoveChild(object child)
-        {
-            _children.Remove(child);
-        }
+        public int Y { get; set; }
+
+        public System.Windows.Forms.View CategoriesDefaultViewMode { get; set; }
+
+        public bool RememberWindowPosition { get; set; }
+
+        public bool RememberWindowSize { get; set; }
+
+        public bool GameDeletePrompt { get; set; }
+
+        public bool CategoryDeletePrompt { get; set; }
+
+        public bool GamesNoConsole { get; set; }
+
+        public bool GamesInFullScreen { get; set; }
+
+        public bool GamesQuitOnExit { get; set; }
+
+        public string GamesAdditionalCommands { get; set; }
+
+        public string GamesDefaultDir { get; set; }
+
+        public string CDsDefaultDir { get; set; }
+
+        public string ConfigEditorPath { get; set; }
+
+        public string ConfigEditorAdditionalParameters { get; set; }
+
+        public bool Fullscreen { get; set; }
+
+        public bool MenuBarVisible { get; set; }
+
+        public bool ToolBarVisible { get; set; }
+
+        public bool StatusBarVisible { get; set; }
+
+        public string DBPath { get; set; }
+
+        public string DBDefaultConfFilePath { get; set; }
+
+        public string DBDefaultLangFilePath { get; set; }
+
+        public int Width { get; set; }
+
+        public int Height { get; set; }
+
+        public int LargeViewModeSize { get; set; }
     }
 }

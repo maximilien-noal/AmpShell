@@ -21,13 +21,13 @@ namespace AmpShell.WinForms
 {
     public partial class PreferencesForm : Form
     {
-        public PreferencesForm(Preferences currentUserPrefs)
+        public PreferencesForm(RootModel currentUserPrefs)
         {
             InitializeComponent();
             SavedUserPrefs = currentUserPrefs;
         }
 
-        public Preferences SavedUserPrefs { get; private set; }
+        public RootModel SavedUserPrefs { get; private set; }
 
         private void BrowseForEditorButton_Click(object sender, EventArgs e)
         {
@@ -90,7 +90,7 @@ namespace AmpShell.WinForms
             SavedUserPrefs.ConfigEditorAdditionalParameters = AdditionnalParametersTextBox.Text;
             if (LargeViewModeSizeComboBox.SelectedIndex >= 0)
             {
-                SavedUserPrefs.LargeViewModeSize = Preferences.LargeViewModeSizes[LargeViewModeSizeComboBox.SelectedIndex];
+                SavedUserPrefs.LargeViewModeSize = RootModel.LargeViewModeSizes[LargeViewModeSizeComboBox.SelectedIndex];
             }
 
             if (LargeIconsRadioButton.Checked == true)
@@ -148,7 +148,7 @@ namespace AmpShell.WinForms
         private void Main_Prefs_Load(object sender, EventArgs e)
         {
             CheckForPortableModeAvailabilityAndUpdateUI();
-            LargeViewModeSizeComboBox.Text = LargeViewModeSizeComboBox.Items[Preferences.LargeViewModeSizes.IndexOf(SavedUserPrefs.LargeViewModeSize)].ToString();
+            LargeViewModeSizeComboBox.Text = LargeViewModeSizeComboBox.Items[RootModel.LargeViewModeSizes.IndexOf(SavedUserPrefs.LargeViewModeSize)].ToString();
             CategoyDeletePromptCheckBox.Checked = SavedUserPrefs.CategoryDeletePrompt;
             GameDeletePromptCheckBox.Checked = SavedUserPrefs.GameDeletePrompt;
             WindowPositionCheckBox.Checked = SavedUserPrefs.RememberWindowPosition;

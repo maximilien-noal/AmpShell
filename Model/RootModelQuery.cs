@@ -10,7 +10,7 @@
 
 namespace AmpShell.Model
 {
-    public static class PrefsQuery
+    public static class RootModelQuery
     {
         /// <summary>
         /// Used when a new Category or Game is created : it's signature must be unique
@@ -19,7 +19,7 @@ namespace AmpShell.Model
         /// <param name="signatureToTest">A Category's or Game's signature</param>
         /// <param name="userPrefs">The UserData, containing all the categories and games and their signatures</param>
         /// <returns>Whether the signature equals none of the other ones, or not</returns>
-        public static bool IsItAUniqueSignature(this Preferences userPrefs, string signatureToTest)
+        public static bool IsItAUniqueSignature(this RootModel userPrefs, string signatureToTest)
         {
             foreach (Category otherCat in userPrefs.ListChildren)
             {

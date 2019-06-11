@@ -14,7 +14,7 @@ using System.Xml.Serialization;
 
 namespace AmpShell.Model
 {
-    public class Category : RootModel
+    public class Category : ModelWithChildren
     {
         public Category() : base()
         {
