@@ -535,7 +535,7 @@ namespace AmpShell.WinForms
             {
                 return null;
             }
-            return UserDataLoaderSaver.UserData.ListChildren.Cast<Category>().FirstOrDefault(x => x.Signature == (string)TabControl.SelectedTab.Tag);
+            return RootModelQuery.GetCategoryWithSignature((string)TabControl.SelectedTab.Tag);
         }
 
         private Category GetSelectedCategory(int hoveredTabIndex)
@@ -781,17 +781,8 @@ namespace AmpShell.WinForms
         private void CategoryAddButton_Click(object sender, EventArgs e)
         {
             CategoryForm newCategoryForm = new CategoryForm();
-            string newCategorySignature;
-            do
-            {
-                Random randNumber = new Random();
-                newCategorySignature = randNumber.Next(1048576).ToString();
-            }
-            while (UserDataLoaderSaver.UserData.IsItAUniqueSignature(newCategorySignature) == false);
-            newCategoryForm.Category.Signature = newCategorySignature;
             if (newCategoryForm.ShowDialog(this) == DialogResult.OK)
             {
-                UserDataLoaderSaver.UserData.AddChild(newCategoryForm.Category);
                 RedrawAllUserData();
             }
         }
@@ -961,14 +952,7 @@ namespace AmpShell.WinForms
                 }
             }
 
-            string newGameSignature;
-            do
-            {
-                Random rand = new Random();
-                newGameSignature = rand.Next(1048576).ToString();
-            }
-            while (UserDataLoaderSaver.UserData.IsItAUniqueSignature(newGameSignature) == false);
-            newGame.Signature = newGameSignature;
+            newGame.Signature = RootModelQuery.GetAUniqueSignature();
 
             GameForm newGameForm = new GameForm(newGame, UserDataLoaderSaver.UserData);
 
@@ -1003,11 +987,10 @@ namespace AmpShell.WinForms
         /// </summary>
         private void CategoryEditButton_Click(object sender, EventArgs e)
         {
-            Category selectedCategory = GetSelectedCategory();
-            CategoryForm catEditForm = new CategoryForm(selectedCategory);
+            CategoryForm catEditForm = new CategoryForm((string)TabControl.SelectedTab.Tag);
             if (catEditForm.ShowDialog(this) == DialogResult.OK)
             {
-                TabControl.SelectedTab.Text = selectedCategory.Title;
+                TabControl.SelectedTab.Text = catEditForm.ViewModel.Name;
             }
         }
 

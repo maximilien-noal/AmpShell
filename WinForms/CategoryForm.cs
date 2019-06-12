@@ -8,8 +8,7 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
 
-using AmpShell.Model;
-
+using AmpShell.ViewModel;
 using System;
 using System.Windows.Forms;
 
@@ -17,28 +16,31 @@ namespace AmpShell.WinForms
 {
     public partial class CategoryForm : Form
     {
+        public CategoryViewModel ViewModel = new CategoryViewModel();
+
         public CategoryForm()
         {
-            InitializeComponent();
-            Category = new Category();
+            Initialize();
         }
 
-        public CategoryForm(Category editedCategory)
+        private void Initialize()
         {
             InitializeComponent();
-            Category = editedCategory;
-            Category.Title = editedCategory.Title;
-            Category.Signature = editedCategory.Signature;
-            NameTextBox.Text = Category.Title;
+            this.NameTextBox.DataBindings.Add("Text", this.ViewModel, "Name");
+        }
+
+        public CategoryForm(string editedCategorySignature)
+        {
+            ViewModel = new CategoryViewModel(editedCategorySignature);
+            Initialize();
+            NameTextBox.Text = ViewModel.Name;
             OK.Text = "&Save and apply";
             OK.Width = 102;
             OK.Location = new System.Drawing.Point(Cancel.Location.X - 107, 41);
             OK.Image = Properties.Resources.saveHS;
             Cancel.Text = "&Don't save";
-            Text = "Editing " + editedCategory.Title + "...";
+            Text = "Editing " + ViewModel.Name + "...";
         }
-
-        public Category Category { get; private set; }
 
         private void Cancel_Click(object sender, EventArgs e)
         {
@@ -47,9 +49,9 @@ namespace AmpShell.WinForms
 
         private void OK_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(NameTextBox.Text) == false)
+            if(ViewModel.IsDataValid())
             {
-                Category.Title = NameTextBox.Text;
+                ViewModel.CreateCategory();
                 DialogResult = DialogResult.OK;
                 Close();
             }

@@ -8,17 +8,26 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
 
+using AmpShell.Configuration;
+using AmpShell.Model;
 using AmpShell.Notification;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace AmpShell.ViewModel
 {
     public class CategoryViewModel : PropertyChangedNotifier
     {
         private string _name = "";
+        private string _editedCategorySignature;
+
+        public CategoryViewModel()
+        {
+        }
+
+        public CategoryViewModel(string editedCategorySignature)
+        {
+            this._editedCategorySignature = editedCategorySignature;
+            this.Name = RootModelQuery.GetCategoryWithSignature(_editedCategorySignature).Title;
+        }
 
         public string Name
         {
@@ -32,17 +41,22 @@ namespace AmpShell.ViewModel
 
         public void CreateCategory()
         {
-
+            if(string.IsNullOrWhiteSpace(_editedCategorySignature))
+            {
+                var category = new Category();
+                category.Signature = RootModelQuery.GetAUniqueSignature();
+                category.Title = Name;
+                UserDataLoaderSaver.UserData.AddChild(category);
+            }
+            else
+            {
+                RootModelQuery.GetCategoryWithSignature(_editedCategorySignature).Title = Name;
+            }
         }
 
-        public void EditCategory(string id)
+        public bool IsDataValid()
         {
-
-        }
-
-        public void DeleteCategory(string id)
-        {
-
+            return string.IsNullOrWhiteSpace(Name) == false;
         }
     }
 }

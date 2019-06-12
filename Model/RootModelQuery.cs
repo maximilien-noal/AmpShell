@@ -8,10 +8,27 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
 
+using AmpShell.Configuration;
+using System;
+using System.Linq;
+
 namespace AmpShell.Model
 {
     public static class RootModelQuery
     {
+        public static string GetAUniqueSignature()
+        {
+
+            string newSignature;
+            do
+            {
+                Random randNumber = new Random();
+                newSignature = randNumber.Next(1048576).ToString();
+            }
+            while (UserDataLoaderSaver.UserData.IsItAUniqueSignature(newSignature) == false);
+            return newSignature;
+        }
+
         /// <summary>
         /// Used when a new Category or Game is created : it's signature must be unique
         /// so AmpShell can recognize it instantly
@@ -42,6 +59,11 @@ namespace AmpShell.Model
                 }
             }
             return true;
+        }
+
+        internal static Category GetCategoryWithSignature(string tag)
+        {
+            return UserDataLoaderSaver.UserData.ListChildren.Cast<Category>().FirstOrDefault(x => x.Signature == (string)tag);
         }
     }
 }

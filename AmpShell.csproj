@@ -14,11 +14,11 @@
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <ManifestCertificateThumbprint>E0BE200A01E1D68093FF8FF5BDA05C29DA0AA052</ManifestCertificateThumbprint>
-    <ManifestKeyFile>DSF_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile></ManifestKeyFile>
     <GenerateManifests>false</GenerateManifests>
     <SignManifests>false</SignManifests>
     <ApplicationIcon>AmpShell.ico</ApplicationIcon>
-    <PublishUrl>C:\Program Files %28x86%29\AmpShell\</PublishUrl>
+    <PublishUrl></PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -76,7 +76,7 @@
     <RegisterForComInterop>False</RegisterForComInterop>
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
     <BaseAddress>4194304</BaseAddress>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup>
     <TargetZone>LocalIntranet</TargetZone>
