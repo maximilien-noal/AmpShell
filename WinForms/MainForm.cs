@@ -531,6 +531,10 @@ namespace AmpShell.WinForms
 
         private Category GetSelectedCategory()
         {
+            if(TabControl.SelectedTab == null)
+            {
+                return null;
+            }
             return UserDataLoaderSaver.UserData.ListChildren.Cast<Category>().FirstOrDefault(x => x.Signature == (string)TabControl.SelectedTab.Tag);
         }
 
@@ -557,7 +561,10 @@ namespace AmpShell.WinForms
             Game selectedGame = GetSelectedGame();
             Category selectedCategory = GetSelectedCategory();
             DisplayUserData();
-            SelectCategory(selectedCategory.Signature);
+            if(selectedCategory != null)
+            {
+                SelectCategory(selectedCategory.Signature);
+            }
             if (selectedGame != null)
             {
                 SelectedListView.FocusedItem = SelectedListView.Items.Cast<ListViewItem>().FirstOrDefault(x => (string)x.Tag == selectedGame.Signature);
