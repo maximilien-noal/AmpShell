@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AmpShell</RootNamespace>
     <AssemblyName>AmpShell</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <ManifestCertificateThumbprint>E0BE200A01E1D68093FF8FF5BDA05C29DA0AA052</ManifestCertificateThumbprint>
@@ -50,7 +50,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>Full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\..\..\Jeux\AmpPortable\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -99,7 +99,9 @@
     <Compile Include="Model\ModelWithChildren.cs" />
     <Compile Include="DOSBox\DOSBoxConfigFile.cs" />
     <Compile Include="DOSBox\DOSBoxController.cs" />
+    <Compile Include="Notification\PropertyChangedNotifier.cs" />
     <Compile Include="Serialization\ObjectSerializer.cs" />
+    <Compile Include="ViewModel\CategoryViewModel.cs" />
     <Compile Include="WinShell\LinkTarget.cs" />
     <Compile Include="WinForms\AboutBox.cs">
       <SubType>Form</SubType>
@@ -250,5 +252,6 @@
     <None Include="Resources\PlayHS.png" />
     <None Include="Resources\Go.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
