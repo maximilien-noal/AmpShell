@@ -17,7 +17,7 @@ namespace AmpShell.ViewModel
     public class CategoryViewModel : PropertyChangedNotifier
     {
         private string _name = "";
-        private string _editedCategorySignature;
+        private readonly string _editedCategorySignature;
 
         public CategoryViewModel()
         {
@@ -43,9 +43,11 @@ namespace AmpShell.ViewModel
         {
             if(string.IsNullOrWhiteSpace(_editedCategorySignature))
             {
-                var category = new Category();
-                category.Signature = RootModelQuery.GetAUniqueSignature();
-                category.Title = Name;
+                var category = new Category
+                {
+                    Signature = RootModelQuery.GetAUniqueSignature(),
+                    Title = Name
+                };
                 UserDataLoaderSaver.UserData.AddChild(category);
             }
             else

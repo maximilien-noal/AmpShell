@@ -61,9 +61,14 @@ namespace AmpShell.Model
             return true;
         }
 
-        internal static Category GetCategoryWithSignature(string tag)
+        internal static Category GetCategoryWithSignature(string signature)
         {
-            return UserDataLoaderSaver.UserData.ListChildren.Cast<Category>().FirstOrDefault(x => x.Signature == (string)tag);
+            return UserDataLoaderSaver.UserData.ListChildren.Cast<Category>().FirstOrDefault(x => x.Signature == signature);
+        }
+
+        internal static Game GetGameWithSignature(string signature)
+        {
+            return UserDataLoaderSaver.UserData.ListChildren.Cast<Category>().SelectMany(x => x.ListChildren.Cast<Game>()).FirstOrDefault(x => x.Signature == signature);
         }
     }
 }

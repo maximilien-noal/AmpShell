@@ -526,7 +526,7 @@ namespace AmpShell.WinForms
             {
                 return null;
             }
-            return GetSelectedCategory().ListChildren.Cast<Game>().FirstOrDefault(x => x.Signature == (string)SelectedListView.FocusedItem.Tag);
+            return RootModelQuery.GetGameWithSignature((string)SelectedListView.FocusedItem.Tag);
         }
 
         private Category GetSelectedCategory()
@@ -540,7 +540,7 @@ namespace AmpShell.WinForms
 
         private Category GetSelectedCategory(int hoveredTabIndex)
         {
-            return UserDataLoaderSaver.UserData.ListChildren.Cast<Category>().FirstOrDefault(x => x.Signature == (string)TabControl.TabPages[hoveredTabIndex].Tag);
+            return RootModelQuery.GetCategoryWithSignature((string)TabControl.TabPages[hoveredTabIndex].Tag);
         }
 
         /// <summary>
