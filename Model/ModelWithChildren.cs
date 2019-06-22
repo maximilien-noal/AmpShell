@@ -8,6 +8,7 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
 
+using AmpShell.Notification;
 using System.Collections.Generic;
 using System.Xml.Serialization;
 
@@ -17,7 +18,7 @@ namespace AmpShell.Model
     /// Root node for the xml file
     /// </summary>
     [XmlRoot("AmpShell")]
-    public class ModelWithChildren
+    public class ModelWithChildren : PropertyChangedNotifier
     {
         /// <summary>
         /// List that will build up the tree of categories and games through the AddChild and RemoveChild and ListChildren methods

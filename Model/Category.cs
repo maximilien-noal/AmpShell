@@ -18,21 +18,6 @@ namespace AmpShell.Model
     {
         public Category() : base()
         {
-            Title = string.Empty;
-            Random RandSignature = new Random();
-            Signature = RandSignature.Next(1048576).ToString();
-            ViewMode = View.LargeIcon;
-            NameColumnWidth = 150;
-            ExecutableColumnWidth = 150;
-            CMountColumnWidth = 150;
-            SetupExecutableColumnWidth = 150;
-            CustomConfigurationColumnWidth = 150;
-            DMountColumnWidth = 150;
-            MountingOptionsColumnWidth = 100;
-            AdditionnalCommandsColumnWidth = 150;
-            NoConsoleColumnWidth = 100;
-            FullscreenColumnWidth = 100;
-            QuitOnExitColumnWidth = 100;
         }
 
         public Category(string CategoryTitle, string CategorySignature)
@@ -47,28 +32,100 @@ namespace AmpShell.Model
         [XmlAttribute("Signature")]
         public string Signature { get; set; }
 
-        public int NameColumnWidth { get; set; }
+        private int _nameColumnWidth = 150;
 
-        public int ExecutableColumnWidth { get; set; }
+        public int NameColumnWidth
+        {
+            get => _nameColumnWidth;
+            set { Set<int>(ref _nameColumnWidth, value); }
+        }
 
-        public int CMountColumnWidth { get; set; }
+        private int _executableColumnWith = 150;
 
-        public int SetupExecutableColumnWidth { get; set; }
+        public int ExecutableColumnWidth
+        {
+            get => _executableColumnWith;
+            set { Set<int>(ref _executableColumnWith, value); }
+        }
 
-        public int CustomConfigurationColumnWidth { get; set; }
+        private int _cMountColumnWidth = 150;
 
-        public int DMountColumnWidth { get; set; }
+        public int CMountColumnWidth
+        {
+            get => _cMountColumnWidth;
+            set { Set<int>(ref _cMountColumnWidth, value); }
+        }
 
-        public int MountingOptionsColumnWidth { get; set; }
+        private int _setupExecutableColumnWidth = 150;
 
-        public int AdditionnalCommandsColumnWidth { get; set; }
+        public int SetupExecutableColumnWidth
+        {
+            get => _setupExecutableColumnWidth;
+            set { Set<int>(ref _setupExecutableColumnWidth, value); }
+        }
 
-        public int NoConsoleColumnWidth { get; set; }
+        private int _customConfigurationColumnWidth = 150;
 
-        public int FullscreenColumnWidth { get; set; }
+        public int CustomConfigurationColumnWidth
+        {
+            get => _customConfigurationColumnWidth;
+            set { Set<int>(ref _customConfigurationColumnWidth, value); }
+        }
 
-        public int QuitOnExitColumnWidth { get; set; }
+        private int _dMountColumnWidth = 150;
 
-        public View ViewMode { get; set; }
+        public int DMountColumnWidth
+        {
+            get => _dMountColumnWidth;
+            set { Set<int>(ref _dMountColumnWidth, value); }
+        }
+
+        private int _mountingOptionsColumnWidth = 100;
+
+        public int MountingOptionsColumnWidth
+        {
+            get => _mountingOptionsColumnWidth;
+            set { Set<int>(ref _mountingOptionsColumnWidth, value); }
+        }
+
+        private int _additionnalCommandsColumnWidth = 150;
+
+        public int AdditionnalCommandsColumnWidth
+        {
+            get => _additionnalCommandsColumnWidth;
+            set { Set<int>(ref _additionnalCommandsColumnWidth, value); }
+        }
+
+        private int _noConsoleColumnWidth = 100;
+
+        public int NoConsoleColumnWidth
+        {
+            get => _noConsoleColumnWidth;
+            set { Set<int>(ref _noConsoleColumnWidth, value); }
+        }
+
+        private int _fullscreenColumnWidth = 100;
+
+        public int FullscreenColumnWidth
+        {
+            get => _fullscreenColumnWidth;
+            set { Set<int>(ref _fullscreenColumnWidth, value); }
+        }
+
+        private int _quitOnExitColumnWidth = 100;
+
+        public int QuitOnExitColumnWidth
+        {
+            get => _quitOnExitColumnWidth;
+            set { Set<int>(ref _quitOnExitColumnWidth, value); }
+        }
+
+        private View _viewMode = View.LargeIcon;
+
+        public View ViewMode
+        {
+            get => _viewMode;
+            set { Set<View>(ref _viewMode, value); }
+        }
     }
 }

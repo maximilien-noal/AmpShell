@@ -9,8 +9,24 @@
  * If not, see <http://www.gnu.org/licenses/>.*/
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+
+
+/// <summary>
+/// Avoids the usage of NET 4.5 for a single dependency
+/// </summary>
+namespace System.Runtime.CompilerServices
+{
+    public sealed class CallerMemberNameAttribute : Attribute
+    {
+        [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
+        public CallerMemberNameAttribute()
+        {
+        }
+    }
+}
 
 namespace AmpShell.Notification
 {
@@ -18,13 +34,34 @@ namespace AmpShell.Notification
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public void NotifyPropertyChanged([CallerMemberName]string propertyName = "")
+        /// <summary>
+        /// Checks if a property already matches a desired value. Sets the property and
+        /// notifies listeners only when necessary.
+        /// </summary>
+        /// <typeparam name="T">Type of the property.</typeparam>
+        /// <param name="storage">Reference to a property with both getter and setter.</param>
+        /// <param name="value">Desired value for the property.</param>
+        /// <param name="propertyName">Name of the property used to notify listeners. This
+        /// value is optional and can be provided automatically when invoked from compilers that
+        /// support CallerMemberName.</param>
+        /// <returns>True if the value was changed, false if the existing value matched the
+        /// desired value.</returns>
+        public bool Set<T>(ref T storage, T value, [CallerMemberName]string propertyName = "")
         {
-            if(string.IsNullOrWhiteSpace(propertyName))
+            if (string.IsNullOrWhiteSpace(propertyName))
             {
                 throw new ArgumentNullException("Changed property must be named.");
             }
+            if (EqualityComparer<T>.Default.Equals(storage, value))
+            {
+                return false;
+            }
+
+            storage = value;
+            
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+            return true;
         }
     }
 }

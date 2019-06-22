@@ -18,89 +18,203 @@ namespace AmpShell.Model
     {
         public static readonly List<int> LargeViewModeSizes = new List<int> { 48, 64, 80, 96, 112, 128, 144, 160, 176, 192, 208, 224, 240, 256 };
 
-        public RootModel() : base()
+        private bool _portableMode = false;
+
+        public bool PortableMode
         {
-            Width = 0;
-            Height = 0;
-            X = 0;
-            Y = 0;
-            PortableMode = false;
-            DefaultIconViewOverride = false;
-            GameDeletePrompt = true;
-            CategoryDeletePrompt = true;
-            ConfigEditorPath = string.Empty;
-            ConfigEditorAdditionalParameters = string.Empty;
-            MenuBarVisible = true;
-            ToolBarVisible = true;
-            StatusBarVisible = true;
-            DBPath = string.Empty;
-            GamesNoConsole = false;
-            GamesInFullScreen = false;
-            GamesQuitOnExit = false;
-            Fullscreen = false;
-            GamesAdditionalCommands = string.Empty;
-            GamesDefaultDir = string.Empty;
-            CDsDefaultDir = string.Empty;
-            DBDefaultConfFilePath = string.Empty;
-            DBDefaultLangFilePath = string.Empty;
-            RememberWindowPosition = true;
-            RememberWindowSize = true;
-            LargeViewModeSize = 48;
-            CategoriesDefaultViewMode = System.Windows.Forms.View.LargeIcon;
+            get => _portableMode;
+            set { Set<bool>(ref _portableMode, value); }
         }
 
-        public bool PortableMode { get; set; }
+        private bool _defaultIconViewOverride = false;
 
-        public bool DefaultIconViewOverride { get; set; }
+        public bool DefaultIconViewOverride
+        {
+            get => _defaultIconViewOverride;
+            set { Set<bool>(ref _defaultIconViewOverride, value); }
+        }
 
         public int X { get; set; }
 
         public int Y { get; set; }
 
-        public System.Windows.Forms.View CategoriesDefaultViewMode { get; set; }
+        private System.Windows.Forms.View _categoriesDefaultViewMode = System.Windows.Forms.View.LargeIcon;
 
-        public bool RememberWindowPosition { get; set; }
+        public System.Windows.Forms.View CategoriesDefaultViewMode
+        {
+            get => _categoriesDefaultViewMode;
+            set { Set<System.Windows.Forms.View>(ref _categoriesDefaultViewMode, value); }
+        }
 
-        public bool RememberWindowSize { get; set; }
+        private bool _rememberWindowPosition = true;
 
-        public bool GameDeletePrompt { get; set; }
+        public bool RememberWindowPosition
+        {
+            get => _rememberWindowPosition;
+            set { Set<bool>(ref _rememberWindowPosition, value); }
+        }
 
-        public bool CategoryDeletePrompt { get; set; }
+        private bool _rememberWindowSize = true;
 
-        public bool GamesNoConsole { get; set; }
+        public bool RememberWindowSize
+        {
+            get => _rememberWindowSize;
+            set { Set<bool>(ref _rememberWindowSize, value); }
+        }
 
-        public bool GamesInFullScreen { get; set; }
+        private bool _gameDeletePrompt = true;
 
-        public bool GamesQuitOnExit { get; set; }
+        public bool GameDeletePrompt
+        {
+            get => _gameDeletePrompt;
+            set { Set<bool>(ref _gameDeletePrompt, value); }
 
-        public string GamesAdditionalCommands { get; set; }
+        }
 
-        public string GamesDefaultDir { get; set; }
+        private bool _categoryDeletePrompt = true;
 
-        public string CDsDefaultDir { get; set; }
+        public bool CategoryDeletePrompt
+        {
+            get => _categoryDeletePrompt;
+            set { Set<bool>(ref _categoryDeletePrompt, value); }
+        }
 
-        public string ConfigEditorPath { get; set; }
+        public bool GamesNoConsole
+        {
+            get => _defaultIconViewOverride;
+            set { Set<bool>(ref _defaultIconViewOverride, value); }
+        }
 
-        public string ConfigEditorAdditionalParameters { get; set; }
+        public bool GamesInFullScreen
+        {
+            get => _defaultIconViewOverride;
+            set { Set<bool>(ref _defaultIconViewOverride, value); }
+        }
 
-        public bool Fullscreen { get; set; }
+        public bool GamesQuitOnExit
+        {
+            get => _defaultIconViewOverride;
+            set { Set<bool>(ref _defaultIconViewOverride, value); }
+        }
 
-        public bool MenuBarVisible { get; set; }
+        private string _gamesAdditionnalCommands;
 
-        public bool ToolBarVisible { get; set; }
+        public string GamesAdditionalCommands
+        {
+            get => _gamesAdditionnalCommands;
+            set { Set<string>(ref _gamesAdditionnalCommands, value); }
+        }
 
-        public bool StatusBarVisible { get; set; }
+        private string _gamesDefaultDir;
 
-        public string DBPath { get; set; }
+        public string GamesDefaultDir
+        {
+            get => _gamesDefaultDir;
+            set { Set<string>(ref _gamesDefaultDir, value); }
+        }
 
-        public string DBDefaultConfFilePath { get; set; }
+        private string _cdsDefaultDir;
 
-        public string DBDefaultLangFilePath { get; set; }
+        public string CDsDefaultDir
+        {
+            get => _cdsDefaultDir;
+            set { Set<string>(ref _cdsDefaultDir, value); }
+        }
 
-        public int Width { get; set; }
+        private string _configEditorPath;
 
-        public int Height { get; set; }
+        public string ConfigEditorPath
+        {
+            get => _configEditorPath;
+            set { Set<string>(ref _configEditorPath, value); }
+        }
 
-        public int LargeViewModeSize { get; set; }
+        private string _configEditorAdditionalParameters;
+
+        public string ConfigEditorAdditionalParameters
+        {
+            get => _configEditorAdditionalParameters;
+            set { Set<string>(ref _configEditorAdditionalParameters, value); }
+        }
+
+        private bool _fullScreen;
+
+        public bool Fullscreen
+        {
+            get => _fullScreen;
+            set { Set<bool>(ref _fullScreen, value); }
+        }
+
+        private bool _menuBarVisible = true;
+
+        public bool MenuBarVisible
+        {
+            get => _menuBarVisible;
+            set { Set<bool>(ref _menuBarVisible, value); }
+        }
+
+        private bool _toolBarVisible = true;
+
+        public bool ToolBarVisible
+        {
+            get => _toolBarVisible;
+            set { Set<bool>(ref _toolBarVisible, value); }
+        }
+
+        private bool _statusBarVisble = true;
+
+        public bool StatusBarVisible
+        {
+            get => _statusBarVisble;
+            set { Set<bool>(ref _statusBarVisble, value); }
+        }
+
+        private string _dbPath;
+
+        public string DBPath
+        {
+            get => _dbPath;
+            set { Set<string>(ref _dbPath, value); }
+        }
+
+        private string _dbDefaultConfFilePath;
+
+        public string DBDefaultConfFilePath
+        {
+            get => _dbDefaultConfFilePath;
+            set { Set<string>(ref _dbDefaultConfFilePath, value); }
+        }
+
+        private string _dbDefaultLangFilePath;
+
+        public string DBDefaultLangFilePath
+        {
+            get => _dbDefaultLangFilePath;
+            set { Set<string>(ref _dbDefaultLangFilePath, value); }
+        }
+
+        private int _width;
+
+        public int Width
+        {
+            get => _width;
+            set { Set<int>(ref _width, value); }
+        }
+
+        private int _height;
+
+        public int Height
+        {
+            get => _height;
+            set { Set<int>(ref _height, value); }
+        }
+
+        private int _largeViewModeSize = 48;
+
+        public int LargeViewModeSize
+        {
+            get => _largeViewModeSize;
+            set { Set<int>(ref _largeViewModeSize, value); }
+        }
     }
 }
