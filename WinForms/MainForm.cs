@@ -990,7 +990,7 @@ namespace AmpShell.WinForms
             CategoryForm catEditForm = new CategoryForm((string)TabControl.SelectedTab.Tag);
             if (catEditForm.ShowDialog(this) == DialogResult.OK)
             {
-                TabControl.SelectedTab.Text = catEditForm.ViewModel.Name;
+                TabControl.SelectedTab.Text = catEditForm._viewModel.Name;
             }
         }
 

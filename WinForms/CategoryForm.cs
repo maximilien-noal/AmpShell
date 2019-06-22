@@ -16,7 +16,7 @@ namespace AmpShell.WinForms
 {
     public partial class CategoryForm : Form
     {
-        public CategoryViewModel ViewModel = new CategoryViewModel();
+        public CategoryViewModel _viewModel = new CategoryViewModel();
 
         public CategoryForm()
         {
@@ -26,20 +26,20 @@ namespace AmpShell.WinForms
         private void Initialize()
         {
             InitializeComponent();
-            this.NameTextBox.DataBindings.Add("Text", this.ViewModel, "Name");
+            this.NameTextBox.DataBindings.Add("Text", this._viewModel, "Name");
         }
 
         public CategoryForm(string editedCategorySignature)
         {
-            ViewModel = new CategoryViewModel(editedCategorySignature);
+            _viewModel = new CategoryViewModel(editedCategorySignature);
             Initialize();
-            NameTextBox.Text = ViewModel.Name;
+            NameTextBox.Text = _viewModel.Name;
             OK.Text = "&Save and apply";
             OK.Width = 102;
             OK.Location = new System.Drawing.Point(Cancel.Location.X - 107, 41);
             OK.Image = Properties.Resources.saveHS;
             Cancel.Text = "&Don't save";
-            Text = "Editing " + ViewModel.Name + "...";
+            Text = "Editing " + _viewModel.Name + "...";
         }
 
         private void Cancel_Click(object sender, EventArgs e)
@@ -49,9 +49,9 @@ namespace AmpShell.WinForms
 
         private void OK_Click(object sender, EventArgs e)
         {
-            if(ViewModel.IsDataValid())
+            if(_viewModel.IsDataValid())
             {
-                ViewModel.CreateCategory();
+                _viewModel.CreateCategory();
                 DialogResult = DialogResult.OK;
                 Close();
             }
