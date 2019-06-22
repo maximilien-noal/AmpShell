@@ -32,22 +32,14 @@ namespace AmpShell.ViewModel
         public string Name
         {
             get => _name;
-            set
-            {
-                _name = value;
-                NotifyPropertyChanged();
-            }
+            set { Set<string>(ref _name, value); }
         }
 
         public void CreateCategory()
         {
             if(string.IsNullOrWhiteSpace(_editedCategorySignature))
             {
-                var category = new Category
-                {
-                    Signature = RootModelQuery.GetAUniqueSignature(),
-                    Title = Name
-                };
+                var category = new Category(RootModelQuery.GetAUniqueSignature(), Name);
                 UserDataLoaderSaver.UserData.AddChild(category);
             }
             else
