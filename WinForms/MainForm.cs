@@ -549,7 +549,7 @@ namespace AmpShell.WinForms
         private void GameEditButton_Click(object sender, EventArgs e)
         {
             Game selectedGame = GetSelectedGame();
-            GameForm gameEditForm = new GameForm(selectedGame, UserDataLoaderSaver.UserData);
+            GameForm gameEditForm = new GameForm(selectedGame);
             if (gameEditForm.ShowDialog(this) == DialogResult.OK)
             {
                 RedrawAllUserData();
@@ -954,7 +954,7 @@ namespace AmpShell.WinForms
 
             newGame.Signature = RootModelQuery.GetAUniqueSignature();
 
-            GameForm newGameForm = new GameForm(newGame, UserDataLoaderSaver.UserData);
+            GameForm newGameForm = new GameForm(newGame, true);
 
             if (newGameForm.ShowDialog(this) == DialogResult.OK)
             {
@@ -1033,24 +1033,16 @@ namespace AmpShell.WinForms
 
         private void PreferencesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            PreferencesForm prefsForm = new PreferencesForm(UserDataLoaderSaver.UserData);
+            PreferencesForm prefsForm = new PreferencesForm();
             if (prefsForm.ShowDialog(this) == DialogResult.OK)
             {
                 _gamesLargeImageList.ImageSize = new Size(UserDataLoaderSaver.UserData.LargeViewModeSize, UserDataLoaderSaver.UserData.LargeViewModeSize);
-                if (UserDataLoaderSaver.UserData.PortableMode)
-                {
-                    UserDataLoaderSaver.SaveUserSettings();
-                }
-
-                menuStrip.Visible = prefsForm.SavedUserPrefs.MenuBarVisible;
-                _menuBarMenuItem.Checked = prefsForm.SavedUserPrefs.MenuBarVisible;
-                toolStrip.Visible = prefsForm.SavedUserPrefs.ToolBarVisible;
-                _toolBarMenuItem.Checked = prefsForm.SavedUserPrefs.ToolBarVisible;
-                statusStrip.Visible = prefsForm.SavedUserPrefs.StatusBarVisible;
-                _statusBarMenuItem.Checked = prefsForm.SavedUserPrefs.StatusBarVisible;
-                UserDataLoaderSaver.UserData.ListChildren = prefsForm.SavedUserPrefs.ListChildren;
-                UserDataLoaderSaver.UserData.X = Location.X;
-                UserDataLoaderSaver.UserData.Y = Location.Y;
+                menuStrip.Visible = UserDataLoaderSaver.UserData.MenuBarVisible;
+                _menuBarMenuItem.Checked = UserDataLoaderSaver.UserData.MenuBarVisible;
+                toolStrip.Visible = UserDataLoaderSaver.UserData.ToolBarVisible;
+                _toolBarMenuItem.Checked = UserDataLoaderSaver.UserData.ToolBarVisible;
+                statusStrip.Visible = UserDataLoaderSaver.UserData.StatusBarVisible;
+                _statusBarMenuItem.Checked = UserDataLoaderSaver.UserData.StatusBarVisible;
                 RedrawAllUserData();
             }
             UpdateButtonsState();

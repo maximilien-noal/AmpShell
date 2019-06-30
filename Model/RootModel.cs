@@ -79,22 +79,28 @@ namespace AmpShell.Model
             set { Set<bool>(ref _categoryDeletePrompt, value); }
         }
 
+        private bool _gamesNoConsole = true;
+
         public bool GamesNoConsole
         {
-            get => _defaultIconViewOverride;
-            set { Set<bool>(ref _defaultIconViewOverride, value); }
+            get => _gamesNoConsole;
+            set { Set<bool>(ref _gamesNoConsole, value); }
         }
+
+        private bool _gamesInFullScreen = true;
 
         public bool GamesInFullScreen
         {
-            get => _defaultIconViewOverride;
-            set { Set<bool>(ref _defaultIconViewOverride, value); }
+            get => _gamesInFullScreen;
+            set { Set<bool>(ref _gamesInFullScreen, value); }
         }
+
+        private bool _gamesQuitOnExit = true;
 
         public bool GamesQuitOnExit
         {
-            get => _defaultIconViewOverride;
-            set { Set<bool>(ref _defaultIconViewOverride, value); }
+            get => _gamesQuitOnExit;
+            set { Set<bool>(ref _gamesQuitOnExit, value); }
         }
 
         private string _gamesAdditionnalCommands;
