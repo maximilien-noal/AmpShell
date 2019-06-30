@@ -39,7 +39,7 @@ namespace AmpShell.ViewModel
         {
             if(string.IsNullOrWhiteSpace(_editedCategorySignature))
             {
-                var category = new Category(RootModelQuery.GetAUniqueSignature(), Name);
+                var category = new Category(Name, RootModelQuery.GetAUniqueSignature());
                 UserDataLoaderSaver.UserData.AddChild(category);
             }
             else
