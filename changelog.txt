@@ -1,4 +1,12 @@
 Changelog---------
+1.1.3.9 (June 30 2019 - 14h47)
+- Fixed NoConsole / FullScreen / QuitOnExit preferences
+- Categories are no longer created with their signature as title
+- More internal refactorings
+
+1.1.3.8 (June 30 2019 - 12h50)
+- Fixed a crash (and other sources of crashes) when a game was deleted
+
 1.1.3.7 (June 12 2019 - 19h25)
 - Fixed Portable Mode availability detection (it worked, but the UI wasn't updated properly when it wasn't available)
 - Avoid creating a lot of temporary file to test it's availability
