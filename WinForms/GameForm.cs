@@ -45,12 +45,12 @@ namespace AmpShell.WinForms
             Text = "Editing " + GameInstance.Name + "...";
             if (string.IsNullOrWhiteSpace(GameInstance.Icon) == false && GameInstance.Icon != null)
             {
-                string LocationTranslate;
-                LocationTranslate = GameInstance.Icon.Replace("AppPath", Application.StartupPath);
-                if (File.Exists(LocationTranslate))
+                string realLocation;
+                realLocation = GameInstance.Icon.Replace("AppPath", Application.StartupPath);
+                if (File.Exists(realLocation))
                 {
-                    GameIconPictureBox.Image = Image.FromFile(LocationTranslate).GetThumbnailImage(64, 64, null, IntPtr.Zero);
-                    GameIconPictureBox.ImageLocation = LocationTranslate;
+                    GameIconPictureBox.Image = Image.FromFile(realLocation).GetThumbnailImage(64, 64, null, IntPtr.Zero);
+                    GameIconPictureBox.ImageLocation = realLocation;
                 }
             }
             OK.Text = "&Save and apply";
