@@ -481,7 +481,7 @@ namespace AmpShell.WinForms
             {
                 SelectedListView.Items.Remove(itemToMove);
                 var droppedGame = UserDataLoaderSaver.UserData.ListChildren.Cast<Category>().Select(x => x.ListChildren.Cast<Game>()).SelectMany(x => x).FirstOrDefault(x => x.Signature == (string)itemToMove.Tag);
-                GetSelectedCategory().RemoveChild(droppedGame);
+                GetSelectedCategory()?.RemoveChild(droppedGame);
                 TabControl.SelectTab(_hoveredTabIndex);
                 SelectedListView.Items.Add((ListViewItem)itemToMove.Clone());
                 GetSelectedCategory(_hoveredTabIndex).AddChild(droppedGame);
@@ -829,17 +829,17 @@ namespace AmpShell.WinForms
             ListViewItem selectedItem;
             do
             {
-                selectedItem = SelectedListView.Items.Cast<ListViewItem>().FirstOrDefault(x => (string)x.Tag == GetSelectedGame().Signature);
+                selectedItem = SelectedListView.Items.Cast<ListViewItem>().FirstOrDefault(x => (string)x.Tag == GetSelectedGame()?.Signature);
                 if (selectedItem == null)
                 {
                     return;
                 }
-                if (MessageBox.Show(this, "Do you really want to delete this game : " + GetSelectedGame().Name + " ?", GameDeleteButton.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+                if (MessageBox.Show(this, "Do you really want to delete this game : " +GetSelectedGame()?.Name + " ?", GameDeleteButton.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
                 {
                     continue;
                 }
                 SelectedListView.Items.Remove(selectedItem);
-                GetSelectedCategory().RemoveChild(GetSelectedGame());
+                GetSelectedCategory()?.RemoveChild(GetSelectedGame());
             } while (selectedItem != null);
         }
 
@@ -1004,7 +1004,7 @@ namespace AmpShell.WinForms
 
         private string GetDOSBoxPath()
         {
-            string dosboxPath = GetSelectedGame().AlternateDOSBoxExePath;
+            string dosboxPath =GetSelectedGame()?.AlternateDOSBoxExePath;
             if (string.IsNullOrWhiteSpace(dosboxPath))
             {
                 dosboxPath = UserDataLoaderSaver.UserData.DBPath;
