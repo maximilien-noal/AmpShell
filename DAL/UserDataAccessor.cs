@@ -8,17 +8,18 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
 
+using AmpShell.AutoConfig;
 using AmpShell.Model;
 using AmpShell.Serialization;
 
 using System;
 using System.IO;
 
-namespace AmpShell.Configuration
+namespace AmpShell.DAL
 {
-    public static class UserDataLoaderSaver
+    public static class UserDataAccessor
     {
-        static UserDataLoaderSaver()
+        static UserDataAccessor()
         {
             UserData = new RootModel();
         }
@@ -26,7 +27,7 @@ namespace AmpShell.Configuration
         /// <summary>
         /// Path to the user data file (AmpShell.xml)
         /// </summary>
-        public static string UserConfigFileDataPath { get; private set; }
+        private static string UserConfigFileDataPath { get; set; }
 
         /// <summary>
         /// Object to load and save user data through XML (de)serialization
@@ -38,7 +39,7 @@ namespace AmpShell.Configuration
             //saves the data inside Amp by serliazing it in AmpShell.xml
             if (!UserData.PortableMode)
             {
-                ObjectSerializer.Serialize(UserDataLoaderSaver.UserConfigFileDataPath, UserData, typeof(ModelWithChildren));
+                ObjectSerializer.Serialize(UserConfigFileDataPath, UserData, typeof(ModelWithChildren));
             }
             else
             {
@@ -105,17 +106,17 @@ namespace AmpShell.Configuration
                 }
 
                 UserData = (RootModel)ObjectSerializer.Deserialize(UserConfigFileDataPath, typeof(ModelWithChildren));
-                foreach (Category ConcernedCategory in UserData.ListChildren)
+                foreach (Category concernedCategory in UserData.ListChildren)
                 {
-                    foreach (Game ConcernedGame in ConcernedCategory.ListChildren)
+                    foreach (Game concernedGame in concernedCategory.ListChildren)
                     {
-                        ConcernedGame.DOSEXEPath = ConcernedGame.DOSEXEPath.Replace("AppPath", PathFinder.GetStartupPath());
-                        ConcernedGame.DBConfPath = ConcernedGame.DBConfPath.Replace("AppPath", PathFinder.GetStartupPath());
-                        ConcernedGame.AdditionalCommands = ConcernedGame.AdditionalCommands.Replace("AppPath", PathFinder.GetStartupPath());
-                        ConcernedGame.Directory = ConcernedGame.Directory.Replace("AppPath", PathFinder.GetStartupPath());
-                        ConcernedGame.CDPath = ConcernedGame.CDPath.Replace("AppPath", PathFinder.GetStartupPath());
-                        ConcernedGame.SetupEXEPath = ConcernedGame.SetupEXEPath.Replace("AppPath", PathFinder.GetStartupPath());
-                        ConcernedGame.Icon = ConcernedGame.Icon.Replace("AppPath", PathFinder.GetStartupPath());
+                        concernedGame.DOSEXEPath = concernedGame.DOSEXEPath.Replace("AppPath", PathFinder.GetStartupPath());
+                        concernedGame.DBConfPath = concernedGame.DBConfPath.Replace("AppPath", PathFinder.GetStartupPath());
+                        concernedGame.AdditionalCommands = concernedGame.AdditionalCommands.Replace("AppPath", PathFinder.GetStartupPath());
+                        concernedGame.Directory = concernedGame.Directory.Replace("AppPath", PathFinder.GetStartupPath());
+                        concernedGame.CDPath = concernedGame.CDPath.Replace("AppPath", PathFinder.GetStartupPath());
+                        concernedGame.SetupEXEPath = concernedGame.SetupEXEPath.Replace("AppPath", PathFinder.GetStartupPath());
+                        concernedGame.Icon = concernedGame.Icon.Replace("AppPath", PathFinder.GetStartupPath());
                     }
                 }
                 UserData.DBDefaultConfFilePath = UserData.DBDefaultConfFilePath.Replace("AppPath", PathFinder.GetStartupPath());

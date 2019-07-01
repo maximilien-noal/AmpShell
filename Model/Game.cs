@@ -9,6 +9,7 @@
  * If not, see <http://www.gnu.org/licenses/>.*/
 
 using AmpShell.Notification;
+
 using System.Xml.Serialization;
 
 namespace AmpShell.Model

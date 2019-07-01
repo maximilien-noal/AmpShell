@@ -8,7 +8,8 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
 
-using AmpShell.Configuration;
+using AmpShell.DAL;
+
 using System;
 using System.Linq;
 
@@ -18,14 +19,13 @@ namespace AmpShell.Model
     {
         public static string GetAUniqueSignature()
         {
-
             string newSignature;
             do
             {
                 Random randNumber = new Random();
                 newSignature = randNumber.Next(1048576).ToString();
             }
-            while (UserDataLoaderSaver.UserData.IsItAUniqueSignature(newSignature) == false);
+            while (UserDataAccessor.UserData.IsItAUniqueSignature(newSignature) == false);
             return newSignature;
         }
 
@@ -63,12 +63,12 @@ namespace AmpShell.Model
 
         internal static Category GetCategoryWithSignature(string signature)
         {
-            return UserDataLoaderSaver.UserData.ListChildren.Cast<Category>().FirstOrDefault(x => x.Signature == signature);
+            return UserDataAccessor.UserData.ListChildren.Cast<Category>().FirstOrDefault(x => x.Signature == signature);
         }
 
         internal static Game GetGameWithSignature(string signature)
         {
-            return UserDataLoaderSaver.UserData.ListChildren.Cast<Category>().SelectMany(x => x.ListChildren.Cast<Game>()).FirstOrDefault(x => x.Signature == signature);
+            return UserDataAccessor.UserData.ListChildren.Cast<Category>().SelectMany(x => x.ListChildren.Cast<Game>()).FirstOrDefault(x => x.Signature == signature);
         }
     }
 }

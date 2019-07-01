@@ -43,9 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configuration\FileFinder.cs" />
-    <Compile Include="Configuration\PathFinder.cs" />
-    <Compile Include="Configuration\UserDataLoaderSaver.cs" />
+    <Compile Include="AutoConfig\FileFinder.cs" />
+    <Compile Include="AutoConfig\PathFinder.cs" />
+    <Compile Include="DAL\UserDataAccessor.cs" />
     <Compile Include="Model\Category.cs" />
     <Compile Include="Model\Game.cs" />
     <Compile Include="Model\RootModel.cs" />

@@ -13,7 +13,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-
 /// <summary>
 /// Avoids the usage of NET 4.5 for a single dependency
 /// </summary>
@@ -58,7 +57,7 @@ namespace AmpShell.Notification
             }
 
             storage = value;
-            
+
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
             return true;

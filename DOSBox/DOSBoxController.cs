@@ -8,7 +8,7 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
 
-using AmpShell.Configuration;
+using AmpShell.DAL;
 using AmpShell.Model;
 
 using System;
@@ -26,7 +26,7 @@ namespace AmpShell.DOSBox
         public static void AskForDOSBox()
         {
             //if DOSBoxPath is still empty, say to the user that dosbox's executable cannot be found
-            if (string.IsNullOrWhiteSpace(UserDataLoaderSaver.UserData.DBPath))
+            if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBPath))
             {
                 switch (MessageBox.Show("AmpShell cannot find DOSBox, do you want to indicate DOSBox's executable location now ? Choose 'Cancel' to quit.", "Cannot find DOSBox", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question))
                 {
@@ -43,7 +43,7 @@ namespace AmpShell.DOSBox
                         };
                         if (dosboxExeFileDialog.ShowDialog() == DialogResult.OK)
                         {
-                            UserDataLoaderSaver.UserData.DBPath = dosboxExeFileDialog.FileName;
+                            UserDataAccessor.UserData.DBPath = dosboxExeFileDialog.FileName;
                         }
                         else
                         {
@@ -52,7 +52,7 @@ namespace AmpShell.DOSBox
                         break;
 
                     case DialogResult.No:
-                        UserDataLoaderSaver.UserData.DBPath = string.Empty;
+                        UserDataAccessor.UserData.DBPath = string.Empty;
                         break;
                 }
             }

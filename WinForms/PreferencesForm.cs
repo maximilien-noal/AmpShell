@@ -8,7 +8,8 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
 
-using AmpShell.Configuration;
+using AmpShell.AutoConfig;
+using AmpShell.DAL;
 using AmpShell.Model;
 
 using System;
@@ -52,76 +53,76 @@ namespace AmpShell.WinForms
             {
                 if (Directory.Exists(GamesDirTextBox.Text))
                 {
-                    UserDataLoaderSaver.UserData.GamesDefaultDir = GamesDirTextBox.Text;
+                    UserDataAccessor.UserData.GamesDefaultDir = GamesDirTextBox.Text;
                 }
             }
             if (string.IsNullOrWhiteSpace(CDImageDirTextBox.Text) == false)
             {
                 if (Directory.Exists(CDImageDirTextBox.Text))
                 {
-                    UserDataLoaderSaver.UserData.CDsDefaultDir = CDImageDirTextBox.Text;
+                    UserDataAccessor.UserData.CDsDefaultDir = CDImageDirTextBox.Text;
                 }
             }
-            UserDataLoaderSaver.UserData.GamesAdditionalCommands = GameAdditionalCommandsTextBox.Text;
-            UserDataLoaderSaver.UserData.GamesNoConsole = NoConsoleCheckBox.Checked;
-            UserDataLoaderSaver.UserData.GamesInFullScreen = FullscreenCheckBox.Checked;
-            UserDataLoaderSaver.UserData.GamesQuitOnExit = QuitOnExitCheckBox.Checked;
+            UserDataAccessor.UserData.GamesAdditionalCommands = GameAdditionalCommandsTextBox.Text;
+            UserDataAccessor.UserData.GamesNoConsole = NoConsoleCheckBox.Checked;
+            UserDataAccessor.UserData.GamesInFullScreen = FullscreenCheckBox.Checked;
+            UserDataAccessor.UserData.GamesQuitOnExit = QuitOnExitCheckBox.Checked;
             if (File.Exists(EditorBinaryPathTextBox.Text))
             {
-                UserDataLoaderSaver.UserData.ConfigEditorPath = EditorBinaryPathTextBox.Text;
+                UserDataAccessor.UserData.ConfigEditorPath = EditorBinaryPathTextBox.Text;
             }
 
-            UserDataLoaderSaver.UserData.ConfigEditorAdditionalParameters = AdditionnalParametersTextBox.Text;
-            UserDataLoaderSaver.UserData.CategoryDeletePrompt = CategoyDeletePromptCheckBox.Checked;
-            UserDataLoaderSaver.UserData.GameDeletePrompt = GameDeletePromptCheckBox.Checked;
-            UserDataLoaderSaver.UserData.RememberWindowSize = WindowSizeCheckBox.Checked;
-            UserDataLoaderSaver.UserData.RememberWindowPosition = WindowPositionCheckBox.Checked;
-            UserDataLoaderSaver.UserData.MenuBarVisible = ShowMenuBarCheckBox.Checked;
-            UserDataLoaderSaver.UserData.ToolBarVisible = ShowToolBarCheckBox.Checked;
-            UserDataLoaderSaver.UserData.StatusBarVisible = ShowDetailsBarCheckBox.Checked;
-            UserDataLoaderSaver.UserData.DefaultIconViewOverride = AllOfThemCheckBox.Checked;
-            UserDataLoaderSaver.UserData.DBPath = DOSBoxPathTextBox.Text;
-            UserDataLoaderSaver.UserData.DBDefaultConfFilePath = DOSBoxConfFileTextBox.Text;
-            UserDataLoaderSaver.UserData.DBDefaultLangFilePath = DOSBoxLangFileTextBox.Text;
-            UserDataLoaderSaver.UserData.ConfigEditorPath = EditorBinaryPathTextBox.Text;
-            UserDataLoaderSaver.UserData.ConfigEditorAdditionalParameters = AdditionnalParametersTextBox.Text;
+            UserDataAccessor.UserData.ConfigEditorAdditionalParameters = AdditionnalParametersTextBox.Text;
+            UserDataAccessor.UserData.CategoryDeletePrompt = CategoyDeletePromptCheckBox.Checked;
+            UserDataAccessor.UserData.GameDeletePrompt = GameDeletePromptCheckBox.Checked;
+            UserDataAccessor.UserData.RememberWindowSize = WindowSizeCheckBox.Checked;
+            UserDataAccessor.UserData.RememberWindowPosition = WindowPositionCheckBox.Checked;
+            UserDataAccessor.UserData.MenuBarVisible = ShowMenuBarCheckBox.Checked;
+            UserDataAccessor.UserData.ToolBarVisible = ShowToolBarCheckBox.Checked;
+            UserDataAccessor.UserData.StatusBarVisible = ShowDetailsBarCheckBox.Checked;
+            UserDataAccessor.UserData.DefaultIconViewOverride = AllOfThemCheckBox.Checked;
+            UserDataAccessor.UserData.DBPath = DOSBoxPathTextBox.Text;
+            UserDataAccessor.UserData.DBDefaultConfFilePath = DOSBoxConfFileTextBox.Text;
+            UserDataAccessor.UserData.DBDefaultLangFilePath = DOSBoxLangFileTextBox.Text;
+            UserDataAccessor.UserData.ConfigEditorPath = EditorBinaryPathTextBox.Text;
+            UserDataAccessor.UserData.ConfigEditorAdditionalParameters = AdditionnalParametersTextBox.Text;
             if (LargeViewModeSizeComboBox.SelectedIndex >= 0)
             {
-                UserDataLoaderSaver.UserData.LargeViewModeSize = RootModel.LargeViewModeSizes[LargeViewModeSizeComboBox.SelectedIndex];
+                UserDataAccessor.UserData.LargeViewModeSize = RootModel.LargeViewModeSizes[LargeViewModeSizeComboBox.SelectedIndex];
             }
 
             if (LargeIconsRadioButton.Checked == true)
             {
-                UserDataLoaderSaver.UserData.CategoriesDefaultViewMode = View.LargeIcon;
+                UserDataAccessor.UserData.CategoriesDefaultViewMode = View.LargeIcon;
             }
 
             if (SmallIconsRadioButton.Checked == true)
             {
-                UserDataLoaderSaver.UserData.CategoriesDefaultViewMode = View.SmallIcon;
+                UserDataAccessor.UserData.CategoriesDefaultViewMode = View.SmallIcon;
             }
 
             if (ListsIconsRadioButton.Checked == true)
             {
-                UserDataLoaderSaver.UserData.CategoriesDefaultViewMode = View.List;
+                UserDataAccessor.UserData.CategoriesDefaultViewMode = View.List;
             }
 
             if (TilesIconsRadioButton.Checked == true)
             {
-                UserDataLoaderSaver.UserData.CategoriesDefaultViewMode = View.Tile;
+                UserDataAccessor.UserData.CategoriesDefaultViewMode = View.Tile;
             }
 
             if (DetailsIconsRadioButton.Checked == true)
             {
-                UserDataLoaderSaver.UserData.CategoriesDefaultViewMode = View.Details;
+                UserDataAccessor.UserData.CategoriesDefaultViewMode = View.Details;
             }
 
-            UserDataLoaderSaver.UserData.PortableMode = PortableModeCheckBox.Checked;
+            UserDataAccessor.UserData.PortableMode = PortableModeCheckBox.Checked;
 
             SyncCategoriesOrderWithTabOrder();
 
-            if (UserDataLoaderSaver.UserData.PortableMode)
+            if (UserDataAccessor.UserData.PortableMode)
             {
-                UserDataLoaderSaver.SaveUserSettings();
+                UserDataAccessor.SaveUserSettings();
             }
 
             Close();
@@ -136,9 +137,9 @@ namespace AmpShell.WinForms
 
             List<ListViewItem> tabs = CategoriesListView.Items.Cast<ListViewItem>().ToList();
 
-            foreach (Category ConcernedCategory in UserDataLoaderSaver.UserData.ListChildren)
+            foreach (Category ConcernedCategory in UserDataAccessor.UserData.ListChildren)
             {
-                UserDataLoaderSaver.UserData.MoveChildToPosition(ConcernedCategory, tabs.IndexOf(tabs.FirstOrDefault(x => Convert.ToString(x.Tag) == ConcernedCategory.Signature)));
+                UserDataAccessor.UserData.MoveChildToPosition(ConcernedCategory, tabs.IndexOf(tabs.FirstOrDefault(x => Convert.ToString(x.Tag) == ConcernedCategory.Signature)));
             }
         }
 
@@ -150,87 +151,87 @@ namespace AmpShell.WinForms
         private void Main_Prefs_Load(object sender, EventArgs e)
         {
             CheckForPortableModeAvailabilityAndUpdateUI();
-            LargeViewModeSizeComboBox.Text = LargeViewModeSizeComboBox.Items[RootModel.LargeViewModeSizes.IndexOf(UserDataLoaderSaver.UserData.LargeViewModeSize)].ToString();
-            CategoyDeletePromptCheckBox.Checked = UserDataLoaderSaver.UserData.CategoryDeletePrompt;
-            GameDeletePromptCheckBox.Checked = UserDataLoaderSaver.UserData.GameDeletePrompt;
-            WindowPositionCheckBox.Checked = UserDataLoaderSaver.UserData.RememberWindowPosition;
-            WindowSizeCheckBox.Checked = UserDataLoaderSaver.UserData.RememberWindowSize;
-            ShowMenuBarCheckBox.Checked = UserDataLoaderSaver.UserData.MenuBarVisible;
-            ShowToolBarCheckBox.Checked = UserDataLoaderSaver.UserData.ToolBarVisible;
-            ShowDetailsBarCheckBox.Checked = UserDataLoaderSaver.UserData.StatusBarVisible;
-            QuitOnExitCheckBox.Checked = UserDataLoaderSaver.UserData.GamesQuitOnExit;
-            NoConsoleCheckBox.Checked = UserDataLoaderSaver.UserData.GamesNoConsole;
-            FullscreenCheckBox.Checked = UserDataLoaderSaver.UserData.GamesInFullScreen;
-            if (string.IsNullOrWhiteSpace(UserDataLoaderSaver.UserData.GamesAdditionalCommands) == false)
+            LargeViewModeSizeComboBox.Text = LargeViewModeSizeComboBox.Items[RootModel.LargeViewModeSizes.IndexOf(UserDataAccessor.UserData.LargeViewModeSize)].ToString();
+            CategoyDeletePromptCheckBox.Checked = UserDataAccessor.UserData.CategoryDeletePrompt;
+            GameDeletePromptCheckBox.Checked = UserDataAccessor.UserData.GameDeletePrompt;
+            WindowPositionCheckBox.Checked = UserDataAccessor.UserData.RememberWindowPosition;
+            WindowSizeCheckBox.Checked = UserDataAccessor.UserData.RememberWindowSize;
+            ShowMenuBarCheckBox.Checked = UserDataAccessor.UserData.MenuBarVisible;
+            ShowToolBarCheckBox.Checked = UserDataAccessor.UserData.ToolBarVisible;
+            ShowDetailsBarCheckBox.Checked = UserDataAccessor.UserData.StatusBarVisible;
+            QuitOnExitCheckBox.Checked = UserDataAccessor.UserData.GamesQuitOnExit;
+            NoConsoleCheckBox.Checked = UserDataAccessor.UserData.GamesNoConsole;
+            FullscreenCheckBox.Checked = UserDataAccessor.UserData.GamesInFullScreen;
+            if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.GamesAdditionalCommands) == false)
             {
-                GameAdditionalCommandsTextBox.Text = UserDataLoaderSaver.UserData.GamesAdditionalCommands;
+                GameAdditionalCommandsTextBox.Text = UserDataAccessor.UserData.GamesAdditionalCommands;
             }
 
-            if (UserDataLoaderSaver.UserData.CategoriesDefaultViewMode == View.Details)
+            if (UserDataAccessor.UserData.CategoriesDefaultViewMode == View.Details)
             {
                 DetailsIconsRadioButton.Checked = true;
             }
 
-            if (UserDataLoaderSaver.UserData.CategoriesDefaultViewMode == View.LargeIcon)
+            if (UserDataAccessor.UserData.CategoriesDefaultViewMode == View.LargeIcon)
             {
                 LargeIconsRadioButton.Checked = true;
             }
 
-            if (UserDataLoaderSaver.UserData.CategoriesDefaultViewMode == View.List)
+            if (UserDataAccessor.UserData.CategoriesDefaultViewMode == View.List)
             {
                 ListsIconsRadioButton.Checked = true;
             }
 
-            if (UserDataLoaderSaver.UserData.CategoriesDefaultViewMode == View.SmallIcon)
+            if (UserDataAccessor.UserData.CategoriesDefaultViewMode == View.SmallIcon)
             {
                 SmallIconsRadioButton.Checked = true;
             }
 
-            if (UserDataLoaderSaver.UserData.CategoriesDefaultViewMode == View.Tile)
+            if (UserDataAccessor.UserData.CategoriesDefaultViewMode == View.Tile)
             {
                 TilesIconsRadioButton.Checked = true;
             }
 
-            if (string.IsNullOrWhiteSpace(UserDataLoaderSaver.UserData.DBPath) == false)
+            if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBPath) == false)
             {
-                DOSBoxPathTextBox.Text = UserDataLoaderSaver.UserData.DBPath;
+                DOSBoxPathTextBox.Text = UserDataAccessor.UserData.DBPath;
             }
 
-            if (string.IsNullOrWhiteSpace(UserDataLoaderSaver.UserData.DBDefaultConfFilePath) == false)
+            if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBDefaultConfFilePath) == false)
             {
-                DOSBoxConfFileTextBox.Text = UserDataLoaderSaver.UserData.DBDefaultConfFilePath;
+                DOSBoxConfFileTextBox.Text = UserDataAccessor.UserData.DBDefaultConfFilePath;
             }
 
-            if (string.IsNullOrWhiteSpace(UserDataLoaderSaver.UserData.DBDefaultLangFilePath) == false)
+            if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBDefaultLangFilePath) == false)
             {
-                DOSBoxLangFileTextBox.Text = UserDataLoaderSaver.UserData.DBDefaultLangFilePath;
+                DOSBoxLangFileTextBox.Text = UserDataAccessor.UserData.DBDefaultLangFilePath;
             }
 
-            if (string.IsNullOrWhiteSpace(UserDataLoaderSaver.UserData.ConfigEditorPath) == false)
+            if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.ConfigEditorPath) == false)
             {
-                EditorBinaryPathTextBox.Text = UserDataLoaderSaver.UserData.ConfigEditorPath;
+                EditorBinaryPathTextBox.Text = UserDataAccessor.UserData.ConfigEditorPath;
             }
 
-            if (string.IsNullOrWhiteSpace(UserDataLoaderSaver.UserData.ConfigEditorAdditionalParameters) == false)
+            if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.ConfigEditorAdditionalParameters) == false)
             {
-                AdditionnalParametersTextBox.Text = UserDataLoaderSaver.UserData.ConfigEditorPath;
+                AdditionnalParametersTextBox.Text = UserDataAccessor.UserData.ConfigEditorPath;
             }
 
-            if (string.IsNullOrWhiteSpace(UserDataLoaderSaver.UserData.CDsDefaultDir) == false)
+            if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.CDsDefaultDir) == false)
             {
-                CDImageDirTextBox.Text = UserDataLoaderSaver.UserData.CDsDefaultDir;
+                CDImageDirTextBox.Text = UserDataAccessor.UserData.CDsDefaultDir;
             }
 
-            if (string.IsNullOrWhiteSpace(UserDataLoaderSaver.UserData.GamesDefaultDir) == false)
+            if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.GamesDefaultDir) == false)
             {
-                GamesDirTextBox.Text = UserDataLoaderSaver.UserData.GamesDefaultDir;
+                GamesDirTextBox.Text = UserDataAccessor.UserData.GamesDefaultDir;
             }
 
-            AllOfThemCheckBox.Checked = UserDataLoaderSaver.UserData.DefaultIconViewOverride;
+            AllOfThemCheckBox.Checked = UserDataAccessor.UserData.DefaultIconViewOverride;
             CategoriesListView.Columns.Add("Name");
             CategoriesListView.Columns[0].Width = CategoriesListView.Width;
             CategoriesListView.Items.Clear();
-            foreach (Category CategoryToDisplay in UserDataLoaderSaver.UserData.ListChildren)
+            foreach (Category CategoryToDisplay in UserDataAccessor.UserData.ListChildren)
             {
                 ListViewItem ItemToAdd = new ListViewItem(CategoryToDisplay.Title)
                 {
@@ -238,7 +239,7 @@ namespace AmpShell.WinForms
                 };
                 CategoriesListView.Items.Add(ItemToAdd);
             }
-            PortableModeCheckBox.Checked = UserDataLoaderSaver.UserData.PortableMode;
+            PortableModeCheckBox.Checked = UserDataAccessor.UserData.PortableMode;
             PortableModeCheckBox_CheckedChanged(sender, EventArgs.Empty);
         }
 
@@ -252,7 +253,7 @@ namespace AmpShell.WinForms
             }
             else
             {
-                PortableModeCheckBox.Checked = UserDataLoaderSaver.UserData.PortableMode;
+                PortableModeCheckBox.Checked = UserDataAccessor.UserData.PortableMode;
                 StatusStripLabel.Text = "Portable Mode : available (but disabled).";
             }
         }
@@ -273,10 +274,10 @@ namespace AmpShell.WinForms
             if (dosBoxExePathFileDialog.ShowDialog(this) == DialogResult.OK)
             {
                 //retrieve the selected dosbox.exe path into Amp.DBPath
-                UserDataLoaderSaver.UserData.DBPath = dosBoxExePathFileDialog.FileName;
+                UserDataAccessor.UserData.DBPath = dosBoxExePathFileDialog.FileName;
                 DOSBoxPathTextBox.Text = dosBoxExePathFileDialog.FileName;
             }
-            else if (string.IsNullOrWhiteSpace(UserDataLoaderSaver.UserData.DBPath))
+            else if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBPath))
             {
                 MessageBox.Show("Location of DOSBox's executable unknown. You will not be able to run games!", "Select DOSBox's executable", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
@@ -285,10 +286,10 @@ namespace AmpShell.WinForms
         private void DOSBoxConfFileBrowseButton_Click(object sender, EventArgs e)
         {
             OpenFileDialog dosboxDefaultConfFileDialog = new OpenFileDialog();
-            if (string.IsNullOrWhiteSpace(UserDataLoaderSaver.UserData.DBDefaultConfFilePath) == false
-                && Directory.Exists(Directory.GetParent(UserDataLoaderSaver.UserData.DBDefaultConfFilePath).FullName))
+            if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBDefaultConfFilePath) == false
+                && Directory.Exists(Directory.GetParent(UserDataAccessor.UserData.DBDefaultConfFilePath).FullName))
             {
-                dosboxDefaultConfFileDialog.InitialDirectory = Directory.GetParent(UserDataLoaderSaver.UserData.DBDefaultConfFilePath).FullName;
+                dosboxDefaultConfFileDialog.InitialDirectory = Directory.GetParent(UserDataAccessor.UserData.DBDefaultConfFilePath).FullName;
             }
 
             dosboxDefaultConfFileDialog.Title = DOSBoxConfLabel.Text;
@@ -296,7 +297,7 @@ namespace AmpShell.WinForms
             if (dosboxDefaultConfFileDialog.ShowDialog(this) == DialogResult.OK)
             {
                 //retrieve the selected .conf file path in Amp.DBDefaultConfFilePath
-                UserDataLoaderSaver.UserData.DBDefaultConfFilePath = dosboxDefaultConfFileDialog.FileName;
+                UserDataAccessor.UserData.DBDefaultConfFilePath = dosboxDefaultConfFileDialog.FileName;
                 DOSBoxConfFileTextBox.Text = dosboxDefaultConfFileDialog.FileName;
             }
         }
@@ -304,10 +305,10 @@ namespace AmpShell.WinForms
         private void DOSBoxLangFileBrowseButton_Click(object sender, EventArgs e)
         {
             OpenFileDialog dosBoxDefaultLangFileDialog = new OpenFileDialog();
-            if (string.IsNullOrWhiteSpace(UserDataLoaderSaver.UserData.DBDefaultLangFilePath) == false
-                && Directory.Exists(Directory.GetParent(UserDataLoaderSaver.UserData.DBDefaultLangFilePath).FullName))
+            if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBDefaultLangFilePath) == false
+                && Directory.Exists(Directory.GetParent(UserDataAccessor.UserData.DBDefaultLangFilePath).FullName))
             {
-                dosBoxDefaultLangFileDialog.InitialDirectory = Directory.GetParent(UserDataLoaderSaver.UserData.DBDefaultLangFilePath).FullName;
+                dosBoxDefaultLangFileDialog.InitialDirectory = Directory.GetParent(UserDataAccessor.UserData.DBDefaultLangFilePath).FullName;
             }
 
             dosBoxDefaultLangFileDialog.Title = DOSBoxLangFileLabel.Text;
@@ -315,7 +316,7 @@ namespace AmpShell.WinForms
             if (dosBoxDefaultLangFileDialog.ShowDialog(this) == DialogResult.OK)
             {
                 //retrieve the selected .lng file path in Amp.DBDefaultLangFilePath
-                UserDataLoaderSaver.UserData.DBDefaultLangFilePath = dosBoxDefaultLangFileDialog.FileName;
+                UserDataAccessor.UserData.DBDefaultLangFilePath = dosBoxDefaultLangFileDialog.FileName;
                 DOSBoxLangFileTextBox.Text = dosBoxDefaultLangFileDialog.FileName;
             }
         }
@@ -492,12 +493,12 @@ namespace AmpShell.WinForms
                 BrowseCDImageDirButton.Enabled = true;
                 EditorBinaryPathTextBox.Enabled = true;
                 BrowseForEditorButton.Enabled = true;
-                DOSBoxPathTextBox.Text = UserDataLoaderSaver.UserData.DBPath;
-                DOSBoxConfFileTextBox.Text = UserDataLoaderSaver.UserData.DBDefaultConfFilePath;
-                DOSBoxLangFileTextBox.Text = UserDataLoaderSaver.UserData.DBDefaultLangFilePath;
-                GamesDirTextBox.Text = UserDataLoaderSaver.UserData.GamesDefaultDir;
-                CDImageDirTextBox.Text = UserDataLoaderSaver.UserData.CDsDefaultDir;
-                EditorBinaryPathTextBox.Text = UserDataLoaderSaver.UserData.ConfigEditorPath;
+                DOSBoxPathTextBox.Text = UserDataAccessor.UserData.DBPath;
+                DOSBoxConfFileTextBox.Text = UserDataAccessor.UserData.DBDefaultConfFilePath;
+                DOSBoxLangFileTextBox.Text = UserDataAccessor.UserData.DBDefaultLangFilePath;
+                GamesDirTextBox.Text = UserDataAccessor.UserData.GamesDefaultDir;
+                CDImageDirTextBox.Text = UserDataAccessor.UserData.CDsDefaultDir;
+                EditorBinaryPathTextBox.Text = UserDataAccessor.UserData.ConfigEditorPath;
             }
         }
 

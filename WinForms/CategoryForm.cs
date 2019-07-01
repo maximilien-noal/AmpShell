@@ -9,6 +9,7 @@
  * If not, see <http://www.gnu.org/licenses/>.*/
 
 using AmpShell.ViewModel;
+
 using System;
 using System.Windows.Forms;
 
@@ -49,7 +50,7 @@ namespace AmpShell.WinForms
 
         private void OK_Click(object sender, EventArgs e)
         {
-            if(_viewModel.IsDataValid())
+            if (_viewModel.IsDataValid())
             {
                 _viewModel.CreateCategory();
                 DialogResult = DialogResult.OK;

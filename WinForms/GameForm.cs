@@ -8,7 +8,7 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
 
-using AmpShell.Configuration;
+using AmpShell.DAL;
 using AmpShell.Model;
 
 using System;
@@ -29,7 +29,6 @@ namespace AmpShell.WinForms
         {
             InitializeComponent();
             GameInstance = editedGame;
-
 
             //fill the form with the Game's data.
             Text = "Editing " + GameInstance.Name + "...";
@@ -75,12 +74,12 @@ namespace AmpShell.WinForms
             GameSetupTextBox.Text = GameSetupTextBox.Text.Replace("AppPath", Application.StartupPath);
             AlternateDOSBoxLocationTextbox.Text = AlternateDOSBoxLocationTextbox.Text.Replace("AppPath", Application.StartupPath);
 
-            if(newGame)
+            if (newGame)
             {
-                NoConsoleCheckBox.Checked = UserDataLoaderSaver.UserData.GamesNoConsole;
-                FullscreenCheckBox.Checked = UserDataLoaderSaver.UserData.GamesInFullScreen;
-                QuitOnExitCheckBox.Checked = UserDataLoaderSaver.UserData.GamesQuitOnExit;
-                GameAdditionalCommandsTextBox.Text = UserDataLoaderSaver.UserData.GamesAdditionalCommands;
+                NoConsoleCheckBox.Checked = UserDataAccessor.UserData.GamesNoConsole;
+                FullscreenCheckBox.Checked = UserDataAccessor.UserData.GamesInFullScreen;
+                QuitOnExitCheckBox.Checked = UserDataAccessor.UserData.GamesQuitOnExit;
+                GameAdditionalCommandsTextBox.Text = UserDataAccessor.UserData.GamesAdditionalCommands;
             }
         }
 
@@ -162,7 +161,7 @@ namespace AmpShell.WinForms
         private void GameLocationBrowseButton_Click(object sender, EventArgs e)
         {
             OpenFileDialog gameExeFileDialog = new OpenFileDialog();
-            if (UserDataLoaderSaver.UserData.PortableMode == true)
+            if (UserDataAccessor.UserData.PortableMode == true)
             {
                 gameExeFileDialog.InitialDirectory = Application.StartupPath;
             }
@@ -191,7 +190,7 @@ namespace AmpShell.WinForms
         private void GameCustomConfigurationBrowseButton_Click(object sender, EventArgs e)
         {
             OpenFileDialog customConfigFileDialog = new OpenFileDialog();
-            if (UserDataLoaderSaver.UserData.PortableMode == true)
+            if (UserDataAccessor.UserData.PortableMode == true)
             {
                 customConfigFileDialog.InitialDirectory = Application.StartupPath;
             }
@@ -243,13 +242,13 @@ namespace AmpShell.WinForms
                 Title = GameCDPathLabel.Text,
                 Filter = "DOSBox compatible CD images (*.bin;*.cue;*.iso;*.img)|*.bin;*.cue;*.iso;*.img;*.BIN;*.CUE;*.ISO;*.IMG"
             };
-            if (UserDataLoaderSaver.UserData.PortableMode == true)
+            if (UserDataAccessor.UserData.PortableMode == true)
             {
                 cdImageFileDialog.InitialDirectory = Application.StartupPath;
             }
-            else if (string.IsNullOrWhiteSpace(UserDataLoaderSaver.UserData.CDsDefaultDir) == false && Directory.Exists(UserDataLoaderSaver.UserData.CDsDefaultDir))
+            else if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.CDsDefaultDir) == false && Directory.Exists(UserDataAccessor.UserData.CDsDefaultDir))
             {
-                cdImageFileDialog.InitialDirectory = UserDataLoaderSaver.UserData.CDsDefaultDir;
+                cdImageFileDialog.InitialDirectory = UserDataAccessor.UserData.CDsDefaultDir;
             }
             else
             {
@@ -404,7 +403,7 @@ namespace AmpShell.WinForms
                 Title = GameSetupLabel.Text,
                 Filter = "DOS executable files (*.bat;*.com;*.exe)|*.bat;*.com;*.exe;*.BAT;*.COM;*.EXE"
             };
-            if (UserDataLoaderSaver.UserData.PortableMode == true)
+            if (UserDataAccessor.UserData.PortableMode == true)
             {
                 setupExeFileDialog.InitialDirectory = Application.StartupPath;
             }
@@ -451,7 +450,7 @@ namespace AmpShell.WinForms
                 {
                     Filter = "Image files (*.bmp;*.exif;*.gif;*.ico;*.jp*;*.png;*.tif*)|*.bmp;*.BMP;*.exif;*.EXIF;*.gif;*.GIF;*.ico;*.ICO;*.jp*;*.JP*;*.png;*.PNG;*.tif*;*.TIF*"
                 };
-                if (UserDataLoaderSaver.UserData.PortableMode == true)
+                if (UserDataAccessor.UserData.PortableMode == true)
                 {
                     iconFileDialog.InitialDirectory = Application.StartupPath;
                 }
@@ -493,7 +492,7 @@ namespace AmpShell.WinForms
         private void AlternateDOSBoxLocationBrowsSearchButton_Click(object sender, EventArgs e)
         {
             OpenFileDialog alternateDOSBoxExeFileDialog = new OpenFileDialog();
-            if (UserDataLoaderSaver.UserData.PortableMode == true)
+            if (UserDataAccessor.UserData.PortableMode == true)
             {
                 alternateDOSBoxExeFileDialog.InitialDirectory = Application.StartupPath;
             }
@@ -501,9 +500,9 @@ namespace AmpShell.WinForms
             {
                 alternateDOSBoxExeFileDialog.InitialDirectory = Directory.GetParent(AlternateDOSBoxLocationTextbox.Text).FullName;
             }
-            else if (string.IsNullOrWhiteSpace(UserDataLoaderSaver.UserData.DBPath) == false && Directory.Exists(Directory.GetParent(UserDataLoaderSaver.UserData.DBPath).FullName))
+            else if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBPath) == false && Directory.Exists(Directory.GetParent(UserDataAccessor.UserData.DBPath).FullName))
             {
-                alternateDOSBoxExeFileDialog.InitialDirectory = UserDataLoaderSaver.UserData.DBPath;
+                alternateDOSBoxExeFileDialog.InitialDirectory = UserDataAccessor.UserData.DBPath;
             }
             else
             {
@@ -541,9 +540,9 @@ namespace AmpShell.WinForms
             {
                 initialDirectory = Directory.GetParent(GameInstance.DBConfPath).FullName;
             }
-            else if (string.IsNullOrWhiteSpace(UserDataLoaderSaver.UserData.GamesDefaultDir) == false && Directory.Exists(UserDataLoaderSaver.UserData.GamesDefaultDir))
+            else if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.GamesDefaultDir) == false && Directory.Exists(UserDataAccessor.UserData.GamesDefaultDir))
             {
-                initialDirectory = UserDataLoaderSaver.UserData.GamesDefaultDir;
+                initialDirectory = UserDataAccessor.UserData.GamesDefaultDir;
             }
 
             if (string.IsNullOrWhiteSpace(initialDirectory))

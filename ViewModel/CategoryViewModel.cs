@@ -8,7 +8,7 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
 
-using AmpShell.Configuration;
+using AmpShell.DAL;
 using AmpShell.Model;
 using AmpShell.Notification;
 
@@ -37,10 +37,10 @@ namespace AmpShell.ViewModel
 
         public void CreateCategory()
         {
-            if(string.IsNullOrWhiteSpace(_editedCategorySignature))
+            if (string.IsNullOrWhiteSpace(_editedCategorySignature))
             {
                 var category = new Category(Name, RootModelQuery.GetAUniqueSignature());
-                UserDataLoaderSaver.UserData.AddChild(category);
+                UserDataAccessor.UserData.AddChild(category);
             }
             else
             {

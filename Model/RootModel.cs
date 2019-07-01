@@ -68,7 +68,6 @@ namespace AmpShell.Model
         {
             get => _gameDeletePrompt;
             set { Set<bool>(ref _gameDeletePrompt, value); }
-
         }
 
         private bool _categoryDeletePrompt = true;
