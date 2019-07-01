@@ -26,7 +26,7 @@ namespace AmpShell.ViewModel
         public CategoryViewModel(string editedCategorySignature)
         {
             this._editedCategorySignature = editedCategorySignature;
-            this.Name = RootModelQuery.GetCategoryWithSignature(_editedCategorySignature).Title;
+            this.Name = UserDataAccessor.GetCategoryWithSignature(_editedCategorySignature).Title;
         }
 
         public string Name
@@ -39,12 +39,12 @@ namespace AmpShell.ViewModel
         {
             if (string.IsNullOrWhiteSpace(_editedCategorySignature))
             {
-                var category = new Category(Name, RootModelQuery.GetAUniqueSignature());
+                var category = new Category(Name, UserDataAccessor.GetAUniqueSignature());
                 UserDataAccessor.UserData.AddChild(category);
             }
             else
             {
-                RootModelQuery.GetCategoryWithSignature(_editedCategorySignature).Title = Name;
+                UserDataAccessor.GetCategoryWithSignature(_editedCategorySignature).Title = Name;
             }
         }
 

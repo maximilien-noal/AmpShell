@@ -198,7 +198,7 @@ namespace AmpShell.Model
             set { Set<string>(ref _dbDefaultLangFilePath, value); }
         }
 
-        private int _width;
+        private int _width = 640;
 
         public int Width
         {
@@ -206,7 +206,7 @@ namespace AmpShell.Model
             set { Set<int>(ref _width, value); }
         }
 
-        private int _height;
+        private int _height = 400;
 
         public int Height
         {

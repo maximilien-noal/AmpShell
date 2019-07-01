@@ -526,7 +526,7 @@ namespace AmpShell.WinForms
             {
                 return null;
             }
-            return RootModelQuery.GetGameWithSignature((string)SelectedListView.FocusedItem.Tag);
+            return UserDataAccessor.GetGameWithSignature((string)SelectedListView.FocusedItem.Tag);
         }
 
         private Category GetSelectedCategory()
@@ -535,12 +535,12 @@ namespace AmpShell.WinForms
             {
                 return null;
             }
-            return RootModelQuery.GetCategoryWithSignature((string)TabControl.SelectedTab.Tag);
+            return UserDataAccessor.GetCategoryWithSignature((string)TabControl.SelectedTab.Tag);
         }
 
         private Category GetSelectedCategory(int hoveredTabIndex)
         {
-            return RootModelQuery.GetCategoryWithSignature((string)TabControl.TabPages[hoveredTabIndex].Tag);
+            return UserDataAccessor.GetCategoryWithSignature((string)TabControl.TabPages[hoveredTabIndex].Tag);
         }
 
         /// <summary>
@@ -952,7 +952,7 @@ namespace AmpShell.WinForms
                 }
             }
 
-            newGame.Signature = RootModelQuery.GetAUniqueSignature();
+            newGame.Signature = UserDataAccessor.GetAUniqueSignature();
 
             GameForm newGameForm = new GameForm(newGame, true);
 

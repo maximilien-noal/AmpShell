@@ -14,6 +14,7 @@ using AmpShell.Serialization;
 
 using System;
 using System.IO;
+using System.Linq;
 
 namespace AmpShell.DAL
 {
@@ -24,10 +25,27 @@ namespace AmpShell.DAL
             UserData = new RootModel();
         }
 
-        /// <summary>
-        /// Path to the user data file (AmpShell.xml)
-        /// </summary>
-        private static string UserConfigFileDataPath { get; set; }
+        public static string GetAUniqueSignature()
+        {
+            string newSignature;
+            do
+            {
+                Random randNumber = new Random();
+                newSignature = randNumber.Next(1048576).ToString();
+            }
+            while (UserData.IsItAUniqueSignature(newSignature) == false);
+            return newSignature;
+        }
+
+        internal static Category GetCategoryWithSignature(string signature)
+        {
+            return UserDataAccessor.UserData.ListChildren.Cast<Category>().FirstOrDefault(x => x.Signature == signature);
+        }
+
+        internal static Game GetGameWithSignature(string signature)
+        {
+            return UserDataAccessor.UserData.ListChildren.Cast<Category>().SelectMany(x => x.ListChildren.Cast<Game>()).FirstOrDefault(x => x.Signature == signature);
+        }
 
         /// <summary>
         /// Object to load and save user data through XML (de)serialization
@@ -39,7 +57,7 @@ namespace AmpShell.DAL
             //saves the data inside Amp by serliazing it in AmpShell.xml
             if (!UserData.PortableMode)
             {
-                ObjectSerializer.Serialize(UserConfigFileDataPath, UserData, typeof(ModelWithChildren));
+                ObjectSerializer.Serialize(GetDataFilePath(), UserData, typeof(ModelWithChildren));
             }
             else
             {
@@ -67,71 +85,33 @@ namespace AmpShell.DAL
 
         public static void LoadUserSettings()
         {
-            //If the file named AmpShell.xml doesn't exists inside the directory AmpShell uses the one in the user's profile Application Data directory
-            if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\AmpShell\\AmpShell.xml") == false && File.Exists(PathFinder.GetStartupPath() + "\\AmpShell.xml") == false)
+            UserData = (RootModel)ObjectSerializer.Deserialize(GetDataFilePath(), typeof(ModelWithChildren));
+            foreach (Category concernedCategory in UserData.ListChildren)
             {
-                //take the Windows Height and Width (saved on close with XML serializing)
-                UserData.Width = 640;
-                UserData.Height = 400;
-                //Setup the whole directory path
-                if (Directory.GetDirectoryRoot(PathFinder.GetStartupPath()) == Environment.GetFolderPath(System.Environment.SpecialFolder.ProgramFiles) || Directory.GetDirectoryRoot(PathFinder.GetStartupPath()) == Environment.SystemDirectory.Substring(0, 3) + "Program Files (x86)")
+                foreach (Game concernedGame in concernedCategory.ListChildren)
                 {
-                    UserConfigFileDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\AmpShell";
-                    //create the directory
-                    if (Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\AmpShell") == false)
-                    {
-                        Directory.CreateDirectory(UserConfigFileDataPath);
-                        UserConfigFileDataPath += "\\AmpShell.xml";
-                    }
+                    concernedGame.DOSEXEPath = concernedGame.DOSEXEPath.Replace("AppPath", PathFinder.GetStartupPath());
+                    concernedGame.DBConfPath = concernedGame.DBConfPath.Replace("AppPath", PathFinder.GetStartupPath());
+                    concernedGame.AdditionalCommands = concernedGame.AdditionalCommands.Replace("AppPath", PathFinder.GetStartupPath());
+                    concernedGame.Directory = concernedGame.Directory.Replace("AppPath", PathFinder.GetStartupPath());
+                    concernedGame.CDPath = concernedGame.CDPath.Replace("AppPath", PathFinder.GetStartupPath());
+                    concernedGame.SetupEXEPath = concernedGame.SetupEXEPath.Replace("AppPath", PathFinder.GetStartupPath());
+                    concernedGame.Icon = concernedGame.Icon.Replace("AppPath", PathFinder.GetStartupPath());
                 }
-                else
-                {
-                    UserConfigFileDataPath = PathFinder.GetStartupPath() + "\\AmpShell.xml";
-                }
-                //Serializing the data inside Amp for the first run
-                ObjectSerializer.Serialize(UserConfigFileDataPath, UserData, typeof(ModelWithChildren));
-                UserData = (RootModel)ObjectSerializer.Deserialize(UserConfigFileDataPath, typeof(ModelWithChildren));
             }
-            //if the file named AmpShell.xml exists inside that directory
-            else
-            {
-                //then, deserialize it in Amp.
-                if (File.Exists(PathFinder.GetStartupPath() + "\\AmpShell.xml"))
-                {
-                    UserConfigFileDataPath = PathFinder.GetStartupPath() + "\\AmpShell.xml";
-                }
-                else if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\AmpShell\\AmpShell.xml"))
-                {
-                    UserConfigFileDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\AmpShell\\AmpShell.xml";
-                }
+            UserData.DBDefaultConfFilePath = UserData.DBDefaultConfFilePath.Replace("AppPath", PathFinder.GetStartupPath());
+            UserData.DBDefaultLangFilePath = UserData.DBDefaultLangFilePath.Replace("AppPath", PathFinder.GetStartupPath());
+            UserData.DBPath = UserData.DBPath.Replace("AppPath", PathFinder.GetStartupPath());
+            UserData.ConfigEditorPath = UserData.ConfigEditorPath.Replace("AppPath", PathFinder.GetStartupPath());
+            UserData.ConfigEditorAdditionalParameters = UserData.ConfigEditorAdditionalParameters.Replace("AppPath", PathFinder.GetStartupPath());
 
-                UserData = (RootModel)ObjectSerializer.Deserialize(UserConfigFileDataPath, typeof(ModelWithChildren));
-                foreach (Category concernedCategory in UserData.ListChildren)
-                {
-                    foreach (Game concernedGame in concernedCategory.ListChildren)
-                    {
-                        concernedGame.DOSEXEPath = concernedGame.DOSEXEPath.Replace("AppPath", PathFinder.GetStartupPath());
-                        concernedGame.DBConfPath = concernedGame.DBConfPath.Replace("AppPath", PathFinder.GetStartupPath());
-                        concernedGame.AdditionalCommands = concernedGame.AdditionalCommands.Replace("AppPath", PathFinder.GetStartupPath());
-                        concernedGame.Directory = concernedGame.Directory.Replace("AppPath", PathFinder.GetStartupPath());
-                        concernedGame.CDPath = concernedGame.CDPath.Replace("AppPath", PathFinder.GetStartupPath());
-                        concernedGame.SetupEXEPath = concernedGame.SetupEXEPath.Replace("AppPath", PathFinder.GetStartupPath());
-                        concernedGame.Icon = concernedGame.Icon.Replace("AppPath", PathFinder.GetStartupPath());
-                    }
-                }
-                UserData.DBDefaultConfFilePath = UserData.DBDefaultConfFilePath.Replace("AppPath", PathFinder.GetStartupPath());
-                UserData.DBDefaultLangFilePath = UserData.DBDefaultLangFilePath.Replace("AppPath", PathFinder.GetStartupPath());
-                UserData.DBPath = UserData.DBPath.Replace("AppPath", PathFinder.GetStartupPath());
-                UserData.ConfigEditorPath = UserData.ConfigEditorPath.Replace("AppPath", PathFinder.GetStartupPath());
-                UserData.ConfigEditorAdditionalParameters = UserData.ConfigEditorAdditionalParameters.Replace("AppPath", PathFinder.GetStartupPath());
-            }
             if (string.IsNullOrWhiteSpace(UserData.DBPath))
             {
-                UserData.DBPath = FileFinder.SearchDOSBox(UserConfigFileDataPath, UserData.PortableMode);
+                UserData.DBPath = FileFinder.SearchDOSBox(GetDataFilePath(), UserData.PortableMode);
             }
             else if (File.Exists(UserData.DBPath) == false)
             {
-                UserData.DBPath = FileFinder.SearchDOSBox(UserConfigFileDataPath, UserData.PortableMode);
+                UserData.DBPath = FileFinder.SearchDOSBox(GetDataFilePath(), UserData.PortableMode);
             }
             if (string.IsNullOrWhiteSpace(UserData.ConfigEditorPath))
             {
@@ -144,11 +124,11 @@ namespace AmpShell.DAL
 
             if (string.IsNullOrWhiteSpace(UserData.DBDefaultConfFilePath))
             {
-                UserData.DBDefaultConfFilePath = FileFinder.SearchDOSBoxConf(UserConfigFileDataPath, UserData.DBPath);
+                UserData.DBDefaultConfFilePath = FileFinder.SearchDOSBoxConf(GetDataFilePath(), UserData.DBPath);
             }
             else if (File.Exists(UserData.DBDefaultConfFilePath) == false)
             {
-                UserData.DBDefaultConfFilePath = FileFinder.SearchDOSBoxConf(UserConfigFileDataPath, UserData.DBPath);
+                UserData.DBDefaultConfFilePath = FileFinder.SearchDOSBoxConf(GetDataFilePath(), UserData.DBPath);
             }
 
             if (string.IsNullOrWhiteSpace(UserData.DBDefaultLangFilePath) == false)
@@ -159,6 +139,47 @@ namespace AmpShell.DAL
             {
                 UserData.DBDefaultLangFilePath = FileFinder.SearchDOSBoxLanguageFile(UserData.DBPath);
             }
+        }
+
+        /// <summary>
+        /// Returns the path to the user data file (AmpShell.xml)
+        /// </summary>
+        private static string GetDataFilePath()
+        {
+            var path = "";
+            //If the file named AmpShell.xml doesn't exists inside the directory AmpShell uses the one in the user's profile Application Data directory
+            if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\AmpShell\\AmpShell.xml") == false && File.Exists(PathFinder.GetStartupPath() + "\\AmpShell.xml") == false)
+            {
+                //Setup the whole directory path
+                if (Directory.GetDirectoryRoot(PathFinder.GetStartupPath()) == Environment.GetFolderPath(System.Environment.SpecialFolder.ProgramFiles) || Directory.GetDirectoryRoot(PathFinder.GetStartupPath()) == Environment.SystemDirectory.Substring(0, 3) + "Program Files (x86)")
+                {
+                    path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\AmpShell";
+                    //create the directory
+                    if (Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\AmpShell") == false)
+                    {
+                        Directory.CreateDirectory(path);
+                        path += "\\AmpShell.xml";
+                    }
+                }
+                else
+                {
+                    path = PathFinder.GetStartupPath() + "\\AmpShell.xml";
+                }
+            }
+            //if the file named AmpShell.xml exists inside that directory
+            else
+            {
+                //then, deserialize it in Amp.
+                if (File.Exists(PathFinder.GetStartupPath() + "\\AmpShell.xml"))
+                {
+                    path = PathFinder.GetStartupPath() + "\\AmpShell.xml";
+                }
+                else if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\AmpShell\\AmpShell.xml"))
+                {
+                    path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\AmpShell\\AmpShell.xml";
+                }
+            }
+            return path;
         }
     }
 }

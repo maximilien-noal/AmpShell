@@ -17,18 +17,6 @@ namespace AmpShell.Model
 {
     public static class RootModelQuery
     {
-        public static string GetAUniqueSignature()
-        {
-            string newSignature;
-            do
-            {
-                Random randNumber = new Random();
-                newSignature = randNumber.Next(1048576).ToString();
-            }
-            while (UserDataAccessor.UserData.IsItAUniqueSignature(newSignature) == false);
-            return newSignature;
-        }
-
         /// <summary>
         /// Used when a new Category or Game is created : it's signature must be unique
         /// so AmpShell can recognize it instantly
@@ -59,16 +47,6 @@ namespace AmpShell.Model
                 }
             }
             return true;
-        }
-
-        internal static Category GetCategoryWithSignature(string signature)
-        {
-            return UserDataAccessor.UserData.ListChildren.Cast<Category>().FirstOrDefault(x => x.Signature == signature);
-        }
-
-        internal static Game GetGameWithSignature(string signature)
-        {
-            return UserDataAccessor.UserData.ListChildren.Cast<Category>().SelectMany(x => x.ListChildren.Cast<Game>()).FirstOrDefault(x => x.Signature == signature);
         }
     }
 }
