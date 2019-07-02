@@ -943,7 +943,7 @@ namespace AmpShell.Views
                     {
                         firstFile = LinkTarget.ResolveShortcut(firstFile);
                     }
-                    newGame.Name = Directory.GetParent(firstFile).Name;
+                    newGame.Name = Path.GetDirectoryName(firstFile);
                     newGame.Directory = Path.GetDirectoryName(firstFile);
                     if (File.Exists(firstFile) && (Path.GetExtension(firstFile).ToUpper() == ".COM" || Path.GetExtension(firstFile).ToUpper() == ".EXE" || Path.GetExtension(firstFile).ToUpper() == ".BAT"))
                     {

@@ -73,7 +73,7 @@ namespace AmpShell.AutoConfig
                     //(behavior of DOSBox versions prior to DOSBox version 0.73)
                     if (string.IsNullOrWhiteSpace(DOSBoxExecutablePath) == false)
                     {
-                        if (File.Exists(Directory.GetParent(DOSBoxExecutablePath).FullName + "\\dosbox.conf"))
+                        if (File.Exists(Path.GetDirectoryName(DOSBoxExecutablePath) + "\\dosbox.conf"))
                         {
                             confPath = DOSBoxExecutablePath + "\\dosbox.conf";
                         }
@@ -105,9 +105,9 @@ namespace AmpShell.AutoConfig
                     //(behavior of DOSBox versions prior to DOSBox version 0.73)
                     if (string.IsNullOrWhiteSpace(dosboxExecutablePath) == false)
                     {
-                        if (Directory.GetFiles(Directory.GetParent(dosboxExecutablePath).FullName, "*.lng").Length > 0)
+                        if (Directory.GetFiles(Path.GetDirectoryName(dosboxExecutablePath), "*.lng").Length > 0)
                         {
-                            langPath = Directory.GetFiles(Directory.GetParent(dosboxExecutablePath).FullName, "*.lng")[0];
+                            langPath = Directory.GetFiles(Path.GetDirectoryName(dosboxExecutablePath), "*.lng")[0];
                         }
                     }
                 }

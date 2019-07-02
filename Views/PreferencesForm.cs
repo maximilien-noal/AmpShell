@@ -32,9 +32,9 @@ namespace AmpShell.Views
             OpenFileDialog textEdtiorFileDialog = new OpenFileDialog();
             if (string.IsNullOrWhiteSpace(EditorBinaryPathTextBox.Text) == false)
             {
-                if (Directory.Exists(Directory.GetParent(EditorBinaryPathTextBox.Text).ToString()))
+                if (Directory.Exists(Path.GetDirectoryName(EditorBinaryPathTextBox.Text).ToString()))
                 {
-                    textEdtiorFileDialog.InitialDirectory = Directory.GetParent(EditorBinaryPathTextBox.Text).ToString();
+                    textEdtiorFileDialog.InitialDirectory = Path.GetDirectoryName(EditorBinaryPathTextBox.Text).ToString();
                 }
                 else
                 {
@@ -287,9 +287,9 @@ namespace AmpShell.Views
         {
             OpenFileDialog dosboxDefaultConfFileDialog = new OpenFileDialog();
             if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBDefaultConfFilePath) == false
-                && Directory.Exists(Directory.GetParent(UserDataAccessor.UserData.DBDefaultConfFilePath).FullName))
+                && Directory.Exists(Path.GetDirectoryName(UserDataAccessor.UserData.DBDefaultConfFilePath)))
             {
-                dosboxDefaultConfFileDialog.InitialDirectory = Directory.GetParent(UserDataAccessor.UserData.DBDefaultConfFilePath).FullName;
+                dosboxDefaultConfFileDialog.InitialDirectory = Path.GetDirectoryName(UserDataAccessor.UserData.DBDefaultConfFilePath);
             }
 
             dosboxDefaultConfFileDialog.Title = DOSBoxConfLabel.Text;
@@ -306,9 +306,9 @@ namespace AmpShell.Views
         {
             OpenFileDialog dosBoxDefaultLangFileDialog = new OpenFileDialog();
             if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBDefaultLangFilePath) == false
-                && Directory.Exists(Directory.GetParent(UserDataAccessor.UserData.DBDefaultLangFilePath).FullName))
+                && Directory.Exists(Path.GetDirectoryName(UserDataAccessor.UserData.DBDefaultLangFilePath)))
             {
-                dosBoxDefaultLangFileDialog.InitialDirectory = Directory.GetParent(UserDataAccessor.UserData.DBDefaultLangFilePath).FullName;
+                dosBoxDefaultLangFileDialog.InitialDirectory = Path.GetDirectoryName(UserDataAccessor.UserData.DBDefaultLangFilePath);
             }
 
             dosBoxDefaultLangFileDialog.Title = DOSBoxLangFileLabel.Text;
