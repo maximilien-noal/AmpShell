@@ -31,7 +31,7 @@ namespace AmpShell.Model
             _children = new List<object>();
         }
 
-        [XmlElement("Window", typeof(RootModel))]
+        [XmlElement("Window", typeof(Preferences))]
         [XmlElement("Category", typeof(Category))]
         [XmlElement("Game", typeof(Game))]
         public object[] ListChildren

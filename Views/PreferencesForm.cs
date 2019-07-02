@@ -88,7 +88,7 @@ namespace AmpShell.Views
             UserDataAccessor.UserData.ConfigEditorAdditionalParameters = AdditionnalParametersTextBox.Text;
             if (LargeViewModeSizeComboBox.SelectedIndex >= 0)
             {
-                UserDataAccessor.UserData.LargeViewModeSize = RootModel.LargeViewModeSizes[LargeViewModeSizeComboBox.SelectedIndex];
+                UserDataAccessor.UserData.LargeViewModeSize = Preferences.LargeViewModeSizes[LargeViewModeSizeComboBox.SelectedIndex];
             }
 
             if (LargeIconsRadioButton.Checked == true)
@@ -151,7 +151,7 @@ namespace AmpShell.Views
         private void Main_Prefs_Load(object sender, EventArgs e)
         {
             CheckForPortableModeAvailabilityAndUpdateUI();
-            LargeViewModeSizeComboBox.Text = LargeViewModeSizeComboBox.Items[RootModel.LargeViewModeSizes.IndexOf(UserDataAccessor.UserData.LargeViewModeSize)].ToString();
+            LargeViewModeSizeComboBox.Text = LargeViewModeSizeComboBox.Items[Preferences.LargeViewModeSizes.IndexOf(UserDataAccessor.UserData.LargeViewModeSize)].ToString();
             CategoyDeletePromptCheckBox.Checked = UserDataAccessor.UserData.CategoryDeletePrompt;
             GameDeletePromptCheckBox.Checked = UserDataAccessor.UserData.GameDeletePrompt;
             WindowPositionCheckBox.Checked = UserDataAccessor.UserData.RememberWindowPosition;

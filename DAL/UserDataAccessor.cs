@@ -22,7 +22,7 @@ namespace AmpShell.DAL
     {
         static UserDataAccessor()
         {
-            UserData = new RootModel();
+            UserData = new Preferences();
         }
         /// <summary>
         /// Used when a new Category or Game is created : it's signature must be unique
@@ -80,7 +80,7 @@ namespace AmpShell.DAL
         /// <summary>
         /// Object to load and save user data through XML (de)serialization
         /// </summary>
-        public static RootModel UserData { get; private set; }
+        public static Preferences UserData { get; private set; }
 
         public static void SaveUserSettings()
         {
@@ -115,7 +115,7 @@ namespace AmpShell.DAL
 
         public static void LoadUserSettings()
         {
-            UserData = (RootModel)ObjectSerializer.Deserialize(GetDataFilePath(), typeof(ModelWithChildren));
+            UserData = (Preferences)ObjectSerializer.Deserialize(GetDataFilePath(), typeof(ModelWithChildren));
             foreach (Category concernedCategory in UserData.ListChildren)
             {
                 foreach (Game concernedGame in concernedCategory.ListChildren)
