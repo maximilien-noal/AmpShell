@@ -13,7 +13,7 @@ using AmpShell.ViewModel;
 using System;
 using System.Windows.Forms;
 
-namespace AmpShell.WinForms
+namespace AmpShell.Views
 {
     public partial class CategoryForm : Form
     {

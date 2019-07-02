@@ -10,7 +10,7 @@
 
 using System.Windows.Forms;
 
-namespace AmpShell.WinForms.UserControls
+namespace AmpShell.Views.UserControls
 {
     public class CustomListView : ListView
     {

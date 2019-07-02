@@ -57,55 +57,55 @@
     <Compile Include="Serialization\ObjectSerializer.cs" />
     <Compile Include="ViewModel\CategoryViewModel.cs" />
     <Compile Include="WinShell\LinkTarget.cs" />
-    <Compile Include="WinForms\AboutBox.cs">
+    <Compile Include="Views\AboutBox.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="WinForms\AboutBox.Designer.cs">
+    <Compile Include="Views\AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="WinForms\CategoryForm.cs">
+    <Compile Include="Views\CategoryForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="WinForms\CategoryForm.Designer.cs">
+    <Compile Include="Views\CategoryForm.Designer.cs">
       <DependentUpon>CategoryForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="WinForms\UserControls\CustomListView.cs">
+    <Compile Include="Views\UserControls\CustomListView.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="WinForms\GameForm.cs">
+    <Compile Include="Views\GameForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="WinForms\GameForm.Designer.cs">
+    <Compile Include="Views\GameForm.Designer.cs">
       <DependentUpon>GameForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="WinForms\PreferencesForm.cs">
+    <Compile Include="Views\PreferencesForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="WinForms\PreferencesForm.Designer.cs">
+    <Compile Include="Views\PreferencesForm.Designer.cs">
       <DependentUpon>PreferencesForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="WinForms\MainForm.cs">
+    <Compile Include="Views\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="WinForms\MainForm.Designer.cs">
+    <Compile Include="Views\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="WinForms\AboutBox.resx">
+    <EmbeddedResource Include="Views\AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinForms\CategoryForm.resx">
+    <EmbeddedResource Include="Views\CategoryForm.resx">
       <DependentUpon>CategoryForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinForms\MainForm.resx">
+    <EmbeddedResource Include="Views\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinForms\GameForm.resx">
+    <EmbeddedResource Include="Views\GameForm.resx">
       <DependentUpon>GameForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinForms\PreferencesForm.resx">
+    <EmbeddedResource Include="Views\PreferencesForm.resx">
       <DependentUpon>PreferencesForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

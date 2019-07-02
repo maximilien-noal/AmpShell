@@ -12,7 +12,7 @@ using System;
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace AmpShell.WinForms
+namespace AmpShell.Views
 {
     partial class AboutBox : Form
     {

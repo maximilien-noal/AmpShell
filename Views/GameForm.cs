@@ -16,7 +16,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
-namespace AmpShell.WinForms
+namespace AmpShell.Views
 {
     public partial class GameForm : Form
     {

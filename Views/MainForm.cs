@@ -11,7 +11,7 @@
 using AmpShell.DAL;
 using AmpShell.DOSBox;
 using AmpShell.Model;
-using AmpShell.WinForms.UserControls;
+using AmpShell.Views.UserControls;
 using AmpShell.WinShell;
 
 using System;
@@ -21,7 +21,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace AmpShell.WinForms
+namespace AmpShell.Views
 {
     public partial class MainForm : Form
     {
