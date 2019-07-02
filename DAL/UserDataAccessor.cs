@@ -24,6 +24,36 @@ namespace AmpShell.DAL
         {
             UserData = new RootModel();
         }
+        /// <summary>
+        /// Used when a new Category or Game is created : it's signature must be unique
+        /// so AmpShell can recognize it instantly
+        /// </summary>
+        /// <param name="signatureToTest">A Category's or Game's signature</param>
+        /// <returns>Whether the signature equals none of the other ones, or not</returns>
+        public static bool IsItAUniqueSignature(string signatureToTest)
+        {
+            foreach (Category otherCat in UserData.ListChildren)
+            {
+                if (otherCat.Signature != signatureToTest)
+                {
+                    if (otherCat.ListChildren.Length != 0)
+                    {
+                        foreach (Game otherGame in otherCat.ListChildren)
+                        {
+                            if (otherGame.Signature == signatureToTest)
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
 
         public static string GetAUniqueSignature()
         {
@@ -33,7 +63,7 @@ namespace AmpShell.DAL
                 Random randNumber = new Random();
                 newSignature = randNumber.Next(1048576).ToString();
             }
-            while (UserData.IsItAUniqueSignature(newSignature) == false);
+            while (IsItAUniqueSignature(newSignature) == false);
             return newSignature;
         }
 

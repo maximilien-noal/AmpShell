@@ -49,7 +49,6 @@
     <Compile Include="Model\Category.cs" />
     <Compile Include="Model\Game.cs" />
     <Compile Include="Model\RootModel.cs" />
-    <Compile Include="Model\RootModelQuery.cs" />
     <Compile Include="Model\ModelWithChildren.cs" />
     <Compile Include="DOSBox\DOSBoxConfigFile.cs" />
     <Compile Include="DOSBox\DOSBoxController.cs" />
