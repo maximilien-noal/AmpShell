@@ -20,11 +20,6 @@ namespace AmpShell.WinForms
 {
     public partial class GameForm : Form
     {
-        /// <summary>
-        /// Alternate constructor for when an existing game is going to be edited
-        /// </summary>
-        /// <param name="editedGame"></param>
-        /// <param name="userData"></param>
         public GameForm(Game editedGame, bool newGame = false)
         {
             InitializeComponent();
