@@ -34,7 +34,11 @@ namespace AmpShell.Views
         {
             _viewModel = new CategoryViewModel(editedCategorySignature);
             Initialize();
-            NameTextBox.Text = _viewModel.Name;
+            ModifyViewForEditing();
+        }
+
+        private void ModifyViewForEditing()
+        {
             OK.Text = "&Save and apply";
             OK.Width = 102;
             OK.Location = new System.Drawing.Point(Cancel.Location.X - 107, 41);
