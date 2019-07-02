@@ -37,11 +37,7 @@ namespace AmpShell.WinForms
                     GameIconPictureBox.ImageLocation = realLocation;
                 }
             }
-            OK.Text = "&Save and apply";
-            OK.Width = 102;
-            OK.Location = new Point(Cancel.Location.X - 106, Cancel.Location.Y);
-            OK.Image = Properties.Resources.saveHS;
-            Cancel.Text = "&Don't save";
+            
             GameNameTextbox.Text = GameInstance.Name;
             GameLocationTextbox.Text = GameInstance.DOSEXEPath;
             GameDirectoryTextbox.Text = GameInstance.Directory;
@@ -76,6 +72,15 @@ namespace AmpShell.WinForms
                 QuitOnExitCheckBox.Checked = UserDataAccessor.UserData.GamesQuitOnExit;
                 GameAdditionalCommandsTextBox.Text = UserDataAccessor.UserData.GamesAdditionalCommands;
             }
+            else
+            {
+                OK.Text = "&Save and apply";
+                OK.Width = 102;
+                OK.Location = new Point(Cancel.Location.X - 106, Cancel.Location.Y);
+                OK.Image = Properties.Resources.saveHS;
+                Cancel.Text = "&Don't save";
+            }
+
         }
 
         public Game GameInstance { get; private set; }
