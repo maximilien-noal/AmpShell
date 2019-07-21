@@ -1,4 +1,10 @@
 Changelog---------
+1.2.1 (July 21 2019 - 21h25)
+- New feature : The disc label can be specified (only works if it is a directory)
+
+1.2 (June 30 2019 - 15h)
+- All around more stable experience
+
 1.1.3.9 (June 30 2019 - 14h47)
 - Fixed NoConsole / FullScreen / QuitOnExit preferences
 - Categories are no longer created with their signature as title
