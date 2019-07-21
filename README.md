@@ -12,7 +12,7 @@ Starting with Windows Vista, .NET 4 is provided with Windows, so you don't have 
 
 ### Fast Startup
 
-I hate having to wait for something, so that's why AmpShell is simple and stupid - so it can bootup faster than I can say 'snap !'
+I hate having to wait for something, that's why AmpShell is simple and stupid - so it can bootup faster than I can say 'snap!'
 
 ### No Install
 
