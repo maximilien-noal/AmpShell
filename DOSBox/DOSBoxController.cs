@@ -217,17 +217,29 @@ namespace AmpShell.DOSBox
                 }
                 else
                 {
+                    bool addedMountOptions;
                     if (selectedGame.UseIOCTL == true)
                     {
-                        dosboxArgs += " -c " + '"' + "mount d " + "'" + selectedGame.CDPath + "'" + " -t cdrom -usecd 0 -ioctl" + '"';
+                        addedMountOptions = true;
+                        dosboxArgs += " -c " + '"' + "mount d " + "'" + selectedGame.CDPath + "'" + " -t cdrom -usecd 0 -ioctl";
                     }
                     else if (selectedGame.MountAsFloppy == true)
                     {
-                        dosboxArgs += " -c " + '"' + "mount a " + "'" + selectedGame.CDPath + "'" + " -t floppy" + '"';
+                        addedMountOptions = true;
+                        dosboxArgs += " -c " + '"' + "mount a " + "'" + selectedGame.CDPath + "'" + " -t floppy";
                     }
                     else
                     {
+                        addedMountOptions = true;
                         dosboxArgs += " -c " + '"' + "mount d " + "'" + selectedGame.CDPath + "'";
+                    }
+                    if (string.IsNullOrWhiteSpace(selectedGame.CDLabel) == false && addedMountOptions)
+                    {
+                        dosboxArgs += " -label " + selectedGame.CDLabel;
+                    }
+                    if(addedMountOptions)
+                    {
+                        dosboxArgs += '"';
                     }
                 }
             }

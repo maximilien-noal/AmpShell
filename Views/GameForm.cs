@@ -44,6 +44,7 @@ namespace AmpShell.Views
             GameCustomConfigurationTextbox.Text = GameInstance.DBConfPath;
             NoConfigCheckBox.Checked = GameInstance.NoConfig;
             GameCDPathTextBox.Text = GameInstance.CDPath;
+            DiscLabelTextBox.Text = GameInstance.CDLabel;
             GameAdditionalCommandsTextBox.Text = GameInstance.AdditionalCommands;
             AlternateDOSBoxLocationTextbox.Text = GameInstance.AlternateDOSBoxExePath;
             NoConsoleCheckBox.Checked = GameInstance.NoConsole;
@@ -118,6 +119,7 @@ namespace AmpShell.Views
                     GameInstance.Directory = GameDirectoryTextbox.Text;
                     GameInstance.Name = GameNameTextbox.Text;
                     GameInstance.CDPath = GameCDPathTextBox.Text;
+                    GameInstance.CDLabel = DiscLabelTextBox.Text;
                     GameInstance.SetupEXEPath = GameSetupTextBox.Text;
                     GameInstance.AlternateDOSBoxExePath = AlternateDOSBoxLocationTextbox.Text;
                     if (string.IsNullOrWhiteSpace(GameIconPictureBox.ImageLocation) == false)
@@ -380,11 +382,13 @@ namespace AmpShell.Views
                 MountingOptionsGroupBox.Enabled = true;
                 if (File.Exists(GameCDPathTextBox.Text) == false)
                 {
+                    DiscLabelTextBox.Enabled = true;
                     UseIOCTLRadioButton.Enabled = true;
                     IsAFloppyDiskRadioButton.Enabled = false;
                 }
                 else
                 {
+                    DiscLabelTextBox.Enabled = false;
                     UseIOCTLRadioButton.Enabled = false;
                     IsAFloppyDiskRadioButton.Enabled = true;
                 }

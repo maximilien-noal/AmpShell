@@ -44,45 +44,47 @@ namespace AmpShell.Views
             this.NoneRadioButton = new System.Windows.Forms.RadioButton();
             this.UseIOCTLRadioButton = new System.Windows.Forms.RadioButton();
             this.IsAFloppyDiskRadioButton = new System.Windows.Forms.RadioButton();
-            this.ResetIconButton = new System.Windows.Forms.Button();
-            this.GameIconPictureBox = new System.Windows.Forms.PictureBox();
-            this.GameCDDirBrowseButton = new System.Windows.Forms.Button();
-            this.GameSetupBrowseButton = new System.Windows.Forms.Button();
-            this.GameSetupLabel = new System.Windows.Forms.Label();
             this.GameSetupTextBox = new System.Windows.Forms.TextBox();
-            this.GameDirectoryBrowseButton = new System.Windows.Forms.Button();
-            this.GameDirectoryLabel = new System.Windows.Forms.Label();
             this.GameDirectoryTextbox = new System.Windows.Forms.TextBox();
             this.OtherOptionsGroupBox = new System.Windows.Forms.GroupBox();
             this.FullscreenCheckBox = new System.Windows.Forms.CheckBox();
             this.NoConsoleCheckBox = new System.Windows.Forms.CheckBox();
             this.QuitOnExitCheckBox = new System.Windows.Forms.CheckBox();
-            this.GameAdditionalCommandsLabel = new System.Windows.Forms.Label();
             this.GameAdditionalCommandsTextBox = new System.Windows.Forms.TextBox();
             this.NoConfigCheckBox = new System.Windows.Forms.CheckBox();
+            this.GameCDPathTextBox = new System.Windows.Forms.TextBox();
+            this.GameNameTextbox = new System.Windows.Forms.TextBox();
+            this.GameCustomConfigurationTextbox = new System.Windows.Forms.TextBox();
+            this.GameLocationTextbox = new System.Windows.Forms.TextBox();
+            this.AdvancedTabPage = new System.Windows.Forms.TabPage();
+            this.AlternateDOSBoxLocationTextbox = new System.Windows.Forms.TextBox();
+            this.DiscLabelTextBox = new System.Windows.Forms.TextBox();
+            this.DiscLabelLabel = new System.Windows.Forms.Label();
+            this.ResetIconButton = new System.Windows.Forms.Button();
+            this.GameIconPictureBox = new System.Windows.Forms.PictureBox();
+            this.GameCDDirBrowseButton = new System.Windows.Forms.Button();
+            this.GameSetupBrowseButton = new System.Windows.Forms.Button();
+            this.GameSetupLabel = new System.Windows.Forms.Label();
+            this.GameDirectoryBrowseButton = new System.Windows.Forms.Button();
+            this.GameDirectoryLabel = new System.Windows.Forms.Label();
+            this.GameAdditionalCommandsLabel = new System.Windows.Forms.Label();
             this.GameCDPathBrowseButton = new System.Windows.Forms.Button();
             this.GameCDPathLabel = new System.Windows.Forms.Label();
-            this.GameCDPathTextBox = new System.Windows.Forms.TextBox();
-            this.Cancel = new System.Windows.Forms.Button();
-            this.OK = new System.Windows.Forms.Button();
-            this.GameNameTextbox = new System.Windows.Forms.TextBox();
             this.GameNameLabel = new System.Windows.Forms.Label();
             this.GameCustomConfigurationBrowseButton = new System.Windows.Forms.Button();
             this.GameCustomCofigurationLabel = new System.Windows.Forms.Label();
-            this.GameCustomConfigurationTextbox = new System.Windows.Forms.TextBox();
             this.GameLocationBrowseButton = new System.Windows.Forms.Button();
             this.GameLocationLabel = new System.Windows.Forms.Label();
-            this.GameLocationTextbox = new System.Windows.Forms.TextBox();
-            this.AdvancedTabPage = new System.Windows.Forms.TabPage();
             this.AlternateDOSBoxLocationBrowsSearchButton = new System.Windows.Forms.Button();
-            this.AlternateDOSBoxLocationTextbox = new System.Windows.Forms.TextBox();
             this.AlternateDOSBoxLocationLabel = new System.Windows.Forms.Label();
+            this.OK = new System.Windows.Forms.Button();
+            this.Cancel = new System.Windows.Forms.Button();
             this.ConfigTabControl.SuspendLayout();
             this.BasicTabPage.SuspendLayout();
             this.MountingOptionsGroupBox.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.GameIconPictureBox)).BeginInit();
             this.OtherOptionsGroupBox.SuspendLayout();
             this.AdvancedTabPage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.GameIconPictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // ConfigTabControl
@@ -132,13 +134,15 @@ namespace AmpShell.Views
             // 
             // MountingOptionsGroupBox
             // 
+            this.MountingOptionsGroupBox.Controls.Add(this.DiscLabelTextBox);
+            this.MountingOptionsGroupBox.Controls.Add(this.DiscLabelLabel);
             this.MountingOptionsGroupBox.Controls.Add(this.NoneRadioButton);
             this.MountingOptionsGroupBox.Controls.Add(this.UseIOCTLRadioButton);
             this.MountingOptionsGroupBox.Controls.Add(this.IsAFloppyDiskRadioButton);
             this.MountingOptionsGroupBox.Enabled = false;
-            this.MountingOptionsGroupBox.Location = new System.Drawing.Point(8, 300);
+            this.MountingOptionsGroupBox.Location = new System.Drawing.Point(8, 291);
             this.MountingOptionsGroupBox.Name = "MountingOptionsGroupBox";
-            this.MountingOptionsGroupBox.Size = new System.Drawing.Size(411, 38);
+            this.MountingOptionsGroupBox.Size = new System.Drawing.Size(411, 77);
             this.MountingOptionsGroupBox.TabIndex = 51;
             this.MountingOptionsGroupBox.TabStop = false;
             this.MountingOptionsGroupBox.Text = "Mounting options";
@@ -178,100 +182,12 @@ namespace AmpShell.Views
             this.IsAFloppyDiskRadioButton.Text = "Floppy disk image (mounted as A:)";
             this.IsAFloppyDiskRadioButton.UseVisualStyleBackColor = true;
             // 
-            // ResetIconButton
-            // 
-            this.ResetIconButton.Image = global::AmpShell.Properties.Resources.DeleteHS;
-            this.ResetIconButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.ResetIconButton.Location = new System.Drawing.Point(270, 6);
-            this.ResetIconButton.Name = "ResetIconButton";
-            this.ResetIconButton.Size = new System.Drawing.Size(80, 23);
-            this.ResetIconButton.TabIndex = 57;
-            this.ResetIconButton.Text = "Reset icon";
-            this.ResetIconButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.ResetIconButton.UseVisualStyleBackColor = true;
-            this.ResetIconButton.Click += new System.EventHandler(this.ResetIconButton_Click);
-            // 
-            // GameIconPictureBox
-            // 
-            this.GameIconPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.GameIconPictureBox.Image = global::AmpShell.Properties.Resources.Generic_Application1;
-            this.GameIconPictureBox.Location = new System.Drawing.Point(353, 6);
-            this.GameIconPictureBox.Name = "GameIconPictureBox";
-            this.GameIconPictureBox.Size = new System.Drawing.Size(66, 66);
-            this.GameIconPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.GameIconPictureBox.TabIndex = 55;
-            this.GameIconPictureBox.TabStop = false;
-            this.GameIconPictureBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.GameIconPictureBox_MouseClick);
-            // 
-            // GameCDDirBrowseButton
-            // 
-            this.GameCDDirBrowseButton.Image = global::AmpShell.Properties.Resources.SearchFolderHS;
-            this.GameCDDirBrowseButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.GameCDDirBrowseButton.Location = new System.Drawing.Point(396, 271);
-            this.GameCDDirBrowseButton.Name = "GameCDDirBrowseButton";
-            this.GameCDDirBrowseButton.Size = new System.Drawing.Size(24, 23);
-            this.GameCDDirBrowseButton.TabIndex = 50;
-            this.GameCDDirBrowseButton.Text = "...";
-            this.GameCDDirBrowseButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.GameCDDirBrowseButton.UseVisualStyleBackColor = true;
-            this.GameCDDirBrowseButton.Click += new System.EventHandler(this.GameCDDirBrowseButton_Click);
-            // 
-            // GameSetupBrowseButton
-            // 
-            this.GameSetupBrowseButton.Image = global::AmpShell.Properties.Resources.search;
-            this.GameSetupBrowseButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.GameSetupBrowseButton.Location = new System.Drawing.Point(396, 161);
-            this.GameSetupBrowseButton.Name = "GameSetupBrowseButton";
-            this.GameSetupBrowseButton.Size = new System.Drawing.Size(24, 23);
-            this.GameSetupBrowseButton.TabIndex = 42;
-            this.GameSetupBrowseButton.Text = "...";
-            this.GameSetupBrowseButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.GameSetupBrowseButton.UseVisualStyleBackColor = true;
-            this.GameSetupBrowseButton.Click += new System.EventHandler(this.GameSetupBrowseButton_Click);
-            // 
-            // GameSetupLabel
-            // 
-            this.GameSetupLabel.AutoSize = true;
-            this.GameSetupLabel.Image = ((System.Drawing.Image)(resources.GetObject("GameSetupLabel.Image")));
-            this.GameSetupLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.GameSetupLabel.Location = new System.Drawing.Point(6, 148);
-            this.GameSetupLabel.Name = "GameSetupLabel";
-            this.GameSetupLabel.Size = new System.Drawing.Size(226, 13);
-            this.GameSetupLabel.TabIndex = 40;
-            this.GameSetupLabel.Text = "     Game setup executable location (optional) :";
-            this.GameSetupLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
             // GameSetupTextBox
             // 
             this.GameSetupTextBox.Location = new System.Drawing.Point(8, 164);
             this.GameSetupTextBox.Name = "GameSetupTextBox";
             this.GameSetupTextBox.Size = new System.Drawing.Size(382, 20);
             this.GameSetupTextBox.TabIndex = 41;
-            // 
-            // GameDirectoryBrowseButton
-            // 
-            this.GameDirectoryBrowseButton.Image = global::AmpShell.Properties.Resources.search;
-            this.GameDirectoryBrowseButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.GameDirectoryBrowseButton.Location = new System.Drawing.Point(396, 123);
-            this.GameDirectoryBrowseButton.Name = "GameDirectoryBrowseButton";
-            this.GameDirectoryBrowseButton.Size = new System.Drawing.Size(24, 23);
-            this.GameDirectoryBrowseButton.TabIndex = 39;
-            this.GameDirectoryBrowseButton.Text = "...";
-            this.GameDirectoryBrowseButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.GameDirectoryBrowseButton.UseVisualStyleBackColor = true;
-            this.GameDirectoryBrowseButton.Click += new System.EventHandler(this.GameDirectoryBrowseButton_Click);
-            // 
-            // GameDirectoryLabel
-            // 
-            this.GameDirectoryLabel.AutoSize = true;
-            this.GameDirectoryLabel.Image = global::AmpShell.Properties.Resources.Folder_Open;
-            this.GameDirectoryLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.GameDirectoryLabel.Location = new System.Drawing.Point(6, 109);
-            this.GameDirectoryLabel.Name = "GameDirectoryLabel";
-            this.GameDirectoryLabel.Size = new System.Drawing.Size(187, 13);
-            this.GameDirectoryLabel.TabIndex = 37;
-            this.GameDirectoryLabel.Text = "     Directory mounted as C: (optional) :";
-            this.GameDirectoryLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // GameDirectoryTextbox
             // 
@@ -286,7 +202,7 @@ namespace AmpShell.Views
             this.OtherOptionsGroupBox.Controls.Add(this.FullscreenCheckBox);
             this.OtherOptionsGroupBox.Controls.Add(this.NoConsoleCheckBox);
             this.OtherOptionsGroupBox.Controls.Add(this.QuitOnExitCheckBox);
-            this.OtherOptionsGroupBox.Location = new System.Drawing.Point(5, 383);
+            this.OtherOptionsGroupBox.Location = new System.Drawing.Point(5, 408);
             this.OtherOptionsGroupBox.Name = "OtherOptionsGroupBox";
             this.OtherOptionsGroupBox.Size = new System.Drawing.Size(414, 40);
             this.OtherOptionsGroupBox.TabIndex = 54;
@@ -324,21 +240,9 @@ namespace AmpShell.Views
             this.QuitOnExitCheckBox.UseVisualStyleBackColor = true;
             this.QuitOnExitCheckBox.EnabledChanged += new System.EventHandler(this.QuitOnExitCheckBox_EnabledChanged);
             // 
-            // GameAdditionalCommandsLabel
-            // 
-            this.GameAdditionalCommandsLabel.AutoSize = true;
-            this.GameAdditionalCommandsLabel.Image = global::AmpShell.Properties.Resources.cmd;
-            this.GameAdditionalCommandsLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.GameAdditionalCommandsLabel.Location = new System.Drawing.Point(5, 341);
-            this.GameAdditionalCommandsLabel.Name = "GameAdditionalCommandsLabel";
-            this.GameAdditionalCommandsLabel.Size = new System.Drawing.Size(298, 13);
-            this.GameAdditionalCommandsLabel.TabIndex = 52;
-            this.GameAdditionalCommandsLabel.Text = "      Additional DOSBox commands (-c \"command\") (optional) :";
-            this.GameAdditionalCommandsLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
             // GameAdditionalCommandsTextBox
             // 
-            this.GameAdditionalCommandsTextBox.Location = new System.Drawing.Point(7, 357);
+            this.GameAdditionalCommandsTextBox.Location = new System.Drawing.Point(7, 387);
             this.GameAdditionalCommandsTextBox.Name = "GameAdditionalCommandsTextBox";
             this.GameAdditionalCommandsTextBox.Size = new System.Drawing.Size(382, 20);
             this.GameAdditionalCommandsTextBox.TabIndex = 53;
@@ -353,6 +257,175 @@ namespace AmpShell.Views
             this.NoConfigCheckBox.Text = "No config file at all (may not work with DOSBox 0.73 or newer)";
             this.NoConfigCheckBox.UseVisualStyleBackColor = true;
             this.NoConfigCheckBox.CheckedChanged += new System.EventHandler(this.NoConfigCheckBox_CheckedChanged);
+            // 
+            // GameCDPathTextBox
+            // 
+            this.GameCDPathTextBox.Location = new System.Drawing.Point(8, 265);
+            this.GameCDPathTextBox.Name = "GameCDPathTextBox";
+            this.GameCDPathTextBox.Size = new System.Drawing.Size(382, 20);
+            this.GameCDPathTextBox.TabIndex = 48;
+            this.GameCDPathTextBox.TextChanged += new System.EventHandler(this.GameCDPathTextBox_TextChanged);
+            // 
+            // GameNameTextbox
+            // 
+            this.GameNameTextbox.Location = new System.Drawing.Point(8, 47);
+            this.GameNameTextbox.Name = "GameNameTextbox";
+            this.GameNameTextbox.Size = new System.Drawing.Size(342, 20);
+            this.GameNameTextbox.TabIndex = 33;
+            // 
+            // GameCustomConfigurationTextbox
+            // 
+            this.GameCustomConfigurationTextbox.Location = new System.Drawing.Point(8, 203);
+            this.GameCustomConfigurationTextbox.Name = "GameCustomConfigurationTextbox";
+            this.GameCustomConfigurationTextbox.Size = new System.Drawing.Size(382, 20);
+            this.GameCustomConfigurationTextbox.TabIndex = 44;
+            // 
+            // GameLocationTextbox
+            // 
+            this.GameLocationTextbox.Location = new System.Drawing.Point(8, 86);
+            this.GameLocationTextbox.Name = "GameLocationTextbox";
+            this.GameLocationTextbox.Size = new System.Drawing.Size(382, 20);
+            this.GameLocationTextbox.TabIndex = 35;
+            this.GameLocationTextbox.TextChanged += new System.EventHandler(this.GameLocationTextbox_TextChanged);
+            // 
+            // AdvancedTabPage
+            // 
+            this.AdvancedTabPage.Controls.Add(this.AlternateDOSBoxLocationBrowsSearchButton);
+            this.AdvancedTabPage.Controls.Add(this.AlternateDOSBoxLocationTextbox);
+            this.AdvancedTabPage.Controls.Add(this.AlternateDOSBoxLocationLabel);
+            this.AdvancedTabPage.Location = new System.Drawing.Point(4, 22);
+            this.AdvancedTabPage.Name = "AdvancedTabPage";
+            this.AdvancedTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.AdvancedTabPage.Size = new System.Drawing.Size(425, 454);
+            this.AdvancedTabPage.TabIndex = 1;
+            this.AdvancedTabPage.Text = "Advanced Configuration";
+            this.AdvancedTabPage.UseVisualStyleBackColor = true;
+            // 
+            // AlternateDOSBoxLocationTextbox
+            // 
+            this.AlternateDOSBoxLocationTextbox.Location = new System.Drawing.Point(11, 45);
+            this.AlternateDOSBoxLocationTextbox.Name = "AlternateDOSBoxLocationTextbox";
+            this.AlternateDOSBoxLocationTextbox.Size = new System.Drawing.Size(376, 20);
+            this.AlternateDOSBoxLocationTextbox.TabIndex = 35;
+            // 
+            // DiscLabelTextBox
+            // 
+            this.DiscLabelTextBox.Location = new System.Drawing.Point(3, 55);
+            this.DiscLabelTextBox.Name = "DiscLabelTextBox";
+            this.DiscLabelTextBox.Size = new System.Drawing.Size(378, 20);
+            this.DiscLabelTextBox.TabIndex = 35;
+            // 
+            // DiscLabelLabel
+            // 
+            this.DiscLabelLabel.AutoSize = true;
+            this.DiscLabelLabel.Image = global::AmpShell.Properties.Resources.CD_ROM_Label;
+            this.DiscLabelLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.DiscLabelLabel.Location = new System.Drawing.Point(0, 39);
+            this.DiscLabelLabel.Name = "DiscLabelLabel";
+            this.DiscLabelLabel.Size = new System.Drawing.Size(183, 13);
+            this.DiscLabelLabel.TabIndex = 34;
+            this.DiscLabelLabel.Text = "      Disc label (only if it is a directory) :";
+            this.DiscLabelLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // ResetIconButton
+            // 
+            this.ResetIconButton.Image = global::AmpShell.Properties.Resources.DeleteHS;
+            this.ResetIconButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.ResetIconButton.Location = new System.Drawing.Point(270, 6);
+            this.ResetIconButton.Name = "ResetIconButton";
+            this.ResetIconButton.Size = new System.Drawing.Size(80, 23);
+            this.ResetIconButton.TabIndex = 57;
+            this.ResetIconButton.Text = "Reset icon";
+            this.ResetIconButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.ResetIconButton.UseVisualStyleBackColor = true;
+            this.ResetIconButton.Click += new System.EventHandler(this.ResetIconButton_Click);
+            // 
+            // GameIconPictureBox
+            // 
+            this.GameIconPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.GameIconPictureBox.Image = global::AmpShell.Properties.Resources.Generic_Application1;
+            this.GameIconPictureBox.Location = new System.Drawing.Point(353, 6);
+            this.GameIconPictureBox.Name = "GameIconPictureBox";
+            this.GameIconPictureBox.Size = new System.Drawing.Size(66, 66);
+            this.GameIconPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.GameIconPictureBox.TabIndex = 55;
+            this.GameIconPictureBox.TabStop = false;
+            this.GameIconPictureBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.GameIconPictureBox_MouseClick);
+            // 
+            // GameCDDirBrowseButton
+            // 
+            this.GameCDDirBrowseButton.Image = global::AmpShell.Properties.Resources.SearchFolderHS;
+            this.GameCDDirBrowseButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.GameCDDirBrowseButton.Location = new System.Drawing.Point(396, 272);
+            this.GameCDDirBrowseButton.Name = "GameCDDirBrowseButton";
+            this.GameCDDirBrowseButton.Size = new System.Drawing.Size(24, 23);
+            this.GameCDDirBrowseButton.TabIndex = 50;
+            this.GameCDDirBrowseButton.Text = "...";
+            this.GameCDDirBrowseButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.GameCDDirBrowseButton.UseVisualStyleBackColor = true;
+            this.GameCDDirBrowseButton.Click += new System.EventHandler(this.GameCDDirBrowseButton_Click);
+            // 
+            // GameSetupBrowseButton
+            // 
+            this.GameSetupBrowseButton.Image = global::AmpShell.Properties.Resources.search;
+            this.GameSetupBrowseButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.GameSetupBrowseButton.Location = new System.Drawing.Point(396, 161);
+            this.GameSetupBrowseButton.Name = "GameSetupBrowseButton";
+            this.GameSetupBrowseButton.Size = new System.Drawing.Size(24, 23);
+            this.GameSetupBrowseButton.TabIndex = 42;
+            this.GameSetupBrowseButton.Text = "...";
+            this.GameSetupBrowseButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.GameSetupBrowseButton.UseVisualStyleBackColor = true;
+            this.GameSetupBrowseButton.Click += new System.EventHandler(this.GameSetupBrowseButton_Click);
+            // 
+            // GameSetupLabel
+            // 
+            this.GameSetupLabel.AutoSize = true;
+            this.GameSetupLabel.Image = ((System.Drawing.Image)(resources.GetObject("GameSetupLabel.Image")));
+            this.GameSetupLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.GameSetupLabel.Location = new System.Drawing.Point(6, 148);
+            this.GameSetupLabel.Name = "GameSetupLabel";
+            this.GameSetupLabel.Size = new System.Drawing.Size(226, 13);
+            this.GameSetupLabel.TabIndex = 40;
+            this.GameSetupLabel.Text = "     Game setup executable location (optional) :";
+            this.GameSetupLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // GameDirectoryBrowseButton
+            // 
+            this.GameDirectoryBrowseButton.Image = global::AmpShell.Properties.Resources.search;
+            this.GameDirectoryBrowseButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.GameDirectoryBrowseButton.Location = new System.Drawing.Point(396, 123);
+            this.GameDirectoryBrowseButton.Name = "GameDirectoryBrowseButton";
+            this.GameDirectoryBrowseButton.Size = new System.Drawing.Size(24, 23);
+            this.GameDirectoryBrowseButton.TabIndex = 39;
+            this.GameDirectoryBrowseButton.Text = "...";
+            this.GameDirectoryBrowseButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.GameDirectoryBrowseButton.UseVisualStyleBackColor = true;
+            this.GameDirectoryBrowseButton.Click += new System.EventHandler(this.GameDirectoryBrowseButton_Click);
+            // 
+            // GameDirectoryLabel
+            // 
+            this.GameDirectoryLabel.AutoSize = true;
+            this.GameDirectoryLabel.Image = global::AmpShell.Properties.Resources.Folder_Open;
+            this.GameDirectoryLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.GameDirectoryLabel.Location = new System.Drawing.Point(6, 109);
+            this.GameDirectoryLabel.Name = "GameDirectoryLabel";
+            this.GameDirectoryLabel.Size = new System.Drawing.Size(187, 13);
+            this.GameDirectoryLabel.TabIndex = 37;
+            this.GameDirectoryLabel.Text = "     Directory mounted as C: (optional) :";
+            this.GameDirectoryLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // GameAdditionalCommandsLabel
+            // 
+            this.GameAdditionalCommandsLabel.AutoSize = true;
+            this.GameAdditionalCommandsLabel.Image = global::AmpShell.Properties.Resources.cmd;
+            this.GameAdditionalCommandsLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.GameAdditionalCommandsLabel.Location = new System.Drawing.Point(5, 371);
+            this.GameAdditionalCommandsLabel.Name = "GameAdditionalCommandsLabel";
+            this.GameAdditionalCommandsLabel.Size = new System.Drawing.Size(298, 13);
+            this.GameAdditionalCommandsLabel.TabIndex = 52;
+            this.GameAdditionalCommandsLabel.Text = "      Additional DOSBox commands (-c \"command\") (optional) :";
+            this.GameAdditionalCommandsLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // GameCDPathBrowseButton
             // 
@@ -378,48 +451,6 @@ namespace AmpShell.Views
             this.GameCDPathLabel.TabIndex = 47;
             this.GameCDPathLabel.Text = "      CD image file or directory mounted as D: (optional) :";
             this.GameCDPathLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // GameCDPathTextBox
-            // 
-            this.GameCDPathTextBox.Location = new System.Drawing.Point(8, 265);
-            this.GameCDPathTextBox.Name = "GameCDPathTextBox";
-            this.GameCDPathTextBox.Size = new System.Drawing.Size(382, 20);
-            this.GameCDPathTextBox.TabIndex = 48;
-            this.GameCDPathTextBox.TextChanged += new System.EventHandler(this.GameCDPathTextBox_TextChanged);
-            // 
-            // Cancel
-            // 
-            this.Cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.Cancel.Image = global::AmpShell.Properties.Resources.DeleteHS;
-            this.Cancel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.Cancel.Location = new System.Drawing.Point(347, 482);
-            this.Cancel.Name = "Cancel";
-            this.Cancel.Size = new System.Drawing.Size(82, 23);
-            this.Cancel.TabIndex = 58;
-            this.Cancel.Text = "&Don\'t add it";
-            this.Cancel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Cancel.UseVisualStyleBackColor = true;
-            this.Cancel.Click += new System.EventHandler(this.Cancel_Click);
-            // 
-            // OK
-            // 
-            this.OK.Image = ((System.Drawing.Image)(resources.GetObject("OK.Image")));
-            this.OK.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.OK.Location = new System.Drawing.Point(245, 482);
-            this.OK.Name = "OK";
-            this.OK.Size = new System.Drawing.Size(96, 23);
-            this.OK.TabIndex = 56;
-            this.OK.Text = "&Add this game";
-            this.OK.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.OK.UseVisualStyleBackColor = true;
-            this.OK.Click += new System.EventHandler(this.OK_Click);
-            // 
-            // GameNameTextbox
-            // 
-            this.GameNameTextbox.Location = new System.Drawing.Point(8, 47);
-            this.GameNameTextbox.Name = "GameNameTextbox";
-            this.GameNameTextbox.Size = new System.Drawing.Size(342, 20);
-            this.GameNameTextbox.TabIndex = 33;
             // 
             // GameNameLabel
             // 
@@ -458,13 +489,6 @@ namespace AmpShell.Views
             this.GameCustomCofigurationLabel.Text = "     Custom configuration location (optional) :";
             this.GameCustomCofigurationLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // GameCustomConfigurationTextbox
-            // 
-            this.GameCustomConfigurationTextbox.Location = new System.Drawing.Point(8, 203);
-            this.GameCustomConfigurationTextbox.Name = "GameCustomConfigurationTextbox";
-            this.GameCustomConfigurationTextbox.Size = new System.Drawing.Size(382, 20);
-            this.GameCustomConfigurationTextbox.TabIndex = 44;
-            // 
             // GameLocationBrowseButton
             // 
             this.GameLocationBrowseButton.Image = global::AmpShell.Properties.Resources.search;
@@ -490,27 +514,6 @@ namespace AmpShell.Views
             this.GameLocationLabel.Text = "      Game executable location (optional if a directory is mounted as C:) :";
             this.GameLocationLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // GameLocationTextbox
-            // 
-            this.GameLocationTextbox.Location = new System.Drawing.Point(8, 86);
-            this.GameLocationTextbox.Name = "GameLocationTextbox";
-            this.GameLocationTextbox.Size = new System.Drawing.Size(382, 20);
-            this.GameLocationTextbox.TabIndex = 35;
-            this.GameLocationTextbox.TextChanged += new System.EventHandler(this.GameLocationTextbox_TextChanged);
-            // 
-            // AdvancedTabPage
-            // 
-            this.AdvancedTabPage.Controls.Add(this.AlternateDOSBoxLocationBrowsSearchButton);
-            this.AdvancedTabPage.Controls.Add(this.AlternateDOSBoxLocationTextbox);
-            this.AdvancedTabPage.Controls.Add(this.AlternateDOSBoxLocationLabel);
-            this.AdvancedTabPage.Location = new System.Drawing.Point(4, 22);
-            this.AdvancedTabPage.Name = "AdvancedTabPage";
-            this.AdvancedTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.AdvancedTabPage.Size = new System.Drawing.Size(425, 454);
-            this.AdvancedTabPage.TabIndex = 1;
-            this.AdvancedTabPage.Text = "Advanced Configuration";
-            this.AdvancedTabPage.UseVisualStyleBackColor = true;
-            // 
             // AlternateDOSBoxLocationBrowsSearchButton
             // 
             this.AlternateDOSBoxLocationBrowsSearchButton.Image = global::AmpShell.Properties.Resources.search;
@@ -524,13 +527,6 @@ namespace AmpShell.Views
             this.AlternateDOSBoxLocationBrowsSearchButton.UseVisualStyleBackColor = true;
             this.AlternateDOSBoxLocationBrowsSearchButton.Click += new System.EventHandler(this.AlternateDOSBoxLocationBrowsSearchButton_Click);
             // 
-            // AlternateDOSBoxLocationTextbox
-            // 
-            this.AlternateDOSBoxLocationTextbox.Location = new System.Drawing.Point(11, 45);
-            this.AlternateDOSBoxLocationTextbox.Name = "AlternateDOSBoxLocationTextbox";
-            this.AlternateDOSBoxLocationTextbox.Size = new System.Drawing.Size(376, 20);
-            this.AlternateDOSBoxLocationTextbox.TabIndex = 35;
-            // 
             // AlternateDOSBoxLocationLabel
             // 
             this.AlternateDOSBoxLocationLabel.AutoSize = true;
@@ -542,6 +538,33 @@ namespace AmpShell.Views
             this.AlternateDOSBoxLocationLabel.TabIndex = 34;
             this.AlternateDOSBoxLocationLabel.Text = "\r\n           Use another DOSBox executable (DOSBox ECE, DOSBox SVN, ...) :\r\n\r\n";
             this.AlternateDOSBoxLocationLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // OK
+            // 
+            this.OK.Image = ((System.Drawing.Image)(resources.GetObject("OK.Image")));
+            this.OK.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.OK.Location = new System.Drawing.Point(245, 482);
+            this.OK.Name = "OK";
+            this.OK.Size = new System.Drawing.Size(96, 23);
+            this.OK.TabIndex = 56;
+            this.OK.Text = "&Add this game";
+            this.OK.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.OK.UseVisualStyleBackColor = true;
+            this.OK.Click += new System.EventHandler(this.OK_Click);
+            // 
+            // Cancel
+            // 
+            this.Cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.Cancel.Image = global::AmpShell.Properties.Resources.DeleteHS;
+            this.Cancel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.Cancel.Location = new System.Drawing.Point(347, 482);
+            this.Cancel.Name = "Cancel";
+            this.Cancel.Size = new System.Drawing.Size(82, 23);
+            this.Cancel.TabIndex = 58;
+            this.Cancel.Text = "&Don\'t add it";
+            this.Cancel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.Cancel.UseVisualStyleBackColor = true;
+            this.Cancel.Click += new System.EventHandler(this.Cancel_Click);
             // 
             // GameForm
             // 
@@ -563,11 +586,11 @@ namespace AmpShell.Views
             this.BasicTabPage.PerformLayout();
             this.MountingOptionsGroupBox.ResumeLayout(false);
             this.MountingOptionsGroupBox.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.GameIconPictureBox)).EndInit();
             this.OtherOptionsGroupBox.ResumeLayout(false);
             this.OtherOptionsGroupBox.PerformLayout();
             this.AdvancedTabPage.ResumeLayout(false);
             this.AdvancedTabPage.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.GameIconPictureBox)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -613,5 +636,7 @@ namespace AmpShell.Views
         private System.Windows.Forms.Button AlternateDOSBoxLocationBrowsSearchButton;
         private System.Windows.Forms.TextBox AlternateDOSBoxLocationTextbox;
         private System.Windows.Forms.Label AlternateDOSBoxLocationLabel;
+        private System.Windows.Forms.TextBox DiscLabelTextBox;
+        private System.Windows.Forms.Label DiscLabelLabel;
     }
 }

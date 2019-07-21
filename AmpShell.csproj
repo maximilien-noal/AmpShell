@@ -162,6 +162,7 @@
     <None Include="Resources\autoList2.png" />
     <None Include="Resources\MakeConfig.png" />
     <None Include="Resources\GameEditExecutableLabelImage.png" />
+    <None Include="Resources\CD_ROM_Label.png" />
     <Content Include="Resources\NewDocumentHS_button.png" />
     <None Include="Resources\SearchFolderHS.png" />
     <None Include="Resources\SortHS.png" />

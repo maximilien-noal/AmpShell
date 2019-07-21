@@ -49,6 +49,17 @@ namespace AmpShell.Model
             set { Set<string>(ref _cdPath, value); }
         }
 
+        private string _cdLabel;
+
+        /// <summary>
+        /// Optional, user-specified CD LABEL (only when it is not an image)
+        /// </summary>
+        public string CDLabel
+        {
+            get => _cdLabel;
+            set { Set<string>(ref _cdLabel, value); }
+        }
+
         private string _setupEEXEPath;
 
         /// <summary>
