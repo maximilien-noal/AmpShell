@@ -19,7 +19,7 @@ namespace AmpShell.Model
         [XmlAttribute("Signature")]
         public string Signature { get; set; }
 
-        private string _name;
+        private string _name = "";
 
         public string Name
         {
@@ -27,7 +27,7 @@ namespace AmpShell.Model
             set { Set<string>(ref _name, value); }
         }
 
-        private string _directory;
+        private string _directory = "";
 
         /// <summary>
         /// Game's directory mounted as C:
@@ -38,7 +38,7 @@ namespace AmpShell.Model
             set { Set<string>(ref _directory, value); }
         }
 
-        private string _cdPath;
+        private string _cdPath = "";
 
         /// <summary>
         /// Game's CD image / CD directory (like 'D:\') location
@@ -49,7 +49,7 @@ namespace AmpShell.Model
             set { Set<string>(ref _cdPath, value); }
         }
 
-        private string _cdLabel;
+        private string _cdLabel = "";
 
         /// <summary>
         /// Optional, user-specified CD LABEL (only when it is not an image)
@@ -60,7 +60,7 @@ namespace AmpShell.Model
             set { Set<string>(ref _cdLabel, value); }
         }
 
-        private string _setupEEXEPath;
+        private string _setupEEXEPath = "";
 
         /// <summary>
         /// Game's setup executable location
@@ -71,7 +71,7 @@ namespace AmpShell.Model
             set { Set<string>(ref _setupEEXEPath, value); }
         }
 
-        private string _dbConfPath;
+        private string _dbConfPath = "";
 
         /// <summary>
         /// Game's custom DOSBox .conf file path
@@ -82,7 +82,7 @@ namespace AmpShell.Model
             set { Set<string>(ref _dbConfPath, value); }
         }
 
-        private string _additionalCommands;
+        private string _additionalCommands = "";
 
         /// <summary>
         /// Game's additionnal commands for DOSBox
@@ -157,7 +157,7 @@ namespace AmpShell.Model
             set { Set<bool>(ref _quitOnExit, value); }
         }
 
-        private string _dosExePath;
+        private string _dosExePath = "";
 
         /// <summary>
         /// Game's main executable location
@@ -179,7 +179,7 @@ namespace AmpShell.Model
             set { Set<bool>(ref _cdIsAnImage, value); }
         }
 
-        private string _icon;
+        private string _icon = "";
 
         public string Icon
         {
@@ -187,7 +187,7 @@ namespace AmpShell.Model
             set { Set<string>(ref _icon, value); }
         }
 
-        private string _alternateDOSBoxExePath;
+        private string _alternateDOSBoxExePath = "";
 
         /// <summary>
         /// If we want to use DOSBox Daum, ECE, SVN, or other instead of the one set in the global preferences

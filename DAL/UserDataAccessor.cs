@@ -115,7 +115,14 @@ namespace AmpShell.DAL
 
         public static void LoadUserSettings()
         {
-            UserData = (Preferences)ObjectSerializer.Deserialize(GetDataFilePath(), typeof(ModelWithChildren));
+            try
+            {
+                UserData = (Preferences)ObjectSerializer.Deserialize(GetDataFilePath(), typeof(ModelWithChildren));
+            }
+            catch (FileNotFoundException)
+            {
+                UserData = new Preferences();
+            }
             foreach (Category concernedCategory in UserData.ListChildren)
             {
                 foreach (Game concernedGame in concernedCategory.ListChildren)

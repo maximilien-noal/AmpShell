@@ -110,7 +110,7 @@ namespace AmpShell.Model
             set { Set<string>(ref _gamesAdditionnalCommands, value); }
         }
 
-        private string _gamesDefaultDir;
+        private string _gamesDefaultDir = "";
 
         public string GamesDefaultDir
         {
@@ -118,7 +118,7 @@ namespace AmpShell.Model
             set { Set<string>(ref _gamesDefaultDir, value); }
         }
 
-        private string _cdsDefaultDir;
+        private string _cdsDefaultDir = "";
 
         public string CDsDefaultDir
         {
@@ -126,7 +126,7 @@ namespace AmpShell.Model
             set { Set<string>(ref _cdsDefaultDir, value); }
         }
 
-        private string _configEditorPath;
+        private string _configEditorPath = "";
 
         public string ConfigEditorPath
         {
@@ -134,7 +134,7 @@ namespace AmpShell.Model
             set { Set<string>(ref _configEditorPath, value); }
         }
 
-        private string _configEditorAdditionalParameters;
+        private string _configEditorAdditionalParameters = "";
 
         public string ConfigEditorAdditionalParameters
         {
@@ -174,7 +174,7 @@ namespace AmpShell.Model
             set { Set<bool>(ref _statusBarVisble, value); }
         }
 
-        private string _dbPath;
+        private string _dbPath = "";
 
         public string DBPath
         {
@@ -182,7 +182,7 @@ namespace AmpShell.Model
             set { Set<string>(ref _dbPath, value); }
         }
 
-        private string _dbDefaultConfFilePath;
+        private string _dbDefaultConfFilePath = "";
 
         public string DBDefaultConfFilePath
         {
@@ -190,7 +190,7 @@ namespace AmpShell.Model
             set { Set<string>(ref _dbDefaultConfFilePath, value); }
         }
 
-        private string _dbDefaultLangFilePath;
+        private string _dbDefaultLangFilePath = "";
 
         public string DBDefaultLangFilePath
         {

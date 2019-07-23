@@ -1,4 +1,7 @@
 Changelog---------
+1.2.2 (July 23 2019 - 20h00)
+- Bugfix : First run crash.
+
 1.2.1 (July 21 2019 - 21h25)
 - New feature : The disc label can be specified (only works if it is a directory)
 
