@@ -102,12 +102,12 @@ namespace AmpShell.Model
             set { Set<bool>(ref _gamesQuitOnExit, value); }
         }
 
-        private string _gamesAdditionnalCommands;
+        private string _gamesAdditionalCommands;
 
         public string GamesAdditionalCommands
         {
-            get => _gamesAdditionnalCommands;
-            set { Set<string>(ref _gamesAdditionnalCommands, value); }
+            get => _gamesAdditionalCommands;
+            set { Set<string>(ref _gamesAdditionalCommands, value); }
         }
 
         private string _gamesDefaultDir = "";
@@ -166,12 +166,12 @@ namespace AmpShell.Model
             set { Set<bool>(ref _toolBarVisible, value); }
         }
 
-        private bool _statusBarVisble = true;
+        private bool _statusBarVisible = true;
 
         public bool StatusBarVisible
         {
-            get => _statusBarVisble;
-            set { Set<bool>(ref _statusBarVisble, value); }
+            get => _statusBarVisible;
+            set { Set<bool>(ref _statusBarVisible, value); }
         }
 
         private string _dbPath = "";

@@ -1,4 +1,5 @@
-﻿/*AmpShell : .NET front-end for DOSBox
+﻿using System.Globalization;
+/*AmpShell : .NET front-end for DOSBox
  * Copyright (C) 2009, 2019 Maximilien Noal
  *This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
@@ -19,16 +20,14 @@ namespace AmpShell.Views
         public AboutBox()
         {
             InitializeComponent();
-            Text = String.Format("About {0}", AssemblyTitle);
+            Text = String.Format(CultureInfo.InvariantCulture, "About {0}", AssemblyTitle);
             LabelProductName.Text = AssemblyProduct;
-            LabelVersion.Text = String.Format("Version {0}", AssemblyVersion);
+            LabelVersion.Text = String.Format(CultureInfo.InvariantCulture, "Version {0}", AssemblyVersion);
             LabelCopyright.Text = AssemblyCopyright;
             TextBoxDescription.Text = AssemblyDescription;
         }
 
-        #region Accesseurs d'attribut de l'assembly
-
-        public string AssemblyTitle
+        public static string AssemblyTitle
         {
             get
             {
@@ -36,7 +35,7 @@ namespace AmpShell.Views
                 if (attributes.Length > 0)
                 {
                     AssemblyTitleAttribute titleAttribute = (AssemblyTitleAttribute)attributes[0];
-                    if (titleAttribute.Title != "")
+                    if (string.IsNullOrWhiteSpace(titleAttribute.Title) == false)
                     {
                         return titleAttribute.Title;
                     }
@@ -45,7 +44,7 @@ namespace AmpShell.Views
             }
         }
 
-        public string AssemblyVersion
+        public static string AssemblyVersion
         {
             get
             {
@@ -53,7 +52,7 @@ namespace AmpShell.Views
             }
         }
 
-        public string AssemblyDescription
+        public static string AssemblyDescription
         {
             get
             {
@@ -66,7 +65,7 @@ namespace AmpShell.Views
             }
         }
 
-        public string AssemblyProduct
+        public static string AssemblyProduct
         {
             get
             {
@@ -79,7 +78,7 @@ namespace AmpShell.Views
             }
         }
 
-        public string AssemblyCopyright
+        public static string AssemblyCopyright
         {
             get
             {
@@ -92,7 +91,7 @@ namespace AmpShell.Views
             }
         }
 
-        public string AssemblyCompany
+        public static string AssemblyCompany
         {
             get
             {
@@ -104,7 +103,5 @@ namespace AmpShell.Views
                 return ((AssemblyCompanyAttribute)attributes[0]).Company;
             }
         }
-
-        #endregion Accesseurs d'attribut de l'assembly
     }
 }

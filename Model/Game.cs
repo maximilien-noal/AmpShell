@@ -60,15 +60,15 @@ namespace AmpShell.Model
             set { Set<string>(ref _cdLabel, value); }
         }
 
-        private string _setupEEXEPath = "";
+        private string _setupEXEPath = "";
 
         /// <summary>
         /// Game's setup executable location
         /// </summary>
         public string SetupEXEPath
         {
-            get => _setupEEXEPath;
-            set { Set<string>(ref _setupEEXEPath, value); }
+            get => _setupEXEPath;
+            set { Set<string>(ref _setupEXEPath, value); }
         }
 
         private string _dbConfPath = "";
@@ -85,7 +85,7 @@ namespace AmpShell.Model
         private string _additionalCommands = "";
 
         /// <summary>
-        /// Game's additionnal commands for DOSBox
+        /// Game's additional commands for DOSBox
         /// </summary>
         public string AdditionalCommands
         {

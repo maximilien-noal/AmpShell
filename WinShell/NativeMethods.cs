@@ -178,23 +178,21 @@ namespace AmpShell.WinShell
     {
     }
 
-    public static class LinkTarget
+    public static class NativeMethods
     {
         private const uint STGM_READ = 0;
         private const int MAX_PATH = 260;
 
-        [DllImport("shfolder.dll", CharSet = CharSet.Auto)]
+        [DllImport("shfolder.dll", CharSet = CharSet.Unicode)]
         private static extern int SHGetFolderPath(IntPtr hwndOwner, int nFolder, IntPtr hToken, int dwFlags, StringBuilder lpszPath);
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Reliability", "CA2010:Always consume the value returned by methods marked with PreserveSigAttribute", Justification = "<Pending>")]
         public static string ResolveShortcut(string filename)
         {
             ShellLink link = new ShellLink();
             ((IPersistFile)link).Load(filename, STGM_READ);
-            // TODO: if I can get hold of the hwnd call resolve first. This handles moved and renamed files.
-            // ((IShellLinkW)link).Resolve(hwnd, 0)
             StringBuilder sb = new StringBuilder(MAX_PATH);
-            WIN32_FIND_DATAW data = new WIN32_FIND_DATAW();
-            ((IShellLinkW)link).GetPath(sb, sb.Capacity, out data, 0);
+            ((IShellLinkW)link).GetPath(sb, sb.Capacity, out _, 0);
             return sb.ToString();
         }
     }

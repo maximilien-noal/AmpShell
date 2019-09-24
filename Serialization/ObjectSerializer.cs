@@ -11,6 +11,7 @@
 using System;
 using System.IO;
 using System.Text;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace AmpShell.Serialization
@@ -20,7 +21,7 @@ namespace AmpShell.Serialization
         public static object Deserialize<T>(string xmlPath, T targetObjectType) where T : Type
         {
             XmlSerializer deserializer = new XmlSerializer(targetObjectType);
-            var reader = new StreamReader(xmlPath, Encoding.Unicode);
+            var reader = new XmlTextReader(new StreamReader(xmlPath, Encoding.Unicode));
             var targetObjectInstance = deserializer.Deserialize(reader);
             reader.Close();
             return targetObjectInstance;

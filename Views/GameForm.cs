@@ -1,4 +1,5 @@
-﻿/*AmpShell : .NET front-end for DOSBox
+﻿using System.Globalization;
+/*AmpShell : .NET front-end for DOSBox
  * Copyright (C) 2009, 2019 Maximilien Noal
  *This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
@@ -22,6 +23,10 @@ namespace AmpShell.Views
     {
         public GameForm(Game editedGame, bool newGame = false)
         {
+            if(editedGame == null)
+            {
+                return;
+            }
             InitializeComponent();
             GameInstance = editedGame;
 
@@ -30,14 +35,14 @@ namespace AmpShell.Views
             if (string.IsNullOrWhiteSpace(GameInstance.Icon) == false && GameInstance.Icon != null)
             {
                 string realLocation;
-                realLocation = GameInstance.Icon.Replace("AppPath", Application.StartupPath);
+                realLocation = GameInstance.Icon.Replace("AppPath", Application.StartupPath, true, CultureInfo.InvariantCulture);
                 if (File.Exists(realLocation))
                 {
                     GameIconPictureBox.Image = Image.FromFile(realLocation).GetThumbnailImage(64, 64, null, IntPtr.Zero);
                     GameIconPictureBox.ImageLocation = realLocation;
                 }
             }
-            
+
             GameNameTextbox.Text = GameInstance.Name;
             GameLocationTextbox.Text = GameInstance.DOSEXEPath;
             GameDirectoryTextbox.Text = GameInstance.Directory;
@@ -58,13 +63,13 @@ namespace AmpShell.Views
                 NoneRadioButton.Checked = true;
             }
 
-            GameLocationTextbox.Text = GameLocationTextbox.Text.Replace("AppPath", Application.StartupPath);
-            GameDirectoryTextbox.Text = GameDirectoryTextbox.Text.Replace("AppPath", Application.StartupPath);
-            GameCustomConfigurationTextbox.Text = GameCustomConfigurationTextbox.Text.Replace("AppPath", Application.StartupPath);
-            GameCDPathTextBox.Text = GameCDPathTextBox.Text.Replace("AppPath", Application.StartupPath);
-            GameAdditionalCommandsTextBox.Text = GameAdditionalCommandsTextBox.Text.Replace("AppPath", Application.StartupPath);
-            GameSetupTextBox.Text = GameSetupTextBox.Text.Replace("AppPath", Application.StartupPath);
-            AlternateDOSBoxLocationTextbox.Text = AlternateDOSBoxLocationTextbox.Text.Replace("AppPath", Application.StartupPath);
+            GameLocationTextbox.Text = GameLocationTextbox.Text.Replace("AppPath", Application.StartupPath, false, CultureInfo.InvariantCulture);
+            GameDirectoryTextbox.Text = GameDirectoryTextbox.Text.Replace("AppPath", Application.StartupPath, false, CultureInfo.InvariantCulture);
+            GameCustomConfigurationTextbox.Text = GameCustomConfigurationTextbox.Text.Replace("AppPath", Application.StartupPath, false, CultureInfo.InvariantCulture);
+            GameCDPathTextBox.Text = GameCDPathTextBox.Text.Replace("AppPath", Application.StartupPath, false, CultureInfo.InvariantCulture);
+            GameAdditionalCommandsTextBox.Text = GameAdditionalCommandsTextBox.Text.Replace("AppPath", Application.StartupPath, false, CultureInfo.InvariantCulture);
+            GameSetupTextBox.Text = GameSetupTextBox.Text.Replace("AppPath", Application.StartupPath, false, CultureInfo.InvariantCulture);
+            AlternateDOSBoxLocationTextbox.Text = AlternateDOSBoxLocationTextbox.Text.Replace("AppPath", Application.StartupPath, false, CultureInfo.InvariantCulture);
 
             if (newGame)
             {
@@ -162,7 +167,7 @@ namespace AmpShell.Views
         /// <param name="e"></param>
         private void GameLocationBrowseButton_Click(object sender, EventArgs e)
         {
-            OpenFileDialog gameExeFileDialog = new OpenFileDialog();
+            using var gameExeFileDialog = new OpenFileDialog();
             if (UserDataAccessor.UserData.PortableMode == true)
             {
                 gameExeFileDialog.InitialDirectory = Application.StartupPath;
@@ -191,7 +196,7 @@ namespace AmpShell.Views
         /// <param name="e"></param>
         private void GameCustomConfigurationBrowseButton_Click(object sender, EventArgs e)
         {
-            OpenFileDialog customConfigFileDialog = new OpenFileDialog();
+            using var customConfigFileDialog = new OpenFileDialog();
             if (UserDataAccessor.UserData.PortableMode == true)
             {
                 customConfigFileDialog.InitialDirectory = Application.StartupPath;
@@ -205,7 +210,7 @@ namespace AmpShell.Views
                 customConfigFileDialog.InitialDirectory = SearchFolderDialogStartDirectory();
             }
 
-            customConfigFileDialog.Title = GameCustomCofigurationLabel.Text;
+            customConfigFileDialog.Title = GameCustomConfigurationLabel.Text;
             customConfigFileDialog.Filter = "DOSBox configuration file (*.conf)|*.conf;*.CONF";
             if (customConfigFileDialog.ShowDialog(this) == DialogResult.OK)
             {
@@ -214,7 +219,7 @@ namespace AmpShell.Views
         }
 
         /// <summary>
-        /// EventHandler for when the "Do not use any config file at all" checbox is (un)checked
+        /// EventHandler for when the "Do not use any config file at all" checkbox is (un)checked
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -239,7 +244,7 @@ namespace AmpShell.Views
         /// <param name="e"></param>
         private void GameCDPathBrowseButton_Click(object sender, EventArgs e)
         {
-            OpenFileDialog cdImageFileDialog = new OpenFileDialog
+            using var cdImageFileDialog = new OpenFileDialog
             {
                 Title = GameCDPathLabel.Text,
                 Filter = "DOSBox compatible CD images (*.bin;*.cue;*.iso;*.img)|*.bin;*.cue;*.iso;*.img;*.BIN;*.CUE;*.ISO;*.IMG"
@@ -355,7 +360,7 @@ namespace AmpShell.Views
         /// <param name="e"></param>
         private void GameDirectoryBrowseButton_Click(object sender, EventArgs e)
         {
-            FolderBrowserDialog cMountFolderBrowserDialog = new FolderBrowserDialog
+            using var cMountFolderBrowserDialog = new FolderBrowserDialog
             {
                 ShowNewFolderButton = true,
                 Description = GameDirectoryLabel.Text
@@ -402,7 +407,7 @@ namespace AmpShell.Views
         /// <param name="e"></param>
         private void GameSetupBrowseButton_Click(object sender, EventArgs e)
         {
-            OpenFileDialog setupExeFileDialog = new OpenFileDialog
+            using var setupExeFileDialog = new OpenFileDialog
             {
                 Title = GameSetupLabel.Text,
                 Filter = "DOS executable files (*.bat;*.com;*.exe)|*.bat;*.com;*.exe;*.BAT;*.COM;*.EXE"
@@ -431,10 +436,10 @@ namespace AmpShell.Views
         /// <param name="e"></param>
         private void GameCDDirBrowseButton_Click(object sender, EventArgs e)
         {
-            FolderBrowserDialog cdDriveFlderBrowserDialog = new FolderBrowserDialog();
-            if (cdDriveFlderBrowserDialog.ShowDialog(this) == DialogResult.OK)
+            using var cdDriveFolderBrowserDialog = new FolderBrowserDialog();
+            if (cdDriveFolderBrowserDialog.ShowDialog(this) == DialogResult.OK)
             {
-                GameCDPathTextBox.Text = cdDriveFlderBrowserDialog.SelectedPath;
+                GameCDPathTextBox.Text = cdDriveFolderBrowserDialog.SelectedPath;
             }
         }
 
@@ -450,7 +455,7 @@ namespace AmpShell.Views
         {
             try
             {
-                OpenFileDialog iconFileDialog = new OpenFileDialog
+                using var iconFileDialog = new OpenFileDialog
                 {
                     Filter = "Image files (*.bmp;*.exif;*.gif;*.ico;*.jp*;*.png;*.tif*)|*.bmp;*.BMP;*.exif;*.EXIF;*.gif;*.GIF;*.ico;*.ICO;*.jp*;*.JP*;*.png;*.PNG;*.tif*;*.TIF*"
                 };
@@ -495,7 +500,7 @@ namespace AmpShell.Views
 
         private void AlternateDOSBoxLocationBrowsSearchButton_Click(object sender, EventArgs e)
         {
-            OpenFileDialog alternateDOSBoxExeFileDialog = new OpenFileDialog();
+            using var alternateDOSBoxExeFileDialog = new OpenFileDialog();
             if (UserDataAccessor.UserData.PortableMode == true)
             {
                 alternateDOSBoxExeFileDialog.InitialDirectory = Application.StartupPath;

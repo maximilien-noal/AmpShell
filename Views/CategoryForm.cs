@@ -17,7 +17,9 @@ namespace AmpShell.Views
 {
     public partial class CategoryForm : Form
     {
-        public CategoryViewModel _viewModel = new CategoryViewModel();
+        private CategoryViewModel _viewModel = new CategoryViewModel();
+
+        public CategoryViewModel ViewModel { get => _viewModel; set => _viewModel = value; }
 
         public CategoryForm()
         {
@@ -27,12 +29,12 @@ namespace AmpShell.Views
         private void Initialize()
         {
             InitializeComponent();
-            this.NameTextBox.DataBindings.Add("Text", this._viewModel, "Name");
+            this.NameTextBox.DataBindings.Add("Text", this.ViewModel, "Name");
         }
 
         public CategoryForm(string editedCategorySignature)
         {
-            _viewModel = new CategoryViewModel(editedCategorySignature);
+            ViewModel = new CategoryViewModel(editedCategorySignature);
             Initialize();
             ModifyViewForEditing();
         }
@@ -44,7 +46,7 @@ namespace AmpShell.Views
             OK.Location = new System.Drawing.Point(Cancel.Location.X - 107, 41);
             OK.Image = Properties.Resources.saveHS;
             Cancel.Text = "&Don't save";
-            Text = "Editing " + _viewModel.Name + "...";
+            Text = "Editing " + ViewModel.Name + "...";
         }
 
         private void Cancel_Click(object sender, EventArgs e)
@@ -54,9 +56,9 @@ namespace AmpShell.Views
 
         private void OK_Click(object sender, EventArgs e)
         {
-            if (_viewModel.IsDataValid())
+            if (ViewModel.IsDataValid())
             {
-                _viewModel.CreateCategory();
+                ViewModel.CreateCategory();
                 DialogResult = DialogResult.OK;
                 Close();
             }

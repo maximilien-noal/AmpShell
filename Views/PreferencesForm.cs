@@ -1,4 +1,5 @@
-﻿/*AmpShell : .NET front-end for DOSBox
+﻿using System.Globalization;
+/*AmpShell : .NET front-end for DOSBox
  * Copyright (C) 2009, 2019 Maximilien Noal
  *This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
@@ -22,6 +23,8 @@ namespace AmpShell.Views
 {
     public partial class PreferencesForm : Form
     {
+        private const string _noTextEditorFound = "No text editor (Notepad in Windows' directory, or TextEditor.exe in AmpShell's directory) found.";
+
         public PreferencesForm()
         {
             InitializeComponent();
@@ -29,21 +32,21 @@ namespace AmpShell.Views
 
         private void BrowseForEditorButton_Click(object sender, EventArgs e)
         {
-            OpenFileDialog textEdtiorFileDialog = new OpenFileDialog();
+            using var textEditorFileDialog = new OpenFileDialog();
             if (string.IsNullOrWhiteSpace(EditorBinaryPathTextBox.Text) == false)
             {
-                if (Directory.Exists(Path.GetDirectoryName(EditorBinaryPathTextBox.Text).ToString()))
+                if (Directory.Exists(Path.GetDirectoryName(EditorBinaryPathTextBox.Text).ToString(CultureInfo.InvariantCulture)))
                 {
-                    textEdtiorFileDialog.InitialDirectory = Path.GetDirectoryName(EditorBinaryPathTextBox.Text).ToString();
+                    textEditorFileDialog.InitialDirectory = Path.GetDirectoryName(EditorBinaryPathTextBox.Text).ToString(CultureInfo.InvariantCulture);
                 }
                 else
                 {
-                    textEdtiorFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
+                    textEditorFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
                 }
             }
-            if (textEdtiorFileDialog.ShowDialog(this) == DialogResult.OK)
+            if (textEditorFileDialog.ShowDialog(this) == DialogResult.OK)
             {
-                EditorBinaryPathTextBox.Text = textEdtiorFileDialog.FileName;
+                EditorBinaryPathTextBox.Text = textEditorFileDialog.FileName;
             }
         }
 
@@ -72,7 +75,7 @@ namespace AmpShell.Views
                 UserDataAccessor.UserData.ConfigEditorPath = EditorBinaryPathTextBox.Text;
             }
 
-            UserDataAccessor.UserData.ConfigEditorAdditionalParameters = AdditionnalParametersTextBox.Text;
+            UserDataAccessor.UserData.ConfigEditorAdditionalParameters = AdditionalParametersTextBox.Text;
             UserDataAccessor.UserData.CategoryDeletePrompt = CategoyDeletePromptCheckBox.Checked;
             UserDataAccessor.UserData.GameDeletePrompt = GameDeletePromptCheckBox.Checked;
             UserDataAccessor.UserData.RememberWindowSize = WindowSizeCheckBox.Checked;
@@ -85,7 +88,7 @@ namespace AmpShell.Views
             UserDataAccessor.UserData.DBDefaultConfFilePath = DOSBoxConfFileTextBox.Text;
             UserDataAccessor.UserData.DBDefaultLangFilePath = DOSBoxLangFileTextBox.Text;
             UserDataAccessor.UserData.ConfigEditorPath = EditorBinaryPathTextBox.Text;
-            UserDataAccessor.UserData.ConfigEditorAdditionalParameters = AdditionnalParametersTextBox.Text;
+            UserDataAccessor.UserData.ConfigEditorAdditionalParameters = AdditionalParametersTextBox.Text;
             if (LargeViewModeSizeComboBox.SelectedIndex >= 0)
             {
                 UserDataAccessor.UserData.LargeViewModeSize = Preferences.LargeViewModeSizes[LargeViewModeSizeComboBox.SelectedIndex];
@@ -139,7 +142,7 @@ namespace AmpShell.Views
 
             foreach (Category ConcernedCategory in UserDataAccessor.UserData.ListChildren)
             {
-                UserDataAccessor.UserData.MoveChildToPosition(ConcernedCategory, tabs.IndexOf(tabs.FirstOrDefault(x => Convert.ToString(x.Tag) == ConcernedCategory.Signature)));
+                UserDataAccessor.UserData.MoveChildToPosition(ConcernedCategory, tabs.IndexOf(tabs.FirstOrDefault(x => Convert.ToString(x.Tag, CultureInfo.InvariantCulture) == ConcernedCategory.Signature)));
             }
         }
 
@@ -214,7 +217,7 @@ namespace AmpShell.Views
 
             if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.ConfigEditorAdditionalParameters) == false)
             {
-                AdditionnalParametersTextBox.Text = UserDataAccessor.UserData.ConfigEditorPath;
+                AdditionalParametersTextBox.Text = UserDataAccessor.UserData.ConfigEditorPath;
             }
 
             if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.CDsDefaultDir) == false)
@@ -265,7 +268,7 @@ namespace AmpShell.Views
 
         private void DOSBoxPathBrowseButton_Click(object sender, EventArgs e)
         {
-            OpenFileDialog dosBoxExePathFileDialog = new OpenFileDialog
+            using var dosBoxExePathFileDialog = new OpenFileDialog
             {
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
                 Title = DOSBoxExecutableLabel.Text,
@@ -285,7 +288,7 @@ namespace AmpShell.Views
 
         private void DOSBoxConfFileBrowseButton_Click(object sender, EventArgs e)
         {
-            OpenFileDialog dosboxDefaultConfFileDialog = new OpenFileDialog();
+            using var dosboxDefaultConfFileDialog = new OpenFileDialog();
             if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBDefaultConfFilePath) == false
                 && Directory.Exists(Path.GetDirectoryName(UserDataAccessor.UserData.DBDefaultConfFilePath)))
             {
@@ -304,7 +307,7 @@ namespace AmpShell.Views
 
         private void DOSBoxLangFileBrowseButton_Click(object sender, EventArgs e)
         {
-            OpenFileDialog dosBoxDefaultLangFileDialog = new OpenFileDialog();
+            using var dosBoxDefaultLangFileDialog = new OpenFileDialog();
             if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBDefaultLangFilePath) == false
                 && Directory.Exists(Path.GetDirectoryName(UserDataAccessor.UserData.DBDefaultLangFilePath)))
             {
@@ -323,7 +326,7 @@ namespace AmpShell.Views
 
         private void BrowseGamesDirButton_Click(object sender, EventArgs e)
         {
-            FolderBrowserDialog gamesFolderBrowserDialog = new FolderBrowserDialog();
+            using var gamesFolderBrowserDialog = new FolderBrowserDialog();
             if (gamesFolderBrowserDialog.ShowDialog(this) == DialogResult.OK)
             {
                 GamesDirTextBox.Text = gamesFolderBrowserDialog.SelectedPath;
@@ -332,7 +335,7 @@ namespace AmpShell.Views
 
         private void BrowseCDImageDirButton_Click(object sender, EventArgs e)
         {
-            FolderBrowserDialog cdImagesFolderBrowserDialog = new FolderBrowserDialog();
+            using var cdImagesFolderBrowserDialog = new FolderBrowserDialog();
             if (cdImagesFolderBrowserDialog.ShowDialog(this) == DialogResult.OK)
             {
                 CDImageDirTextBox.Text = cdImagesFolderBrowserDialog.SelectedPath;
@@ -436,9 +439,9 @@ namespace AmpShell.Views
                 BrowseCDImageDirButton.Enabled = false;
                 EditorBinaryPathTextBox.Enabled = false;
                 BrowseForEditorButton.Enabled = false;
-                if (File.Exists(Application.StartupPath + "\\dosbox.exe"))
+                if (File.Exists(Path.Combine(Application.StartupPath, "\\dosbox.exe")))
                 {
-                    DOSBoxPathTextBox.Text = Application.StartupPath + "\\dosbox.exe";
+                    DOSBoxPathTextBox.Text = Path.Combine(Application.StartupPath, "\\dosbox.exe");
                 }
                 else
                 {
@@ -463,17 +466,17 @@ namespace AmpShell.Views
                     DOSBoxLangFileTextBox.Text = "No language file (*.lng) found in AmpShell's directory.";
                 }
 
-                if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.System).Substring(0, Environment.GetFolderPath(Environment.SpecialFolder.System).Length - 8).ToString() + "notepad.exe"))
+                if (File.Exists(Path.Combine(Directory.GetParent(Environment.GetFolderPath(Environment.SpecialFolder.System)).FullName, "notepad.exe")))
                 {
-                    EditorBinaryPathTextBox.Text = Environment.GetFolderPath(Environment.SpecialFolder.System).Substring(0, Environment.GetFolderPath(Environment.SpecialFolder.System).Length - 8).ToString() + "notepad.exe";
+                    EditorBinaryPathTextBox.Text = Path.Combine(Directory.GetParent(Environment.GetFolderPath(Environment.SpecialFolder.System)).FullName, "notepad.exe");
                 }
-                else if (File.Exists(Application.StartupPath + "\\TextEditor.exe"))
+                else if (File.Exists(Path.Combine(Application.StartupPath, "\\TextEditor.exe")))
                 {
-                    EditorBinaryPathTextBox.Text = Application.StartupPath + "\\TextEditor.exe";
+                    EditorBinaryPathTextBox.Text = Path.Combine(Application.StartupPath, "\\TextEditor.exe");
                 }
                 else
                 {
-                    EditorBinaryPathTextBox.Text = "No text editor (Notepad in Windows' directory, or TextEditor.exe in AmpShell's directory) found.";
+                    EditorBinaryPathTextBox.Text = _noTextEditorFound;
                 }
 
                 StatusStripLabel.Text = "Portable Mode : active (all files (or at least DOSBox, and all the games) must be in the same directory as AmpShell).";

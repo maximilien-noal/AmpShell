@@ -80,8 +80,8 @@ namespace AmpShell.Views
             this.MoveFirstButton = new System.Windows.Forms.Button();
             this.ConfigEditorTabPage = new System.Windows.Forms.TabPage();
             this.EditorBinaryPathTextBox = new System.Windows.Forms.TextBox();
-            this.AddtionnalEditorParametersLabel = new System.Windows.Forms.Label();
-            this.AdditionnalParametersTextBox = new System.Windows.Forms.TextBox();
+            this.AdditionalEditorParametersLabel = new System.Windows.Forms.Label();
+            this.AdditionalParametersTextBox = new System.Windows.Forms.TextBox();
             this.ConfigEditorPathLabel = new System.Windows.Forms.Label();
             this.BrowseForEditorButton = new System.Windows.Forms.Button();
             this.BehaviorTabPage = new System.Windows.Forms.TabPage();
@@ -570,8 +570,8 @@ namespace AmpShell.Views
             // 
             this.ConfigEditorTabPage.BackColor = System.Drawing.Color.Transparent;
             this.ConfigEditorTabPage.Controls.Add(this.EditorBinaryPathTextBox);
-            this.ConfigEditorTabPage.Controls.Add(this.AddtionnalEditorParametersLabel);
-            this.ConfigEditorTabPage.Controls.Add(this.AdditionnalParametersTextBox);
+            this.ConfigEditorTabPage.Controls.Add(this.AdditionalEditorParametersLabel);
+            this.ConfigEditorTabPage.Controls.Add(this.AdditionalParametersTextBox);
             this.ConfigEditorTabPage.Controls.Add(this.ConfigEditorPathLabel);
             this.ConfigEditorTabPage.Controls.Add(this.BrowseForEditorButton);
             this.ConfigEditorTabPage.Location = new System.Drawing.Point(4, 22);
@@ -589,21 +589,21 @@ namespace AmpShell.Views
             this.EditorBinaryPathTextBox.Size = new System.Drawing.Size(586, 20);
             this.EditorBinaryPathTextBox.TabIndex = 33;
             // 
-            // AddtionnalEditorParametersLabel
+            // AdditionalEditorParametersLabel
             // 
-            this.AddtionnalEditorParametersLabel.AutoSize = true;
-            this.AddtionnalEditorParametersLabel.Location = new System.Drawing.Point(3, 42);
-            this.AddtionnalEditorParametersLabel.Name = "AddtionnalEditorParametersLabel";
-            this.AddtionnalEditorParametersLabel.Size = new System.Drawing.Size(261, 13);
-            this.AddtionnalEditorParametersLabel.TabIndex = 0;
-            this.AddtionnalEditorParametersLabel.Text = "Additional parameters to use with the editor (optional) :";
+            this.AdditionalEditorParametersLabel.AutoSize = true;
+            this.AdditionalEditorParametersLabel.Location = new System.Drawing.Point(3, 42);
+            this.AdditionalEditorParametersLabel.Name = "AdditionalEditorParametersLabel";
+            this.AdditionalEditorParametersLabel.Size = new System.Drawing.Size(261, 13);
+            this.AdditionalEditorParametersLabel.TabIndex = 0;
+            this.AdditionalEditorParametersLabel.Text = "Additional parameters to use with the editor (optional) :";
             // 
-            // AdditionnalParametersTextBox
+            // AdditionalParametersTextBox
             // 
-            this.AdditionnalParametersTextBox.Location = new System.Drawing.Point(6, 58);
-            this.AdditionnalParametersTextBox.Name = "AdditionnalParametersTextBox";
-            this.AdditionnalParametersTextBox.Size = new System.Drawing.Size(586, 20);
-            this.AdditionnalParametersTextBox.TabIndex = 35;
+            this.AdditionalParametersTextBox.Location = new System.Drawing.Point(6, 58);
+            this.AdditionalParametersTextBox.Name = "AdditionalParametersTextBox";
+            this.AdditionalParametersTextBox.Size = new System.Drawing.Size(586, 20);
+            this.AdditionalParametersTextBox.TabIndex = 35;
             // 
             // ConfigEditorPathLabel
             // 
@@ -866,9 +866,9 @@ namespace AmpShell.Views
         private System.Windows.Forms.TabControl PrefsTabControl;
         private System.Windows.Forms.TabPage ConfigEditorTabPage;
         private System.Windows.Forms.TextBox EditorBinaryPathTextBox;
-        private System.Windows.Forms.Label AddtionnalEditorParametersLabel;
+        private System.Windows.Forms.Label AdditionalEditorParametersLabel;
         private System.Windows.Forms.Button BrowseForEditorButton;
-        private System.Windows.Forms.TextBox AdditionnalParametersTextBox;
+        private System.Windows.Forms.TextBox AdditionalParametersTextBox;
         private System.Windows.Forms.Label ConfigEditorPathLabel;
         private System.Windows.Forms.TabPage BehaviorTabPage;
         private System.Windows.Forms.CheckBox WindowPositionCheckBox;

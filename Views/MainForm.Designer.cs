@@ -98,7 +98,7 @@ namespace AmpShell.Views
             this.NoConsoleLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.FullscreenLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.QuitOnExitLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.AdditionnalCommandsLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.AdditionalCommandsLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.TabControl = new System.Windows.Forms.TabControl();
             this.menuStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
@@ -262,8 +262,7 @@ namespace AmpShell.Views
             this.MakeConfigurationFileToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.M)));
             this.MakeConfigurationFileToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
             this.MakeConfigurationFileToolStripMenuItem.Text = "&Make configuration file...";
-            this.MakeConfigurationFileToolStripMenuItem.ToolTipText = "Copy the default configuration file into the game\'s directory, to be used as a cu" +
-    "stom configuration file";
+            this.MakeConfigurationFileToolStripMenuItem.ToolTipText = "Copy the default configuration file into the game\'s directory, to be used as a custom configuration file";
             this.MakeConfigurationFileToolStripMenuItem.Click += new System.EventHandler(this.MakeConfigButton_Click);
             this.MakeConfigurationFileToolStripMenuItem.MouseEnter += new System.EventHandler(this.MakeConfigurationFileToolStripMenuItem_MouseEnter);
             this.MakeConfigurationFileToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
@@ -399,7 +398,7 @@ namespace AmpShell.Views
             // 
             this.LargeIconToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("LargeIconToolStripMenuItem.Image")));
             this.LargeIconToolStripMenuItem.Name = "LargeIconToolStripMenuItem";
-            this.LargeIconToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            this.LargeIconToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
             | System.Windows.Forms.Keys.L)));
             this.LargeIconToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
             this.LargeIconToolStripMenuItem.Text = "&Large icons";
@@ -412,7 +411,7 @@ namespace AmpShell.Views
             // 
             this.SmallIconToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("SmallIconToolStripMenuItem.Image")));
             this.SmallIconToolStripMenuItem.Name = "SmallIconToolStripMenuItem";
-            this.SmallIconToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            this.SmallIconToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
             | System.Windows.Forms.Keys.S)));
             this.SmallIconToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
             this.SmallIconToolStripMenuItem.Text = "&Small icons";
@@ -425,7 +424,7 @@ namespace AmpShell.Views
             // 
             this.TileToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("TileToolStripMenuItem.Image")));
             this.TileToolStripMenuItem.Name = "TileToolStripMenuItem";
-            this.TileToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            this.TileToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
             | System.Windows.Forms.Keys.T)));
             this.TileToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
             this.TileToolStripMenuItem.Text = "&Tiles";
@@ -450,7 +449,7 @@ namespace AmpShell.Views
             // 
             this.DetailsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("DetailsToolStripMenuItem.Image")));
             this.DetailsToolStripMenuItem.Name = "DetailsToolStripMenuItem";
-            this.DetailsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            this.DetailsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
             | System.Windows.Forms.Keys.D)));
             this.DetailsToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
             this.DetailsToolStripMenuItem.Text = "&Details";
@@ -610,8 +609,7 @@ namespace AmpShell.Views
             this.MakeConfigButton.Name = "MakeConfigButton";
             this.MakeConfigButton.Size = new System.Drawing.Size(23, 22);
             this.MakeConfigButton.Text = "Make configuration file";
-            this.MakeConfigButton.ToolTipText = "Copy the default configuration file into the game\'s directory, to be used as a cu" +
-    "stom configuration file";
+            this.MakeConfigButton.ToolTipText = "Copy the default configuration file into the game\'s directory, to be used as a custom configuration file";
             this.MakeConfigButton.Click += new System.EventHandler(this.MakeConfigButton_Click);
             this.MakeConfigButton.MouseEnter += new System.EventHandler(this.MakeConfigurationFileToolStripMenuItem_MouseEnter);
             this.MakeConfigButton.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
@@ -786,7 +784,7 @@ namespace AmpShell.Views
             this.NoConsoleLabel,
             this.FullscreenLabel,
             this.QuitOnExitLabel,
-            this.AdditionnalCommandsLabel});
+            this.AdditionalCommandsLabel});
             this.statusStrip.Location = new System.Drawing.Point(0, 339);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Size = new System.Drawing.Size(624, 22);
@@ -832,10 +830,10 @@ namespace AmpShell.Views
             this.QuitOnExitLabel.Name = "QuitOnExitLabel";
             this.QuitOnExitLabel.Size = new System.Drawing.Size(0, 17);
             // 
-            // AdditionnalCommandsLabel
+            // AdditionalCommandsLabel
             // 
-            this.AdditionnalCommandsLabel.Name = "AdditionnalCommandsLabel";
-            this.AdditionnalCommandsLabel.Size = new System.Drawing.Size(0, 17);
+            this.AdditionalCommandsLabel.Name = "AdditionalCommandsLabel";
+            this.AdditionalCommandsLabel.Size = new System.Drawing.Size(0, 17);
             // 
             // TabControl
             // 
@@ -933,7 +931,7 @@ namespace AmpShell.Views
         private System.Windows.Forms.ToolStripStatusLabel NoConsoleLabel;
         private System.Windows.Forms.ToolStripStatusLabel FullscreenLabel;
         private System.Windows.Forms.ToolStripStatusLabel QuitOnExitLabel;
-        private System.Windows.Forms.ToolStripStatusLabel AdditionnalCommandsLabel;
+        private System.Windows.Forms.ToolStripStatusLabel AdditionalCommandsLabel;
         private System.Windows.Forms.ToolStripMenuItem ViewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem LargeIconToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem SmallIconToolStripMenuItem;

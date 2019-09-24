@@ -87,12 +87,12 @@ namespace AmpShell.Model
             set { Set<int>(ref _mountingOptionsColumnWidth, value); }
         }
 
-        private int _additionnalCommandsColumnWidth = 150;
+        private int _additionalCommandsColumnWidth = 150;
 
         public int AdditionnalCommandsColumnWidth
         {
-            get => _additionnalCommandsColumnWidth;
-            set { Set<int>(ref _additionnalCommandsColumnWidth, value); }
+            get => _additionalCommandsColumnWidth;
+            set { Set<int>(ref _additionalCommandsColumnWidth, value); }
         }
 
         private int _noConsoleColumnWidth = 100;

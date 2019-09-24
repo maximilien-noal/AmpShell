@@ -17,6 +17,7 @@ using AmpShell.WinShell;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -260,7 +261,7 @@ namespace AmpShell.Views
                 tabltview.Columns.Add("CustomConfigurationColumn", "Custom configuration", categoryToDisplay.CustomConfigurationColumnWidth);
                 tabltview.Columns.Add("DMountColumn", "D: Mount", categoryToDisplay.DMountColumnWidth);
                 tabltview.Columns.Add("MountingOptionsColumn", "Mounting options", categoryToDisplay.MountingOptionsColumnWidth);
-                tabltview.Columns.Add("AdditionnalCommandsColumn", "Additionnal commands", categoryToDisplay.AdditionnalCommandsColumnWidth);
+                tabltview.Columns.Add("AdditionalCommandsColumn", "Additional commands", categoryToDisplay.AdditionnalCommandsColumnWidth);
                 tabltview.Columns.Add("NoConsoleColumn", "No Console ?", categoryToDisplay.NoConsoleColumnWidth);
                 tabltview.Columns.Add("FullscreenColumn", "Fullscreen ?", categoryToDisplay.FullscreenColumnWidth);
                 tabltview.Columns.Add("QuitOnExitColumn", "Quit on exit ?", categoryToDisplay.QuitOnExitColumnWidth);
@@ -339,24 +340,24 @@ namespace AmpShell.Views
                     }
 
                     gameforlt.SubItems.Add(gameMountingOptionsLVSubItem);
-                    ListViewItem.ListViewSubItem gameAdditionnalCommandsLVSubItem = new ListViewItem.ListViewSubItem
+                    ListViewItem.ListViewSubItem gameAdditionalCommandsLVSubItem = new ListViewItem.ListViewSubItem
                     {
                         Text = gameToDisplay.AdditionalCommands
                     };
-                    gameforlt.SubItems.Add(gameAdditionnalCommandsLVSubItem);
+                    gameforlt.SubItems.Add(gameAdditionalCommandsLVSubItem);
                     ListViewItem.ListViewSubItem gameNoConsoleLVSubItem = new ListViewItem.ListViewSubItem
                     {
-                        Text = gameToDisplay.NoConsole.ToString()
+                        Text = gameToDisplay.NoConsole.ToString(CultureInfo.InvariantCulture)
                     };
                     gameforlt.SubItems.Add(gameNoConsoleLVSubItem);
                     ListViewItem.ListViewSubItem gameFullscreenLVSubItem = new ListViewItem.ListViewSubItem
                     {
-                        Text = gameToDisplay.InFullScreen.ToString()
+                        Text = gameToDisplay.InFullScreen.ToString(CultureInfo.InvariantCulture)
                     };
                     gameforlt.SubItems.Add(gameFullscreenLVSubItem);
                     ListViewItem.ListViewSubItem gameQuitOnExitLVSubItem = new ListViewItem.ListViewSubItem
                     {
-                        Text = gameToDisplay.QuitOnExit.ToString()
+                        Text = gameToDisplay.QuitOnExit.ToString(CultureInfo.InvariantCulture)
                     };
                     gameforlt.SubItems.Add(gameQuitOnExitLVSubItem);
                     tabltview.Items.Add(gameforlt);
@@ -549,7 +550,7 @@ namespace AmpShell.Views
         private void GameEditButton_Click(object sender, EventArgs e)
         {
             Game selectedGame = GetSelectedGame();
-            GameForm gameEditForm = new GameForm(selectedGame);
+            using var gameEditForm = new GameForm(selectedGame);
             if (gameEditForm.ShowDialog(this) == DialogResult.OK)
             {
                 RedrawAllUserData();
@@ -577,7 +578,7 @@ namespace AmpShell.Views
         /// </summary>
         private void CurrentListView_ItemSelectionChanged(object sender, EventArgs e)
         {
-            AdditionnalCommandsLabel.Text = string.Empty;
+            AdditionalCommandsLabel.Text = string.Empty;
             ExecutablePathLabel.Text = string.Empty;
             CMountLabel.Text = string.Empty;
             SetupPathLabel.Text = string.Empty;
@@ -724,11 +725,11 @@ namespace AmpShell.Views
 
                 if (string.IsNullOrWhiteSpace(selectedGame.AdditionalCommands) == false)
                 {
-                    AdditionnalCommandsLabel.Text = "Additionnal commands : " + selectedGame.AdditionalCommands;
+                    AdditionalCommandsLabel.Text = "Additional commands : " + selectedGame.AdditionalCommands;
                 }
                 else
                 {
-                    AdditionnalCommandsLabel.Text = "Additionnal commands : none";
+                    AdditionalCommandsLabel.Text = "Additional commands : none";
                 }
             }
             //if more than one game have been selected
@@ -780,7 +781,7 @@ namespace AmpShell.Views
         /// </summary>
         private void CategoryAddButton_Click(object sender, EventArgs e)
         {
-            CategoryForm newCategoryForm = new CategoryForm();
+            using var newCategoryForm = new CategoryForm();
             if (newCategoryForm.ShowDialog(this) == DialogResult.OK)
             {
                 RedrawAllUserData();
@@ -856,7 +857,7 @@ namespace AmpShell.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void AboutToolStripMenuItem_Click(object sender, EventArgs e) { AboutBox aboutBox = new AboutBox(); aboutBox.ShowDialog(this); }
+        private void AboutToolStripMenuItem_Click(object sender, EventArgs e) { using var aboutBox = new AboutBox(); aboutBox.ShowDialog(this); }
 
         /// <summary>
         /// EventHandler for when the delete button game is clicked
@@ -882,7 +883,7 @@ namespace AmpShell.Views
 
         /// <summary>
         /// EventHandler when the user clicks on Tools -> Run DOSBox
-        /// wich runs DOSBox only with the default .conf (configuration) and .lng (language) files.
+        /// which runs DOSBox only with the default .conf (configuration) and .lng (language) files.
         /// </summary>
         private void RunDOSBox_Click(object sender, EventArgs e)
         {
@@ -939,13 +940,13 @@ namespace AmpShell.Views
                 var firstFile = files.FirstOrDefault();
                 if (string.IsNullOrWhiteSpace(firstFile) == false)
                 {
-                    if (Path.GetExtension(firstFile).ToUpper() == ".LNK")
+                    if (Path.GetExtension(firstFile).ToUpper(CultureInfo.InvariantCulture) == ".LNK")
                     {
-                        firstFile = LinkTarget.ResolveShortcut(firstFile);
+                        firstFile = NativeMethods.ResolveShortcut(firstFile);
                     }
                     newGame.Name = Path.GetDirectoryName(firstFile);
                     newGame.Directory = Path.GetDirectoryName(firstFile);
-                    if (File.Exists(firstFile) && (Path.GetExtension(firstFile).ToUpper() == ".COM" || Path.GetExtension(firstFile).ToUpper() == ".EXE" || Path.GetExtension(firstFile).ToUpper() == ".BAT"))
+                    if (File.Exists(firstFile) && (Path.GetExtension(firstFile).ToUpper(CultureInfo.InvariantCulture) == ".COM" || Path.GetExtension(firstFile).ToUpper(CultureInfo.InvariantCulture) == ".EXE" || Path.GetExtension(firstFile).ToUpper(CultureInfo.InvariantCulture) == ".BAT"))
                     {
                         newGame.DOSEXEPath = firstFile;
                     }
@@ -954,7 +955,7 @@ namespace AmpShell.Views
 
             newGame.Signature = UserDataAccessor.GetAUniqueSignature();
 
-            GameForm newGameForm = new GameForm(newGame, true);
+            using var newGameForm = new GameForm(newGame, true);
 
             if (newGameForm.ShowDialog(this) == DialogResult.OK)
             {
@@ -987,10 +988,10 @@ namespace AmpShell.Views
         /// </summary>
         private void CategoryEditButton_Click(object sender, EventArgs e)
         {
-            CategoryForm catEditForm = new CategoryForm((string)TabControl.SelectedTab.Tag);
+            using var catEditForm = new CategoryForm((string)TabControl.SelectedTab.Tag);
             if (catEditForm.ShowDialog(this) == DialogResult.OK)
             {
-                TabControl.SelectedTab.Text = catEditForm._viewModel.Name;
+                TabControl.SelectedTab.Text = catEditForm.ViewModel.Name;
             }
         }
 
@@ -1033,7 +1034,7 @@ namespace AmpShell.Views
 
         private void PreferencesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            PreferencesForm prefsForm = new PreferencesForm();
+            using var prefsForm = new PreferencesForm();
             if (prefsForm.ShowDialog(this) == DialogResult.OK)
             {
                 _gamesLargeImageList.ImageSize = new Size(UserDataAccessor.UserData.LargeViewModeSize, UserDataAccessor.UserData.LargeViewModeSize);
@@ -1176,7 +1177,7 @@ namespace AmpShell.Views
             category.CustomConfigurationColumnWidth = SelectedListView.Columns["CustomConfigurationColumn"].Width;
             category.DMountColumnWidth = SelectedListView.Columns["DMountColumn"].Width;
             category.MountingOptionsColumnWidth = SelectedListView.Columns["MountingOptionsColumn"].Width;
-            category.AdditionnalCommandsColumnWidth = SelectedListView.Columns["AdditionnalCommandsColumn"].Width;
+            category.AdditionnalCommandsColumnWidth = SelectedListView.Columns["AdditionalCommandsColumn"].Width;
             category.NoConsoleColumnWidth = SelectedListView.Columns["NoConsoleColumn"].Width;
             category.FullscreenColumnWidth = SelectedListView.Columns["FullscreenColumn"].Width;
             category.QuitOnExitColumnWidth = SelectedListView.Columns["QuitOnExitColumn"].Width;
@@ -1276,7 +1277,7 @@ namespace AmpShell.Views
 
         private void DisplayHelpMessage(string toolTipText)
         {
-            AdditionnalCommandsLabel.Text = string.Empty;
+            AdditionalCommandsLabel.Text = string.Empty;
             ExecutablePathLabel.Text = string.Empty;
             CMountLabel.Text = string.Empty;
             DMountLabel.Text = string.Empty;

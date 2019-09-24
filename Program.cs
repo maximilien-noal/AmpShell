@@ -11,8 +11,9 @@
 using AmpShell.Views;
 
 using System;
+using System.Resources;
 using System.Windows.Forms;
-
+[assembly: NeutralResourcesLanguage("en-US")]
 namespace AmpShell
 {
     internal static class Program
@@ -25,7 +26,11 @@ namespace AmpShell
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+            var mainForm = new MainForm();
+            using(mainForm)
+            {
+                Application.Run(mainForm);
+            };
         }
     }
 }

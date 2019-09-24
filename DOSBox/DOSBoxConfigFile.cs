@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Globalization;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace AmpShell.DOSBox
     /// </summary>
     public class DOSBoxConfigFile
     {
-        private List<string> configFileContent = new List<string>();
+        private readonly List<string> configFileContent = new List<string>();
 
         public DOSBoxConfigFile(string configFilePath)
         {
@@ -19,7 +20,7 @@ namespace AmpShell.DOSBox
                 return;
             }
 
-            configFileContent = File.ReadAllLines(configFilePath).Select(x => x.ToUpper()).ToList();
+            configFileContent = File.ReadAllLines(configFilePath).Select(x => x.ToUpper(CultureInfo.CurrentCulture)).ToList();
         }
 
         public bool IsAutoExecSectionUsed()

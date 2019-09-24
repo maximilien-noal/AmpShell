@@ -35,22 +35,23 @@ namespace AmpShell.DOSBox
                         break;
 
                     case DialogResult.Yes:
-                        OpenFileDialog dosboxExeFileDialog = new OpenFileDialog
                         {
-                            InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
-                            Title = "Please indicate DOSBox's executable location...",
-                            Filter = "DOSBox executable (dosbox*)|dosbox*"
-                        };
-                        if (dosboxExeFileDialog.ShowDialog() == DialogResult.OK)
-                        {
-                            UserDataAccessor.UserData.DBPath = dosboxExeFileDialog.FileName;
-                        }
-                        else
-                        {
-                            Environment.Exit(0);
+                            using var dosboxExeFileDialog = new OpenFileDialog
+                            {
+                                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
+                                Title = "Please indicate DOSBox's executable location...",
+                                Filter = "DOSBox executable (dosbox*)|dosbox*"
+                            };
+                            if (dosboxExeFileDialog.ShowDialog() == DialogResult.OK)
+                            {
+                                UserDataAccessor.UserData.DBPath = dosboxExeFileDialog.FileName;
+                            }
+                            else
+                            {
+                                Environment.Exit(0);
+                            }
                         }
                         break;
-
                     case DialogResult.No:
                         UserDataAccessor.UserData.DBPath = string.Empty;
                         break;
@@ -96,6 +97,10 @@ namespace AmpShell.DOSBox
         /// <returns></returns>
         public static string BuildArgs(Game selectedGame, bool forSetupExe, string dosBoxExePath, string dosboxDefaultConfFilePath, string dosboxDefaultLangFilePath)
         {
+            if(selectedGame == null)
+            {
+                return "";
+            }
             var configFile = new DOSBoxConfigFile(selectedGame.DBConfPath);
 
             //Arguments string for DOSBox.exe
@@ -109,7 +114,7 @@ namespace AmpShell.DOSBox
 
             dosboxArgs += AddPrefsLangFile(dosboxDefaultLangFilePath);
 
-            dosboxArgs += AddAdditionnalCommands(selectedGame, forSetupExe, configFile);
+            dosboxArgs += AddAdditionalCommands(selectedGame, forSetupExe, configFile);
 
             //corresponds to the Fullscreen checkbox in GameForm
             if (selectedGame.InFullScreen == true)
@@ -173,7 +178,7 @@ namespace AmpShell.DOSBox
             return dosboxArgs;
         }
 
-        private static string AddAdditionnalCommands(Game selectedGame, bool forSetupExe, DOSBoxConfigFile configFile)
+        private static string AddAdditionalCommands(Game selectedGame, bool forSetupExe, DOSBoxConfigFile configFile)
         {
             string dosboxArgs = "";
             if (configFile.IsAutoExecSectionUsed() == true)
@@ -237,13 +242,13 @@ namespace AmpShell.DOSBox
                     {
                         dosboxArgs += " -label " + selectedGame.CDLabel;
                     }
-                    if(addedMountOptions)
+                    if (addedMountOptions)
                     {
                         dosboxArgs += '"';
                     }
                 }
             }
-            //Additionnal user commands for the game
+            //Additional user commands for the game
             if (string.IsNullOrWhiteSpace(selectedGame.AdditionalCommands) == false)
             {
                 dosboxArgs += " " + selectedGame.AdditionalCommands;

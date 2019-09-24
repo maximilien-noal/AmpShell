@@ -38,9 +38,9 @@ namespace AmpShell.AutoConfig
             string confEditorPath = string.Empty;
             if (string.IsNullOrWhiteSpace(confEditorPath))
             {
-                if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.System).Substring(0, Environment.GetFolderPath(Environment.SpecialFolder.System).Length - 8).ToString() + "notepad.exe"))
+                if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.System)[0..^8] + "notepad.exe"))
                 {
-                    confEditorPath = Environment.GetFolderPath(Environment.SpecialFolder.System).Substring(0, Environment.GetFolderPath(Environment.SpecialFolder.System).Length - 8).ToString() + "notepad.exe";
+                    confEditorPath = Environment.GetFolderPath(Environment.SpecialFolder.System)[0..^8] + "notepad.exe";
                 }
             }
             return confEditorPath;

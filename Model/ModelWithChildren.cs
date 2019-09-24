@@ -34,13 +34,14 @@ namespace AmpShell.Model
         [XmlElement("Window", typeof(Preferences))]
         [XmlElement("Category", typeof(Category))]
         [XmlElement("Game", typeof(Game))]
-        public object[] ListChildren
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2227:Collection properties should be read only", Justification = "User Data Compatibility")]
+        public List<object> ListChildren
         {
-            get => _children.ToArray();
+            get => _children;
             set
             {
                 _children.Clear();
-                if (value != null && value != _children.ToArray())
+                if (value != null && value != _children)
                 {
                     _children.AddRange(value);
                 }

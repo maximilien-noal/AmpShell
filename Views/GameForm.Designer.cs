@@ -72,7 +72,7 @@ namespace AmpShell.Views
             this.GameCDPathLabel = new System.Windows.Forms.Label();
             this.GameNameLabel = new System.Windows.Forms.Label();
             this.GameCustomConfigurationBrowseButton = new System.Windows.Forms.Button();
-            this.GameCustomCofigurationLabel = new System.Windows.Forms.Label();
+            this.GameCustomConfigurationLabel = new System.Windows.Forms.Label();
             this.GameLocationBrowseButton = new System.Windows.Forms.Button();
             this.GameLocationLabel = new System.Windows.Forms.Label();
             this.AlternateDOSBoxLocationBrowsSearchButton = new System.Windows.Forms.Button();
@@ -119,7 +119,7 @@ namespace AmpShell.Views
             this.BasicTabPage.Controls.Add(this.GameNameTextbox);
             this.BasicTabPage.Controls.Add(this.GameNameLabel);
             this.BasicTabPage.Controls.Add(this.GameCustomConfigurationBrowseButton);
-            this.BasicTabPage.Controls.Add(this.GameCustomCofigurationLabel);
+            this.BasicTabPage.Controls.Add(this.GameCustomConfigurationLabel);
             this.BasicTabPage.Controls.Add(this.GameCustomConfigurationTextbox);
             this.BasicTabPage.Controls.Add(this.GameLocationBrowseButton);
             this.BasicTabPage.Controls.Add(this.GameLocationLabel);
@@ -477,17 +477,17 @@ namespace AmpShell.Views
             this.GameCustomConfigurationBrowseButton.UseVisualStyleBackColor = true;
             this.GameCustomConfigurationBrowseButton.Click += new System.EventHandler(this.GameCustomConfigurationBrowseButton_Click);
             // 
-            // GameCustomCofigurationLabel
+            // GameCustomConfigurationLabel
             // 
-            this.GameCustomCofigurationLabel.AutoSize = true;
-            this.GameCustomCofigurationLabel.Image = global::AmpShell.Properties.Resources.Configuration;
-            this.GameCustomCofigurationLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.GameCustomCofigurationLabel.Location = new System.Drawing.Point(6, 187);
-            this.GameCustomCofigurationLabel.Name = "GameCustomCofigurationLabel";
-            this.GameCustomCofigurationLabel.Size = new System.Drawing.Size(213, 13);
-            this.GameCustomCofigurationLabel.TabIndex = 43;
-            this.GameCustomCofigurationLabel.Text = "     Custom configuration location (optional) :";
-            this.GameCustomCofigurationLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.GameCustomConfigurationLabel.AutoSize = true;
+            this.GameCustomConfigurationLabel.Image = global::AmpShell.Properties.Resources.Configuration;
+            this.GameCustomConfigurationLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.GameCustomConfigurationLabel.Location = new System.Drawing.Point(6, 187);
+            this.GameCustomConfigurationLabel.Name = "GameCustomConfigurationLabel";
+            this.GameCustomConfigurationLabel.Size = new System.Drawing.Size(213, 13);
+            this.GameCustomConfigurationLabel.TabIndex = 43;
+            this.GameCustomConfigurationLabel.Text = "     Custom configuration location (optional) :";
+            this.GameCustomConfigurationLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // GameLocationBrowseButton
             // 
@@ -627,7 +627,7 @@ namespace AmpShell.Views
         private System.Windows.Forms.TextBox GameNameTextbox;
         private System.Windows.Forms.Label GameNameLabel;
         private System.Windows.Forms.Button GameCustomConfigurationBrowseButton;
-        private System.Windows.Forms.Label GameCustomCofigurationLabel;
+        private System.Windows.Forms.Label GameCustomConfigurationLabel;
         private System.Windows.Forms.TextBox GameCustomConfigurationTextbox;
         private System.Windows.Forms.Button GameLocationBrowseButton;
         private System.Windows.Forms.Label GameLocationLabel;
