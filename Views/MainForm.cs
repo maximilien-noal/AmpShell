@@ -20,6 +20,7 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AmpShell.Views
@@ -32,147 +33,47 @@ namespace AmpShell.Views
         private readonly Timer _redrawWaitTimer = new Timer();
         private List<TabPage> _redrawableTabs = new List<TabPage>();
 
-        private readonly ImageList _gamesLargeImageList = new ImageList();
-        private readonly ImageList _gamesSmallImageList = new ImageList();
-        private readonly ImageList _gamesMediumImageList = new ImageList();
+        private ImageList _gamesLargeImageList;
+        private ImageList _gamesSmallImageList;
+        private ImageList _gamesMediumImageList;
+
+        /// <summary>
+        /// Top-level context menu
+        /// </summary>
+        private ContextMenuStrip _windowContextMenuStrip;
 
         /// <summary>
         /// Context Menu for the ListView
         /// </summary>
-        private readonly ContextMenuStrip _currentListViewContextMenuStrip = new ContextMenuStrip();
+        private ContextMenuStrip _currentListViewContextMenuStrip;
 
         /// <summary>
         /// Context Menu for the TabPages
         /// </summary>
-        private readonly ContextMenuStrip _tabContextMenu = new ContextMenuStrip();
+        private ContextMenuStrip _tabContextMenuStrip;
 
-        private readonly ToolStripMenuItem _addCategoryMenuMenuItem = new ToolStripMenuItem();
-        private readonly ToolStripMenuItem _deleteCategoryMenuMenuItem = new ToolStripMenuItem();
-        private readonly ToolStripMenuItem _editCategoryMenuMenuItem = new ToolStripMenuItem();
-        private readonly ToolStripMenuItem _addCategoryMenuItem = new ToolStripMenuItem();
-        private readonly ToolStripMenuItem _deleteCategoryMenuItem = new ToolStripMenuItem();
-        private readonly ToolStripMenuItem _editCategoryMenuItem = new ToolStripMenuItem();
-        private readonly ToolStripMenuItem _addGameMenuItem = new ToolStripMenuItem();
-        private readonly ToolStripMenuItem _deleteGameMenuItem = new ToolStripMenuItem();
-        private readonly ToolStripMenuItem _editGameMenuItem = new ToolStripMenuItem();
-        private readonly ToolStripMenuItem _editGameConfigurationMenuItem = new ToolStripMenuItem();
-        private readonly ToolStripMenuItem _makeGameConfigurationMenuItem = new ToolStripMenuItem();
-        private readonly ToolStripMenuItem _runGameMenuItem = new ToolStripMenuItem();
-        private readonly ToolStripMenuItem _runGameSetupMenuItem = new ToolStripMenuItem();
-        private readonly ContextMenuStrip _windowContextMenu = new ContextMenuStrip();
-        private readonly ToolStripMenuItem _menuBarMenuItem = new ToolStripMenuItem("Menu bar");
-        private readonly ToolStripMenuItem _toolBarMenuItem = new ToolStripMenuItem("Tool bar");
-        private readonly ToolStripMenuItem _statusBarMenuItem = new ToolStripMenuItem("Details bar");
+        private ToolStripMenuItem _addCategoryMenuMenuItem;
+        private ToolStripMenuItem _deleteCategoryMenuMenuItem;
+        private ToolStripMenuItem _editCategoryMenuMenuItem;
+        private ToolStripMenuItem _addCategoryMenuItem;
+        private ToolStripMenuItem _deleteCategoryMenuItem;
+        private ToolStripMenuItem _editCategoryMenuItem;
+        private ToolStripMenuItem _addGameMenuItem;
+        private ToolStripMenuItem _deleteGameMenuItem;
+        private ToolStripMenuItem _editGameMenuItem;
+        private ToolStripMenuItem _editGameConfigurationMenuItem;
+        private ToolStripMenuItem _makeGameConfigurationMenuItem;
+        private ToolStripMenuItem _runGameMenuItem;
+        private ToolStripMenuItem _runGameSetupMenuItem;
+        private ToolStripMenuItem _menuBarMenuItem;
+        private ToolStripMenuItem _toolBarMenuItem;
+        private ToolStripMenuItem _statusBarMenuItem;
 
         public MainForm()
         {
             InitializeComponent();
-            _menuBarMenuItem.Click += new EventHandler(MenuBar_ContextMenu_Click);
-            _toolBarMenuItem.Click += new EventHandler(ToolBar_ContextMenu_Click);
-            _statusBarMenuItem.Click += new EventHandler(StatusBar_ContextMenu_Click);
-            _windowContextMenu.Items.Add(_menuBarMenuItem);
-            _windowContextMenu.Items.Add(_toolBarMenuItem);
-            _windowContextMenu.Items.Add(_statusBarMenuItem);
-            ContextMenuStrip = _windowContextMenu;
-            TabControl.AllowDrop = true;
-            //adding text, images, and EventHandlers to the context pop-up menu
-            _addGameMenuItem.Image = GameAddButton.Image;
-            _addGameMenuItem.Text = GameAddButton.Text;
-            _addGameMenuItem.Click += new EventHandler(GameAddButton_Click);
-            _addGameMenuItem.MouseEnter += new EventHandler(GameAddButton_MouseEnter);
-            _addGameMenuItem.MouseLeave += new EventHandler(CurrentListView_ItemSelectionChanged);
-            _currentListViewContextMenuStrip.Items.Add(_addGameMenuItem);
-            _runGameMenuItem.Image = RunGameButton.Image;
-            _runGameMenuItem.Text = RunGameButton.Text;
-            _runGameMenuItem.Click += new EventHandler(CurrentListView_ItemActivate);
-            _runGameMenuItem.MouseLeave += new EventHandler(CurrentListView_ItemSelectionChanged);
-            _runGameMenuItem.MouseEnter += new EventHandler(RunGameButton_MouseEnter);
-            //Only Enabled when a game is selected
-            _runGameMenuItem.Enabled = false;
-            _currentListViewContextMenuStrip.Items.Add(_runGameMenuItem);
-            _runGameSetupMenuItem.Image = RunGameSetupButton.Image;
-            _runGameSetupMenuItem.Text = RunGameSetupButton.Text;
-            _runGameSetupMenuItem.Click += new EventHandler(RunGameSetupButton_Click);
-            _runGameSetupMenuItem.MouseLeave += new EventHandler(CurrentListView_ItemSelectionChanged);
-            _runGameSetupMenuItem.MouseEnter += new EventHandler(RunGameSetupButton_MouseEnter);
-            //Only Enabled when a game is selected
-            _runGameSetupMenuItem.Enabled = false;
-            _currentListViewContextMenuStrip.Items.Add(_runGameSetupMenuItem);
-            _deleteGameMenuItem.Image = GameDeleteButton.Image;
-            _deleteGameMenuItem.Text = GameDeleteButton.Text;
-            _deleteGameMenuItem.Click += new EventHandler(GameDeleteButton_Click);
-            _deleteGameMenuItem.MouseLeave += new EventHandler(CurrentListView_ItemSelectionChanged);
-            _deleteGameMenuItem.MouseEnter += new EventHandler(GameDeleteButton_MouseEnter);
-            //Only Enabled when a game is selected
-            _deleteGameMenuItem.Enabled = false;
-            _currentListViewContextMenuStrip.Items.Add(_deleteGameMenuItem);
-            _editGameMenuItem.Image = GameEditButton.Image;
-            _editGameMenuItem.Text = GameEditButton.Text;
-            _editGameMenuItem.Click += new EventHandler(GameEditButton_Click);
-            _editGameMenuItem.MouseLeave += new EventHandler(CurrentListView_ItemSelectionChanged);
-            _editGameMenuItem.MouseEnter += new EventHandler(GameEditButton_MouseEnter);
-            //Only Enabled when a game is selected
-            _editGameMenuItem.Enabled = false;
-            _currentListViewContextMenuStrip.Items.Add(_editGameMenuItem);
-            _editGameConfigurationMenuItem.Image = GameEditConfigurationButton.Image;
-            _editGameConfigurationMenuItem.Text = GameEditConfigurationButton.Text;
-            _editGameConfigurationMenuItem.Click += new EventHandler(GameEditConfigurationButton_Click);
-            _editGameConfigurationMenuItem.MouseLeave += new EventHandler(CurrentListView_ItemSelectionChanged);
-            _editGameConfigurationMenuItem.MouseEnter += new EventHandler(GameEditConfigurationButton_MouseEnter);
-            //Only Enabled when a game is selected
-            _editGameConfigurationMenuItem.Enabled = false;
-            _currentListViewContextMenuStrip.Items.Add(_editGameConfigurationMenuItem);
-            _makeGameConfigurationMenuItem.Image = MakeConfigButton.Image;
-            _makeGameConfigurationMenuItem.Text = MakeConfigButton.Text;
-            _makeGameConfigurationMenuItem.Click += new EventHandler(MakeConfigButton_Click);
-            _makeGameConfigurationMenuItem.MouseLeave += new EventHandler(CurrentListView_ItemSelectionChanged);
-            _makeGameConfigurationMenuItem.MouseEnter += new EventHandler(MakeConfigurationFileToolStripMenuItem_MouseEnter);
-            //Only Enabled when a game is selected
-            _makeGameConfigurationMenuItem.Enabled = false;
-            _currentListViewContextMenuStrip.Items.Add(_makeGameConfigurationMenuItem);
-            ToolStripSeparator ltview_ContextMenuStripSeparator = new ToolStripSeparator();
-            _currentListViewContextMenuStrip.Items.Add(ltview_ContextMenuStripSeparator);
-            //The Categories are the tabs inside the TabControl. Each tab has only one ListView.
-            _addCategoryMenuMenuItem.Image = CategoryAddButton.Image;
-            _addCategoryMenuMenuItem.Text = CategoryAddButton.Text;
-            _addCategoryMenuMenuItem.Click += new EventHandler(CategoryAddButton_Click);
-            _addCategoryMenuMenuItem.MouseLeave += new EventHandler(CurrentListView_ItemSelectionChanged);
-            _addCategoryMenuMenuItem.MouseEnter += new EventHandler(CategoryAddButton_MouseEnter);
-            _addCategoryMenuItem.Image = CategoryAddButton.Image;
-            _addCategoryMenuItem.Text = CategoryAddButton.Text;
-            _addCategoryMenuItem.Click += new EventHandler(CategoryAddButton_Click);
-            _addCategoryMenuItem.MouseLeave += new EventHandler(CurrentListView_ItemSelectionChanged);
-            _addCategoryMenuItem.MouseEnter += new EventHandler(CategoryAddButton_MouseEnter);
-            _currentListViewContextMenuStrip.Items.Add(_addCategoryMenuMenuItem);
-            _tabContextMenu.Items.Add(_addCategoryMenuItem);
-            _editCategoryMenuMenuItem.Image = CategoryEditButton.Image;
-            _editCategoryMenuMenuItem.Text = CategoryEditButton.Text;
-            _editCategoryMenuMenuItem.Click += new EventHandler(CategoryEditButton_Click);
-            _editCategoryMenuMenuItem.MouseLeave += new EventHandler(CurrentListView_ItemSelectionChanged);
-            _editCategoryMenuMenuItem.MouseEnter += new EventHandler(CategoryEditButton_MouseEnter);
-            _editCategoryMenuItem.Image = CategoryEditButton.Image;
-            _editCategoryMenuItem.Text = CategoryEditButton.Text;
-            _editCategoryMenuItem.Click += new EventHandler(CategoryEditButton_Click);
-            _editCategoryMenuItem.MouseLeave += new EventHandler(CurrentListView_ItemSelectionChanged);
-            _editCategoryMenuItem.MouseEnter += new EventHandler(CategoryEditButton_MouseEnter);
-            _currentListViewContextMenuStrip.Items.Add(_editCategoryMenuMenuItem);
-            _tabContextMenu.Items.Add(_editCategoryMenuItem);
-            _deleteCategoryMenuMenuItem.Image = CategoryDeleteButton.Image;
-            _deleteCategoryMenuMenuItem.Text = CategoryDeleteButton.Text;
-            _deleteCategoryMenuMenuItem.Click += new EventHandler(CategoryDeleteButton_Click);
-            _deleteCategoryMenuMenuItem.MouseLeave += new EventHandler(CurrentListView_ItemSelectionChanged);
-            _deleteCategoryMenuMenuItem.MouseEnter += new EventHandler(CategoryDeleteButton_MouseEnter);
-            _deleteCategoryMenuItem.Image = CategoryDeleteButton.Image;
-            _deleteCategoryMenuItem.Text = CategoryDeleteButton.Text;
-            _deleteCategoryMenuItem.Click += new EventHandler(CategoryDeleteButton_Click);
-            _deleteCategoryMenuItem.MouseLeave += new EventHandler(CurrentListView_ItemSelectionChanged);
-            _deleteCategoryMenuItem.MouseEnter += new EventHandler(CategoryDeleteButton_MouseEnter);
-            _currentListViewContextMenuStrip.Items.Add(_deleteCategoryMenuMenuItem);
-            _tabContextMenu.Items.Add(_deleteCategoryMenuItem);
-            TabControl.ContextMenuStrip = _tabContextMenu;
             SelectedListView.ColumnWidthChanged += new ColumnWidthChangedEventHandler(CurrentListView_ColumnWidthChanged);
         }
-
         /// <summary>
         /// ListView instance used mainly to retrieve the current ListView (in tabcontrol.SelectedTab["GamesListView"])
         /// </summary>
@@ -192,8 +93,6 @@ namespace AmpShell.Views
         {
             UserDataAccessor.LoadUserSettings();
             DOSBoxController.AskForDOSBox();
-            DisplayUserData();
-            _redrawableTabs = TabControl.TabPages.Cast<TabPage>().Where(x => ((ListView)x.Controls[_listViewName]).Items.Count == 0).ToList();
         }
 
         /// <summary>
@@ -272,6 +171,12 @@ namespace AmpShell.Views
                     {
                         Tag = gameToDisplay.Signature
                     };
+                    if(_gamesLargeImageList == null)
+                    {
+                        _gamesLargeImageList = new ImageList();
+                        _gamesSmallImageList = new ImageList();
+                        _gamesMediumImageList = new ImageList();
+                    }
                     tabltview.SmallImageList = _gamesSmallImageList;
                     _gamesSmallImageList.ImageSize = new Size(16, 16);
                     tabltview.LargeImageList = _gamesLargeImageList;
@@ -907,25 +812,159 @@ namespace AmpShell.Views
         private void AmpShell_Shown(object sender, EventArgs e)
         {
             _ampShellShown = true;
-            //select the first TabPage of tabcontrol
-            if (TabControl.HasChildren)
+            Task.Factory.StartNew(() =>
             {
-                //select the first TabPage
-                TabControl.SelectedTab = TabControl.TabPages[0];
-                //make the Category edit & delete buttons Enabled
-                CategoryEditButton.Enabled = true;
-                EditSelectedcategoryToolStripMenuItem.Enabled = true;
-                _editCategoryMenuMenuItem.Enabled = true;
-                _deleteCategoryMenuMenuItem.Enabled = true;
-                CategoryDeleteButton.Enabled = true;
-                DeleteSelectedCategoryToolStripMenuItem.Enabled = true;
-            }
-            //if tabcontrol has no children, then it has no TabPages (categories)
-            //so we prompt the user for the title of the first category.
-            else
-            {
-                CategoryAddButton_Click(sender, e);
-            }
+                CreateAndPopulateContextMenus();
+                this.Invoke(new Action(delegate
+                {
+                    DisplayUserData();
+                    _redrawableTabs = TabControl.TabPages.Cast<TabPage>().Where(x => ((ListView)x.Controls[_listViewName]).Items.Count == 0).ToList();
+                    //select the first TabPage of tabcontrol
+                    if (TabControl.HasChildren)
+                    {
+                        //select the first TabPage
+                        TabControl.SelectedTab = TabControl.TabPages[0];
+                        CategoryEditButton.Enabled = true;
+                        EditSelectedcategoryToolStripMenuItem.Enabled = true;
+                        _editCategoryMenuMenuItem.Enabled = true;
+                        _deleteCategoryMenuMenuItem.Enabled = true;
+                        CategoryDeleteButton.Enabled = true;
+                        DeleteSelectedCategoryToolStripMenuItem.Enabled = true;
+                    }
+                    //if tabcontrol has no children, then it has no TabPages (categories)
+                    //so we prompt the user for the title of the first category.
+                    else
+                    {
+                        CategoryAddButton_Click(sender, e);
+                    }
+                }));
+            }, System.Threading.CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default);
+        }
+
+        private void CreateAndPopulateContextMenus()
+        {
+            _addCategoryMenuMenuItem = new ToolStripMenuItem();
+            _deleteCategoryMenuMenuItem = new ToolStripMenuItem();
+            _editCategoryMenuMenuItem = new ToolStripMenuItem();
+            _addCategoryMenuItem = new ToolStripMenuItem();
+            _deleteCategoryMenuItem = new ToolStripMenuItem();
+            _editCategoryMenuItem = new ToolStripMenuItem();
+            _addGameMenuItem = new ToolStripMenuItem();
+            _deleteGameMenuItem = new ToolStripMenuItem();
+            _editGameMenuItem = new ToolStripMenuItem();
+            _editGameConfigurationMenuItem = new ToolStripMenuItem();
+            _makeGameConfigurationMenuItem = new ToolStripMenuItem();
+            _runGameMenuItem = new ToolStripMenuItem();
+            _runGameSetupMenuItem = new ToolStripMenuItem();
+            _menuBarMenuItem = new ToolStripMenuItem("Menu bar");
+            _toolBarMenuItem = new ToolStripMenuItem("Tool bar");
+            _statusBarMenuItem = new ToolStripMenuItem("Details bar");
+            _menuBarMenuItem.Click += new EventHandler(MenuBar_ContextMenu_Click);
+            _toolBarMenuItem.Click += new EventHandler(ToolBar_ContextMenu_Click);
+            _statusBarMenuItem.Click += new EventHandler(StatusBar_ContextMenu_Click);
+            _windowContextMenuStrip = new ContextMenuStrip();
+            _windowContextMenuStrip.Items.Add(_menuBarMenuItem);
+            _windowContextMenuStrip.Items.Add(_toolBarMenuItem);
+            _windowContextMenuStrip.Items.Add(_statusBarMenuItem);
+            ContextMenuStrip = _windowContextMenuStrip;
+            TabControl.AllowDrop = true;
+            //adding text, images, and EventHandlers to the context pop-up menu
+            _addGameMenuItem.Image = GameAddButton.Image;
+            _addGameMenuItem.Text = GameAddButton.Text;
+            _addGameMenuItem.Click += new EventHandler(GameAddButton_Click);
+            _addGameMenuItem.MouseEnter += new EventHandler(GameAddButton_MouseEnter);
+            _addGameMenuItem.MouseLeave += new EventHandler(CurrentListView_ItemSelectionChanged);
+            _currentListViewContextMenuStrip = new ContextMenuStrip();
+            _currentListViewContextMenuStrip.Items.Add(_addGameMenuItem);
+            _runGameMenuItem.Image = RunGameButton.Image;
+            _runGameMenuItem.Text = RunGameButton.Text;
+            _runGameMenuItem.Click += new EventHandler(CurrentListView_ItemActivate);
+            _runGameMenuItem.MouseLeave += new EventHandler(CurrentListView_ItemSelectionChanged);
+            _runGameMenuItem.MouseEnter += new EventHandler(RunGameButton_MouseEnter);
+            //Only Enabled when a game is selected
+            _runGameMenuItem.Enabled = false;
+            _currentListViewContextMenuStrip.Items.Add(_runGameMenuItem);
+            _runGameSetupMenuItem.Image = RunGameSetupButton.Image;
+            _runGameSetupMenuItem.Text = RunGameSetupButton.Text;
+            _runGameSetupMenuItem.Click += new EventHandler(RunGameSetupButton_Click);
+            _runGameSetupMenuItem.MouseLeave += new EventHandler(CurrentListView_ItemSelectionChanged);
+            _runGameSetupMenuItem.MouseEnter += new EventHandler(RunGameSetupButton_MouseEnter);
+            //Only Enabled when a game is selected
+            _runGameSetupMenuItem.Enabled = false;
+            _currentListViewContextMenuStrip.Items.Add(_runGameSetupMenuItem);
+            _deleteGameMenuItem.Image = GameDeleteButton.Image;
+            _deleteGameMenuItem.Text = GameDeleteButton.Text;
+            _deleteGameMenuItem.Click += new EventHandler(GameDeleteButton_Click);
+            _deleteGameMenuItem.MouseLeave += new EventHandler(CurrentListView_ItemSelectionChanged);
+            _deleteGameMenuItem.MouseEnter += new EventHandler(GameDeleteButton_MouseEnter);
+            //Only Enabled when a game is selected
+            _deleteGameMenuItem.Enabled = false;
+            _currentListViewContextMenuStrip.Items.Add(_deleteGameMenuItem);
+            _editGameMenuItem.Image = GameEditButton.Image;
+            _editGameMenuItem.Text = GameEditButton.Text;
+            _editGameMenuItem.Click += new EventHandler(GameEditButton_Click);
+            _editGameMenuItem.MouseLeave += new EventHandler(CurrentListView_ItemSelectionChanged);
+            _editGameMenuItem.MouseEnter += new EventHandler(GameEditButton_MouseEnter);
+            //Only Enabled when a game is selected
+            _editGameMenuItem.Enabled = false;
+            _currentListViewContextMenuStrip.Items.Add(_editGameMenuItem);
+            _editGameConfigurationMenuItem.Image = GameEditConfigurationButton.Image;
+            _editGameConfigurationMenuItem.Text = GameEditConfigurationButton.Text;
+            _editGameConfigurationMenuItem.Click += new EventHandler(GameEditConfigurationButton_Click);
+            _editGameConfigurationMenuItem.MouseLeave += new EventHandler(CurrentListView_ItemSelectionChanged);
+            _editGameConfigurationMenuItem.MouseEnter += new EventHandler(GameEditConfigurationButton_MouseEnter);
+            //Only Enabled when a game is selected
+            _editGameConfigurationMenuItem.Enabled = false;
+            _currentListViewContextMenuStrip.Items.Add(_editGameConfigurationMenuItem);
+            _makeGameConfigurationMenuItem.Image = MakeConfigButton.Image;
+            _makeGameConfigurationMenuItem.Text = MakeConfigButton.Text;
+            _makeGameConfigurationMenuItem.Click += new EventHandler(MakeConfigButton_Click);
+            _makeGameConfigurationMenuItem.MouseLeave += new EventHandler(CurrentListView_ItemSelectionChanged);
+            _makeGameConfigurationMenuItem.MouseEnter += new EventHandler(MakeConfigurationFileToolStripMenuItem_MouseEnter);
+            //Only Enabled when a game is selected
+            _makeGameConfigurationMenuItem.Enabled = false;
+            _currentListViewContextMenuStrip.Items.Add(_makeGameConfigurationMenuItem);
+            ToolStripSeparator ltview_ContextMenuStripSeparator = new ToolStripSeparator();
+            _currentListViewContextMenuStrip.Items.Add(ltview_ContextMenuStripSeparator);
+            //The Categories are the tabs inside the TabControl. Each tab has only one ListView.
+            _addCategoryMenuMenuItem.Image = CategoryAddButton.Image;
+            _addCategoryMenuMenuItem.Text = CategoryAddButton.Text;
+            _addCategoryMenuMenuItem.Click += new EventHandler(CategoryAddButton_Click);
+            _addCategoryMenuMenuItem.MouseLeave += new EventHandler(CurrentListView_ItemSelectionChanged);
+            _addCategoryMenuMenuItem.MouseEnter += new EventHandler(CategoryAddButton_MouseEnter);
+            _addCategoryMenuItem.Image = CategoryAddButton.Image;
+            _addCategoryMenuItem.Text = CategoryAddButton.Text;
+            _addCategoryMenuItem.Click += new EventHandler(CategoryAddButton_Click);
+            _addCategoryMenuItem.MouseLeave += new EventHandler(CurrentListView_ItemSelectionChanged);
+            _addCategoryMenuItem.MouseEnter += new EventHandler(CategoryAddButton_MouseEnter);
+            _currentListViewContextMenuStrip.Items.Add(_addCategoryMenuMenuItem);
+            _tabContextMenuStrip = new ContextMenuStrip();
+            _tabContextMenuStrip.Items.Add(_addCategoryMenuItem);
+            _editCategoryMenuMenuItem.Image = CategoryEditButton.Image;
+            _editCategoryMenuMenuItem.Text = CategoryEditButton.Text;
+            _editCategoryMenuMenuItem.Click += new EventHandler(CategoryEditButton_Click);
+            _editCategoryMenuMenuItem.MouseLeave += new EventHandler(CurrentListView_ItemSelectionChanged);
+            _editCategoryMenuMenuItem.MouseEnter += new EventHandler(CategoryEditButton_MouseEnter);
+            _editCategoryMenuItem.Image = CategoryEditButton.Image;
+            _editCategoryMenuItem.Text = CategoryEditButton.Text;
+            _editCategoryMenuItem.Click += new EventHandler(CategoryEditButton_Click);
+            _editCategoryMenuItem.MouseLeave += new EventHandler(CurrentListView_ItemSelectionChanged);
+            _editCategoryMenuItem.MouseEnter += new EventHandler(CategoryEditButton_MouseEnter);
+            _currentListViewContextMenuStrip.Items.Add(_editCategoryMenuMenuItem);
+            _tabContextMenuStrip.Items.Add(_editCategoryMenuItem);
+            _deleteCategoryMenuMenuItem.Image = CategoryDeleteButton.Image;
+            _deleteCategoryMenuMenuItem.Text = CategoryDeleteButton.Text;
+            _deleteCategoryMenuMenuItem.Click += new EventHandler(CategoryDeleteButton_Click);
+            _deleteCategoryMenuMenuItem.MouseLeave += new EventHandler(CurrentListView_ItemSelectionChanged);
+            _deleteCategoryMenuMenuItem.MouseEnter += new EventHandler(CategoryDeleteButton_MouseEnter);
+            _deleteCategoryMenuItem.Image = CategoryDeleteButton.Image;
+            _deleteCategoryMenuItem.Text = CategoryDeleteButton.Text;
+            _deleteCategoryMenuItem.Click += new EventHandler(CategoryDeleteButton_Click);
+            _deleteCategoryMenuItem.MouseLeave += new EventHandler(CurrentListView_ItemSelectionChanged);
+            _deleteCategoryMenuItem.MouseEnter += new EventHandler(CategoryDeleteButton_MouseEnter);
+            _currentListViewContextMenuStrip.Items.Add(_deleteCategoryMenuMenuItem);
+            _tabContextMenuStrip.Items.Add(_deleteCategoryMenuItem);
+            TabControl.ContextMenuStrip = _tabContextMenuStrip;
         }
 
         /// <summary>
