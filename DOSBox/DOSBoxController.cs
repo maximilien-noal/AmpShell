@@ -36,20 +36,21 @@ namespace AmpShell.DOSBox
 
                     case DialogResult.Yes:
                         {
-                            using var dosboxExeFileDialog = new OpenFileDialog
+                            using (var dosboxExeFileDialog = new OpenFileDialog())
                             {
-                                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
-                                Title = "Please indicate DOSBox's executable location...",
-                                Filter = "DOSBox executable (dosbox*)|dosbox*"
-                            };
-                            if (dosboxExeFileDialog.ShowDialog() == DialogResult.OK)
-                            {
-                                UserDataAccessor.UserData.DBPath = dosboxExeFileDialog.FileName;
+                                dosboxExeFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
+                                dosboxExeFileDialog.Title = "Please indicate DOSBox's executable location...";
+                                dosboxExeFileDialog.Filter = "DOSBox executable (dosbox*)|dosbox*";
+                                if (dosboxExeFileDialog.ShowDialog() == DialogResult.OK)
+                                {
+                                    UserDataAccessor.UserData.DBPath = dosboxExeFileDialog.FileName;
+                                }
+                                else
+                                {
+                                    Environment.Exit(0);
+                                }
                             }
-                            else
-                            {
-                                Environment.Exit(0);
-                            }
+                            
                         }
                         break;
                     case DialogResult.No:

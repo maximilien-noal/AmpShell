@@ -19,6 +19,11 @@ namespace AmpShell.AutoConfig
         {
             try
             {
+                if( Directory.GetDirectoryRoot(PathFinder.GetStartupPath()) == Environment.GetFolderPath(System.Environment.SpecialFolder.ProgramFiles) ||
+                    Directory.GetDirectoryRoot(PathFinder.GetStartupPath()) == Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86))
+                {
+                    return false;
+                }
                 string tmpFilePath = Path.Combine(PathFinder.GetStartupPath(), Path.GetRandomFileName());
                 while (File.Exists(tmpFilePath) == true)
                 {
@@ -38,9 +43,10 @@ namespace AmpShell.AutoConfig
             string confEditorPath = string.Empty;
             if (string.IsNullOrWhiteSpace(confEditorPath))
             {
-                if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.System)[0..^8] + "notepad.exe"))
+                string notepadPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "notepad.exe");
+                if (File.Exists(notepadPath))
                 {
-                    confEditorPath = Environment.GetFolderPath(Environment.SpecialFolder.System)[0..^8] + "notepad.exe";
+                    confEditorPath = notepadPath;
                 }
             }
             return confEditorPath;
