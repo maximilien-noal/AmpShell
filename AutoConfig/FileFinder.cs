@@ -19,6 +19,11 @@ namespace AmpShell.AutoConfig
         {
             try
             {
+                if( Directory.GetDirectoryRoot(PathFinder.GetStartupPath()) == Environment.GetFolderPath(System.Environment.SpecialFolder.ProgramFiles) ||
+                    Directory.GetDirectoryRoot(PathFinder.GetStartupPath()) == Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86))
+                {
+                    return false;
+                }
                 string tmpFilePath = Path.Combine(PathFinder.GetStartupPath(), Path.GetRandomFileName());
                 while (File.Exists(tmpFilePath) == true)
                 {

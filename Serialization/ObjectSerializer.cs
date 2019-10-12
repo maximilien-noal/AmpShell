@@ -18,19 +18,27 @@ namespace AmpShell.Serialization
 {
     public static class ObjectSerializer
     {
-        public static object Deserialize<T>(string xmlPath, T targetObjectType) where T : Type
+        public static T Deserialize<T>(string xmlPath) where T : new()
         {
+            if(string.IsNullOrWhiteSpace(xmlPath))
+            {
+                throw new ArgumentNullException(nameof(xmlPath));
+            }
             XmlReaderSettings settings = new XmlReaderSettings() { XmlResolver = null };
             using (XmlReader reader = XmlReader.Create(xmlPath, settings))
             {
-                var serializer = new XmlSerializer(targetObjectType);
-                return serializer.Deserialize(reader);
+                var serializer = new XmlSerializer(new T().GetType());
+                return (T)serializer.Deserialize(reader);
             }
         }
 
-        public static void Serialize<T>(string xmlPath, object objectToSerialize, T typeOfObjectToSerialize) where T : Type
+        public static void Serialize<T>(string xmlPath, object objectToSerialize)
         {
-            XmlSerializer serializer = new XmlSerializer(typeOfObjectToSerialize);
+            if(objectToSerialize == null)
+            {
+                throw new ArgumentNullException(nameof(objectToSerialize));
+            }
+            XmlSerializer serializer = new XmlSerializer(objectToSerialize.GetType());
             using (var writer = new StreamWriter(xmlPath, false, Encoding.Unicode))
             {
                 serializer.Serialize(writer, objectToSerialize);
