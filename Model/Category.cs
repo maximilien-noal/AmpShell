@@ -39,6 +39,14 @@ namespace AmpShell.Model
             set { Set<int>(ref _nameColumnWidth, value); }
         }
 
+        private int _releaseDateColumnWidth = 150;
+
+        public int ReleaseDateColumnWidth
+        {
+            get => _releaseDateColumnWidth;
+            set { Set<int>(ref _releaseDateColumnWidth, value); }
+        }
+
         private int _executableColumnWith = 150;
 
         public int ExecutableColumnWidth

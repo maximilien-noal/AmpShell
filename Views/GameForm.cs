@@ -44,6 +44,7 @@ namespace AmpShell.Views
             }
 
             GameNameTextbox.Text = GameInstance.Name;
+            GameReleaseDatePicker.Value = GameInstance.ReleaseDate;
             GameLocationTextbox.Text = GameInstance.DOSEXEPath;
             GameDirectoryTextbox.Text = GameInstance.Directory;
             GameCustomConfigurationTextbox.Text = GameInstance.DBConfPath;
@@ -123,6 +124,7 @@ namespace AmpShell.Views
                     GameInstance.QuitOnExit = QuitOnExitCheckBox.Checked;
                     GameInstance.Directory = GameDirectoryTextbox.Text;
                     GameInstance.Name = GameNameTextbox.Text;
+                    GameInstance.ReleaseDate = GameReleaseDatePicker.Value;
                     GameInstance.CDPath = GameCDPathTextBox.Text;
                     GameInstance.CDLabel = DiscLabelTextBox.Text;
                     GameInstance.SetupEXEPath = GameSetupTextBox.Text;
@@ -484,6 +486,7 @@ namespace AmpShell.Views
                     }
                 }
             }
+#pragma warning disable CA1031 // Do not catch general exception types
             catch (OutOfMemoryException)
             {
                 MessageBox.Show(this, "There was an error in the image file, or it's format is not supported. Please check the file.", "Changing the game's icon", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -496,6 +499,7 @@ namespace AmpShell.Views
                     GameIconPictureBox.Image = Image.FromFile(GameInstance.Icon).GetThumbnailImage(64, 64, null, IntPtr.Zero);
                 }
             }
+#pragma warning restore CA1031 // Do not catch general exception types
         }
 
         private void ResetIconButton_Click(object sender, EventArgs e)

@@ -9,7 +9,8 @@
  * If not, see <http://www.gnu.org/licenses/>.*/
 
 using AmpShell.Notification;
-
+using System;
+using System.Globalization;
 using System.Xml.Serialization;
 
 namespace AmpShell.Model
@@ -25,6 +26,14 @@ namespace AmpShell.Model
         {
             get => _name;
             set { Set<string>(ref _name, value); }
+        }
+
+        private DateTime _releaseDate = DateTime.Parse("01/01/1980", CultureInfo.InvariantCulture);
+
+        public DateTime ReleaseDate
+        {
+            get => _releaseDate;
+            set { Set<DateTime>(ref _releaseDate, value); }
         }
 
         private string _directory = "";
