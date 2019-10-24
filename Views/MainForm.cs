@@ -154,6 +154,7 @@ namespace AmpShell.Views
                     LabelWrap = true
                 };
                 tabltview.Columns.Add("NameColumn", "Name", categoryToDisplay.NameColumnWidth);
+                tabltview.Columns.Add("ReleaseDateColumn", "Release Date", categoryToDisplay.ReleaseDateColumnWidth);
                 tabltview.Columns.Add("ExecutableColumn", "Executable", categoryToDisplay.ExecutableColumnWidth);
                 tabltview.Columns.Add("CMountColumn", "C: Mount", categoryToDisplay.CMountColumnWidth);
                 tabltview.Columns.Add("SetupExecutableColumn", "Setup executable", categoryToDisplay.SetupExecutableColumnWidth);
@@ -196,6 +197,11 @@ namespace AmpShell.Views
                     {
                         gameforlt.ImageKey = "DefaultIcon";
                     }
+                    ListViewItem.ListViewSubItem gameReleaseDateLVSubItem = new ListViewItem.ListViewSubItem
+                    {
+                        Text = gameToDisplay.ReleaseDate.ToString("dd/MM/yyyy", CultureInfo.CurrentCulture)
+                    };
+                    gameforlt.SubItems.Add(gameReleaseDateLVSubItem);
                     ListViewItem.ListViewSubItem gameDOSEXEPathLVSubItem = new ListViewItem.ListViewSubItem
                     {
                         Text = gameToDisplay.DOSEXEPath
@@ -717,10 +723,12 @@ namespace AmpShell.Views
                     dosboxProcess.Exited += OnDOSBoxExit;
                 }
             }
+#pragma warning disable CA1031 // Do not catch general exception types
             catch (FileNotFoundException)
             {
                 MessageBox.Show("DOSBox cannot be run (was it deleted ?) !", "Game Launch", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+#pragma warning restore CA1031 // Do not catch general exception types
         }
 
         private void OnDOSBoxExit(object sender, EventArgs e)
@@ -1220,6 +1228,7 @@ namespace AmpShell.Views
                 return;
             }
             category.NameColumnWidth = SelectedListView.Columns["NameColumn"].Width;
+            category.ReleaseDateColumnWidth = SelectedListView.Columns["ReleaseDateColumn"].Width;
             category.ExecutableColumnWidth = SelectedListView.Columns["ExecutableColumn"].Width;
             category.CMountColumnWidth = SelectedListView.Columns["CMountColumn"].Width;
             category.SetupExecutableColumnWidth = SelectedListView.Columns["SetupExecutableColumn"].Width;
