@@ -153,6 +153,7 @@ namespace AmpShell.Views
                     AllowColumnReorder = true,
                     LabelWrap = true
                 };
+                tabltview.ColumnClick += delegate (object o, ColumnClickEventArgs e){ tabltview.ListViewItemSorter = new CustomListViewItemSorter(e.Column); };
                 tabltview.Columns.Add("NameColumn", "Name", categoryToDisplay.NameColumnWidth);
                 tabltview.Columns.Add("ReleaseDateColumn", "Release Date", categoryToDisplay.ReleaseDateColumnWidth);
                 tabltview.Columns.Add("ExecutableColumn", "Executable", categoryToDisplay.ExecutableColumnWidth);
