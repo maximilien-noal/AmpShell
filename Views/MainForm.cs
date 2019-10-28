@@ -758,8 +758,8 @@ namespace AmpShell.Views
                 {
                     continue;
                 }
-                SelectedListView.Items.Remove(selectedItem);
                 GetSelectedCategory()?.RemoveChild(GetSelectedGame());
+                SelectedListView.Items.Remove(selectedItem);
             } while (selectedItem != null);
         }
 
