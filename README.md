@@ -22,7 +22,7 @@ Just download it, and you are ready to go.
 
 ### AutoConfig
 
-DOSBox is automatically found, as is it's configuration file.
+DOSBox is automatically found, as is its configuration file.
 
 ### Drag & Drop
 
