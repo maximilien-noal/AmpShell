@@ -35,7 +35,7 @@ namespace AmpShell.DOSBox
                 int index = configFileContent.LastIndexOf("[AUTOEXEC]");
                 if (index != -1)
                 {
-                    var range = new Tuple<int, int>(index + 1, Math.Abs(index - (configFileContent.Count() - 1)));
+                    var range = new Tuple<int, int>(index + 1, Math.Abs(index - (configFileContent.Count - 1)));
                     var section = configFileContent.GetRange(range.Item1, range.Item2);
                     section.RemoveAll(x => string.IsNullOrEmpty(x) || x[0] == '#');
                     return string.Join("", section);

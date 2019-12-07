@@ -36,23 +36,23 @@ namespace AmpShell.DOSBox
 
                     case DialogResult.Yes:
                         {
-                            using (var dosboxExeFileDialog = new OpenFileDialog())
+                            using var dosboxExeFileDialog = new OpenFileDialog
                             {
-                                dosboxExeFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
-                                dosboxExeFileDialog.Title = "Please indicate DOSBox's executable location...";
-                                dosboxExeFileDialog.Filter = "DOSBox executable (dosbox*)|dosbox*";
-                                if (dosboxExeFileDialog.ShowDialog() == DialogResult.OK)
-                                {
-                                    UserDataAccessor.UserData.DBPath = dosboxExeFileDialog.FileName;
-                                }
-                                else
-                                {
-                                    Environment.Exit(0);
-                                }
+                                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
+                                Title = "Please indicate DOSBox's executable location...",
+                                Filter = "DOSBox executable (dosbox*)|dosbox*"
+                            };
+                            if (dosboxExeFileDialog.ShowDialog() == DialogResult.OK)
+                            {
+                                UserDataAccessor.UserData.DBPath = dosboxExeFileDialog.FileName;
                             }
-                            
+                            else
+                            {
+                                Environment.Exit(0);
+                            }
                         }
                         break;
+
                     case DialogResult.No:
                         UserDataAccessor.UserData.DBPath = string.Empty;
                         break;
@@ -98,7 +98,7 @@ namespace AmpShell.DOSBox
         /// <returns></returns>
         public static string BuildArgs(Game selectedGame, bool forSetupExe, string dosBoxExePath, string dosboxDefaultConfFilePath, string dosboxDefaultLangFilePath)
         {
-            if(selectedGame == null)
+            if (selectedGame == null)
             {
                 return "";
             }

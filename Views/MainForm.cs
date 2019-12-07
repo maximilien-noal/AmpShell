@@ -74,6 +74,7 @@ namespace AmpShell.Views
             InitializeComponent();
             SelectedListView.ColumnWidthChanged += new ColumnWidthChangedEventHandler(CurrentListView_ColumnWidthChanged);
         }
+
         /// <summary>
         /// ListView instance used mainly to retrieve the current ListView (in tabcontrol.SelectedTab["GamesListView"])
         /// </summary>
@@ -153,7 +154,7 @@ namespace AmpShell.Views
                     AllowColumnReorder = true,
                     LabelWrap = true
                 };
-                tabltview.ColumnClick += delegate (object o, ColumnClickEventArgs e){ tabltview.ListViewItemSorter = new CustomListViewItemSorter(e.Column); };
+                tabltview.ColumnClick += delegate (object o, ColumnClickEventArgs e) { tabltview.ListViewItemSorter = new CustomListViewItemSorter(e.Column); };
                 tabltview.Columns.Add("NameColumn", "Name", categoryToDisplay.NameColumnWidth);
                 tabltview.Columns.Add("ReleaseDateColumn", "Release Date", categoryToDisplay.ReleaseDateColumnWidth);
                 tabltview.Columns.Add("ExecutableColumn", "Executable", categoryToDisplay.ExecutableColumnWidth);
@@ -173,7 +174,7 @@ namespace AmpShell.Views
                     {
                         Tag = gameToDisplay.Signature
                     };
-                    if(_gamesLargeImageList == null)
+                    if (_gamesLargeImageList == null)
                     {
                         _gamesLargeImageList = new ImageList();
                         _gamesSmallImageList = new ImageList();
@@ -462,12 +463,10 @@ namespace AmpShell.Views
         private void GameEditButton_Click(object sender, EventArgs e)
         {
             Game selectedGame = GetSelectedGame();
-            using (var gameEditForm = new GameForm(selectedGame))
+            using var gameEditForm = new GameForm(selectedGame);
+            if (gameEditForm.ShowDialog(this) == DialogResult.OK)
             {
-                if (gameEditForm.ShowDialog(this) == DialogResult.OK)
-                {
-                    RedrawAllUserData();
-                }
+                RedrawAllUserData();
             }
         }
 
@@ -695,14 +694,11 @@ namespace AmpShell.Views
         /// </summary>
         private void CategoryAddButton_Click(object sender, EventArgs e)
         {
-            using (var newCategoryForm = new CategoryForm())
+            using var newCategoryForm = new CategoryForm();
+            if (newCategoryForm.ShowDialog(this) == DialogResult.OK)
             {
-                if (newCategoryForm.ShowDialog(this) == DialogResult.OK)
-                {
-                    RedrawAllUserData();
-                }
+                RedrawAllUserData();
             }
-            
         }
 
         /// <summary>
@@ -776,7 +772,7 @@ namespace AmpShell.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void AboutToolStripMenuItem_Click(object sender, EventArgs e) { using (var aboutBox = new AboutBox()) { aboutBox.ShowDialog(this); } }
+        private void AboutToolStripMenuItem_Click(object sender, EventArgs e) { using var aboutBox = new AboutBox(); _ = aboutBox.ShowDialog(this); }
 
         /// <summary>
         /// EventHandler for when the delete button game is clicked
@@ -1008,14 +1004,12 @@ namespace AmpShell.Views
 
             newGame.Signature = UserDataAccessor.GetAUniqueSignature();
 
-            using (var newGameForm = new GameForm(newGame, true))
+            using var newGameForm = new GameForm(newGame, true);
+            if (newGameForm.ShowDialog(this) == DialogResult.OK)
             {
-                if (newGameForm.ShowDialog(this) == DialogResult.OK)
-                {
-                    Category concernedCategory = GetSelectedCategory();
-                    concernedCategory.AddChild(newGameForm.GameInstance);
-                    RedrawAllUserData();
-                }
+                Category concernedCategory = GetSelectedCategory();
+                concernedCategory.AddChild(newGameForm.GameInstance);
+                RedrawAllUserData();
             }
         }
 
@@ -1042,12 +1036,10 @@ namespace AmpShell.Views
         /// </summary>
         private void CategoryEditButton_Click(object sender, EventArgs e)
         {
-            using (var catEditForm = new CategoryForm((string)TabControl.SelectedTab.Tag))
+            using var catEditForm = new CategoryForm((string)TabControl.SelectedTab.Tag);
+            if (catEditForm.ShowDialog(this) == DialogResult.OK)
             {
-                if (catEditForm.ShowDialog(this) == DialogResult.OK)
-                {
-                    TabControl.SelectedTab.Text = catEditForm.ViewModel.Name;
-                }
+                TabControl.SelectedTab.Text = catEditForm.ViewModel.Name;
             }
         }
 
@@ -1090,7 +1082,7 @@ namespace AmpShell.Views
 
         private void PreferencesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using(var prefsForm = new PreferencesForm())
+            using (var prefsForm = new PreferencesForm())
             {
                 if (prefsForm.ShowDialog(this) == DialogResult.OK)
                 {

@@ -3,7 +3,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
-    <TreatWarningsAsErrors>False</TreatWarningsAsErrors> 
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <!-- https://github.com/dotnet/core/issues/3319 -->
     <EmbeddedResourceUseDependentUponConvention>false</EmbeddedResourceUseDependentUponConvention>
     <ApplicationIcon>AmpShell.ico</ApplicationIcon>

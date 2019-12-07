@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+
 /*AmpShell : .NET front-end for DOSBox
  * Copyright (C) 2009, 2019 Maximilien Noal
  *This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License
@@ -32,23 +33,21 @@ namespace AmpShell.Views
 
         private void BrowseForEditorButton_Click(object sender, EventArgs e)
         {
-            using (var textEditorFileDialog = new OpenFileDialog())
+            using var textEditorFileDialog = new OpenFileDialog();
+            if (string.IsNullOrWhiteSpace(EditorBinaryPathTextBox.Text) == false)
             {
-                if (string.IsNullOrWhiteSpace(EditorBinaryPathTextBox.Text) == false)
+                if (Directory.Exists(Path.GetDirectoryName(EditorBinaryPathTextBox.Text).ToString(CultureInfo.InvariantCulture)))
                 {
-                    if (Directory.Exists(Path.GetDirectoryName(EditorBinaryPathTextBox.Text).ToString(CultureInfo.InvariantCulture)))
-                    {
-                        textEditorFileDialog.InitialDirectory = Path.GetDirectoryName(EditorBinaryPathTextBox.Text).ToString(CultureInfo.InvariantCulture);
-                    }
-                    else
-                    {
-                        textEditorFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
-                    }
+                    textEditorFileDialog.InitialDirectory = Path.GetDirectoryName(EditorBinaryPathTextBox.Text).ToString(CultureInfo.InvariantCulture);
                 }
-                if (textEditorFileDialog.ShowDialog(this) == DialogResult.OK)
+                else
                 {
-                    EditorBinaryPathTextBox.Text = textEditorFileDialog.FileName;
+                    textEditorFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
                 }
+            }
+            if (textEditorFileDialog.ShowDialog(this) == DialogResult.OK)
+            {
+                EditorBinaryPathTextBox.Text = textEditorFileDialog.FileName;
             }
         }
 
@@ -270,86 +269,77 @@ namespace AmpShell.Views
 
         private void DOSBoxPathBrowseButton_Click(object sender, EventArgs e)
         {
-            using (var dosBoxExePathFileDialog = new OpenFileDialog())
+            using var dosBoxExePathFileDialog = new OpenFileDialog
             {
-                dosBoxExePathFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
-                dosBoxExePathFileDialog.Title = DOSBoxExecutableLabel.Text;
-                dosBoxExePathFileDialog.Filter = "DOSBox executable (dosbox*)|dosbox*|All files|*";
-                if (dosBoxExePathFileDialog.ShowDialog(this) == DialogResult.OK)
-                {
-                    //retrieve the selected dosbox.exe path into Amp.DBPath
-                    UserDataAccessor.UserData.DBPath = dosBoxExePathFileDialog.FileName;
-                    DOSBoxPathTextBox.Text = dosBoxExePathFileDialog.FileName;
-                }
-                else if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBPath))
-                {
-                    MessageBox.Show("Location of DOSBox's executable unknown. You will not be able to run games!", "Select DOSBox's executable", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
+                Title = DOSBoxExecutableLabel.Text,
+                Filter = "DOSBox executable (dosbox*)|dosbox*|All files|*"
+            };
+            if (dosBoxExePathFileDialog.ShowDialog(this) == DialogResult.OK)
+            {
+                //retrieve the selected dosbox.exe path into Amp.DBPath
+                UserDataAccessor.UserData.DBPath = dosBoxExePathFileDialog.FileName;
+                DOSBoxPathTextBox.Text = dosBoxExePathFileDialog.FileName;
+            }
+            else if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBPath))
+            {
+                MessageBox.Show("Location of DOSBox's executable unknown. You will not be able to run games!", "Select DOSBox's executable", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
         private void DOSBoxConfFileBrowseButton_Click(object sender, EventArgs e)
         {
-            using (var dosboxDefaultConfFileDialog = new OpenFileDialog())
+            using var dosboxDefaultConfFileDialog = new OpenFileDialog();
+            if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBDefaultConfFilePath) == false
+&& Directory.Exists(Path.GetDirectoryName(UserDataAccessor.UserData.DBDefaultConfFilePath)))
             {
-                if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBDefaultConfFilePath) == false
-                    && Directory.Exists(Path.GetDirectoryName(UserDataAccessor.UserData.DBDefaultConfFilePath)))
-                {
-                    dosboxDefaultConfFileDialog.InitialDirectory = Path.GetDirectoryName(UserDataAccessor.UserData.DBDefaultConfFilePath);
-                }
+                dosboxDefaultConfFileDialog.InitialDirectory = Path.GetDirectoryName(UserDataAccessor.UserData.DBDefaultConfFilePath);
+            }
 
-                dosboxDefaultConfFileDialog.Title = DOSBoxConfLabel.Text;
-                dosboxDefaultConfFileDialog.Filter = "DOSBox configuration files (*.conf)|*.conf|All files|*";
-                if (dosboxDefaultConfFileDialog.ShowDialog(this) == DialogResult.OK)
-                {
-                    //retrieve the selected .conf file path in Amp.DBDefaultConfFilePath
-                    UserDataAccessor.UserData.DBDefaultConfFilePath = dosboxDefaultConfFileDialog.FileName;
-                    DOSBoxConfFileTextBox.Text = dosboxDefaultConfFileDialog.FileName;
-                }
+            dosboxDefaultConfFileDialog.Title = DOSBoxConfLabel.Text;
+            dosboxDefaultConfFileDialog.Filter = "DOSBox configuration files (*.conf)|*.conf|All files|*";
+            if (dosboxDefaultConfFileDialog.ShowDialog(this) == DialogResult.OK)
+            {
+                //retrieve the selected .conf file path in Amp.DBDefaultConfFilePath
+                UserDataAccessor.UserData.DBDefaultConfFilePath = dosboxDefaultConfFileDialog.FileName;
+                DOSBoxConfFileTextBox.Text = dosboxDefaultConfFileDialog.FileName;
             }
         }
 
         private void DOSBoxLangFileBrowseButton_Click(object sender, EventArgs e)
         {
-            using (var dosBoxDefaultLangFileDialog = new OpenFileDialog())
+            using var dosBoxDefaultLangFileDialog = new OpenFileDialog();
+            if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBDefaultLangFilePath) == false
+&& Directory.Exists(Path.GetDirectoryName(UserDataAccessor.UserData.DBDefaultLangFilePath)))
             {
-                if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBDefaultLangFilePath) == false
-                    && Directory.Exists(Path.GetDirectoryName(UserDataAccessor.UserData.DBDefaultLangFilePath)))
-                {
-                    dosBoxDefaultLangFileDialog.InitialDirectory = Path.GetDirectoryName(UserDataAccessor.UserData.DBDefaultLangFilePath);
-                }
-
-                dosBoxDefaultLangFileDialog.Title = DOSBoxLangFileLabel.Text;
-                dosBoxDefaultLangFileDialog.Filter = "DOSBox language files (*.lng)|*.lng|All files|*";
-                if (dosBoxDefaultLangFileDialog.ShowDialog(this) == DialogResult.OK)
-                {
-                    //retrieve the selected .lng file path in Amp.DBDefaultLangFilePath
-                    UserDataAccessor.UserData.DBDefaultLangFilePath = dosBoxDefaultLangFileDialog.FileName;
-                    DOSBoxLangFileTextBox.Text = dosBoxDefaultLangFileDialog.FileName;
-                }
+                dosBoxDefaultLangFileDialog.InitialDirectory = Path.GetDirectoryName(UserDataAccessor.UserData.DBDefaultLangFilePath);
             }
 
+            dosBoxDefaultLangFileDialog.Title = DOSBoxLangFileLabel.Text;
+            dosBoxDefaultLangFileDialog.Filter = "DOSBox language files (*.lng)|*.lng|All files|*";
+            if (dosBoxDefaultLangFileDialog.ShowDialog(this) == DialogResult.OK)
+            {
+                //retrieve the selected .lng file path in Amp.DBDefaultLangFilePath
+                UserDataAccessor.UserData.DBDefaultLangFilePath = dosBoxDefaultLangFileDialog.FileName;
+                DOSBoxLangFileTextBox.Text = dosBoxDefaultLangFileDialog.FileName;
+            }
         }
 
         private void BrowseGamesDirButton_Click(object sender, EventArgs e)
         {
-            using (var gamesFolderBrowserDialog = new FolderBrowserDialog())
+            using var gamesFolderBrowserDialog = new FolderBrowserDialog();
+            if (gamesFolderBrowserDialog.ShowDialog(this) == DialogResult.OK)
             {
-                if (gamesFolderBrowserDialog.ShowDialog(this) == DialogResult.OK)
-                {
-                    GamesDirTextBox.Text = gamesFolderBrowserDialog.SelectedPath;
-                }
+                GamesDirTextBox.Text = gamesFolderBrowserDialog.SelectedPath;
             }
         }
 
         private void BrowseCDImageDirButton_Click(object sender, EventArgs e)
         {
-            using (var cdImagesFolderBrowserDialog = new FolderBrowserDialog())
+            using var cdImagesFolderBrowserDialog = new FolderBrowserDialog();
+            if (cdImagesFolderBrowserDialog.ShowDialog(this) == DialogResult.OK)
             {
-                if (cdImagesFolderBrowserDialog.ShowDialog(this) == DialogResult.OK)
-                {
-                    CDImageDirTextBox.Text = cdImagesFolderBrowserDialog.SelectedPath;
-                }
+                CDImageDirTextBox.Text = cdImagesFolderBrowserDialog.SelectedPath;
             }
         }
 

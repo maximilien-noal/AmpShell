@@ -19,7 +19,7 @@ namespace AmpShell.AutoConfig
         {
             try
             {
-                if( Directory.GetDirectoryRoot(PathFinder.GetStartupPath()) == Environment.GetFolderPath(System.Environment.SpecialFolder.ProgramFiles) ||
+                if (Directory.GetDirectoryRoot(PathFinder.GetStartupPath()) == Environment.GetFolderPath(System.Environment.SpecialFolder.ProgramFiles) ||
                     Directory.GetDirectoryRoot(PathFinder.GetStartupPath()) == Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86))
                 {
                     return false;
@@ -32,10 +32,12 @@ namespace AmpShell.AutoConfig
                 File.Create(tmpFilePath, 1, FileOptions.DeleteOnClose).Close();
                 return true;
             }
+#pragma warning disable CA1031 // Do not catch general exception types
             catch (UnauthorizedAccessException)
             {
                 return false;
             }
+#pragma warning restore CA1031 // Do not catch general exception types
         }
 
         public static string SearchCommonTextEditor()
