@@ -1,4 +1,14 @@
 Changelog---------
+1.2.4.1 (October 28 - 22h15)
+- Fixed unability to delete games and related crashes
+
+1.2.4 (October 26 2019 - 09h30)
+- Release Date information can now be added to games
+- Games can be sorted by Name, Release Date, etc. ...
+
+1.2.3 (September 29 2019 - 16h00)
+- Faster startup
+
 1.2.2 (July 23 2019 - 20h00)
 - Bugfix : First run crash.
 
