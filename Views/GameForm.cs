@@ -23,7 +23,7 @@ namespace AmpShell.Views
     {
         public GameForm(Game editedGame, bool newGame = false)
         {
-            if(editedGame == null)
+            if (editedGame == null)
             {
                 return;
             }
@@ -169,7 +169,7 @@ namespace AmpShell.Views
         /// <param name="e"></param>
         private void GameLocationBrowseButton_Click(object sender, EventArgs e)
         {
-            using(var gameExeFileDialog = new OpenFileDialog())
+            using (var gameExeFileDialog = new OpenFileDialog())
             {
                 if (UserDataAccessor.UserData.PortableMode == true)
                 {
@@ -489,7 +489,7 @@ namespace AmpShell.Views
 #pragma warning disable CA1031 // Do not catch general exception types
             catch (OutOfMemoryException)
             {
-                MessageBox.Show(this, "There was an error in the image file, or it's format is not supported. Please check the file.", "Changing the game's icon", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(this, "There is an error in the image file, or its format is not supported. Please check the file.", "Changing the game's icon", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 if (string.IsNullOrWhiteSpace(GameInstance.Icon))
                 {
                     GameIconPictureBox.Image = Properties.Resources.Generic_Application1;
@@ -536,7 +536,6 @@ namespace AmpShell.Views
                     AlternateDOSBoxLocationTextbox.Text = alternateDOSBoxExeFileDialog.FileName;
                 }
             }
-                
         }
 
         private string SearchFolderDialogStartDirectory()
