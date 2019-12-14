@@ -30,13 +30,13 @@ namespace AmpShell.Serialization
             return (T)serializer.Deserialize(reader);
         }
 
-        public static void Serialize<T>(string xmlPath, object objectToSerialize)
+        public static void Serialize<T>(string xmlPath, T objectToSerialize)
         {
             if (objectToSerialize == null)
             {
                 throw new ArgumentNullException(nameof(objectToSerialize));
             }
-            XmlSerializer serializer = new XmlSerializer(objectToSerialize.GetType());
+            XmlSerializer serializer = new XmlSerializer(typeof(T));
             using var writer = new StreamWriter(xmlPath, false, Encoding.Unicode);
             serializer.Serialize(writer, objectToSerialize);
             writer.Close();
