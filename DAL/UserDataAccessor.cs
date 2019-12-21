@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+
 /*AmpShell : .NET front-end for DOSBox
  * Copyright (C) 2009, 2019 Maximilien Noal
  *This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License
@@ -25,6 +26,7 @@ namespace AmpShell.DAL
         {
             UserData = new Preferences();
         }
+
         /// <summary>
         /// Used when a new Category or Game is created : it's signature must be unique
         /// so AmpShell can recognize it instantly
@@ -116,13 +118,10 @@ namespace AmpShell.DAL
 
         public static void LoadUserSettings()
         {
-            try
+            UserData = new Preferences();
+            if (File.Exists(GetDataFilePath()))
             {
                 UserData = ObjectSerializer.Deserialize<Preferences>(GetDataFilePath());
-            }
-            catch (FileNotFoundException)
-            {
-                UserData = new Preferences();
             }
             foreach (Category concernedCategory in UserData.ListChildren)
             {
@@ -196,7 +195,7 @@ namespace AmpShell.DAL
             }
             else
             {
-                if(File.Exists(appDataFile))
+                if (File.Exists(appDataFile))
                 {
                     return appDataFile;
                 }
