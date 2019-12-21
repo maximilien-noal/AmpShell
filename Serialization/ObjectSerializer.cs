@@ -20,25 +20,25 @@ namespace AmpShell.Serialization
     {
         public static T Deserialize<T>(string xmlPath) where T : new()
         {
-            if(string.IsNullOrWhiteSpace(xmlPath))
+            if (string.IsNullOrWhiteSpace(xmlPath))
             {
                 throw new ArgumentNullException(nameof(xmlPath));
             }
             XmlReaderSettings settings = new XmlReaderSettings() { XmlResolver = null };
-            using (XmlReader reader = XmlReader.Create(xmlPath, settings))
+            using (var reader = XmlReader.Create(xmlPath, settings))
             {
                 var serializer = new XmlSerializer(new T().GetType());
                 return (T)serializer.Deserialize(reader);
             }
         }
 
-        public static void Serialize<T>(string xmlPath, object objectToSerialize)
+        public static void Serialize<T>(string xmlPath, T objectToSerialize)
         {
-            if(objectToSerialize == null)
+            if (objectToSerialize == null)
             {
                 throw new ArgumentNullException(nameof(objectToSerialize));
             }
-            XmlSerializer serializer = new XmlSerializer(objectToSerialize.GetType());
+            XmlSerializer serializer = new XmlSerializer(typeof(T));
             using (var writer = new StreamWriter(xmlPath, false, Encoding.Unicode))
             {
                 serializer.Serialize(writer, objectToSerialize);
