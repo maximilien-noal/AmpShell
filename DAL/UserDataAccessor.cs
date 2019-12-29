@@ -170,11 +170,11 @@ namespace AmpShell.DAL
 
             if (string.IsNullOrWhiteSpace(UserData.DBDefaultLangFilePath) == false)
             {
-                UserData.DBDefaultLangFilePath = FileFinder.SearchDOSBoxLanguageFile(UserData.DBPath);
+                UserData.DBDefaultLangFilePath = FileFinder.SearchDOSBoxLanguageFile(GetDataFilePath(), UserData.DBPath);
             }
             else if (File.Exists(UserData.DBDefaultLangFilePath) == false)
             {
-                UserData.DBDefaultLangFilePath = FileFinder.SearchDOSBoxLanguageFile(UserData.DBPath);
+                UserData.DBDefaultLangFilePath = FileFinder.SearchDOSBoxLanguageFile(GetDataFilePath(), UserData.DBPath);
             }
         }
 
