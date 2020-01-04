@@ -345,7 +345,7 @@ namespace AmpShell.Views
             // 
             this.BrowseGamesDirButton.Image = global::AmpShell.Properties.Resources.search;
             this.BrowseGamesDirButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.BrowseGamesDirButton.Location = new System.Drawing.Point(601, 25);
+            this.BrowseGamesDirButton.Location = new System.Drawing.Point(601, 23);
             this.BrowseGamesDirButton.Name = "BrowseGamesDirButton";
             this.BrowseGamesDirButton.Size = new System.Drawing.Size(24, 23);
             this.BrowseGamesDirButton.TabIndex = 11;
@@ -358,7 +358,7 @@ namespace AmpShell.Views
             // 
             this.BrowseCDImageDirButton.Image = global::AmpShell.Properties.Resources.search;
             this.BrowseCDImageDirButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.BrowseCDImageDirButton.Location = new System.Drawing.Point(601, 64);
+            this.BrowseCDImageDirButton.Location = new System.Drawing.Point(601, 63);
             this.BrowseCDImageDirButton.Name = "BrowseCDImageDirButton";
             this.BrowseCDImageDirButton.Size = new System.Drawing.Size(24, 23);
             this.BrowseCDImageDirButton.TabIndex = 13;
@@ -505,6 +505,7 @@ namespace AmpShell.Views
             // 
             // CategoriesListView
             // 
+            this.CategoriesListView.HideSelection = false;
             this.CategoriesListView.LabelWrap = false;
             this.CategoriesListView.Location = new System.Drawing.Point(4, 30);
             this.CategoriesListView.Name = "CategoriesListView";
@@ -814,7 +815,7 @@ namespace AmpShell.Views
             this.FormCancelButton.UseVisualStyleBackColor = true;
             this.FormCancelButton.Click += new System.EventHandler(this.Cancel_Click);
             // 
-            // Main_Prefs
+            // PreferencesForm
             // 
             this.AcceptButton = this.OKButton;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -831,7 +832,7 @@ namespace AmpShell.Views
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.Name = "Main_Prefs";
+            this.Name = "PreferencesForm";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Preferences";
