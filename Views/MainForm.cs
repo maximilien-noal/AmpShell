@@ -28,13 +28,19 @@ namespace AmpShell.Views
     public partial class MainForm : Form
     {
         private const string _listViewName = "GamesListView";
+
         private bool _ampShellShown;
+
         private int _hoveredTabIndex;
+
         private readonly Timer _redrawWaitTimer = new Timer();
+
         private List<TabPage> _redrawableTabs = new List<TabPage>();
 
         private ImageList _gamesLargeImageList;
+
         private ImageList _gamesSmallImageList;
+
         private ImageList _gamesMediumImageList;
 
         /// <summary>
@@ -53,20 +59,35 @@ namespace AmpShell.Views
         private ContextMenuStrip _tabContextMenuStrip;
 
         private ToolStripMenuItem _addCategoryMenuMenuItem;
+
         private ToolStripMenuItem _deleteCategoryMenuMenuItem;
+
         private ToolStripMenuItem _editCategoryMenuMenuItem;
+
         private ToolStripMenuItem _addCategoryMenuItem;
+
         private ToolStripMenuItem _deleteCategoryMenuItem;
+
         private ToolStripMenuItem _editCategoryMenuItem;
+
         private ToolStripMenuItem _addGameMenuItem;
+
         private ToolStripMenuItem _deleteGameMenuItem;
+
         private ToolStripMenuItem _editGameMenuItem;
+
         private ToolStripMenuItem _editGameConfigurationMenuItem;
+
         private ToolStripMenuItem _makeGameConfigurationMenuItem;
+
         private ToolStripMenuItem _runGameMenuItem;
+
         private ToolStripMenuItem _runGameSetupMenuItem;
+
         private ToolStripMenuItem _menuBarMenuItem;
+
         private ToolStripMenuItem _toolBarMenuItem;
+
         private ToolStripMenuItem _statusBarMenuItem;
 
         public MainForm()
@@ -74,6 +95,7 @@ namespace AmpShell.Views
             InitializeComponent();
             SelectedListView.ColumnWidthChanged += new ColumnWidthChangedEventHandler(CurrentListView_ColumnWidthChanged);
         }
+
         /// <summary>
         /// ListView instance used mainly to retrieve the current ListView (in tabcontrol.SelectedTab["GamesListView"])
         /// </summary>
@@ -153,7 +175,7 @@ namespace AmpShell.Views
                     AllowColumnReorder = true,
                     LabelWrap = true
                 };
-                tabltview.ColumnClick += delegate (object o, ColumnClickEventArgs e){ tabltview.ListViewItemSorter = new CustomListViewItemSorter(e.Column); };
+                tabltview.ColumnClick += delegate (object o, ColumnClickEventArgs e) { tabltview.ListViewItemSorter = new CustomListViewItemSorter(e.Column); };
                 tabltview.Columns.Add("NameColumn", "Name", categoryToDisplay.NameColumnWidth);
                 tabltview.Columns.Add("ReleaseDateColumn", "Release Date", categoryToDisplay.ReleaseDateColumnWidth);
                 tabltview.Columns.Add("ExecutableColumn", "Executable", categoryToDisplay.ExecutableColumnWidth);
@@ -166,6 +188,7 @@ namespace AmpShell.Views
                 tabltview.Columns.Add("NoConsoleColumn", "No Console ?", categoryToDisplay.NoConsoleColumnWidth);
                 tabltview.Columns.Add("FullscreenColumn", "Fullscreen ?", categoryToDisplay.FullscreenColumnWidth);
                 tabltview.Columns.Add("QuitOnExitColumn", "Quit on exit ?", categoryToDisplay.QuitOnExitColumnWidth);
+
                 //for each game, create a ListViewItem instance.
                 foreach (Game gameToDisplay in categoryToDisplay.ListChildren)
                 {
@@ -173,7 +196,7 @@ namespace AmpShell.Views
                     {
                         Tag = gameToDisplay.Signature
                     };
-                    if(_gamesLargeImageList == null)
+                    if (_gamesLargeImageList == null)
                     {
                         _gamesLargeImageList = new ImageList();
                         _gamesSmallImageList = new ImageList();
@@ -274,8 +297,10 @@ namespace AmpShell.Views
                     gameforlt.SubItems.Add(gameQuitOnExitLVSubItem);
                     tabltview.Items.Add(gameforlt);
                 }
+
                 //the context menu of the ListView created earlier is the same for all of them.
                 tabltview.ContextMenuStrip = _currentListViewContextMenuStrip;
+
                 //Name property used only inside the code. Never displayed.
                 tabltview.Name = _listViewName;
                 tabltview.Dock = DockStyle.Fill;
@@ -399,6 +424,7 @@ namespace AmpShell.Views
                 SelectedListView.Items.Add((ListViewItem)itemToMove.Clone());
                 GetSelectedCategory(_hoveredTabIndex).AddChild(droppedGame);
             }
+
             //Avoid yet again a nasty UI bug where the very first item in a TabPage has no icon.
             if (SelectedListView.Items.Count == 1)
             {
@@ -419,6 +445,7 @@ namespace AmpShell.Views
             {
                 return;
             }
+
             //we need to redraw only when needed, as the drag&drop operation loops a few times otherwise
             if (_redrawableTabs.Contains((TabPage)_redrawWaitTimer.Tag))
             {
@@ -501,6 +528,7 @@ namespace AmpShell.Views
             QuitOnExitLabel.Text = string.Empty;
             FullscreenLabel.Text = string.Empty;
             NoConsoleLabel.Text = string.Empty;
+
             //several games can be selected at once, but it is only meant for drag&drop between categories
             //Besides, running more than one game (one DOSBox instance) at once can be CPU intensive...
             //if 1 game has been selected
@@ -519,6 +547,7 @@ namespace AmpShell.Views
                 _runGameMenuItem.Enabled = true;
                 RunGameButton.Enabled = true;
                 Game selectedGame = GetSelectedGame();
+
                 //if the selected game has a setup executable
                 if (string.IsNullOrWhiteSpace(selectedGame.SetupEXEPath) == false)
                 {
@@ -646,6 +675,7 @@ namespace AmpShell.Views
                     AdditionalCommandsLabel.Text = "Additional commands : none";
                 }
             }
+
             //if more than one game have been selected
             else if (SelectedListView.SelectedItems.Count > 1)
             {
@@ -666,6 +696,7 @@ namespace AmpShell.Views
                 MakeConfigurationFileToolStripMenuItem.Enabled = true;
                 _makeGameConfigurationMenuItem.Enabled = true;
             }
+
             //if no game has been selected
             else if (SelectedListView.SelectedItems.Count == 0)
             {
@@ -702,7 +733,6 @@ namespace AmpShell.Views
                     RedrawAllUserData();
                 }
             }
-            
         }
 
         /// <summary>
@@ -821,13 +851,14 @@ namespace AmpShell.Views
         private void AmpShell_Shown(object sender, EventArgs e)
         {
             _ampShellShown = true;
-            Task.Factory.StartNew(() =>
+            _ = Task.Factory.StartNew(() =>
             {
                 CreateAndPopulateContextMenus();
-                this.Invoke(new Action(delegate
+                Invoke(new Action(delegate
                 {
                     DisplayUserData();
                     _redrawableTabs = TabControl.TabPages.Cast<TabPage>().Where(x => ((ListView)x.Controls[_listViewName]).Items.Count == 0).ToList();
+
                     //select the first TabPage of tabcontrol
                     if (TabControl.HasChildren)
                     {
@@ -840,6 +871,7 @@ namespace AmpShell.Views
                         CategoryDeleteButton.Enabled = true;
                         DeleteSelectedCategoryToolStripMenuItem.Enabled = true;
                     }
+
                     //if tabcontrol has no children, then it has no TabPages (categories)
                     //so we prompt the user for the title of the first category.
                     else
@@ -877,6 +909,7 @@ namespace AmpShell.Views
             _windowContextMenuStrip.Items.Add(_statusBarMenuItem);
             ContextMenuStrip = _windowContextMenuStrip;
             TabControl.AllowDrop = true;
+
             //adding text, images, and EventHandlers to the context pop-up menu
             _addGameMenuItem.Image = GameAddButton.Image;
             _addGameMenuItem.Text = GameAddButton.Text;
@@ -890,6 +923,7 @@ namespace AmpShell.Views
             _runGameMenuItem.Click += new EventHandler(CurrentListView_ItemActivate);
             _runGameMenuItem.MouseLeave += new EventHandler(CurrentListView_ItemSelectionChanged);
             _runGameMenuItem.MouseEnter += new EventHandler(RunGameButton_MouseEnter);
+
             //Only Enabled when a game is selected
             _runGameMenuItem.Enabled = false;
             _currentListViewContextMenuStrip.Items.Add(_runGameMenuItem);
@@ -898,6 +932,7 @@ namespace AmpShell.Views
             _runGameSetupMenuItem.Click += new EventHandler(RunGameSetupButton_Click);
             _runGameSetupMenuItem.MouseLeave += new EventHandler(CurrentListView_ItemSelectionChanged);
             _runGameSetupMenuItem.MouseEnter += new EventHandler(RunGameSetupButton_MouseEnter);
+
             //Only Enabled when a game is selected
             _runGameSetupMenuItem.Enabled = false;
             _currentListViewContextMenuStrip.Items.Add(_runGameSetupMenuItem);
@@ -906,6 +941,7 @@ namespace AmpShell.Views
             _deleteGameMenuItem.Click += new EventHandler(GameDeleteButton_Click);
             _deleteGameMenuItem.MouseLeave += new EventHandler(CurrentListView_ItemSelectionChanged);
             _deleteGameMenuItem.MouseEnter += new EventHandler(GameDeleteButton_MouseEnter);
+
             //Only Enabled when a game is selected
             _deleteGameMenuItem.Enabled = false;
             _currentListViewContextMenuStrip.Items.Add(_deleteGameMenuItem);
@@ -914,6 +950,7 @@ namespace AmpShell.Views
             _editGameMenuItem.Click += new EventHandler(GameEditButton_Click);
             _editGameMenuItem.MouseLeave += new EventHandler(CurrentListView_ItemSelectionChanged);
             _editGameMenuItem.MouseEnter += new EventHandler(GameEditButton_MouseEnter);
+
             //Only Enabled when a game is selected
             _editGameMenuItem.Enabled = false;
             _currentListViewContextMenuStrip.Items.Add(_editGameMenuItem);
@@ -922,6 +959,7 @@ namespace AmpShell.Views
             _editGameConfigurationMenuItem.Click += new EventHandler(GameEditConfigurationButton_Click);
             _editGameConfigurationMenuItem.MouseLeave += new EventHandler(CurrentListView_ItemSelectionChanged);
             _editGameConfigurationMenuItem.MouseEnter += new EventHandler(GameEditConfigurationButton_MouseEnter);
+
             //Only Enabled when a game is selected
             _editGameConfigurationMenuItem.Enabled = false;
             _currentListViewContextMenuStrip.Items.Add(_editGameConfigurationMenuItem);
@@ -930,11 +968,13 @@ namespace AmpShell.Views
             _makeGameConfigurationMenuItem.Click += new EventHandler(MakeConfigButton_Click);
             _makeGameConfigurationMenuItem.MouseLeave += new EventHandler(CurrentListView_ItemSelectionChanged);
             _makeGameConfigurationMenuItem.MouseEnter += new EventHandler(MakeConfigurationFileToolStripMenuItem_MouseEnter);
+
             //Only Enabled when a game is selected
             _makeGameConfigurationMenuItem.Enabled = false;
             _currentListViewContextMenuStrip.Items.Add(_makeGameConfigurationMenuItem);
             ToolStripSeparator ltview_ContextMenuStripSeparator = new ToolStripSeparator();
             _currentListViewContextMenuStrip.Items.Add(ltview_ContextMenuStripSeparator);
+
             //The Categories are the tabs inside the TabControl. Each tab has only one ListView.
             _addCategoryMenuMenuItem.Image = CategoryAddButton.Image;
             _addCategoryMenuMenuItem.Text = CategoryAddButton.Text;
@@ -1090,7 +1130,7 @@ namespace AmpShell.Views
 
         private void PreferencesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using(var prefsForm = new PreferencesForm())
+            using (var prefsForm = new PreferencesForm())
             {
                 if (prefsForm.ShowDialog(this) == DialogResult.OK)
                 {

@@ -13,21 +13,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-/// <summary>
-/// Avoids the usage of NET 4.5 for a single dependency
-/// </summary>
-namespace System.Runtime.CompilerServices
-{
-    [AttributeUsage(AttributeTargets.Parameter)]
-    public sealed class CallerMemberNameAttribute : Attribute
-    {
-        [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
-        public CallerMemberNameAttribute()
-        {
-        }
-    }
-}
-
 namespace AmpShell.Notification
 {
     public class PropertyChangedNotifier : INotifyPropertyChanged

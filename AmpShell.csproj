@@ -3,7 +3,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net4</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
-    <TreatWarningsAsErrors>True</TreatWarningsAsErrors> 
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <!-- https://github.com/dotnet/core/issues/3319 -->
     <EmbeddedResourceUseDependentUponConvention>false</EmbeddedResourceUseDependentUponConvention>
     <ApplicationIcon>AmpShell.ico</ApplicationIcon>
@@ -17,10 +17,12 @@
     <AssemblyVersion>1.2.5.0</AssemblyVersion>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.Bcl" Version="1.1.10" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="16.4.43" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">

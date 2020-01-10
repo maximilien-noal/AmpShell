@@ -17,6 +17,7 @@ namespace AmpShell.AutoConfig
 {
     public static class FileFinder
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "A more specialized exception is not used by File.Create")]
         public static bool HasWriteAccessToAssemblyLocationFolder()
         {
             try
