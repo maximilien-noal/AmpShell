@@ -46,7 +46,7 @@ namespace AmpShell.Views
             this.OK.Location = new System.Drawing.Point(this.Cancel.Location.X - 107, 41);
             this.OK.Image = Properties.Resources.saveHS;
             this.Cancel.Text = "&Don't save";
-            this.Text = "Editing " + this.ViewModel.Name + "...";
+            this.Text = $"Editing {this.ViewModel.Name} ...";
         }
 
         private void Cancel_Click(object sender, EventArgs e)

@@ -100,7 +100,7 @@ namespace AmpShell.DAL
                 UserData.DBPath = UserData.DBPath.Replace(PathFinder.GetStartupPath(), "AppPath");
                 UserData.ConfigEditorPath = UserData.ConfigEditorPath.Replace(PathFinder.GetStartupPath(), "AppPath");
                 UserData.ConfigEditorAdditionalParameters = UserData.ConfigEditorAdditionalParameters.Replace(PathFinder.GetStartupPath(), "AppPath");
-                ObjectSerializer.Serialize(PathFinder.GetStartupPath() + "\\AmpShell.xml", UserData);
+                ObjectSerializer.Serialize(Path.Combine(PathFinder.GetStartupPath(), "AmpShell.xml"), UserData);
             }
         }
 

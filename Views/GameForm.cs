@@ -32,7 +32,7 @@ namespace AmpShell.Views
             this.GameInstance = editedGame;
 
             //fill the form with the Game's data.
-            this.Text = "Editing " + this.GameInstance.Name + "...";
+            this.Text = $"Editing {this.GameInstance.Name} ...";
             if (string.IsNullOrWhiteSpace(this.GameInstance.Icon) == false && this.GameInstance.Icon != null)
             {
                 string realLocation;

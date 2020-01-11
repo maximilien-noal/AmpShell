@@ -654,29 +654,29 @@ namespace AmpShell.Views
                 }
                 if (selectedGame.NoConsole == true)
                 {
-                    this.NoConsoleLabel.Text = "No console : " + "yes";
+                    this.NoConsoleLabel.Text = "No console : yes";
                 }
                 else
                 {
-                    this.NoConsoleLabel.Text = "No console : " + "no";
+                    this.NoConsoleLabel.Text = "No console : no";
                 }
 
                 if (selectedGame.InFullScreen == true)
                 {
-                    this.FullscreenLabel.Text = "Fullscreen : " + "yes";
+                    this.FullscreenLabel.Text = "Fullscreen : yes";
                 }
                 else
                 {
-                    this.FullscreenLabel.Text = "Fullscreen : " + "no";
+                    this.FullscreenLabel.Text = "Fullscreen : no";
                 }
 
                 if (selectedGame.QuitOnExit == true)
                 {
-                    this.QuitOnExitLabel.Text = "Quit on exit : " + "yes";
+                    this.QuitOnExitLabel.Text = "Quit on exit : yes";
                 }
                 else
                 {
-                    this.QuitOnExitLabel.Text = "Quit on exit : " + "no";
+                    this.QuitOnExitLabel.Text = "Quit on exit : no";
                 }
 
                 if (string.IsNullOrWhiteSpace(selectedGame.AdditionalCommands) == false)
@@ -841,7 +841,7 @@ namespace AmpShell.Views
             if (UserDataAccessor.UserData.CategoryDeletePrompt != true ||
                 MessageBox.Show(
                     this,
-                    "Do you really want to delete " + "'" + selectedCategory.Title + "'" + " and all the games inside it ?",
+                    $"Do you really want to delete '{selectedCategory.Title}' and all the games inside it ?",
                     this.deleteCategoryMenuMenuItem.Text,
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question) == DialogResult.Yes)
@@ -1195,7 +1195,7 @@ namespace AmpShell.Views
             if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.ConfigEditorPath) == false)
             {
                 Game selectedGame = this.GetSelectedGame();
-                System.Diagnostics.Process.Start(UserDataAccessor.UserData.ConfigEditorPath, selectedGame.DBConfPath + " " + UserDataAccessor.UserData.ConfigEditorAdditionalParameters);
+                System.Diagnostics.Process.Start(UserDataAccessor.UserData.ConfigEditorPath, $"{selectedGame.DBConfPath} {UserDataAccessor.UserData.ConfigEditorAdditionalParameters}");
             }
         }
 
@@ -1431,10 +1431,12 @@ namespace AmpShell.Views
         private void MakeConfigButton_Click(object sender, EventArgs e)
         {
             var selectedGame = this.GetSelectedGame();
-            if ((!File.Exists(selectedGame.Directory + "\\" + Path.GetFileName(UserDataAccessor.UserData.DBDefaultConfFilePath))) || (MessageBox.Show(this, "'" + selectedGame.Directory + "\\" + Path.GetFileName(UserDataAccessor.UserData.DBDefaultConfFilePath) + "'" + "already exists, do you want to overwrite it ?", this.MakeConfigButton.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes))
+            var configPath = Path.Combine(selectedGame.Directory, Path.GetFileName(UserDataAccessor.UserData.DBDefaultConfFilePath));
+            if ((!File.Exists(configPath)) ||
+                (MessageBox.Show(this, $"{configPath} already exists, do you want to overwrite it ?", this.MakeConfigButton.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes))
             {
-                File.Copy(UserDataAccessor.UserData.DBDefaultConfFilePath, selectedGame.Directory + "\\" + Path.GetFileName(UserDataAccessor.UserData.DBDefaultConfFilePath), true);
-                selectedGame.DBConfPath = selectedGame.Directory + "\\" + Path.GetFileName(UserDataAccessor.UserData.DBDefaultConfFilePath);
+                File.Copy(UserDataAccessor.UserData.DBDefaultConfFilePath, configPath, true);
+                selectedGame.DBConfPath = configPath;
             }
         }
 
