@@ -423,7 +423,7 @@ namespace AmpShell.Views
             {
                 this.SelectedListView.Items.Remove(itemToMove);
                 var droppedGame = UserDataAccessor.UserData.ListChildren.Cast<Category>().Select(x => x.ListChildren.Cast<Game>()).SelectMany(x => x).FirstOrDefault(x => x.Signature == (string)itemToMove.Tag);
-                this.GetSelectedCategory()?.RemoveChild(droppedGame);
+                this.GetSelectedCategory().RemoveChild(droppedGame);
                 this.TabControl.SelectTab(this.hoveredTabIndex);
                 this.SelectedListView.Items.Add((ListViewItem)itemToMove.Clone());
                 this.GetSelectedCategory(this.hoveredTabIndex).AddChild(droppedGame);
@@ -468,23 +468,38 @@ namespace AmpShell.Views
         {
             if (this.SelectedListView.FocusedItem == null)
             {
-                return null;
+                return new Game();
             }
-            return UserDataAccessor.GetGameWithSignature((string)this.SelectedListView.FocusedItem.Tag);
+            var selectedGame = UserDataAccessor.GetGameWithSignature((string)this.SelectedListView.FocusedItem.Tag);
+            if (selectedGame == null)
+            {
+                return new Game();
+            }
+            return selectedGame;
         }
 
         private Category GetSelectedCategory()
         {
             if (this.TabControl.SelectedTab == null)
             {
-                return null;
+                return new Category();
             }
-            return UserDataAccessor.GetCategoryWithSignature((string)this.TabControl.SelectedTab.Tag);
+            var selectedCategory = UserDataAccessor.GetCategoryWithSignature((string)this.TabControl.SelectedTab.Tag);
+            if (selectedCategory == null)
+            {
+                return new Category();
+            }
+            return selectedCategory;
         }
 
         private Category GetSelectedCategory(int hoveredTabIndex)
         {
-            return UserDataAccessor.GetCategoryWithSignature((string)this.TabControl.TabPages[hoveredTabIndex].Tag);
+            var selectedCategory = UserDataAccessor.GetCategoryWithSignature((string)this.TabControl.TabPages[hoveredTabIndex].Tag);
+            if (selectedCategory == null)
+            {
+                return new Category();
+            }
+            return selectedCategory;
         }
 
         /// <summary>
@@ -507,15 +522,9 @@ namespace AmpShell.Views
             Game selectedGame = this.GetSelectedGame();
             Category selectedCategory = this.GetSelectedCategory();
             this.DisplayUserData();
-            if (selectedCategory != null)
-            {
-                this.SelectCategory(selectedCategory.Signature);
-            }
-            if (selectedGame != null)
-            {
-                this.SelectedListView.FocusedItem = this.SelectedListView.Items.Cast<ListViewItem>().FirstOrDefault(x => (string)x.Tag == selectedGame.Signature);
-                this.SelectedListView.FocusedItem.Selected = true;
-            }
+            this.SelectCategory(selectedCategory.Signature);
+            this.SelectedListView.FocusedItem = this.SelectedListView.Items.Cast<ListViewItem>().FirstOrDefault(x => (string)x.Tag == selectedGame.Signature);
+            this.SelectedListView.FocusedItem.Selected = true;
         }
 
         /// <summary>
@@ -780,22 +789,19 @@ namespace AmpShell.Views
             {
                 return;
             }
-            ListViewItem selectedItem;
-            do
+            while (this.SelectedListView.SelectedItems.Count > 0)
             {
-                selectedItem = this.SelectedListView.Items.Cast<ListViewItem>().FirstOrDefault(x => (string)x.Tag == this.GetSelectedGame()?.Signature);
-                if (selectedItem == null)
+                var selectedItem = this.SelectedListView.SelectedItems[0];
+                var correspondingGame = UserDataAccessor.GetGameWithSignature((string)selectedItem.Tag);
+                if (MessageBox.Show(this, $"Do you really want to delete this game : {correspondingGame.Name} ?", this.GameDeleteButton.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    return;
+                    if (correspondingGame != null)
+                    {
+                        this.GetSelectedCategory().RemoveChild(correspondingGame);
+                    }
+                    this.SelectedListView.Items.Remove(selectedItem);
                 }
-                if (MessageBox.Show(this, "Do you really want to delete this game : " + this.GetSelectedGame()?.Name + " ?", this.GameDeleteButton.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
-                {
-                    continue;
-                }
-                this.GetSelectedCategory()?.RemoveChild(this.GetSelectedGame());
-                this.SelectedListView.Items.Remove(selectedItem);
             }
-            while (selectedItem != null);
         }
 
         /// <summary>
@@ -1123,7 +1129,7 @@ namespace AmpShell.Views
 
         private string GetDOSBoxPath()
         {
-            string dosboxPath = this.GetSelectedGame()?.AlternateDOSBoxExePath;
+            string dosboxPath = this.GetSelectedGame().AlternateDOSBoxExePath;
             if (string.IsNullOrWhiteSpace(dosboxPath))
             {
                 dosboxPath = UserDataAccessor.UserData.DBPath;

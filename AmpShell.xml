@@ -383,6 +383,11 @@
               Looks up a localized resource of type System.Drawing.Bitmap.
             </summary>
         </member>
+        <member name="T:AmpShell.Views.AboutBox">
+            <summary>
+            About the application.
+            </summary>
+        </member>
         <member name="F:AmpShell.Views.AboutBox.components">
             <summary>
             Required designer variable.
@@ -400,6 +405,11 @@
             the contents of this method with the code editor.
             </summary>
         </member>
+        <member name="T:AmpShell.Views.CategoryForm">
+            <summary>
+            Form to add or modify a category (tab).
+            </summary>
+        </member>
         <member name="F:AmpShell.Views.CategoryForm.components">
             <summary>
             Required designer variable.
@@ -415,6 +425,11 @@
             <summary>
             Required method for Designer support - do not modify
             the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:AmpShell.Views.GameForm">
+            <summary>
+            Form to add or modify a Game.
             </summary>
         </member>
         <member name="M:AmpShell.Views.GameForm.OK_Click(System.Object,System.EventArgs)">
@@ -489,6 +504,11 @@
             <summary>
             Required method for Designer support - do not modify
             the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:AmpShell.Views.MainForm">
+            <summary>
+            MainWindow content.
             </summary>
         </member>
         <member name="F:AmpShell.Views.MainForm.windowContextMenuStrip">
@@ -652,6 +672,11 @@
             <summary>
             Required method for Designer support - do not modify
             the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:AmpShell.Views.PreferencesForm">
+            <summary>
+            Form to modifiy application-level preferences.
             </summary>
         </member>
         <member name="F:AmpShell.Views.PreferencesForm.components">
