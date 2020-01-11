@@ -1,5 +1,5 @@
 ﻿/*AmpShell : .NET front-end for DOSBox
- * Copyright (C) 2009, 2019 Maximilien Noal
+ * Copyright (C) 2009, 2020 Maximilien Noal
  *This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
@@ -16,7 +16,7 @@ namespace AmpShell.Views
     using System.Windows.Forms;
 
     /// <summary>
-    /// About the application
+    /// About the application.
     /// </summary>
     internal partial class AboutBox : Form
     {
