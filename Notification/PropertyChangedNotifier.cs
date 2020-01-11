@@ -8,13 +8,13 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-
 namespace AmpShell.Notification
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Runtime.CompilerServices;
+
     public class PropertyChangedNotifier : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
@@ -24,13 +24,13 @@ namespace AmpShell.Notification
         /// notifies listeners only when necessary.
         /// </summary>
         /// <typeparam name="T">Type of the property.</typeparam>
-        /// <param name="storage">Reference to a property with both getter and setter.</param>
-        /// <param name="value">Desired value for the property.</param>
+        /// <param name="storage">Reference to a property with both getter and setter..</param>
+        /// <param name="value">Desired value for the property..</param>
         /// <param name="propertyName">Name of the property used to notify listeners. This
         /// value is optional and can be provided automatically when invoked from compilers that
-        /// support CallerMemberName.</param>
+        /// support CallerMemberName..</param>
         /// <returns>True if the value was changed, false if the existing value matched the
-        /// desired value.</returns>
+        /// desired value..</returns>
         public bool Set<T>(ref T storage, T value, [CallerMemberName]string propertyName = "")
         {
             if (string.IsNullOrWhiteSpace(propertyName))
@@ -44,7 +44,7 @@ namespace AmpShell.Notification
 
             storage = value;
 
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
             return true;
         }

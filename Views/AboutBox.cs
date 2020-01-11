@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-/*AmpShell : .NET front-end for DOSBox
+﻿/*AmpShell : .NET front-end for DOSBox
  * Copyright (C) 2009, 2019 Maximilien Noal
  *This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
@@ -9,22 +8,26 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
 
-using System;
-using System.Reflection;
-using System.Windows.Forms;
-
 namespace AmpShell.Views
 {
-    partial class AboutBox : Form
+    using System;
+    using System.Globalization;
+    using System.Reflection;
+    using System.Windows.Forms;
+
+    /// <summary>
+    /// About the application
+    /// </summary>
+    internal partial class AboutBox : Form
     {
         public AboutBox()
         {
-            InitializeComponent();
-            Text = String.Format(CultureInfo.InvariantCulture, "About {0}", AssemblyTitle);
-            LabelProductName.Text = AssemblyProduct;
-            LabelVersion.Text = String.Format(CultureInfo.InvariantCulture, "Version {0}", AssemblyVersion);
-            LabelCopyright.Text = AssemblyCopyright;
-            TextBoxDescription.Text = AssemblyDescription;
+            this.InitializeComponent();
+            this.Text = string.Format(CultureInfo.InvariantCulture, "About {0}", AssemblyTitle);
+            this.LabelProductName.Text = AssemblyProduct;
+            this.LabelVersion.Text = string.Format(CultureInfo.InvariantCulture, "Version {0}", AssemblyVersion);
+            this.LabelCopyright.Text = AssemblyCopyright;
+            this.TextBoxDescription.Text = AssemblyDescription;
         }
 
         public static string AssemblyTitle
@@ -59,7 +62,7 @@ namespace AmpShell.Views
                 object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyDescriptionAttribute), false);
                 if (attributes.Length == 0)
                 {
-                    return "";
+                    return string.Empty;
                 }
                 return ((AssemblyDescriptionAttribute)attributes[0]).Description;
             }
@@ -72,7 +75,7 @@ namespace AmpShell.Views
                 object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyProductAttribute), false);
                 if (attributes.Length == 0)
                 {
-                    return "";
+                    return string.Empty;
                 }
                 return ((AssemblyProductAttribute)attributes[0]).Product;
             }
@@ -85,7 +88,7 @@ namespace AmpShell.Views
                 object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
                 if (attributes.Length == 0)
                 {
-                    return "";
+                    return string.Empty;
                 }
                 return ((AssemblyCopyrightAttribute)attributes[0]).Copyright;
             }
@@ -98,7 +101,7 @@ namespace AmpShell.Views
                 object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyCompanyAttribute), false);
                 if (attributes.Length == 0)
                 {
-                    return "";
+                    return string.Empty;
                 }
                 return ((AssemblyCompanyAttribute)attributes[0]).Company;
             }

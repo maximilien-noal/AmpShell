@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-
-/*AmpShell : .NET front-end for DOSBox
+﻿/*AmpShell : .NET front-end for DOSBox
  * Copyright (C) 2009, 2019 Maximilien Noal
  *This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
@@ -10,16 +8,16 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
 
-using AmpShell.AutoConfig;
-using AmpShell.Model;
-using AmpShell.Serialization;
-
-using System;
-using System.IO;
-using System.Linq;
-
 namespace AmpShell.DAL
 {
+    using System;
+    using System.Globalization;
+    using System.IO;
+    using System.Linq;
+    using AmpShell.AutoConfig;
+    using AmpShell.Model;
+    using AmpShell.Serialization;
+
     public static class UserDataAccessor
     {
         static UserDataAccessor()
@@ -28,11 +26,16 @@ namespace AmpShell.DAL
         }
 
         /// <summary>
-        /// Used when a new Category or Game is created : it's signature must be unique
-        /// so AmpShell can recognize it instantly
+        /// Gets object to load and save user data through XML (de)serialization.
         /// </summary>
-        /// <param name="signatureToTest">A Category's or Game's signature</param>
-        /// <returns>Whether the signature equals none of the other ones, or not</returns>
+        public static Preferences UserData { get; private set; }
+
+        /// <summary>
+        /// Used when a new Category or Game is created : it's signature must be unique
+        /// so AmpShell can recognize it instantly.
+        /// </summary>
+        /// <param name="signatureToTest">A Category's or Game's signature..</param>
+        /// <returns>Whether the signature equals none of the other ones, or not..</returns>
         public static bool IsItAUniqueSignature(string signatureToTest)
         {
             foreach (Category otherCat in UserData.ListChildren)
@@ -70,27 +73,12 @@ namespace AmpShell.DAL
             return newSignature;
         }
 
-        internal static Category GetCategoryWithSignature(string signature)
-        {
-            return UserDataAccessor.UserData.ListChildren.Cast<Category>().FirstOrDefault(x => x.Signature == signature);
-        }
-
-        internal static Game GetGameWithSignature(string signature)
-        {
-            return UserDataAccessor.UserData.ListChildren.Cast<Category>().SelectMany(x => x.ListChildren.Cast<Game>()).FirstOrDefault(x => x.Signature == signature);
-        }
-
-        /// <summary>
-        /// Object to load and save user data through XML (de)serialization
-        /// </summary>
-        public static Preferences UserData { get; private set; }
-
         public static void SaveUserSettings()
         {
             //saves the data inside Amp by serializing it in AmpShell.xml
             if (!UserData.PortableMode)
             {
-                ObjectSerializer.Serialize<Preferences>(GetDataFilePath(), UserData);
+                ObjectSerializer.Serialize(GetDataFilePath(), UserData);
             }
             else
             {
@@ -112,7 +100,7 @@ namespace AmpShell.DAL
                 UserData.DBPath = UserData.DBPath.Replace(PathFinder.GetStartupPath(), "AppPath");
                 UserData.ConfigEditorPath = UserData.ConfigEditorPath.Replace(PathFinder.GetStartupPath(), "AppPath");
                 UserData.ConfigEditorAdditionalParameters = UserData.ConfigEditorAdditionalParameters.Replace(PathFinder.GetStartupPath(), "AppPath");
-                ObjectSerializer.Serialize<Preferences>(PathFinder.GetStartupPath() + "\\AmpShell.xml", UserData);
+                ObjectSerializer.Serialize(PathFinder.GetStartupPath() + "\\AmpShell.xml", UserData);
             }
         }
 
@@ -178,8 +166,18 @@ namespace AmpShell.DAL
             }
         }
 
+        public static Category GetCategoryWithSignature(string signature)
+        {
+            return UserData.ListChildren.Cast<Category>().FirstOrDefault(x => x.Signature == signature);
+        }
+
+        public static Game GetGameWithSignature(string signature)
+        {
+            return UserData.ListChildren.Cast<Category>().SelectMany(x => x.ListChildren.Cast<Game>()).FirstOrDefault(x => x.Signature == signature);
+        }
+
         /// <summary>
-        /// Returns the path to the user data file (AmpShell.xml)
+        /// Returns the path to the user data file (AmpShell.xml).
         /// </summary>
         private static string GetDataFilePath()
         {

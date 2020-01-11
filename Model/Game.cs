@@ -8,203 +8,206 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
 
-using AmpShell.Notification;
-using System;
-using System.Globalization;
-using System.Xml.Serialization;
+#pragma warning disable SA1201 // Elements should appear in the correct order
+#pragma warning disable SA1101 // Prefix local calls with this
 
 namespace AmpShell.Model
 {
+    using System;
+    using System.Globalization;
+    using System.Xml.Serialization;
+    using AmpShell.Notification;
+
     public class Game : PropertyChangedNotifier
     {
         [XmlAttribute("Signature")]
         public string Signature { get; set; }
 
-        private string _name = "";
+        private string name = string.Empty;
 
         public string Name
         {
-            get => _name;
-            set { Set<string>(ref _name, value); }
+            get => name;
+            set { Set(ref name, value); }
         }
 
-        private DateTime _releaseDate = DateTime.Parse("01/01/1980", CultureInfo.InvariantCulture);
+        private DateTime releaseDate = DateTime.Parse("01/01/1980", CultureInfo.InvariantCulture);
 
         public DateTime ReleaseDate
         {
-            get => _releaseDate;
-            set { Set<DateTime>(ref _releaseDate, value); }
+            get => releaseDate;
+            set { Set(ref releaseDate, value); }
         }
 
-        private string _directory = "";
+        private string directory = string.Empty;
 
         /// <summary>
-        /// Game's directory mounted as C:
+        /// Gets or sets game's directory mounted as C:.
         /// </summary>
         public string Directory
         {
-            get => _directory;
-            set { Set<string>(ref _directory, value); }
+            get => directory;
+            set { Set(ref directory, value); }
         }
 
-        private string _cdPath = "";
+        private string cdPath = string.Empty;
 
         /// <summary>
-        /// Game's CD image / CD directory (like 'D:\') location
+        /// Gets or sets game's CD image / CD directory (like 'D:\') location.
         /// </summary>
         public string CDPath
         {
-            get => _cdPath;
-            set { Set<string>(ref _cdPath, value); }
+            get => cdPath;
+            set { Set(ref cdPath, value); }
         }
 
-        private string _cdLabel = "";
+        private string cdLabel = string.Empty;
 
         /// <summary>
-        /// Optional, user-specified CD LABEL (only when it is not an image)
+        /// Gets or sets optional, user-specified CD LABEL (only when it is not an image).
         /// </summary>
         public string CDLabel
         {
-            get => _cdLabel;
-            set { Set<string>(ref _cdLabel, value); }
+            get => cdLabel;
+            set { Set(ref cdLabel, value); }
         }
 
-        private string _setupEXEPath = "";
+        private string setupEXEPath = string.Empty;
 
         /// <summary>
-        /// Game's setup executable location
+        /// Gets or sets game's setup executable location.
         /// </summary>
         public string SetupEXEPath
         {
-            get => _setupEXEPath;
-            set { Set<string>(ref _setupEXEPath, value); }
+            get => setupEXEPath;
+            set { Set(ref setupEXEPath, value); }
         }
 
-        private string _dbConfPath = "";
+        private string dbConfPath = string.Empty;
 
         /// <summary>
-        /// Game's custom DOSBox .conf file path
+        /// Gets or sets game's custom DOSBox .conf file path.
         /// </summary>
         public string DBConfPath
         {
-            get => _dbConfPath;
-            set { Set<string>(ref _dbConfPath, value); }
+            get => dbConfPath;
+            set { Set(ref dbConfPath, value); }
         }
 
-        private string _additionalCommands = "";
+        private string additionalCommands = string.Empty;
 
         /// <summary>
-        /// Game's additional commands for DOSBox
+        /// Gets or sets game's additional commands for DOSBox.
         /// </summary>
         public string AdditionalCommands
         {
-            get => _additionalCommands;
-            set { Set<string>(ref _additionalCommands, value); }
+            get => additionalCommands;
+            set { Set(ref additionalCommands, value); }
         }
 
-        private bool _useIOCTL;
+        private bool useIOCTL;
 
         /// <summary>
-        /// Option to use IOCTL (only available for optical drives)
+        /// Gets or sets a value indicating whether option to use IOCTL (only available for optical drives).
         /// </summary>
         public bool UseIOCTL
         {
-            get => _useIOCTL;
-            set { Set<bool>(ref _useIOCTL, value); }
+            get => useIOCTL;
+            set { Set(ref useIOCTL, value); }
         }
 
-        private bool _mountAsFloppy;
+        private bool mountAsFloppy;
 
         /// <summary>
-        /// Option to use the image file as a floppy (A:)
+        /// Gets or sets a value indicating whether option to use the image file as a floppy (A:).
         /// </summary>
         public bool MountAsFloppy
         {
-            get => _mountAsFloppy;
-            set { Set<bool>(ref _mountAsFloppy, value); }
+            get => mountAsFloppy;
+            set { Set(ref mountAsFloppy, value); }
         }
 
-        private bool _noConfig;
+        private bool noConfig;
 
         /// <summary>
-        /// Boolean if no config is used ("Don't use any config file at all" checkbox in GameForm)
-        /// Legacy 0.72 or older DOSBox option
+        /// Gets or sets a value indicating whether boolean if no config is used ("Don't use any config file at all" checkbox in GameForm)
+        /// Legacy 0.72 or older DOSBox option.
         /// </summary>
         public bool NoConfig
         {
-            get => _noConfig;
-            set { Set<bool>(ref _noConfig, value); }
+            get => noConfig;
+            set { Set(ref noConfig, value); }
         }
 
-        private bool _inFullScreen;
+        private bool inFullScreen;
 
         public bool InFullScreen
         {
-            get => _inFullScreen;
-            set { Set<bool>(ref _inFullScreen, value); }
+            get => inFullScreen;
+            set { Set(ref inFullScreen, value); }
         }
 
-        private bool _noConsole;
+        private bool noConsole;
 
         /// <summary>
-        /// Boolean for displaying DOSBox's console
+        /// Gets or sets a value indicating whether boolean for displaying DOSBox's console.
         /// </summary>
         public bool NoConsole
         {
-            get => _noConsole;
-            set { Set<bool>(ref _noConsole, value); }
+            get => noConsole;
+            set { Set<bool>(ref noConsole, value); }
         }
 
-        private bool _quitOnExit;
+        private bool quitOnExit;
 
         /// <summary>
-        /// Boolean for the -exit switch for DOSBox (if set to true, DOSBox closes when the game exits)
+        /// Gets or sets a value indicating whether boolean for the -exit switch for DOSBox (if set to true, DOSBox closes when the game exits).
         /// </summary>
         public bool QuitOnExit
         {
-            get => _quitOnExit;
-            set { Set<bool>(ref _quitOnExit, value); }
+            get => quitOnExit;
+            set { Set(ref quitOnExit, value); }
         }
 
-        private string _dosExePath = "";
+        private string dosExePath = string.Empty;
 
         /// <summary>
-        /// Game's main executable location
+        /// Gets or sets game's main executable location.
         /// </summary>
         public string DOSEXEPath
         {
-            get => _dosExePath;
-            set { Set<string>(ref _dosExePath, value); }
+            get => dosExePath;
+            set { Set(ref dosExePath, value); }
         }
 
-        private bool _cdIsAnImage;
+        private bool cdIsAnImage;
 
         /// <summary>
-        /// True if GameCDPath points to a CD image file, wrong if it points to a directory
+        /// Gets or sets a value indicating whether if GameCDPath points to a CD image file (false if it points to a directory).
         /// </summary>
         public bool CDIsAnImage
         {
-            get => _cdIsAnImage;
-            set { Set<bool>(ref _cdIsAnImage, value); }
+            get => cdIsAnImage;
+            set { Set(ref cdIsAnImage, value); }
         }
 
-        private string _icon = "";
+        private string icon = string.Empty;
 
         public string Icon
         {
-            get => _icon;
-            set { Set<string>(ref _icon, value); }
+            get => icon;
+            set { Set(ref icon, value); }
         }
 
-        private string _alternateDOSBoxExePath = "";
+        private string alternateDOSBoxExePath = string.Empty;
 
         /// <summary>
-        /// If we want to use DOSBox Daum, ECE, SVN, or other instead of the one set in the global preferences
+        /// Gets or sets if we want to use DOSBox Daum, ECE, SVN, or other instead of the one set in the global preferences.
         /// </summary>
         public string AlternateDOSBoxExePath
         {
-            get => _alternateDOSBoxExePath;
-            set { Set<string>(ref _alternateDOSBoxExePath, value); }
+            get => alternateDOSBoxExePath;
+            set { Set(ref alternateDOSBoxExePath, value); }
         }
     }
 }

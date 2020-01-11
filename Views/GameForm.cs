@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-/*AmpShell : .NET front-end for DOSBox
+﻿/*AmpShell : .NET front-end for DOSBox
  * Copyright (C) 2009, 2019 Maximilien Noal
  *This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
@@ -9,16 +8,18 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
 
-using AmpShell.DAL;
-using AmpShell.Model;
-
-using System;
-using System.Drawing;
-using System.IO;
-using System.Windows.Forms;
-
 namespace AmpShell.Views
 {
+    using System;
+    using System.Drawing;
+    using System.IO;
+    using System.Windows.Forms;
+    using AmpShell.DAL;
+    using AmpShell.Model;
+
+    /// <summary>
+    /// Form to add or modify a Game.
+    /// </summary>
     public partial class GameForm : Form
     {
         public GameForm(Game editedGame, bool newGame = false)
@@ -27,146 +28,143 @@ namespace AmpShell.Views
             {
                 return;
             }
-            InitializeComponent();
-            GameInstance = editedGame;
+            this.InitializeComponent();
+            this.GameInstance = editedGame;
 
             //fill the form with the Game's data.
-            Text = "Editing " + GameInstance.Name + "...";
-            if (string.IsNullOrWhiteSpace(GameInstance.Icon) == false && GameInstance.Icon != null)
+            this.Text = "Editing " + this.GameInstance.Name + "...";
+            if (string.IsNullOrWhiteSpace(this.GameInstance.Icon) == false && this.GameInstance.Icon != null)
             {
                 string realLocation;
-                realLocation = GameInstance.Icon.Replace("AppPath", Application.StartupPath);
+                realLocation = this.GameInstance.Icon.Replace("AppPath", Application.StartupPath);
                 if (File.Exists(realLocation))
                 {
-                    GameIconPictureBox.Image = Image.FromFile(realLocation).GetThumbnailImage(64, 64, null, IntPtr.Zero);
-                    GameIconPictureBox.ImageLocation = realLocation;
+                    this.GameIconPictureBox.Image = Image.FromFile(realLocation).GetThumbnailImage(64, 64, null, IntPtr.Zero);
+                    this.GameIconPictureBox.ImageLocation = realLocation;
                 }
             }
 
-            GameNameTextbox.Text = GameInstance.Name;
-            GameReleaseDatePicker.Value = GameInstance.ReleaseDate;
-            GameLocationTextbox.Text = GameInstance.DOSEXEPath;
-            GameDirectoryTextbox.Text = GameInstance.Directory;
-            GameCustomConfigurationTextbox.Text = GameInstance.DBConfPath;
-            NoConfigCheckBox.Checked = GameInstance.NoConfig;
-            GameCDPathTextBox.Text = GameInstance.CDPath;
-            DiscLabelTextBox.Text = GameInstance.CDLabel;
-            GameAdditionalCommandsTextBox.Text = GameInstance.AdditionalCommands;
-            AlternateDOSBoxLocationTextbox.Text = GameInstance.AlternateDOSBoxExePath;
-            NoConsoleCheckBox.Checked = GameInstance.NoConsole;
-            QuitOnExitCheckBox.Checked = GameInstance.QuitOnExit;
-            FullscreenCheckBox.Checked = GameInstance.InFullScreen;
-            GameSetupTextBox.Text = GameInstance.SetupEXEPath;
-            UseIOCTLRadioButton.Checked = GameInstance.UseIOCTL;
-            IsAFloppyDiskRadioButton.Checked = GameInstance.MountAsFloppy;
-            if (UseIOCTLRadioButton.Checked == false && IsAFloppyDiskRadioButton.Checked == false)
+            this.GameNameTextbox.Text = this.GameInstance.Name;
+            this.GameReleaseDatePicker.Value = this.GameInstance.ReleaseDate;
+            this.GameLocationTextbox.Text = this.GameInstance.DOSEXEPath;
+            this.GameDirectoryTextbox.Text = this.GameInstance.Directory;
+            this.GameCustomConfigurationTextbox.Text = this.GameInstance.DBConfPath;
+            this.NoConfigCheckBox.Checked = this.GameInstance.NoConfig;
+            this.GameCDPathTextBox.Text = this.GameInstance.CDPath;
+            this.DiscLabelTextBox.Text = this.GameInstance.CDLabel;
+            this.GameAdditionalCommandsTextBox.Text = this.GameInstance.AdditionalCommands;
+            this.AlternateDOSBoxLocationTextbox.Text = this.GameInstance.AlternateDOSBoxExePath;
+            this.NoConsoleCheckBox.Checked = this.GameInstance.NoConsole;
+            this.QuitOnExitCheckBox.Checked = this.GameInstance.QuitOnExit;
+            this.FullscreenCheckBox.Checked = this.GameInstance.InFullScreen;
+            this.GameSetupTextBox.Text = this.GameInstance.SetupEXEPath;
+            this.UseIOCTLRadioButton.Checked = this.GameInstance.UseIOCTL;
+            this.IsAFloppyDiskRadioButton.Checked = this.GameInstance.MountAsFloppy;
+            if (this.UseIOCTLRadioButton.Checked == false && this.IsAFloppyDiskRadioButton.Checked == false)
             {
-                NoneRadioButton.Checked = true;
+                this.NoneRadioButton.Checked = true;
             }
 
-            GameLocationTextbox.Text = GameLocationTextbox.Text.Replace("AppPath", Application.StartupPath);
-            GameDirectoryTextbox.Text = GameDirectoryTextbox.Text.Replace("AppPath", Application.StartupPath);
-            GameCustomConfigurationTextbox.Text = GameCustomConfigurationTextbox.Text.Replace("AppPath", Application.StartupPath);
-            GameCDPathTextBox.Text = GameCDPathTextBox.Text.Replace("AppPath", Application.StartupPath);
-            GameAdditionalCommandsTextBox.Text = GameAdditionalCommandsTextBox.Text.Replace("AppPath", Application.StartupPath);
-            GameSetupTextBox.Text = GameSetupTextBox.Text.Replace("AppPath", Application.StartupPath);
-            AlternateDOSBoxLocationTextbox.Text = AlternateDOSBoxLocationTextbox.Text.Replace("AppPath", Application.StartupPath);
+            this.GameLocationTextbox.Text = this.GameLocationTextbox.Text.Replace("AppPath", Application.StartupPath);
+            this.GameDirectoryTextbox.Text = this.GameDirectoryTextbox.Text.Replace("AppPath", Application.StartupPath);
+            this.GameCustomConfigurationTextbox.Text = this.GameCustomConfigurationTextbox.Text.Replace("AppPath", Application.StartupPath);
+            this.GameCDPathTextBox.Text = this.GameCDPathTextBox.Text.Replace("AppPath", Application.StartupPath);
+            this.GameAdditionalCommandsTextBox.Text = this.GameAdditionalCommandsTextBox.Text.Replace("AppPath", Application.StartupPath);
+            this.GameSetupTextBox.Text = this.GameSetupTextBox.Text.Replace("AppPath", Application.StartupPath);
+            this.AlternateDOSBoxLocationTextbox.Text = this.AlternateDOSBoxLocationTextbox.Text.Replace("AppPath", Application.StartupPath);
 
             if (newGame)
             {
-                NoConsoleCheckBox.Checked = UserDataAccessor.UserData.GamesNoConsole;
-                FullscreenCheckBox.Checked = UserDataAccessor.UserData.GamesInFullScreen;
-                QuitOnExitCheckBox.Checked = UserDataAccessor.UserData.GamesQuitOnExit;
-                GameAdditionalCommandsTextBox.Text = UserDataAccessor.UserData.GamesAdditionalCommands;
+                this.NoConsoleCheckBox.Checked = UserDataAccessor.UserData.GamesNoConsole;
+                this.FullscreenCheckBox.Checked = UserDataAccessor.UserData.GamesInFullScreen;
+                this.QuitOnExitCheckBox.Checked = UserDataAccessor.UserData.GamesQuitOnExit;
+                this.GameAdditionalCommandsTextBox.Text = UserDataAccessor.UserData.GamesAdditionalCommands;
             }
             else
             {
-                OK.Text = "&Save and apply";
-                OK.Width = 102;
-                OK.Location = new Point(Cancel.Location.X - 106, Cancel.Location.Y);
-                OK.Image = Properties.Resources.saveHS;
-                Cancel.Text = "&Don't save";
+                this.OK.Text = "&Save and apply";
+                this.OK.Width = 102;
+                this.OK.Location = new Point(this.Cancel.Location.X - 106, this.Cancel.Location.Y);
+                this.OK.Image = Properties.Resources.saveHS;
+                this.Cancel.Text = "&Don't save";
             }
-
         }
 
         public Game GameInstance { get; private set; }
 
         private void Cancel_Click(object sender, EventArgs e)
         {
-            Close();
+            this.Close();
         }
 
         /// <summary>
-        /// EventHandler for when the user has clicked on "OK"
+        /// EventHandler for when the user has clicked on "OK".
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void OK_Click(object sender, EventArgs e)
         {
             //if the game has a name but no executable nor directory mounted as C: specified...
-            if (string.IsNullOrWhiteSpace(GameNameTextbox.Text) == false)
+            if (string.IsNullOrWhiteSpace(this.GameNameTextbox.Text) == false)
             {
-                if (string.IsNullOrWhiteSpace(GameLocationTextbox.Text) && string.IsNullOrWhiteSpace(GameDirectoryTextbox.Text))
+                if (string.IsNullOrWhiteSpace(this.GameLocationTextbox.Text) && string.IsNullOrWhiteSpace(this.GameDirectoryTextbox.Text))
                 {
-                    MessageBox.Show(this, "You must enter the game's executable location or the directory that will be mounted as C:", Text, MessageBoxButtons.OK, MessageBoxIcon.Information);//... show an error.
+                    MessageBox.Show(this, "You must enter the game's executable location or the directory that will be mounted as C:", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
+
                 //else : the game has a name and a directory mounted has C:
                 else
                 {
                     //close the form
-                    GameInstance.DOSEXEPath = GameLocationTextbox.Text;
-                    GameInstance.DBConfPath = GameCustomConfigurationTextbox.Text;
-                    GameInstance.NoConfig = NoConfigCheckBox.Checked;
-                    GameInstance.AdditionalCommands = GameAdditionalCommandsTextBox.Text;
-                    GameInstance.NoConsole = NoConsoleCheckBox.Checked;
-                    GameInstance.InFullScreen = FullscreenCheckBox.Checked;
-                    GameInstance.QuitOnExit = QuitOnExitCheckBox.Checked;
-                    GameInstance.Directory = GameDirectoryTextbox.Text;
-                    GameInstance.Name = GameNameTextbox.Text;
-                    GameInstance.ReleaseDate = GameReleaseDatePicker.Value;
-                    GameInstance.CDPath = GameCDPathTextBox.Text;
-                    GameInstance.CDLabel = DiscLabelTextBox.Text;
-                    GameInstance.SetupEXEPath = GameSetupTextBox.Text;
-                    GameInstance.AlternateDOSBoxExePath = AlternateDOSBoxLocationTextbox.Text;
-                    if (string.IsNullOrWhiteSpace(GameIconPictureBox.ImageLocation) == false)
+                    this.GameInstance.DOSEXEPath = this.GameLocationTextbox.Text;
+                    this.GameInstance.DBConfPath = this.GameCustomConfigurationTextbox.Text;
+                    this.GameInstance.NoConfig = this.NoConfigCheckBox.Checked;
+                    this.GameInstance.AdditionalCommands = this.GameAdditionalCommandsTextBox.Text;
+                    this.GameInstance.NoConsole = this.NoConsoleCheckBox.Checked;
+                    this.GameInstance.InFullScreen = this.FullscreenCheckBox.Checked;
+                    this.GameInstance.QuitOnExit = this.QuitOnExitCheckBox.Checked;
+                    this.GameInstance.Directory = this.GameDirectoryTextbox.Text;
+                    this.GameInstance.Name = this.GameNameTextbox.Text;
+                    this.GameInstance.ReleaseDate = this.GameReleaseDatePicker.Value;
+                    this.GameInstance.CDPath = this.GameCDPathTextBox.Text;
+                    this.GameInstance.CDLabel = this.DiscLabelTextBox.Text;
+                    this.GameInstance.SetupEXEPath = this.GameSetupTextBox.Text;
+                    this.GameInstance.AlternateDOSBoxExePath = this.AlternateDOSBoxLocationTextbox.Text;
+                    if (string.IsNullOrWhiteSpace(this.GameIconPictureBox.ImageLocation) == false)
                     {
-                        GameInstance.Icon = GameIconPictureBox.ImageLocation;
+                        this.GameInstance.Icon = this.GameIconPictureBox.ImageLocation;
                     }
                     else
                     {
-                        GameInstance.Icon = string.Empty;
+                        this.GameInstance.Icon = string.Empty;
                     }
 
-                    GameInstance.UseIOCTL = UseIOCTLRadioButton.Checked;
-                    GameInstance.MountAsFloppy = IsAFloppyDiskRadioButton.Checked;
-                    if (string.IsNullOrWhiteSpace(GameCDPathTextBox.Text) == false)
+                    this.GameInstance.UseIOCTL = this.UseIOCTLRadioButton.Checked;
+                    this.GameInstance.MountAsFloppy = this.IsAFloppyDiskRadioButton.Checked;
+                    if (string.IsNullOrWhiteSpace(this.GameCDPathTextBox.Text) == false)
                     {
-                        if (File.Exists(GameCDPathTextBox.Text))
+                        if (File.Exists(this.GameCDPathTextBox.Text))
                         {
-                            GameInstance.CDIsAnImage = true;
+                            this.GameInstance.CDIsAnImage = true;
                         }
                         else
                         {
-                            GameInstance.CDIsAnImage = false;
+                            this.GameInstance.CDIsAnImage = false;
                         }
                     }
-                    DialogResult = DialogResult.OK;
-                    Close();
+                    this.DialogResult = DialogResult.OK;
+                    this.Close();
                 }
             }
+
             //if the game has no name
             else
             {
-                MessageBox.Show(this, "You must enter the game's name.", Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(this, "You must enter the game's name.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
         /// <summary>
-        /// EventHandler to choose the Game's executable location
+        /// EventHandler to choose the Game's executable location.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void GameLocationBrowseButton_Click(object sender, EventArgs e)
         {
             using (var gameExeFileDialog = new OpenFileDialog())
@@ -175,29 +173,27 @@ namespace AmpShell.Views
                 {
                     gameExeFileDialog.InitialDirectory = Application.StartupPath;
                 }
-                else if (string.IsNullOrWhiteSpace(GameLocationTextbox.Text) == false && Directory.Exists(Path.GetDirectoryName(GameLocationTextbox.Text)))
+                else if (string.IsNullOrWhiteSpace(this.GameLocationTextbox.Text) == false && Directory.Exists(Path.GetDirectoryName(this.GameLocationTextbox.Text)))
                 {
-                    gameExeFileDialog.InitialDirectory = Path.GetDirectoryName(GameLocationTextbox.Text);
+                    gameExeFileDialog.InitialDirectory = Path.GetDirectoryName(this.GameLocationTextbox.Text);
                 }
                 else
                 {
-                    gameExeFileDialog.InitialDirectory = SearchFolderDialogStartDirectory();
+                    gameExeFileDialog.InitialDirectory = this.SearchFolderDialogStartDirectory();
                 }
 
-                gameExeFileDialog.Title = GameLocationLabel.Text;
+                gameExeFileDialog.Title = this.GameLocationLabel.Text;
                 gameExeFileDialog.Filter = "DOS executable files (*.bat;*.cmd;*.com;*.exe)|*.bat;*.cmd;*.com;*.exe;*.BAT;*.CMD;*.COM;*.EXE";
                 if (gameExeFileDialog.ShowDialog(this) == DialogResult.OK)
                 {
-                    GameLocationTextbox.Text = gameExeFileDialog.FileName;
+                    this.GameLocationTextbox.Text = gameExeFileDialog.FileName;
                 }
             }
         }
 
         /// <summary>
-        /// EventHandler to choose the game .conf (config) file
+        /// EventHandler to choose the game .conf (config) file.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void GameCustomConfigurationBrowseButton_Click(object sender, EventArgs e)
         {
             using (var customConfigFileDialog = new OpenFileDialog())
@@ -206,53 +202,49 @@ namespace AmpShell.Views
                 {
                     customConfigFileDialog.InitialDirectory = Application.StartupPath;
                 }
-                else if (string.IsNullOrWhiteSpace(GameCustomConfigurationTextbox.Text) == false && Directory.Exists(Path.GetDirectoryName(GameCustomConfigurationTextbox.Text)))
+                else if (string.IsNullOrWhiteSpace(this.GameCustomConfigurationTextbox.Text) == false && Directory.Exists(Path.GetDirectoryName(this.GameCustomConfigurationTextbox.Text)))
                 {
-                    customConfigFileDialog.InitialDirectory = Path.GetDirectoryName(GameCustomConfigurationTextbox.Text);
+                    customConfigFileDialog.InitialDirectory = Path.GetDirectoryName(this.GameCustomConfigurationTextbox.Text);
                 }
                 else
                 {
-                    customConfigFileDialog.InitialDirectory = SearchFolderDialogStartDirectory();
+                    customConfigFileDialog.InitialDirectory = this.SearchFolderDialogStartDirectory();
                 }
 
-                customConfigFileDialog.Title = GameCustomConfigurationLabel.Text;
+                customConfigFileDialog.Title = this.GameCustomConfigurationLabel.Text;
                 customConfigFileDialog.Filter = "DOSBox configuration file (*.conf)|*.conf;*.CONF";
                 if (customConfigFileDialog.ShowDialog(this) == DialogResult.OK)
                 {
-                    GameCustomConfigurationTextbox.Text = customConfigFileDialog.FileName;
+                    this.GameCustomConfigurationTextbox.Text = customConfigFileDialog.FileName;
                 }
             }
         }
 
         /// <summary>
-        /// EventHandler for when the "Do not use any config file at all" checkbox is (un)checked
+        /// EventHandler for when the "Do not use any config file at all" checkbox is (un)checked.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void NoConfigCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            if (NoConfigCheckBox.Checked == true)
+            if (this.NoConfigCheckBox.Checked == true)
             {
-                GameCustomConfigurationTextbox.Enabled = false;
-                GameCustomConfigurationBrowseButton.Enabled = false;
+                this.GameCustomConfigurationTextbox.Enabled = false;
+                this.GameCustomConfigurationBrowseButton.Enabled = false;
             }
             else
             {
-                GameCustomConfigurationTextbox.Enabled = true;
-                GameCustomConfigurationBrowseButton.Enabled = true;
+                this.GameCustomConfigurationTextbox.Enabled = true;
+                this.GameCustomConfigurationBrowseButton.Enabled = true;
             }
         }
 
         /// <summary>
-        /// EventHandler to choose the game's CD image file
+        /// EventHandler to choose the game's CD image file.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void GameCDPathBrowseButton_Click(object sender, EventArgs e)
         {
             using (var cdImageFileDialog = new OpenFileDialog())
             {
-                cdImageFileDialog.Title = GameCDPathLabel.Text;
+                cdImageFileDialog.Title = this.GameCDPathLabel.Text;
                 cdImageFileDialog.Filter = "DOSBox compatible CD images (*.bin;*.cue;*.iso;*.img)|*.bin;*.cue;*.iso;*.img;*.BIN;*.CUE;*.ISO;*.IMG";
                 if (UserDataAccessor.UserData.PortableMode == true)
                 {
@@ -264,158 +256,150 @@ namespace AmpShell.Views
                 }
                 else
                 {
-                    cdImageFileDialog.InitialDirectory = SearchFolderDialogStartDirectory();
+                    cdImageFileDialog.InitialDirectory = this.SearchFolderDialogStartDirectory();
                 }
 
                 if (cdImageFileDialog.ShowDialog(this) == DialogResult.OK)
                 {
-                    GameCDPathTextBox.Text = cdImageFileDialog.FileName;
+                    this.GameCDPathTextBox.Text = cdImageFileDialog.FileName;
                 }
             }
         }
 
         /// <summary>
-        /// EventHandler for when the GameLocationTextbox (for the game's executable location) text is changed
+        /// EventHandler for when the this.GameLocationTextbox (for the game's executable location) text is changed.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void GameLocationTextbox_TextChanged(object sender, EventArgs e)
         {
             //if a location for the game's executable has been entered
-            if (string.IsNullOrWhiteSpace(GameLocationTextbox.Text) == false)
+            if (string.IsNullOrWhiteSpace(this.GameLocationTextbox.Text) == false)
             {
                 //then the directory mounted has C: TextBox, BrowseButton, and Labeled are disabled
                 //(because DOSBox already mounts the executable's directory path as C: )
-                GameDirectoryTextbox.Enabled = false;
-                GameDirectoryBrowseButton.Enabled = false;
-                GameDirectoryLabel.Enabled = false;
+                this.GameDirectoryTextbox.Enabled = false;
+                this.GameDirectoryBrowseButton.Enabled = false;
+                this.GameDirectoryLabel.Enabled = false;
             }
             else
             {
                 //if not, they are enabled
-                GameDirectoryTextbox.Enabled = true;
-                GameDirectoryBrowseButton.Enabled = true;
-                GameDirectoryLabel.Enabled = true;
+                this.GameDirectoryTextbox.Enabled = true;
+                this.GameDirectoryBrowseButton.Enabled = true;
+                this.GameDirectoryLabel.Enabled = true;
             }
+
             //if the entered executable does exist
-            if (string.IsNullOrWhiteSpace(GameLocationTextbox.Text) == false)
+            if (string.IsNullOrWhiteSpace(this.GameLocationTextbox.Text) == false)
             {
                 //the directory mounted has C: is displayed : it is the game's executable full directory path
-                if (File.Exists(GameLocationTextbox.Text))
+                if (File.Exists(this.GameLocationTextbox.Text))
                 {
                     //(even if the GameDirectory controls are not enabled : it's just to inform the user)
-                    GameDirectoryTextbox.Text = Path.GetDirectoryName(GameLocationTextbox.Text);
+                    this.GameDirectoryTextbox.Text = Path.GetDirectoryName(this.GameLocationTextbox.Text);
                 }
             }
         }
 
         /// <summary>
-        /// EventHandler for when the GameDirectoryTextbox's Text has changed
+        /// EventHandler for when the this.GameDirectoryTextbox's this.Text has changed.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void GameDirectoryTextbox_TextChanged(object sender, EventArgs e)
         {
             //if the textBox is not empty
-            if (string.IsNullOrWhiteSpace(GameDirectoryTextbox.Text) == false)
+            if (string.IsNullOrWhiteSpace(this.GameDirectoryTextbox.Text) == false)
             {
                 //if the game location textbox is not empty
-                if (string.IsNullOrWhiteSpace(GameLocationTextbox.Text) == false)
+                if (string.IsNullOrWhiteSpace(this.GameLocationTextbox.Text) == false)
                 {
                     //and if the specified directory does not equals to the game executable's directory
-                    if (Path.GetDirectoryName(GameLocationTextbox.Text) != GameDirectoryTextbox.Text)
+                    if (Path.GetDirectoryName(this.GameLocationTextbox.Text) != this.GameDirectoryTextbox.Text)
                     {
                         //then this textbox has been entered first by the user
                         //so the controls for the game's executable location will be made empty and disabled
                         //because DOSBox cannot mount a directory as C: and have an executable specified.
                         //(it's one or the other)
-                        GameLocationTextbox.Text = string.Empty;
-                        GameLocationTextbox.Enabled = false;
-                        GameLocationBrowseButton.Enabled = false;
-                        GameLocationLabel.Enabled = false;
+                        this.GameLocationTextbox.Text = string.Empty;
+                        this.GameLocationTextbox.Enabled = false;
+                        this.GameLocationBrowseButton.Enabled = false;
+                        this.GameLocationLabel.Enabled = false;
                     }
+
                     //if this textbox is empty
                     else
                     {
                         //make the controls for the game's executable location available
-                        GameLocationTextbox.Enabled = true;
-                        GameLocationBrowseButton.Enabled = true;
-                        GameLocationLabel.Enabled = true;
+                        this.GameLocationTextbox.Enabled = true;
+                        this.GameLocationBrowseButton.Enabled = true;
+                        this.GameLocationLabel.Enabled = true;
                     }
                 }
                 else
                 {
-                    GameLocationTextbox.Text = string.Empty;
-                    GameLocationTextbox.Enabled = false;
-                    GameLocationBrowseButton.Enabled = false;
-                    GameLocationLabel.Enabled = false;
+                    this.GameLocationTextbox.Text = string.Empty;
+                    this.GameLocationTextbox.Enabled = false;
+                    this.GameLocationBrowseButton.Enabled = false;
+                    this.GameLocationLabel.Enabled = false;
                 }
             }
             else
             {
-                GameLocationTextbox.Enabled = true;
-                GameLocationBrowseButton.Enabled = true;
-                GameLocationLabel.Enabled = true;
+                this.GameLocationTextbox.Enabled = true;
+                this.GameLocationBrowseButton.Enabled = true;
+                this.GameLocationLabel.Enabled = true;
             }
         }
 
         /// <summary>
-        /// EventHandler to choose the directory mounted has C:
+        /// EventHandler to choose the directory mounted as C:.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void GameDirectoryBrowseButton_Click(object sender, EventArgs e)
         {
             using (var cMountFolderBrowserDialog = new FolderBrowserDialog())
             {
                 cMountFolderBrowserDialog.ShowNewFolderButton = true;
-                cMountFolderBrowserDialog.Description = GameDirectoryLabel.Text;
+                cMountFolderBrowserDialog.Description = this.GameDirectoryLabel.Text;
                 if (cMountFolderBrowserDialog.ShowDialog(this) == DialogResult.OK)
                 {
-                    GameDirectoryTextbox.Text = cMountFolderBrowserDialog.SelectedPath;
+                    this.GameDirectoryTextbox.Text = cMountFolderBrowserDialog.SelectedPath;
                 }
             }
         }
 
         /// <summary>
-        /// EventHandler for when the GameCDPathTextBox's text is changed
+        /// EventHandler for when the this.GameCDPathTextBox's text is changed.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void GameCDPathTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(GameCDPathTextBox.Text))
+            if (string.IsNullOrWhiteSpace(this.GameCDPathTextBox.Text))
             {
-                MountingOptionsGroupBox.Enabled = false;
+                this.MountingOptionsGroupBox.Enabled = false;
             }
             else
             {
-                MountingOptionsGroupBox.Enabled = true;
-                if (File.Exists(GameCDPathTextBox.Text) == false)
+                this.MountingOptionsGroupBox.Enabled = true;
+                if (File.Exists(this.GameCDPathTextBox.Text) == false)
                 {
-                    DiscLabelTextBox.Enabled = true;
-                    UseIOCTLRadioButton.Enabled = true;
-                    IsAFloppyDiskRadioButton.Enabled = false;
+                    this.DiscLabelTextBox.Enabled = true;
+                    this.UseIOCTLRadioButton.Enabled = true;
+                    this.IsAFloppyDiskRadioButton.Enabled = false;
                 }
                 else
                 {
-                    DiscLabelTextBox.Enabled = false;
-                    UseIOCTLRadioButton.Enabled = false;
-                    IsAFloppyDiskRadioButton.Enabled = true;
+                    this.DiscLabelTextBox.Enabled = false;
+                    this.UseIOCTLRadioButton.Enabled = false;
+                    this.IsAFloppyDiskRadioButton.Enabled = true;
                 }
             }
         }
 
         /// <summary>
-        /// EventHandler to choose the game's setup executable location
+        /// EventHandler to choose the game's setup executable location.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void GameSetupBrowseButton_Click(object sender, EventArgs e)
         {
             using (var setupExeFileDialog = new OpenFileDialog())
             {
-                setupExeFileDialog.Title = GameSetupLabel.Text;
+                setupExeFileDialog.Title = this.GameSetupLabel.Text;
                 setupExeFileDialog.Filter = "DOS executable files (*.bat;*.com;*.exe)|*.bat;*.com;*.exe;*.BAT;*.COM;*.EXE";
                 if (UserDataAccessor.UserData.PortableMode == true)
                 {
@@ -423,12 +407,12 @@ namespace AmpShell.Views
                 }
                 else
                 {
-                    setupExeFileDialog.InitialDirectory = SearchFolderDialogStartDirectory();
+                    setupExeFileDialog.InitialDirectory = this.SearchFolderDialogStartDirectory();
                 }
 
                 if (setupExeFileDialog.ShowDialog(this) == DialogResult.OK)
                 {
-                    GameSetupTextBox.Text = setupExeFileDialog.FileName;
+                    this.GameSetupTextBox.Text = setupExeFileDialog.FileName;
                 }
             }
         }
@@ -436,26 +420,24 @@ namespace AmpShell.Views
         /// <summary>
         /// EventHandler to choose the directory mounted as D:
         /// Because a CD can be a CD Image, or a drive.
-        /// Or, the user just wants to mount another directory as D:
+        /// Or, the user just wants to mount another directory as D:.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void GameCDDirBrowseButton_Click(object sender, EventArgs e)
         {
             using (var cdDriveFolderBrowserDialog = new FolderBrowserDialog())
             {
                 if (cdDriveFolderBrowserDialog.ShowDialog(this) == DialogResult.OK)
                 {
-                    GameCDPathTextBox.Text = cdDriveFolderBrowserDialog.SelectedPath;
+                    this.GameCDPathTextBox.Text = cdDriveFolderBrowserDialog.SelectedPath;
                 }
             }
         }
 
         private void QuitOnExitCheckBox_EnabledChanged(object sender, EventArgs e)
         {
-            if (QuitOnExitCheckBox.Enabled == false)
+            if (this.QuitOnExitCheckBox.Enabled == false)
             {
-                QuitOnExitCheckBox.Checked = false;
+                this.QuitOnExitCheckBox.Checked = false;
             }
         }
 
@@ -470,19 +452,19 @@ namespace AmpShell.Views
                     {
                         iconFileDialog.InitialDirectory = Application.StartupPath;
                     }
-                    else if (string.IsNullOrWhiteSpace(GameIconPictureBox.ImageLocation) == false && Directory.Exists(Path.GetDirectoryName(GameIconPictureBox.ImageLocation)))
+                    else if (string.IsNullOrWhiteSpace(this.GameIconPictureBox.ImageLocation) == false && Directory.Exists(Path.GetDirectoryName(this.GameIconPictureBox.ImageLocation)))
                     {
-                        iconFileDialog.InitialDirectory = Path.GetDirectoryName(GameIconPictureBox.ImageLocation);
+                        iconFileDialog.InitialDirectory = Path.GetDirectoryName(this.GameIconPictureBox.ImageLocation);
                     }
                     else
                     {
-                        iconFileDialog.InitialDirectory = SearchFolderDialogStartDirectory();
+                        iconFileDialog.InitialDirectory = this.SearchFolderDialogStartDirectory();
                     }
 
                     if (iconFileDialog.ShowDialog(this) == DialogResult.OK)
                     {
-                        GameIconPictureBox.Image = Image.FromFile(iconFileDialog.FileName).GetThumbnailImage(64, 64, null, IntPtr.Zero);
-                        GameIconPictureBox.ImageLocation = iconFileDialog.FileName;
+                        this.GameIconPictureBox.Image = Image.FromFile(iconFileDialog.FileName).GetThumbnailImage(64, 64, null, IntPtr.Zero);
+                        this.GameIconPictureBox.ImageLocation = iconFileDialog.FileName;
                     }
                 }
             }
@@ -490,13 +472,13 @@ namespace AmpShell.Views
             catch (OutOfMemoryException)
             {
                 MessageBox.Show(this, "There is an error in the image file, or its format is not supported. Please check the file.", "Changing the game's icon", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                if (string.IsNullOrWhiteSpace(GameInstance.Icon))
+                if (string.IsNullOrWhiteSpace(this.GameInstance.Icon))
                 {
-                    GameIconPictureBox.Image = Properties.Resources.Generic_Application1;
+                    this.GameIconPictureBox.Image = Properties.Resources.Generic_Application1;
                 }
                 else
                 {
-                    GameIconPictureBox.Image = Image.FromFile(GameInstance.Icon).GetThumbnailImage(64, 64, null, IntPtr.Zero);
+                    this.GameIconPictureBox.Image = Image.FromFile(this.GameInstance.Icon).GetThumbnailImage(64, 64, null, IntPtr.Zero);
                 }
             }
 #pragma warning restore CA1031 // Do not catch general exception types
@@ -504,8 +486,8 @@ namespace AmpShell.Views
 
         private void ResetIconButton_Click(object sender, EventArgs e)
         {
-            GameIconPictureBox.Image = Properties.Resources.Generic_Application1;
-            GameIconPictureBox.ImageLocation = string.Empty;
+            this.GameIconPictureBox.Image = Properties.Resources.Generic_Application1;
+            this.GameIconPictureBox.ImageLocation = string.Empty;
         }
 
         private void AlternateDOSBoxLocationBrowsSearchButton_Click(object sender, EventArgs e)
@@ -516,9 +498,9 @@ namespace AmpShell.Views
                 {
                     alternateDOSBoxExeFileDialog.InitialDirectory = Application.StartupPath;
                 }
-                else if (string.IsNullOrWhiteSpace(AlternateDOSBoxLocationTextbox.Text) == false && Directory.Exists(Path.GetDirectoryName(AlternateDOSBoxLocationTextbox.Text)))
+                else if (string.IsNullOrWhiteSpace(this.AlternateDOSBoxLocationTextbox.Text) == false && Directory.Exists(Path.GetDirectoryName(this.AlternateDOSBoxLocationTextbox.Text)))
                 {
-                    alternateDOSBoxExeFileDialog.InitialDirectory = Path.GetDirectoryName(AlternateDOSBoxLocationTextbox.Text);
+                    alternateDOSBoxExeFileDialog.InitialDirectory = Path.GetDirectoryName(this.AlternateDOSBoxLocationTextbox.Text);
                 }
                 else if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBPath) == false && Directory.Exists(Path.GetDirectoryName(UserDataAccessor.UserData.DBPath)))
                 {
@@ -526,14 +508,14 @@ namespace AmpShell.Views
                 }
                 else
                 {
-                    alternateDOSBoxExeFileDialog.InitialDirectory = SearchFolderDialogStartDirectory();
+                    alternateDOSBoxExeFileDialog.InitialDirectory = this.SearchFolderDialogStartDirectory();
                 }
 
-                alternateDOSBoxExeFileDialog.Title = AlternateDOSBoxLocationLabel.Text;
+                alternateDOSBoxExeFileDialog.Title = this.AlternateDOSBoxLocationLabel.Text;
                 alternateDOSBoxExeFileDialog.Filter = "DOSBox executable file (*.exe)|*.exe;*.EXE";
                 if (alternateDOSBoxExeFileDialog.ShowDialog(this) == DialogResult.OK)
                 {
-                    AlternateDOSBoxLocationTextbox.Text = alternateDOSBoxExeFileDialog.FileName;
+                    this.AlternateDOSBoxLocationTextbox.Text = alternateDOSBoxExeFileDialog.FileName;
                 }
             }
         }
@@ -541,25 +523,25 @@ namespace AmpShell.Views
         private string SearchFolderDialogStartDirectory()
         {
             string initialDirectory = string.Empty;
-            if (string.IsNullOrWhiteSpace(GameInstance.DOSEXEPath) == false && Directory.Exists(Path.GetDirectoryName(GameInstance.DOSEXEPath)))
+            if (string.IsNullOrWhiteSpace(this.GameInstance.DOSEXEPath) == false && Directory.Exists(Path.GetDirectoryName(this.GameInstance.DOSEXEPath)))
             {
-                initialDirectory = Path.GetDirectoryName(GameInstance.DOSEXEPath);
+                initialDirectory = Path.GetDirectoryName(this.GameInstance.DOSEXEPath);
             }
-            else if (string.IsNullOrWhiteSpace(GameInstance.Directory) == false && Directory.Exists(GameInstance.Directory))
+            else if (string.IsNullOrWhiteSpace(this.GameInstance.Directory) == false && Directory.Exists(this.GameInstance.Directory))
             {
-                initialDirectory = GameInstance.Directory;
+                initialDirectory = this.GameInstance.Directory;
             }
-            else if (string.IsNullOrWhiteSpace(GameInstance.SetupEXEPath) == false && Directory.Exists(Path.GetDirectoryName(GameInstance.SetupEXEPath)))
+            else if (string.IsNullOrWhiteSpace(this.GameInstance.SetupEXEPath) == false && Directory.Exists(Path.GetDirectoryName(this.GameInstance.SetupEXEPath)))
             {
-                initialDirectory = Path.GetDirectoryName(GameInstance.SetupEXEPath);
+                initialDirectory = Path.GetDirectoryName(this.GameInstance.SetupEXEPath);
             }
-            else if (string.IsNullOrWhiteSpace(GameInstance.Icon) == false && File.Exists(GameInstance.Icon))
+            else if (string.IsNullOrWhiteSpace(this.GameInstance.Icon) == false && File.Exists(this.GameInstance.Icon))
             {
-                initialDirectory = Path.GetDirectoryName(GameInstance.Icon);
+                initialDirectory = Path.GetDirectoryName(this.GameInstance.Icon);
             }
-            else if (string.IsNullOrWhiteSpace(GameInstance.DBConfPath) == false && Directory.Exists(Path.GetDirectoryName(GameInstance.DBConfPath)))
+            else if (string.IsNullOrWhiteSpace(this.GameInstance.DBConfPath) == false && Directory.Exists(Path.GetDirectoryName(this.GameInstance.DBConfPath)))
             {
-                initialDirectory = Path.GetDirectoryName(GameInstance.DBConfPath);
+                initialDirectory = Path.GetDirectoryName(this.GameInstance.DBConfPath);
             }
             else if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.GamesDefaultDir) == false && Directory.Exists(UserDataAccessor.UserData.GamesDefaultDir))
             {
@@ -568,21 +550,21 @@ namespace AmpShell.Views
 
             if (string.IsNullOrWhiteSpace(initialDirectory))
             {
-                if (string.IsNullOrWhiteSpace(GameLocationTextbox.Text) == false && Directory.Exists(Path.GetDirectoryName(GameLocationTextbox.Text)))
+                if (string.IsNullOrWhiteSpace(this.GameLocationTextbox.Text) == false && Directory.Exists(Path.GetDirectoryName(this.GameLocationTextbox.Text)))
                 {
-                    initialDirectory = Path.GetDirectoryName(GameLocationTextbox.Text);
+                    initialDirectory = Path.GetDirectoryName(this.GameLocationTextbox.Text);
                 }
-                else if (string.IsNullOrWhiteSpace(GameSetupTextBox.Text) == false && Directory.Exists(Path.GetDirectoryName(GameSetupTextBox.Text)))
+                else if (string.IsNullOrWhiteSpace(this.GameSetupTextBox.Text) == false && Directory.Exists(Path.GetDirectoryName(this.GameSetupTextBox.Text)))
                 {
-                    initialDirectory = Path.GetDirectoryName(GameSetupTextBox.Text);
+                    initialDirectory = Path.GetDirectoryName(this.GameSetupTextBox.Text);
                 }
-                else if (string.IsNullOrWhiteSpace(GameCustomConfigurationTextbox.Text) == false && Directory.Exists(Path.GetDirectoryName(GameCustomConfigurationTextbox.Text)))
+                else if (string.IsNullOrWhiteSpace(this.GameCustomConfigurationTextbox.Text) == false && Directory.Exists(Path.GetDirectoryName(this.GameCustomConfigurationTextbox.Text)))
                 {
-                    initialDirectory = Path.GetDirectoryName(GameCustomConfigurationTextbox.Text);
+                    initialDirectory = Path.GetDirectoryName(this.GameCustomConfigurationTextbox.Text);
                 }
-                else if (string.IsNullOrWhiteSpace(GameIconPictureBox.ImageLocation) == false && Directory.Exists(Path.GetDirectoryName(GameIconPictureBox.ImageLocation)))
+                else if (string.IsNullOrWhiteSpace(this.GameIconPictureBox.ImageLocation) == false && Directory.Exists(Path.GetDirectoryName(this.GameIconPictureBox.ImageLocation)))
                 {
-                    initialDirectory = Path.GetDirectoryName(GameIconPictureBox.ImageLocation);
+                    initialDirectory = Path.GetDirectoryName(this.GameIconPictureBox.ImageLocation);
                 }
             }
             return initialDirectory;

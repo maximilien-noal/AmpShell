@@ -8,218 +8,221 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
 
-using System.Collections.Generic;
-using System.Xml.Serialization;
+#pragma warning disable SA1201 // Elements should appear in the correct order
+#pragma warning disable SA1101 // Prefix local calls with this
 
 namespace AmpShell.Model
 {
+    using System.Collections.Generic;
+    using System.Xml.Serialization;
+
     [XmlType(TypeName = "Window")]
     public class Preferences : ModelWithChildren
     {
         public static readonly List<int> LargeViewModeSizes = new List<int> { 48, 64, 80, 96, 112, 128, 144, 160, 176, 192, 208, 224, 240, 256 };
 
-        private bool _portableMode = false;
+        private bool portableMode = false;
 
         public bool PortableMode
         {
-            get => _portableMode;
-            set { Set<bool>(ref _portableMode, value); }
+            get => portableMode;
+            set { Set(ref portableMode, value); }
         }
 
-        private bool _defaultIconViewOverride = false;
+        private bool defaultIconViewOverride = false;
 
         public bool DefaultIconViewOverride
         {
-            get => _defaultIconViewOverride;
-            set { Set<bool>(ref _defaultIconViewOverride, value); }
+            get => defaultIconViewOverride;
+            set { Set(ref defaultIconViewOverride, value); }
         }
 
         public int X { get; set; }
 
         public int Y { get; set; }
 
-        private System.Windows.Forms.View _categoriesDefaultViewMode = System.Windows.Forms.View.LargeIcon;
+        private System.Windows.Forms.View categoriesDefaultViewMode = System.Windows.Forms.View.LargeIcon;
 
         public System.Windows.Forms.View CategoriesDefaultViewMode
         {
-            get => _categoriesDefaultViewMode;
-            set { Set<System.Windows.Forms.View>(ref _categoriesDefaultViewMode, value); }
+            get => categoriesDefaultViewMode;
+            set { Set<System.Windows.Forms.View>(ref categoriesDefaultViewMode, value); }
         }
 
-        private bool _rememberWindowPosition = true;
+        private bool rememberWindowPosition = true;
 
         public bool RememberWindowPosition
         {
-            get => _rememberWindowPosition;
-            set { Set<bool>(ref _rememberWindowPosition, value); }
+            get => rememberWindowPosition;
+            set { Set(ref rememberWindowPosition, value); }
         }
 
-        private bool _rememberWindowSize = true;
+        private bool rememberWindowSize = true;
 
         public bool RememberWindowSize
         {
-            get => _rememberWindowSize;
-            set { Set<bool>(ref _rememberWindowSize, value); }
+            get => rememberWindowSize;
+            set { Set(ref rememberWindowSize, value); }
         }
 
-        private bool _gameDeletePrompt = true;
+        private bool gameDeletePrompt = true;
 
         public bool GameDeletePrompt
         {
-            get => _gameDeletePrompt;
-            set { Set<bool>(ref _gameDeletePrompt, value); }
+            get => gameDeletePrompt;
+            set { Set(ref gameDeletePrompt, value); }
         }
 
-        private bool _categoryDeletePrompt = true;
+        private bool categoryDeletePrompt = true;
 
         public bool CategoryDeletePrompt
         {
-            get => _categoryDeletePrompt;
-            set { Set<bool>(ref _categoryDeletePrompt, value); }
+            get => categoryDeletePrompt;
+            set { Set(ref categoryDeletePrompt, value); }
         }
 
-        private bool _gamesNoConsole = true;
+        private bool gamesNoConsole = true;
 
         public bool GamesNoConsole
         {
-            get => _gamesNoConsole;
-            set { Set<bool>(ref _gamesNoConsole, value); }
+            get => gamesNoConsole;
+            set { Set(ref gamesNoConsole, value); }
         }
 
-        private bool _gamesInFullScreen = true;
+        private bool gamesInFullScreen = true;
 
         public bool GamesInFullScreen
         {
-            get => _gamesInFullScreen;
-            set { Set<bool>(ref _gamesInFullScreen, value); }
+            get => gamesInFullScreen;
+            set { Set(ref gamesInFullScreen, value); }
         }
 
-        private bool _gamesQuitOnExit = true;
+        private bool gamesQuitOnExit = true;
 
         public bool GamesQuitOnExit
         {
-            get => _gamesQuitOnExit;
-            set { Set<bool>(ref _gamesQuitOnExit, value); }
+            get => gamesQuitOnExit;
+            set { Set(ref gamesQuitOnExit, value); }
         }
 
-        private string _gamesAdditionalCommands;
+        private string gamesAdditionalCommands;
 
         public string GamesAdditionalCommands
         {
-            get => _gamesAdditionalCommands;
-            set { Set<string>(ref _gamesAdditionalCommands, value); }
+            get => gamesAdditionalCommands;
+            set { Set(ref gamesAdditionalCommands, value); }
         }
 
-        private string _gamesDefaultDir = "";
+        private string gamesDefaultDir = string.Empty;
 
         public string GamesDefaultDir
         {
-            get => _gamesDefaultDir;
-            set { Set<string>(ref _gamesDefaultDir, value); }
+            get => gamesDefaultDir;
+            set { Set(ref gamesDefaultDir, value); }
         }
 
-        private string _cdsDefaultDir = "";
+        private string cdsDefaultDir = string.Empty;
 
         public string CDsDefaultDir
         {
-            get => _cdsDefaultDir;
-            set { Set<string>(ref _cdsDefaultDir, value); }
+            get => cdsDefaultDir;
+            set { Set(ref cdsDefaultDir, value); }
         }
 
-        private string _configEditorPath = "";
+        private string configEditorPath = string.Empty;
 
         public string ConfigEditorPath
         {
-            get => _configEditorPath;
-            set { Set<string>(ref _configEditorPath, value); }
+            get => configEditorPath;
+            set { Set(ref configEditorPath, value); }
         }
 
-        private string _configEditorAdditionalParameters = "";
+        private string configEditorAdditionalParameters = string.Empty;
 
         public string ConfigEditorAdditionalParameters
         {
-            get => _configEditorAdditionalParameters;
-            set { Set<string>(ref _configEditorAdditionalParameters, value); }
+            get => configEditorAdditionalParameters;
+            set { Set(ref configEditorAdditionalParameters, value); }
         }
 
-        private bool _fullScreen;
+        private bool fullScreen;
 
         public bool Fullscreen
         {
-            get => _fullScreen;
-            set { Set<bool>(ref _fullScreen, value); }
+            get => fullScreen;
+            set { Set(ref fullScreen, value); }
         }
 
-        private bool _menuBarVisible = true;
+        private bool menuBarVisible = true;
 
         public bool MenuBarVisible
         {
-            get => _menuBarVisible;
-            set { Set<bool>(ref _menuBarVisible, value); }
+            get => menuBarVisible;
+            set { Set(ref menuBarVisible, value); }
         }
 
-        private bool _toolBarVisible = true;
+        private bool toolBarVisible = true;
 
         public bool ToolBarVisible
         {
-            get => _toolBarVisible;
-            set { Set<bool>(ref _toolBarVisible, value); }
+            get => toolBarVisible;
+            set { Set(ref toolBarVisible, value); }
         }
 
-        private bool _statusBarVisible = true;
+        private bool statusBarVisible = true;
 
         public bool StatusBarVisible
         {
-            get => _statusBarVisible;
-            set { Set<bool>(ref _statusBarVisible, value); }
+            get => statusBarVisible;
+            set { Set(ref statusBarVisible, value); }
         }
 
-        private string _dbPath = "";
+        private string dbPath = string.Empty;
 
         public string DBPath
         {
-            get => _dbPath;
-            set { Set<string>(ref _dbPath, value); }
+            get => dbPath;
+            set { Set(ref dbPath, value); }
         }
 
-        private string _dbDefaultConfFilePath = "";
+        private string dbDefaultConfFilePath = string.Empty;
 
         public string DBDefaultConfFilePath
         {
-            get => _dbDefaultConfFilePath;
-            set { Set<string>(ref _dbDefaultConfFilePath, value); }
+            get => dbDefaultConfFilePath;
+            set { Set(ref dbDefaultConfFilePath, value); }
         }
 
-        private string _dbDefaultLangFilePath = "";
+        private string dbDefaultLangFilePath = string.Empty;
 
         public string DBDefaultLangFilePath
         {
-            get => _dbDefaultLangFilePath;
-            set { Set<string>(ref _dbDefaultLangFilePath, value); }
+            get => dbDefaultLangFilePath;
+            set { Set(ref dbDefaultLangFilePath, value); }
         }
 
-        private int _width = 640;
+        private int width = 640;
 
         public int Width
         {
-            get => _width;
-            set { Set<int>(ref _width, value); }
+            get => width;
+            set { Set(ref width, value); }
         }
 
-        private int _height = 400;
+        private int height = 400;
 
         public int Height
         {
-            get => _height;
-            set { Set<int>(ref _height, value); }
+            get => height;
+            set { Set(ref height, value); }
         }
 
-        private int _largeViewModeSize = 48;
+        private int largeViewModeSize = 48;
 
         public int LargeViewModeSize
         {
-            get => _largeViewModeSize;
-            set { Set<int>(ref _largeViewModeSize, value); }
+            get => largeViewModeSize;
+            set { Set(ref largeViewModeSize, value); }
         }
     }
 }

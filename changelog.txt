@@ -119,7 +119,7 @@ GUI :
 
 1.1.2.1 (January 25 18h00)
 Code modifications :
-- Minor Bugfix : If AmpShell was closed while being minimized _and_ if "Remember window position" was enabled, it would set it's location off-screen on the next run. The workaround was to set it to fullscreen via the context menu of the window's title on the Windows' task bar.
+- Minor Bugfix : If AmpShell was closed while being minimized and_ if "Remember window position" was enabled, it would set it's location off-screen on the next run. The workaround was to set it to fullscreen via the context menu of the window's title on the Windows' task bar.
 
 GUI :
 - Added 'Edit default configuration' to the tool bar.
@@ -189,7 +189,7 @@ They are searched for when the Portable Mode has been activated, or when the use
 - Bugfix : The Preferences were not saved. Regression since previous release (v1.1.0.5)
 
 1.1.0.5 (December 1 19h02)
--Bugfix : The "don't save" button _did_ save the changes (everywhere)!
+-Bugfix : The "don't save" button did_ save the changes (everywhere)!
 -UI fix : The game executable file location dialog display of searched file types ("*.exe;*.bat;*.com") was borked (although it worked!)
 -UI fix : The default game icon is now displayed as a 64*64 pixels image in the Add/Edit game window.
 -Feature : IOCTL can be used with the CD drive mounted as D: ("-usecd 0 -ioctl" will be used). Or, if it's an image, it can be mounted as A: (floppy disk). Or none of both.
@@ -292,7 +292,7 @@ Future Plans (v1.1.1.x) :
 1.0.2.5 (July 25 2009 01h45)
 - Code refactoring : Just an unique string of random numbers is used as a signature now
 for games and categories (no longer the MD5 hash of this signature)
-- code refactoring / bug prevention : Generation of such signatures are now _not_ a .GenerateHash (or .GenerateSignature)
+- code refactoring / bug prevention : Generation of such signatures are now not_ a .GenerateHash (or .GenerateSignature)
 method of the class Category, but a lot nicer (and shorter) code in Main.cs : an IsItUnique private method, and do...while loops.
 - "titre" XmlAttribute of the class Category replaced by "Title". Conversion (: retro-compatibility) code added on DSF_Load to preserve user data
 - Code cleaning : properties-like code remove from the AddChild and RemoveChild method of the class AmpShell
@@ -363,7 +363,7 @@ New games can be added safely now.
 -Bugfix : Error message ("Path cannot be empty or all whitespaces") when the user replies "No" to the question "Do you want to indicate DOSBox' executable location now ?"
 
 1.0.0.7 (June 20 2009 - 11h06)
--Bugfix : "Run Game Setup" button now only available if the selected game _has_ a setup executable
+-Bugfix : "Run Game Setup" button now only available if the selected game has_ a setup executable
 
 1.0.0.6 (June 17 2009 - 0h00)
 -Bugfix : mount command for the "directory mounted as C:" option not formatted correctly (now works both on Windows and GNU/Linux)

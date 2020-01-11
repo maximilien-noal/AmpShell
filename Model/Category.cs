@@ -8,21 +8,25 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
 
-using System.Windows.Forms;
-using System.Xml.Serialization;
+#pragma warning disable SA1201 // Elements should appear in the correct order
+#pragma warning disable SA1101 // Prefix local calls with this
 
 namespace AmpShell.Model
 {
+    using System.Windows.Forms;
+    using System.Xml.Serialization;
+
     public class Category : ModelWithChildren
     {
-        public Category() : base()
+        public Category()
+            : base()
         {
         }
 
-        public Category(string CategoryTitle, string CategorySignature)
+        public Category(string categoryTitle, string categorySignature)
         {
-            Title = CategoryTitle;
-            Signature = CategorySignature;
+            this.Title = categoryTitle;
+            this.Signature = categorySignature;
         }
 
         [XmlAttribute("Title")]
@@ -31,108 +35,108 @@ namespace AmpShell.Model
         [XmlAttribute("Signature")]
         public string Signature { get; set; }
 
-        private int _nameColumnWidth = 150;
+        private int nameColumnWidth = 150;
 
         public int NameColumnWidth
         {
-            get => _nameColumnWidth;
-            set { Set<int>(ref _nameColumnWidth, value); }
+            get => nameColumnWidth;
+            set { Set(ref nameColumnWidth, value); }
         }
 
-        private int _releaseDateColumnWidth = 150;
+        private int releaseDateColumnWidth = 150;
 
         public int ReleaseDateColumnWidth
         {
-            get => _releaseDateColumnWidth;
-            set { Set<int>(ref _releaseDateColumnWidth, value); }
+            get => releaseDateColumnWidth;
+            set { Set(ref releaseDateColumnWidth, value); }
         }
 
-        private int _executableColumnWith = 150;
+        private int executableColumnWith = 150;
 
         public int ExecutableColumnWidth
         {
-            get => _executableColumnWith;
-            set { Set<int>(ref _executableColumnWith, value); }
+            get => executableColumnWith;
+            set { Set(ref executableColumnWith, value); }
         }
 
-        private int _cMountColumnWidth = 150;
+        private int cMountColumnWidth = 150;
 
         public int CMountColumnWidth
         {
-            get => _cMountColumnWidth;
-            set { Set<int>(ref _cMountColumnWidth, value); }
+            get => cMountColumnWidth;
+            set { Set(ref cMountColumnWidth, value); }
         }
 
-        private int _setupExecutableColumnWidth = 150;
+        private int setupExecutableColumnWidth = 150;
 
         public int SetupExecutableColumnWidth
         {
-            get => _setupExecutableColumnWidth;
-            set { Set<int>(ref _setupExecutableColumnWidth, value); }
+            get => setupExecutableColumnWidth;
+            set { Set(ref setupExecutableColumnWidth, value); }
         }
 
-        private int _customConfigurationColumnWidth = 150;
+        private int customConfigurationColumnWidth = 150;
 
         public int CustomConfigurationColumnWidth
         {
-            get => _customConfigurationColumnWidth;
-            set { Set<int>(ref _customConfigurationColumnWidth, value); }
+            get => customConfigurationColumnWidth;
+            set { Set(ref customConfigurationColumnWidth, value); }
         }
 
-        private int _dMountColumnWidth = 150;
+        private int dMountColumnWidth = 150;
 
         public int DMountColumnWidth
         {
-            get => _dMountColumnWidth;
-            set { Set<int>(ref _dMountColumnWidth, value); }
+            get => dMountColumnWidth;
+            set { Set(ref dMountColumnWidth, value); }
         }
 
-        private int _mountingOptionsColumnWidth = 100;
+        private int mountingOptionsColumnWidth = 100;
 
         public int MountingOptionsColumnWidth
         {
-            get => _mountingOptionsColumnWidth;
-            set { Set<int>(ref _mountingOptionsColumnWidth, value); }
+            get => mountingOptionsColumnWidth;
+            set { Set(ref mountingOptionsColumnWidth, value); }
         }
 
-        private int _additionalCommandsColumnWidth = 150;
+        private int additionalCommandsColumnWidth = 150;
 
         public int AdditionnalCommandsColumnWidth
         {
-            get => _additionalCommandsColumnWidth;
-            set { Set<int>(ref _additionalCommandsColumnWidth, value); }
+            get => additionalCommandsColumnWidth;
+            set { Set(ref additionalCommandsColumnWidth, value); }
         }
 
-        private int _noConsoleColumnWidth = 100;
+        private int noConsoleColumnWidth = 100;
 
         public int NoConsoleColumnWidth
         {
-            get => _noConsoleColumnWidth;
-            set { Set<int>(ref _noConsoleColumnWidth, value); }
+            get => noConsoleColumnWidth;
+            set { Set(ref noConsoleColumnWidth, value); }
         }
 
-        private int _fullscreenColumnWidth = 100;
+        private int fullscreenColumnWidth = 100;
 
         public int FullscreenColumnWidth
         {
-            get => _fullscreenColumnWidth;
-            set { Set<int>(ref _fullscreenColumnWidth, value); }
+            get => fullscreenColumnWidth;
+            set { Set(ref fullscreenColumnWidth, value); }
         }
 
-        private int _quitOnExitColumnWidth = 100;
+        private int quitOnExitColumnWidth = 100;
 
         public int QuitOnExitColumnWidth
         {
-            get => _quitOnExitColumnWidth;
-            set { Set<int>(ref _quitOnExitColumnWidth, value); }
+            get => quitOnExitColumnWidth;
+            set { Set(ref quitOnExitColumnWidth, value); }
         }
 
-        private View _viewMode = View.LargeIcon;
+        private View viewMode = View.LargeIcon;
 
         public View ViewMode
         {
-            get => _viewMode;
-            set { Set<View>(ref _viewMode, value); }
+            get => viewMode;
+            set { Set(ref viewMode, value); }
         }
     }
 }

@@ -8,13 +8,13 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
 
-using System;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-
 namespace AmpShell.AutoConfig
 {
+    using System;
+    using System.Globalization;
+    using System.IO;
+    using System.Linq;
+
     public static class FileFinder
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "A more specialized exception is not used by File.Create")]
@@ -61,11 +61,36 @@ namespace AmpShell.AutoConfig
             return SearchFileWithExtension(userConfigDataPath, dosboxExecutablePath, "*.lng");
         }
 
+        public static string SearchDOSBox(string userConfigDataPath, bool portableMode)
+        {
+            if (userConfigDataPath == Path.Combine(PathFinder.GetStartupPath(), "AmpShell.xml") && portableMode)
+            {
+                var localDOSBox = Path.Combine(PathFinder.GetStartupPath(), "dosbox.exe");
+                if (File.Exists(localDOSBox))
+                {
+                    return localDOSBox;
+                }
+            }
+            else
+            {
+                string[] dosboxNamedDirs = Directory.GetDirectories(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "DOSBox*", SearchOption.TopDirectoryOnly);
+                if (dosboxNamedDirs.GetLength(0) != 0)
+                {
+                    var systemDOSBox = Path.Combine(dosboxNamedDirs[0], "dosbox.exe");
+                    if (File.Exists(systemDOSBox))
+                    {
+                        return systemDOSBox;
+                    }
+                }
+            }
+            return string.Empty;
+        }
+
         private static string SearchFileWithExtension(string userConfigDataPath, string dosboxExecutablePath, string extension)
         {
             if (userConfigDataPath == Path.Combine(PathFinder.GetStartupPath(), "AmpShell.xml"))
             {
-                var localConfFiles = Directory.GetFiles((PathFinder.GetStartupPath()), extension);
+                var localConfFiles = Directory.GetFiles(PathFinder.GetStartupPath(), extension);
                 if (localConfFiles.Length > 0)
                 {
                     return localConfFiles[0];
@@ -92,31 +117,6 @@ namespace AmpShell.AutoConfig
                     if (langFilesBesidesDOSBox.Length > 0)
                     {
                         return langFilesBesidesDOSBox[0];
-                    }
-                }
-            }
-            return string.Empty;
-        }
-
-        public static string SearchDOSBox(string userConfigDataPath, bool portableMode)
-        {
-            if (userConfigDataPath == Path.Combine(PathFinder.GetStartupPath(), "AmpShell.xml") && portableMode)
-            {
-                var localDOSBox = Path.Combine(PathFinder.GetStartupPath(), "dosbox.exe");
-                if (File.Exists(localDOSBox))
-                {
-                    return localDOSBox;
-                }
-            }
-            else
-            {
-                string[] dosboxNamedDirs = Directory.GetDirectories(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "DOSBox*", SearchOption.TopDirectoryOnly);
-                if (dosboxNamedDirs.GetLength(0) != 0)
-                {
-                    var systemDOSBox = Path.Combine(dosboxNamedDirs[0], "dosbox.exe");
-                    if (File.Exists(systemDOSBox))
-                    {
-                        return systemDOSBox;
                     }
                 }
             }

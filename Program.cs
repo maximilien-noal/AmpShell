@@ -8,18 +8,18 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
 
-using AmpShell.Views;
+[assembly: System.Resources.NeutralResourcesLanguage("en-US")]
 
-using System;
-using System.Resources;
-using System.Windows.Forms;
-[assembly: NeutralResourcesLanguage("en-US")]
 namespace AmpShell
 {
+    using System;
+    using System.Windows.Forms;
+    using AmpShell.Views;
+
     internal static class Program
     {
         /// <summary>
-        /// Application entry point
+        /// Application entry point.
         /// </summary>
         [STAThread]
         private static void Main()
@@ -27,10 +27,10 @@ namespace AmpShell
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             var mainForm = new MainForm();
-            using(mainForm)
+            using (mainForm)
             {
                 Application.Run(mainForm);
-            };
+            }
         }
     }
 }

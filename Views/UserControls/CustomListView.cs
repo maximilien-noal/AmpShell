@@ -8,15 +8,15 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
 
-using System.Windows.Forms;
-
 namespace AmpShell.Views.UserControls
 {
+    using System.Windows.Forms;
+
     public class CustomListView : ListView
     {
         public CustomListView()
         {
-            base.DoubleBuffered = true;
+            this.DoubleBuffered = true;
         }
     }
 }

@@ -12,15 +12,15 @@ namespace AmpShell.AutoConfig
 {
     public static class PathFinder
     {
-        private static string _startupPath = "";
+        private static string startupPath = string.Empty;
 
         public static string GetStartupPath()
         {
-            if (string.IsNullOrWhiteSpace(_startupPath))
+            if (string.IsNullOrWhiteSpace(startupPath))
             {
-                _startupPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+                startupPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
             }
-            return _startupPath;
+            return startupPath;
         }
     }
 }

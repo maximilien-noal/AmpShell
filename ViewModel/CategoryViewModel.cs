@@ -8,16 +8,17 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
 
-using AmpShell.DAL;
-using AmpShell.Model;
-using AmpShell.Notification;
-
 namespace AmpShell.ViewModel
 {
+    using AmpShell.DAL;
+    using AmpShell.Model;
+    using AmpShell.Notification;
+
     public class CategoryViewModel : PropertyChangedNotifier
     {
-        private string _name = "";
-        private readonly string _editedCategorySignature;
+        private readonly string editedCategorySignature;
+
+        private string name = string.Empty;
 
         public CategoryViewModel()
         {
@@ -25,32 +26,32 @@ namespace AmpShell.ViewModel
 
         public CategoryViewModel(string editedCategorySignature)
         {
-            this._editedCategorySignature = editedCategorySignature;
-            this.Name = UserDataAccessor.GetCategoryWithSignature(_editedCategorySignature).Title;
+            this.editedCategorySignature = editedCategorySignature;
+            this.Name = UserDataAccessor.GetCategoryWithSignature(editedCategorySignature).Title;
         }
 
         public string Name
         {
-            get => _name;
-            set { Set<string>(ref _name, value); }
+            get => this.name;
+            set { this.Set(ref this.name, value); }
         }
 
         public void CreateCategory()
         {
-            if (string.IsNullOrWhiteSpace(_editedCategorySignature))
+            if (string.IsNullOrWhiteSpace(this.editedCategorySignature))
             {
-                var category = new Category(Name, UserDataAccessor.GetAUniqueSignature());
+                var category = new Category(this.Name, UserDataAccessor.GetAUniqueSignature());
                 UserDataAccessor.UserData.AddChild(category);
             }
             else
             {
-                UserDataAccessor.GetCategoryWithSignature(_editedCategorySignature).Title = Name;
+                UserDataAccessor.GetCategoryWithSignature(this.editedCategorySignature).Title = this.Name;
             }
         }
 
         public bool IsDataValid()
         {
-            return string.IsNullOrWhiteSpace(Name) == false;
+            return string.IsNullOrWhiteSpace(this.Name) == false;
         }
     }
 }

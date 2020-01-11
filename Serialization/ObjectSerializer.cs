@@ -8,17 +8,18 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
 
-using System;
-using System.IO;
-using System.Text;
-using System.Xml;
-using System.Xml.Serialization;
-
 namespace AmpShell.Serialization
 {
+    using System;
+    using System.IO;
+    using System.Text;
+    using System.Xml;
+    using System.Xml.Serialization;
+
     public static class ObjectSerializer
     {
-        public static T Deserialize<T>(string xmlPath) where T : new()
+        public static T Deserialize<T>(string xmlPath)
+            where T : new()
         {
             if (string.IsNullOrWhiteSpace(xmlPath))
             {

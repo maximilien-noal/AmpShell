@@ -8,63 +8,63 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
 
-using AmpShell.ViewModel;
-
-using System;
-using System.Windows.Forms;
-
 namespace AmpShell.Views
 {
+    using System;
+    using System.Windows.Forms;
+    using AmpShell.ViewModel;
+
+    /// <summary>
+    /// Form to add or modify a category (tab).
+    /// </summary>
     public partial class CategoryForm : Form
     {
-        private CategoryViewModel _viewModel = new CategoryViewModel();
-
-        public CategoryViewModel ViewModel { get => _viewModel; set => _viewModel = value; }
-
         public CategoryForm()
         {
-            Initialize();
-        }
-
-        private void Initialize()
-        {
-            InitializeComponent();
-            this.NameTextBox.DataBindings.Add("Text", this.ViewModel, "Name");
+            this.Initialize();
         }
 
         public CategoryForm(string editedCategorySignature)
         {
-            ViewModel = new CategoryViewModel(editedCategorySignature);
-            Initialize();
-            ModifyViewForEditing();
+            this.ViewModel = new CategoryViewModel(editedCategorySignature);
+            this.Initialize();
+            this.ModifyViewForEditing();
+        }
+
+        public CategoryViewModel ViewModel { get; private set; } = new CategoryViewModel();
+
+        private void Initialize()
+        {
+            this.InitializeComponent();
+            this.NameTextBox.DataBindings.Add("Text", this.ViewModel, "Name");
         }
 
         private void ModifyViewForEditing()
         {
-            OK.Text = "&Save and apply";
-            OK.Width = 102;
-            OK.Location = new System.Drawing.Point(Cancel.Location.X - 107, 41);
-            OK.Image = Properties.Resources.saveHS;
-            Cancel.Text = "&Don't save";
-            Text = "Editing " + ViewModel.Name + "...";
+            this.OK.Text = "&Save and apply";
+            this.OK.Width = 102;
+            this.OK.Location = new System.Drawing.Point(this.Cancel.Location.X - 107, 41);
+            this.OK.Image = Properties.Resources.saveHS;
+            this.Cancel.Text = "&Don't save";
+            this.Text = "Editing " + this.ViewModel.Name + "...";
         }
 
         private void Cancel_Click(object sender, EventArgs e)
         {
-            Close();
+            this.Close();
         }
 
         private void OK_Click(object sender, EventArgs e)
         {
-            if (ViewModel.IsDataValid())
+            if (this.ViewModel.IsDataValid())
             {
-                ViewModel.CreateCategory();
-                DialogResult = DialogResult.OK;
-                Close();
+                this.ViewModel.CreateCategory();
+                this.DialogResult = DialogResult.OK;
+                this.Close();
             }
             else
             {
-                MessageBox.Show("You must enter a name for the category.", Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("You must enter a name for the category.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
     }

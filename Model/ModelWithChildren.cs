@@ -8,27 +8,26 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
 
-using AmpShell.Notification;
-
-using System.Collections.Generic;
-using System.Xml.Serialization;
-
 namespace AmpShell.Model
 {
+    using System.Collections.Generic;
+    using System.Xml.Serialization;
+    using AmpShell.Notification;
+
     /// <summary>
-    /// Root node for the xml file
+    /// Root node for the xml file.
     /// </summary>
     [XmlRoot("AmpShell")]
     public class ModelWithChildren : PropertyChangedNotifier
     {
         /// <summary>
-        /// List that will build up the tree of categories and games through the AddChild and RemoveChild and ListChildren methods
+        /// List that will build up the tree of categories and games through the AddChild and RemoveChild and ListChildren methods.
         /// </summary>
-        private readonly List<object> _children = new List<object>();
+        private readonly List<object> children = new List<object>();
 
         public ModelWithChildren()
         {
-            _children = new List<object>();
+            this.children = new List<object>();
         }
 
         [XmlElement("Window", typeof(Preferences))]
@@ -37,34 +36,35 @@ namespace AmpShell.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2227:Collection properties should be read only", Justification = "User Data Compatibility")]
         public List<object> ListChildren
         {
-            get => _children;
+            get => this.children;
+
             set
             {
-                _children.Clear();
-                if (value != null && value != _children)
+                this.children.Clear();
+                if (value != null && value != this.children)
                 {
-                    _children.AddRange(value);
+                    this.children.AddRange(value);
                 }
             }
         }
 
         public void AddChild(object child)
         {
-            _children.Add(child);
+            this.children.Add(child);
         }
 
         public void MoveChildToPosition(object child, int index)
         {
-            if (_children.Contains(child))
+            if (this.children.Contains(child))
             {
-                _children.Remove(child);
-                _children.Insert(index, child);
+                this.children.Remove(child);
+                this.children.Insert(index, child);
             }
         }
 
         public void RemoveChild(object child)
         {
-            _children.Remove(child);
+            this.children.Remove(child);
         }
     }
 }
