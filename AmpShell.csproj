@@ -20,6 +20,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>C:\Users\max\source\repos\AmpShell\AmpShell.xml</DocumentationFile>
     <NoWarn>1701;1702;1591</NoWarn>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>C:\Users\max\source\repos\AmpShell\AmpShell.xml</DocumentationFile>
+    <NoWarn>1701;1702;1591</NoWarn>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Bcl" Version="1.1.10" />
