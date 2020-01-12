@@ -156,13 +156,13 @@ namespace AmpShell.DOSBox
             string languageFile = string.Empty;
             if (string.IsNullOrWhiteSpace(dosboxDefaultConfFilePath) == false)
             {
-                languageFile = " -lang " + '"' + dosboxDefaultConfFilePath + '"';
+                languageFile = $" -lang \"{dosboxDefaultConfFilePath}\"";
             }
 
             //then for the conf file
             if (string.IsNullOrWhiteSpace(dosboxDefaultLangFilePath) == false)
             {
-                return StartDOSBox(dosboxPath, " -conf " + '"' + dosboxDefaultConfFilePath + '"' + languageFile);
+                return StartDOSBox(dosboxPath, $" -conf \"{dosboxDefaultConfFilePath}\"{languageFile}");
             }
             else
             {
@@ -192,7 +192,7 @@ namespace AmpShell.DOSBox
             string dosboxArgs = string.Empty;
             if (string.IsNullOrWhiteSpace(gameConfigFilePath) == false)
             {
-                dosboxArgs += " -conf " + '"' + gameConfigFilePath + '"';
+                dosboxArgs += $" -conf \"{gameConfigFilePath}\"";
             }
 
             return dosboxArgs;
@@ -207,7 +207,7 @@ namespace AmpShell.DOSBox
             string dosboxArgs = string.Empty;
             if (string.IsNullOrWhiteSpace(dosboxDefaultLangFilePath) == false && dosboxDefaultLangFilePath != "No language file (*.lng) found in AmpShell's directory.")
             {
-                dosboxArgs += " -lang " + '"' + dosboxDefaultLangFilePath + '"';
+                dosboxArgs += $" -lang \"{dosboxDefaultLangFilePath}\"";
             }
 
             return dosboxArgs;
@@ -226,11 +226,11 @@ namespace AmpShell.DOSBox
             {
                 if (!forSetupExe)
                 {
-                    dosboxArgs = '"' + selectedGame.DOSEXEPath + '"';
+                    dosboxArgs = $"\"{selectedGame.DOSEXEPath}\"";
                 }
                 else
                 {
-                    dosboxArgs = '"' + selectedGame.SetupEXEPath + '"';
+                    dosboxArgs = $"\"{selectedGame.SetupEXEPath}\"";
                 }
             }
 
@@ -238,23 +238,23 @@ namespace AmpShell.DOSBox
             //hence the "else if" instead of "if".
             else if (string.IsNullOrWhiteSpace(selectedGame.Directory) == false)
             {
-                dosboxArgs = " -c " + '"' + "mount c " + "'" + selectedGame.Directory + "'" + '"';
+                dosboxArgs = $" -c \"mount c '{selectedGame.Directory}'\"";
             }
 
             //Path for the game's CD image (.bin, .cue, or .iso) mounted as D:
             if (string.IsNullOrWhiteSpace(selectedGame.CDPath) == false)
             {
-                //put ' and not_ " after imgmount (or else the path will be misunderstood by DOSBox).
+                //put ' and not " after imgmount (or else the path will be misunderstood by DOSBox).
                 if (selectedGame.CDIsAnImage == true)
                 {
-                    dosboxArgs += " -c " + '"' + "imgmount";
+                    dosboxArgs += $" -c \"imgmount";
                     if (selectedGame.MountAsFloppy == true)
                     {
-                        dosboxArgs += " a " + "'" + selectedGame.CDPath + "'" + " -t floppy" + '"';
+                        dosboxArgs += $" a '{selectedGame.CDPath}' -t floppy\"";
                     }
                     else
                     {
-                        dosboxArgs += " d " + "'" + selectedGame.CDPath + "'" + " -t iso" + '"';
+                        dosboxArgs += $" d '{selectedGame.CDPath}' -t iso\"";
                     }
                 }
                 else
@@ -263,21 +263,21 @@ namespace AmpShell.DOSBox
                     if (selectedGame.UseIOCTL == true)
                     {
                         addedMountOptions = true;
-                        dosboxArgs += " -c " + '"' + "mount d " + "'" + selectedGame.CDPath + "'" + " -t cdrom -usecd 0 -ioctl";
+                        dosboxArgs += $" -c \"mount d '{selectedGame.CDPath}' -t cdrom -usecd 0 -ioctl";
                     }
                     else if (selectedGame.MountAsFloppy == true)
                     {
                         addedMountOptions = true;
-                        dosboxArgs += " -c " + '"' + "mount a " + "'" + selectedGame.CDPath + "'" + " -t floppy";
+                        dosboxArgs += $" -c \"mount a '{selectedGame.CDPath}' -t floppy";
                     }
                     else
                     {
                         addedMountOptions = true;
-                        dosboxArgs += " -c " + '"' + "mount d " + "'" + selectedGame.CDPath + "'";
+                        dosboxArgs += $" -c \"mount d '{selectedGame.CDPath}'";
                     }
                     if (string.IsNullOrWhiteSpace(selectedGame.CDLabel) == false && addedMountOptions)
                     {
-                        dosboxArgs += " -label " + selectedGame.CDLabel;
+                        dosboxArgs += $" -label {selectedGame.CDLabel}";
                     }
                     if (addedMountOptions)
                     {
@@ -289,7 +289,7 @@ namespace AmpShell.DOSBox
             //Additional user commands for the game
             if (string.IsNullOrWhiteSpace(selectedGame.AdditionalCommands) == false)
             {
-                dosboxArgs += " " + selectedGame.AdditionalCommands;
+                dosboxArgs += $" {selectedGame.AdditionalCommands}";
             }
 
             return dosboxArgs;
