@@ -507,78 +507,53 @@
             </summary>
         </member>
         <member name="T:AmpShell.Views.MainForm">
-            <summary>
-            MainWindow content.
-            </summary>
-        </member>
-        <member name="F:AmpShell.Views.MainForm.windowContextMenuStrip">
-            <summary>
-            Top-level context menu.
-            </summary>
+            <summary> MainWindow content. </summary>
         </member>
         <member name="F:AmpShell.Views.MainForm.currentListViewContextMenuStrip">
-            <summary>
-            Context Menu for the ListView.
-            </summary>
+            <summary> Context Menu for the ListView. </summary>
         </member>
         <member name="F:AmpShell.Views.MainForm.tabContextMenuStrip">
-            <summary>
-            Context Menu for the TabPages.
-            </summary>
+            <summary> Context Menu for the TabPages. </summary>
+        </member>
+        <member name="F:AmpShell.Views.MainForm.windowContextMenuStrip">
+            <summary> Top-level context menu. </summary>
         </member>
         <member name="M:AmpShell.Views.MainForm.#ctor">
-            <summary>
-            Initializes a new instance of the <see cref="T:AmpShell.Views.MainForm"/> class.
-            </summary>
+            <summary> Initializes a new instance of the <see cref="T:AmpShell.Views.MainForm" /> class. </summary>
         </member>
         <member name="P:AmpShell.Views.MainForm.SelectedListView">
             <summary>
-            Gets the <see cref="T:System.Windows.Forms.ListView"/> instance used mainly to retrieve the current ListView (in tabcontrol.SelectedTab["GamesListView"]).
+            Gets the <see cref="T:System.Windows.Forms.ListView" /> instance used mainly to retrieve the current ListView
+            (in tabcontrol.SelectedTab["GamesListView"]).
             </summary>
         </member>
-        <member name="M:AmpShell.Views.MainForm.DisplayUserData">
-            <summary>
-            Create the TabPages (categories) ListViews, and games inside the ListViews.
-            </summary>
+        <member name="M:AmpShell.Views.MainForm.AboutToolStripMenuItem_Click(System.Object,System.EventArgs)">
+            <summary> EventHandler for the ? -&gt; About button. </summary>
         </member>
-        <member name="M:AmpShell.Views.MainForm.CurrentListView_ItemDrag(System.Object,System.EventArgs)">
-            <summary>
-            EventHandler for when a drag &amp; drop is initiated (drag).
-            </summary>
+        <member name="M:AmpShell.Views.MainForm.AmpShell_FormClosing(System.Object,System.Windows.Forms.FormClosingEventArgs)">
+            <summary> EventHandler for when AmpShell is closed. </summary>
         </member>
-        <member name="M:AmpShell.Views.MainForm.TabControl_DragOver(System.Object,System.Windows.Forms.DragEventArgs)">
-            <summary>
-            EventHandler for when items are dragged over a Tab.
-            </summary>
+        <member name="M:AmpShell.Views.MainForm.AmpShell_LocationChanged(System.Object,System.EventArgs)">
+            <summary> EventHandler for when the window is moved. </summary>
         </member>
-        <member name="M:AmpShell.Views.MainForm.TabControl_DragEnter(System.Object,System.Windows.Forms.DragEventArgs)">
-            <summary>
-            EventHandler for when a drop begins.
-            </summary>
+        <member name="M:AmpShell.Views.MainForm.AmpShell_Resize(System.Object,System.EventArgs)">
+            <summary> EventHandler for when the window is (un)maximized. </summary>
         </member>
-        <member name="M:AmpShell.Views.MainForm.TabControl_DragDrop(System.Object,System.Windows.Forms.DragEventArgs)">
-            <summary>
-            EventHandler for when a drop ends.
-            </summary>
+        <member name="M:AmpShell.Views.MainForm.AmpShell_Resized(System.Object,System.EventArgs)">
+            <summary> EventHandler for when the user has finished resizing the window. </summary>
         </member>
-        <member name="M:AmpShell.Views.MainForm.RedrawWaitTimer_Tick(System.Object,System.EventArgs)">
-            <summary>
-            We use a timer to let the drag &amp; drop finish first (or else it loops forever).
-            </summary>
-        </member>
-        <member name="M:AmpShell.Views.MainForm.GameEditButton_Click(System.Object,System.EventArgs)">
-            <summary>
-            Called when the user wants to edit an existing game.
-            </summary>
-        </member>
-        <member name="M:AmpShell.Views.MainForm.CurrentListView_ItemSelectionChanged(System.Object,System.EventArgs)">
-            <summary>
-            EventHandler for when this.SelectedListView (the current tab's ListView) item selection changes.
-            </summary>
+        <member name="M:AmpShell.Views.MainForm.AmpShell_Shown(System.Object,System.EventArgs)">
+            <summary> EventHandler for when AmpShell is shown (happens after AmpShell_Load). </summary>
         </member>
         <member name="M:AmpShell.Views.MainForm.CategoryAddButton_Click(System.Object,System.EventArgs)">
+            <summary> EventHandler when a Category (a TabPage) is added (created). </summary>
+        </member>
+        <member name="M:AmpShell.Views.MainForm.CategoryDeleteButton_Click(System.Object,System.EventArgs)">
+            <summary> EventHandler for when the Category delete button is clicked. </summary>
+        </member>
+        <member name="M:AmpShell.Views.MainForm.CategoryEditButton_Click(System.Object,System.EventArgs)">
             <summary>
-            EventHandler when a Category (a TabPage) is added (created).
+            EventHandler for when a category is edited (CategoryEditButton has been clicked).
             </summary>
         </member>
         <member name="M:AmpShell.Views.MainForm.CurrentListView_ItemActivate(System.Object,System.EventArgs)">
@@ -586,76 +561,56 @@
             EventHandler for when a game is double-clicked (activated), or activated by the Enter key.
             </summary>
         </member>
+        <member name="M:AmpShell.Views.MainForm.CurrentListView_ItemDrag(System.Object,System.EventArgs)">
+            <summary> EventHandler for when a drag &amp; drop is initiated (drag). </summary>
+        </member>
+        <member name="M:AmpShell.Views.MainForm.CurrentListView_ItemSelectionChanged(System.Object,System.EventArgs)">
+            <summary>
+            EventHandler for when this.SelectedListView (the current tab's ListView) item selection changes.
+            </summary>
+        </member>
         <member name="M:AmpShell.Views.MainForm.CurrentListView_KeyDown(System.Object,System.Windows.Forms.KeyEventArgs)">
             <summary>
             EventHandler for when a key is pressed while this.SelectedListView has focus.
             </summary>
         </member>
-        <member name="M:AmpShell.Views.MainForm.AmpShell_FormClosing(System.Object,System.Windows.Forms.FormClosingEventArgs)">
-            <summary>
-            EventHandler for when AmpShell is closed.
-            </summary>
+        <member name="M:AmpShell.Views.MainForm.DisplayUserData">
+            <summary> Create the TabPages (categories) ListViews, and games inside the ListViews. </summary>
         </member>
-        <member name="M:AmpShell.Views.MainForm.AboutToolStripMenuItem_Click(System.Object,System.EventArgs)">
-            <summary>
-            EventHandler for the ? -> About button.
-            </summary>
+        <member name="M:AmpShell.Views.MainForm.GameAddButton_Click(System.Object,System.EventArgs)">
+            <summary> EventHandler for when the user has clicked on the GameAddButton. </summary>
         </member>
         <member name="M:AmpShell.Views.MainForm.GameDeleteButton_Click(System.Object,System.EventArgs)">
-            <summary>
-            EventHandler for when the delete button game is clicked.
-            </summary>
+            <summary> EventHandler for when the delete button game is clicked. </summary>
         </member>
-        <member name="M:AmpShell.Views.MainForm.CategoryDeleteButton_Click(System.Object,System.EventArgs)">
+        <member name="M:AmpShell.Views.MainForm.GameEditButton_Click(System.Object,System.EventArgs)">
+            <summary> Called when the user wants to edit an existing game. </summary>
+        </member>
+        <member name="M:AmpShell.Views.MainForm.QuitToolStripMenuItem_Click(System.Object,System.EventArgs)">
+            <summary> EventHander for File -&gt; Quit. </summary>
+        </member>
+        <member name="M:AmpShell.Views.MainForm.RedrawWaitTimer_Tick(System.Object,System.EventArgs)">
             <summary>
-            EventHandler for when the Category delete button is clicked.
+            We use a timer to let the drag &amp; drop finish first (or else it loops forever).
             </summary>
         </member>
         <member name="M:AmpShell.Views.MainForm.RunDOSBox_Click(System.Object,System.EventArgs)">
             <summary>
-            EventHandler when the user clicks on Tools -> Run DOSBox
-            which runs DOSBox only with the default .conf (configuration) and .lng (language) files.
-            </summary>
-        </member>
-        <member name="M:AmpShell.Views.MainForm.AmpShell_Shown(System.Object,System.EventArgs)">
-            <summary>
-            EventHandler for when AmpShell is shown (happens after AmpShell_Load).
-            </summary>
-        </member>
-        <member name="M:AmpShell.Views.MainForm.QuitToolStripMenuItem_Click(System.Object,System.EventArgs)">
-            <summary>
-            EventHander for File -> Quit.
-            </summary>
-        </member>
-        <member name="M:AmpShell.Views.MainForm.GameAddButton_Click(System.Object,System.EventArgs)">
-            <summary>
-            EventHandler for when the user has clicked on the GameAddButton.
-            </summary>
-        </member>
-        <member name="M:AmpShell.Views.MainForm.AmpShell_Resized(System.Object,System.EventArgs)">
-            <summary>
-            EventHandler for when the user has finished resizing the window.
-            </summary>
-        </member>
-        <member name="M:AmpShell.Views.MainForm.CategoryEditButton_Click(System.Object,System.EventArgs)">
-            <summary>
-            EventHandler for when a category is edited (CategoryEditButton has been clicked).
+            EventHandler when the user clicks on Tools -&gt; Run DOSBox which runs DOSBox only with
+            the default .conf (configuration) and .lng (language) files.
             </summary>
         </member>
         <member name="M:AmpShell.Views.MainForm.RunGameSetupButton_Click(System.Object,System.EventArgs)">
-            <summary>
-            EventHandler for when the RunGameSetupButton is clicked.
-            </summary>
+            <summary> EventHandler for when the RunGameSetupButton is clicked. </summary>
         </member>
-        <member name="M:AmpShell.Views.MainForm.AmpShell_Resize(System.Object,System.EventArgs)">
-            <summary>
-            EventHandler for when the window is (un)maximized.
-            </summary>
+        <member name="M:AmpShell.Views.MainForm.TabControl_DragDrop(System.Object,System.Windows.Forms.DragEventArgs)">
+            <summary> EventHandler for when a drop ends. </summary>
         </member>
-        <member name="M:AmpShell.Views.MainForm.AmpShell_LocationChanged(System.Object,System.EventArgs)">
-            <summary>
-            EventHandler for when the window is moved.
-            </summary>
+        <member name="M:AmpShell.Views.MainForm.TabControl_DragEnter(System.Object,System.Windows.Forms.DragEventArgs)">
+            <summary> EventHandler for when a drop begins. </summary>
+        </member>
+        <member name="M:AmpShell.Views.MainForm.TabControl_DragOver(System.Object,System.Windows.Forms.DragEventArgs)">
+            <summary> EventHandler for when items are dragged over a Tab. </summary>
         </member>
         <member name="F:AmpShell.Views.MainForm.components">
             <summary>

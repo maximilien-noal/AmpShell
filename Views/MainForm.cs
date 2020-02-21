@@ -24,77 +24,67 @@ namespace AmpShell.Views
     using AmpShell.Views.UserControls;
     using AmpShell.WinShell;
 
-    /// <summary>
-    /// MainWindow content.
-    /// </summary>
+    /// <summary> MainWindow content. </summary>
     public partial class MainForm : Form
     {
         private const string ListViewName = "GamesListView";
 
         private readonly Timer redrawWaitTimer = new Timer();
 
-        private bool ampShellShown;
-
-        private int hoveredTabIndex;
-
-        private List<TabPage> redrawableTabs = new List<TabPage>();
-
-        private ImageList gamesLargeImageList;
-
-        private ImageList gamesSmallImageList;
-
-        private ImageList gamesMediumImageList;
-
-        /// <summary>
-        /// Top-level context menu.
-        /// </summary>
-        private ContextMenuStrip windowContextMenuStrip;
-
-        /// <summary>
-        /// Context Menu for the ListView.
-        /// </summary>
-        private ContextMenuStrip currentListViewContextMenuStrip;
-
-        /// <summary>
-        /// Context Menu for the TabPages.
-        /// </summary>
-        private ContextMenuStrip tabContextMenuStrip;
+        private ToolStripMenuItem addCategoryMenuItem;
 
         private ToolStripMenuItem addCategoryMenuMenuItem;
 
-        private ToolStripMenuItem deleteCategoryMenuMenuItem;
+        private ToolStripMenuItem addGameMenuItem;
 
-        private ToolStripMenuItem editCategoryMenuMenuItem;
+        private bool ampShellShown;
 
-        private ToolStripMenuItem addCategoryMenuItem;
+        /// <summary> Context Menu for the ListView. </summary>
+        private ContextMenuStrip currentListViewContextMenuStrip;
 
         private ToolStripMenuItem deleteCategoryMenuItem;
 
-        private ToolStripMenuItem editCategoryMenuItem;
-
-        private ToolStripMenuItem addGameMenuItem;
+        private ToolStripMenuItem deleteCategoryMenuMenuItem;
 
         private ToolStripMenuItem deleteGameMenuItem;
 
-        private ToolStripMenuItem editGameMenuItem;
+        private ToolStripMenuItem editCategoryMenuItem;
+
+        private ToolStripMenuItem editCategoryMenuMenuItem;
 
         private ToolStripMenuItem editGameConfigurationMenuItem;
 
+        private ToolStripMenuItem editGameMenuItem;
+
+        private ImageList gamesLargeImageList;
+
+        private ImageList gamesMediumImageList;
+
+        private ImageList gamesSmallImageList;
+
+        private int hoveredTabIndex;
+
         private ToolStripMenuItem makeGameConfigurationMenuItem;
+
+        private ToolStripMenuItem menuBarMenuItem;
+
+        private List<TabPage> redrawableTabs = new List<TabPage>();
 
         private ToolStripMenuItem runGameMenuItem;
 
         private ToolStripMenuItem runGameSetupMenuItem;
 
-        private ToolStripMenuItem menuBarMenuItem;
+        private ToolStripMenuItem statusBarMenuItem;
+
+        /// <summary> Context Menu for the TabPages. </summary>
+        private ContextMenuStrip tabContextMenuStrip;
 
         private ToolStripMenuItem toolBarMenuItem;
 
-        private ToolStripMenuItem statusBarMenuItem;
+        /// <summary> Top-level context menu. </summary>
+        private ContextMenuStrip windowContextMenuStrip;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MainForm"/> class.
-        /// </summary>
+        /// <summary> Initializes a new instance of the <see cref="MainForm" /> class. </summary>
         public MainForm()
         {
             this.InitializeComponent();
@@ -102,7 +92,8 @@ namespace AmpShell.Views
         }
 
         /// <summary>
-        /// Gets the <see cref="ListView"/> instance used mainly to retrieve the current ListView (in tabcontrol.SelectedTab["GamesListView"]).
+        /// Gets the <see cref="ListView" /> instance used mainly to retrieve the current ListView
+        /// (in tabcontrol.SelectedTab["GamesListView"]).
         /// </summary>
         private ListView SelectedListView
         {
@@ -116,15 +107,622 @@ namespace AmpShell.Views
             }
         }
 
+        /// <summary> EventHandler for the ? -&gt; About button. </summary>
+        private void AboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var aboutBox = new AboutBox())
+            {
+                aboutBox.ShowDialog(this);
+            }
+        }
+
+        private void AboutToolStripMenuItem_MouseEnter(object sender, EventArgs e)
+        {
+            this.DisplayHelpMessage(this.AboutToolStripMenuItem.ToolTipText);
+        }
+
+        /// <summary> EventHandler for when AmpShell is closed. </summary>
+        private void AmpShell_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            UserDataAccessor.SaveUserSettings();
+        }
+
         private void AmpShell_Load(object sender, EventArgs e)
         {
             UserDataAccessor.LoadUserSettings();
             DOSBoxController.AskForDOSBox();
         }
 
+        /// <summary> EventHandler for when the window is moved. </summary>
+        private void AmpShell_LocationChanged(object sender, EventArgs e)
+        {
+            if (UserDataAccessor.UserData.RememberWindowPosition == true && this.WindowState != FormWindowState.Minimized)
+            {
+                UserDataAccessor.UserData.X = this.Location.X;
+                UserDataAccessor.UserData.Y = this.Location.Y;
+            }
+        }
+
+        /// <summary> EventHandler for when the window is (un)maximized. </summary>
+        private void AmpShell_Resize(object sender, EventArgs e)
+        {
+            if (this.ampShellShown == true)
+            {
+                if (this.WindowState == FormWindowState.Maximized)
+                {
+                    UserDataAccessor.UserData.Fullscreen = true;
+                }
+                else
+                {
+                    UserDataAccessor.UserData.Fullscreen = false;
+                }
+            }
+        }
+
+        /// <summary> EventHandler for when the user has finished resizing the window. </summary>
+        private void AmpShell_Resized(object sender, EventArgs e)
+        {
+            //change the data about the Window's dimensions (restored on next session).
+            if (UserDataAccessor.UserData.RememberWindowSize == true)
+            {
+                UserDataAccessor.UserData.Height = this.Height;
+                UserDataAccessor.UserData.Width = this.Width;
+            }
+        }
+
+        /// <summary> EventHandler for when AmpShell is shown (happens after AmpShell_Load). </summary>
+        private void AmpShell_Shown(object sender, EventArgs e)
+        {
+            this.ampShellShown = true;
+            _ = Task.Factory.StartNew(
+                () =>
+            {
+                this.CreateAndPopulateContextMenus();
+                this.Invoke(new Action(delegate
+                {
+                    this.DisplayUserData();
+                    this.redrawableTabs = this.TabControl.TabPages.Cast<TabPage>().Where(x => ((ListView)x.Controls[ListViewName]).Items.Count == 0).ToList();
+
+                    //select the first TabPage of tabcontrol
+                    if (this.TabControl.HasChildren)
+                    {
+                        //select the first TabPage
+                        this.TabControl.SelectedTab = this.TabControl.TabPages[0];
+                        this.CategoryEditButton.Enabled = true;
+                        this.EditSelectedcategoryToolStripMenuItem.Enabled = true;
+                        this.editCategoryMenuMenuItem.Enabled = true;
+                        this.deleteCategoryMenuMenuItem.Enabled = true;
+                        this.CategoryDeleteButton.Enabled = true;
+                        this.DeleteSelectedCategoryToolStripMenuItem.Enabled = true;
+                    }
+
+                    //if tabcontrol has no children, then it has no TabPages (categories)
+                    //so we prompt the user for the title of the first category.
+                    else
+                    {
+                        this.CategoryAddButton_Click(sender, e);
+                    }
+                }));
+            }, System.Threading.CancellationToken.None,
+                TaskCreationOptions.None,
+                TaskScheduler.Default);
+        }
+
+        /// <summary> EventHandler when a Category (a TabPage) is added (created). </summary>
+        private void CategoryAddButton_Click(object sender, EventArgs e)
+        {
+            using (var newCategoryForm = new CategoryForm())
+            {
+                if (newCategoryForm.ShowDialog(this) == DialogResult.OK)
+                {
+                    this.RedrawAllUserData();
+                }
+            }
+        }
+
+        private void CategoryAddButton_MouseEnter(object sender, EventArgs e)
+        {
+            this.DisplayHelpMessage(this.CategoryAddButton.ToolTipText);
+        }
+
+        /// <summary> EventHandler for when the Category delete button is clicked. </summary>
+        private void CategoryDeleteButton_Click(object sender, EventArgs e)
+        {
+            Category selectedCategory = this.GetSelectedCategory();
+            if (UserDataAccessor.UserData.CategoryDeletePrompt != true ||
+                MessageBox.Show(
+                    this,
+                    $"Do you really want to delete '{selectedCategory.Title}' and all the games inside it ?",
+                    this.deleteCategoryMenuMenuItem.Text,
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                UserDataAccessor.UserData.RemoveChild(selectedCategory);
+                this.TabControl.TabPages.Remove(this.TabControl.SelectedTab);
+            }
+            this.UpdateButtonsState();
+        }
+
+        private void CategoryDeleteButton_MouseEnter(object sender, EventArgs e)
+        {
+            this.DisplayHelpMessage(this.CategoryDeleteButton.ToolTipText);
+        }
+
         /// <summary>
-        /// Create the TabPages (categories) ListViews, and games inside the ListViews.
+        /// EventHandler for when a category is edited (CategoryEditButton has been clicked).
         /// </summary>
+        private void CategoryEditButton_Click(object sender, EventArgs e)
+        {
+            using (var catEditForm = new CategoryForm((string)this.TabControl.SelectedTab.Tag))
+            {
+                if (catEditForm.ShowDialog(this) == DialogResult.OK)
+                {
+                    this.TabControl.SelectedTab.Text = catEditForm.ViewModel.Name;
+                }
+            }
+        }
+
+        private void CategoryEditButton_MouseEnter(object sender, EventArgs e)
+        {
+            this.DisplayHelpMessage(this.CategoryEditButton.ToolTipText);
+        }
+
+        private void ChangeTabDisplayMode(View mode)
+        {
+            var selectedIndex = this.TabControl.SelectedIndex;
+            this.GetSelectedCategory().ViewMode = mode;
+            this.RedrawAllUserData();
+            this.TabControl.SelectedIndex = selectedIndex;
+        }
+
+        private void CreateAndPopulateContextMenus()
+        {
+            this.addCategoryMenuMenuItem = new ToolStripMenuItem();
+            this.deleteCategoryMenuMenuItem = new ToolStripMenuItem();
+            this.editCategoryMenuMenuItem = new ToolStripMenuItem();
+            this.addCategoryMenuItem = new ToolStripMenuItem();
+            this.deleteCategoryMenuItem = new ToolStripMenuItem();
+            this.editCategoryMenuItem = new ToolStripMenuItem();
+            this.addGameMenuItem = new ToolStripMenuItem();
+            this.deleteGameMenuItem = new ToolStripMenuItem();
+            this.editGameMenuItem = new ToolStripMenuItem();
+            this.editGameConfigurationMenuItem = new ToolStripMenuItem();
+            this.makeGameConfigurationMenuItem = new ToolStripMenuItem();
+            this.runGameMenuItem = new ToolStripMenuItem();
+            this.runGameSetupMenuItem = new ToolStripMenuItem();
+            this.menuBarMenuItem = new ToolStripMenuItem("Menu bar");
+            this.toolBarMenuItem = new ToolStripMenuItem("Tool bar");
+            this.statusBarMenuItem = new ToolStripMenuItem("Details bar");
+            this.menuBarMenuItem.Click += new EventHandler(this.MenuBar_ContextMenu_Click);
+            this.toolBarMenuItem.Click += new EventHandler(this.ToolBar_ContextMenu_Click);
+            this.statusBarMenuItem.Click += new EventHandler(this.StatusBar_ContextMenu_Click);
+            this.windowContextMenuStrip = new ContextMenuStrip();
+            this.windowContextMenuStrip.Items.Add(this.menuBarMenuItem);
+            this.windowContextMenuStrip.Items.Add(this.toolBarMenuItem);
+            this.windowContextMenuStrip.Items.Add(this.statusBarMenuItem);
+            this.ContextMenuStrip = this.windowContextMenuStrip;
+            this.TabControl.AllowDrop = true;
+
+            //adding text, images, and EventHandlers to the context pop-up menu
+            this.addGameMenuItem.Image = this.GameAddButton.Image;
+            this.addGameMenuItem.Text = this.GameAddButton.Text;
+            this.addGameMenuItem.Click += new EventHandler(this.GameAddButton_Click);
+            this.addGameMenuItem.MouseEnter += new EventHandler(this.GameAddButton_MouseEnter);
+            this.addGameMenuItem.MouseLeave += new EventHandler(this.CurrentListView_ItemSelectionChanged);
+            this.currentListViewContextMenuStrip = new ContextMenuStrip();
+            this.currentListViewContextMenuStrip.Items.Add(this.addGameMenuItem);
+            this.runGameMenuItem.Image = this.RunGameButton.Image;
+            this.runGameMenuItem.Text = this.RunGameButton.Text;
+            this.runGameMenuItem.Click += new EventHandler(this.CurrentListView_ItemActivate);
+            this.runGameMenuItem.MouseLeave += new EventHandler(this.CurrentListView_ItemSelectionChanged);
+            this.runGameMenuItem.MouseEnter += new EventHandler(this.RunGameButton_MouseEnter);
+
+            //Only Enabled when a game is selected
+            this.runGameMenuItem.Enabled = false;
+            this.currentListViewContextMenuStrip.Items.Add(this.runGameMenuItem);
+            this.runGameSetupMenuItem.Image = this.RunGameSetupButton.Image;
+            this.runGameSetupMenuItem.Text = this.RunGameSetupButton.Text;
+            this.runGameSetupMenuItem.Click += new EventHandler(this.RunGameSetupButton_Click);
+            this.runGameSetupMenuItem.MouseLeave += new EventHandler(this.CurrentListView_ItemSelectionChanged);
+            this.runGameSetupMenuItem.MouseEnter += new EventHandler(this.RunGameSetupButton_MouseEnter);
+
+            //Only Enabled when a game is selected
+            this.runGameSetupMenuItem.Enabled = false;
+            this.currentListViewContextMenuStrip.Items.Add(this.runGameSetupMenuItem);
+            this.deleteGameMenuItem.Image = this.GameDeleteButton.Image;
+            this.deleteGameMenuItem.Text = this.GameDeleteButton.Text;
+            this.deleteGameMenuItem.Click += new EventHandler(this.GameDeleteButton_Click);
+            this.deleteGameMenuItem.MouseLeave += new EventHandler(this.CurrentListView_ItemSelectionChanged);
+            this.deleteGameMenuItem.MouseEnter += new EventHandler(this.GameDeleteButton_MouseEnter);
+
+            //Only Enabled when a game is selected
+            this.deleteGameMenuItem.Enabled = false;
+            this.currentListViewContextMenuStrip.Items.Add(this.deleteGameMenuItem);
+            this.editGameMenuItem.Image = this.GameEditButton.Image;
+            this.editGameMenuItem.Text = this.GameEditButton.Text;
+            this.editGameMenuItem.Click += new EventHandler(this.GameEditButton_Click);
+            this.editGameMenuItem.MouseLeave += new EventHandler(this.CurrentListView_ItemSelectionChanged);
+            this.editGameMenuItem.MouseEnter += new EventHandler(this.GameEditButton_MouseEnter);
+
+            //Only Enabled when a game is selected
+            this.editGameMenuItem.Enabled = false;
+            this.currentListViewContextMenuStrip.Items.Add(this.editGameMenuItem);
+            this.editGameConfigurationMenuItem.Image = this.GameEditConfigurationButton.Image;
+            this.editGameConfigurationMenuItem.Text = this.GameEditConfigurationButton.Text;
+            this.editGameConfigurationMenuItem.Click += new EventHandler(this.GameEditConfigurationButton_Click);
+            this.editGameConfigurationMenuItem.MouseLeave += new EventHandler(this.CurrentListView_ItemSelectionChanged);
+            this.editGameConfigurationMenuItem.MouseEnter += new EventHandler(this.GameEditConfigurationButton_MouseEnter);
+
+            //Only Enabled when a game is selected
+            this.editGameConfigurationMenuItem.Enabled = false;
+            this.currentListViewContextMenuStrip.Items.Add(this.editGameConfigurationMenuItem);
+            this.makeGameConfigurationMenuItem.Image = this.MakeConfigButton.Image;
+            this.makeGameConfigurationMenuItem.Text = this.MakeConfigButton.Text;
+            this.makeGameConfigurationMenuItem.Click += new EventHandler(this.MakeConfigButton_Click);
+            this.makeGameConfigurationMenuItem.MouseLeave += new EventHandler(this.CurrentListView_ItemSelectionChanged);
+            this.makeGameConfigurationMenuItem.MouseEnter += new EventHandler(this.MakeConfigurationFileToolStripMenuItem_MouseEnter);
+
+            //Only Enabled when a game is selected
+            this.makeGameConfigurationMenuItem.Enabled = false;
+            this.currentListViewContextMenuStrip.Items.Add(this.makeGameConfigurationMenuItem);
+            ToolStripSeparator ltview_ContextMenuStripSeparator = new ToolStripSeparator();
+            this.currentListViewContextMenuStrip.Items.Add(ltview_ContextMenuStripSeparator);
+
+            //The Categories are the tabs inside the this.TabControl. Each tab has only one ListView.
+            this.addCategoryMenuMenuItem.Image = this.CategoryAddButton.Image;
+            this.addCategoryMenuMenuItem.Text = this.CategoryAddButton.Text;
+            this.addCategoryMenuMenuItem.Click += new EventHandler(this.CategoryAddButton_Click);
+            this.addCategoryMenuMenuItem.MouseLeave += new EventHandler(this.CurrentListView_ItemSelectionChanged);
+            this.addCategoryMenuMenuItem.MouseEnter += new EventHandler(this.CategoryAddButton_MouseEnter);
+            this.addCategoryMenuItem.Image = this.CategoryAddButton.Image;
+            this.addCategoryMenuItem.Text = this.CategoryAddButton.Text;
+            this.addCategoryMenuItem.Click += new EventHandler(this.CategoryAddButton_Click);
+            this.addCategoryMenuItem.MouseLeave += new EventHandler(this.CurrentListView_ItemSelectionChanged);
+            this.addCategoryMenuItem.MouseEnter += new EventHandler(this.CategoryAddButton_MouseEnter);
+            this.currentListViewContextMenuStrip.Items.Add(this.addCategoryMenuMenuItem);
+            this.tabContextMenuStrip = new ContextMenuStrip();
+            this.tabContextMenuStrip.Items.Add(this.addCategoryMenuItem);
+            this.editCategoryMenuMenuItem.Image = this.CategoryEditButton.Image;
+            this.editCategoryMenuMenuItem.Text = this.CategoryEditButton.Text;
+            this.editCategoryMenuMenuItem.Click += new EventHandler(this.CategoryEditButton_Click);
+            this.editCategoryMenuMenuItem.MouseLeave += new EventHandler(this.CurrentListView_ItemSelectionChanged);
+            this.editCategoryMenuMenuItem.MouseEnter += new EventHandler(this.CategoryEditButton_MouseEnter);
+            this.editCategoryMenuItem.Image = this.CategoryEditButton.Image;
+            this.editCategoryMenuItem.Text = this.CategoryEditButton.Text;
+            this.editCategoryMenuItem.Click += new EventHandler(this.CategoryEditButton_Click);
+            this.editCategoryMenuItem.MouseLeave += new EventHandler(this.CurrentListView_ItemSelectionChanged);
+            this.editCategoryMenuItem.MouseEnter += new EventHandler(this.CategoryEditButton_MouseEnter);
+            this.currentListViewContextMenuStrip.Items.Add(this.editCategoryMenuMenuItem);
+            this.tabContextMenuStrip.Items.Add(this.editCategoryMenuItem);
+            this.deleteCategoryMenuMenuItem.Image = this.CategoryDeleteButton.Image;
+            this.deleteCategoryMenuMenuItem.Text = this.CategoryDeleteButton.Text;
+            this.deleteCategoryMenuMenuItem.Click += new EventHandler(this.CategoryDeleteButton_Click);
+            this.deleteCategoryMenuMenuItem.MouseLeave += new EventHandler(this.CurrentListView_ItemSelectionChanged);
+            this.deleteCategoryMenuMenuItem.MouseEnter += new EventHandler(this.CategoryDeleteButton_MouseEnter);
+            this.deleteCategoryMenuItem.Image = this.CategoryDeleteButton.Image;
+            this.deleteCategoryMenuItem.Text = this.CategoryDeleteButton.Text;
+            this.deleteCategoryMenuItem.Click += new EventHandler(this.CategoryDeleteButton_Click);
+            this.deleteCategoryMenuItem.MouseLeave += new EventHandler(this.CurrentListView_ItemSelectionChanged);
+            this.deleteCategoryMenuItem.MouseEnter += new EventHandler(this.CategoryDeleteButton_MouseEnter);
+            this.currentListViewContextMenuStrip.Items.Add(this.deleteCategoryMenuMenuItem);
+            this.tabContextMenuStrip.Items.Add(this.deleteCategoryMenuItem);
+            this.TabControl.ContextMenuStrip = this.tabContextMenuStrip;
+        }
+
+        private void CurrentListView_ColumnWidthChanged(object sender, EventArgs e)
+        {
+            var category = this.GetSelectedCategory();
+            if (category.ViewMode != View.Details || this.SelectedListView.Columns.Count == 0)
+            {
+                return;
+            }
+            category.NameColumnWidth = this.SelectedListView.Columns["NameColumn"].Width;
+            category.ReleaseDateColumnWidth = this.SelectedListView.Columns["ReleaseDateColumn"].Width;
+            category.ExecutableColumnWidth = this.SelectedListView.Columns["ExecutableColumn"].Width;
+            category.CMountColumnWidth = this.SelectedListView.Columns["CMountColumn"].Width;
+            category.SetupExecutableColumnWidth = this.SelectedListView.Columns["SetupExecutableColumn"].Width;
+            category.CustomConfigurationColumnWidth = this.SelectedListView.Columns["CustomConfigurationColumn"].Width;
+            category.DMountColumnWidth = this.SelectedListView.Columns["DMountColumn"].Width;
+            category.MountingOptionsColumnWidth = this.SelectedListView.Columns["MountingOptionsColumn"].Width;
+            category.AdditionnalCommandsColumnWidth = this.SelectedListView.Columns["AdditionalCommandsColumn"].Width;
+            category.NoConsoleColumnWidth = this.SelectedListView.Columns["NoConsoleColumn"].Width;
+            category.FullscreenColumnWidth = this.SelectedListView.Columns["FullscreenColumn"].Width;
+            category.QuitOnExitColumnWidth = this.SelectedListView.Columns["QuitOnExitColumn"].Width;
+        }
+
+        private void CurrentListView_DragDrop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                this.GameAddButton_Click(this, e);
+            }
+        }
+
+        private void CurrentListView_DragOver(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                e.Effect = DragDropEffects.Copy;
+            }
+            else
+            {
+                e.Effect = DragDropEffects.None;
+            }
+        }
+
+        /// <summary>
+        /// EventHandler for when a game is double-clicked (activated), or activated by the Enter key.
+        /// </summary>
+        private void CurrentListView_ItemActivate(object sender, EventArgs e)
+        {
+            this.StartDOSBox(this.GetDOSBoxPath(), this.GetSelectedGame(), false, UserDataAccessor.UserData.DBDefaultConfFilePath, UserDataAccessor.UserData.DBDefaultLangFilePath);
+        }
+
+        /// <summary> EventHandler for when a drag &amp; drop is initiated (drag). </summary>
+        private void CurrentListView_ItemDrag(object sender, EventArgs e)
+        {
+            if (this.SelectedListView.FocusedItem != null)
+            {
+                this.SelectedListView.DoDragDrop(this.SelectedListView.FocusedItem.Text, DragDropEffects.Move);
+            }
+        }
+
+        /// <summary>
+        /// EventHandler for when this.SelectedListView (the current tab's ListView) item selection changes.
+        /// </summary>
+        private void CurrentListView_ItemSelectionChanged(object sender, EventArgs e)
+        {
+            this.AdditionalCommandsLabel.Text = string.Empty;
+            this.ExecutablePathLabel.Text = string.Empty;
+            this.CMountLabel.Text = string.Empty;
+            this.SetupPathLabel.Text = string.Empty;
+            this.DMountLabel.Text = string.Empty;
+            this.CustomConfigurationLabel.Text = string.Empty;
+            this.QuitOnExitLabel.Text = string.Empty;
+            this.FullscreenLabel.Text = string.Empty;
+            this.NoConsoleLabel.Text = string.Empty;
+
+            //several games can be selected at once, but it is only meant for drag&drop between categories
+            //Besides, running more than one game (one DOSBox instance) at once can be CPU intensive...
+            //if 1 game has been selected
+            if (this.SelectedListView.SelectedItems.Count == 1)
+            {
+                this.deleteGameMenuItem.Enabled = true;
+                this.DeleteSelectedGameToolStripMenuItem.Enabled = true;
+                this.GameDeleteButton.Enabled = true;
+                this.editGameMenuItem.Enabled = true;
+                this.EditSelectedgameToolStripMenuItem.Enabled = true;
+                this.GameEditButton.Enabled = true;
+                this.MakeConfigButton.Enabled = true;
+                this.MakeConfigurationFileToolStripMenuItem.Enabled = true;
+                this.makeGameConfigurationMenuItem.Enabled = true;
+                this.RunGameToolStripMenuItem.Enabled = true;
+                this.runGameMenuItem.Enabled = true;
+                this.RunGameButton.Enabled = true;
+                Game selectedGame = this.GetSelectedGame();
+
+                //if the selected game has a setup executable
+                if (string.IsNullOrWhiteSpace(selectedGame.SetupEXEPath) == false)
+                {
+                    this.RunGameSetupToolStripMenuItem.Enabled = true;
+                    this.runGameSetupMenuItem.Enabled = true;
+                    this.RunGameSetupButton.Enabled = true;
+                    this.SetupPathLabel.Text = "Setup : " + selectedGame.SetupEXEPath;
+                }
+                else
+                {
+                    this.RunGameSetupToolStripMenuItem.Enabled = false;
+                    this.runGameSetupMenuItem.Enabled = false;
+                    this.RunGameSetupButton.Enabled = false;
+                    this.SetupPathLabel.Text = "Setup : none";
+                }
+                if (string.IsNullOrWhiteSpace(selectedGame.DOSEXEPath) == false)
+                {
+                    this.ExecutablePathLabel.Text = "Executable : " + selectedGame.DOSEXEPath;
+                }
+                else
+                {
+                    this.ExecutablePathLabel.Text = "Executable : none";
+                }
+
+                if (string.IsNullOrWhiteSpace(selectedGame.Directory) == false)
+                {
+                    this.CMountLabel.Text = "'C:' mount : " + selectedGame.Directory;
+                }
+                else
+                {
+                    this.CMountLabel.Text = "'C:' mount : none";
+                }
+
+                if (selectedGame.NoConfig == false)
+                {
+                    if (string.IsNullOrWhiteSpace(selectedGame.DBConfPath) == false)
+                    {
+                        this.CustomConfigurationLabel.Text = "Configuration : " + selectedGame.DBConfPath;
+                        this.editGameConfigurationMenuItem.Enabled = true;
+                        this.GameEditConfigurationButton.Enabled = true;
+                        this.EditConfigToolStripMenuItem.Enabled = true;
+                    }
+                    else if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBDefaultConfFilePath) == false)
+                    {
+                        this.CustomConfigurationLabel.Text = "Configuration : default";
+                        this.editGameConfigurationMenuItem.Enabled = false;
+                        this.GameEditConfigurationButton.Enabled = false;
+                        this.EditConfigToolStripMenuItem.Enabled = false;
+                    }
+                    else
+                    {
+                        this.CustomConfigurationLabel.Text = "Configuration : none at all";
+                        this.editGameConfigurationMenuItem.Enabled = false;
+                        this.GameEditConfigurationButton.Enabled = false;
+                        this.EditConfigToolStripMenuItem.Enabled = false;
+                    }
+                }
+                else
+                {
+                    this.CustomConfigurationLabel.Text = "Configuration : none at all";
+                    this.editGameConfigurationMenuItem.Enabled = false;
+                    this.GameEditConfigurationButton.Enabled = false;
+                    this.EditConfigToolStripMenuItem.Enabled = false;
+                }
+                if (string.IsNullOrWhiteSpace(selectedGame.CDPath) == false)
+                {
+                    if (selectedGame.MountAsFloppy == false)
+                    {
+                        this.DMountLabel.Text = "'D:' mount :" + selectedGame.CDPath;
+                        if (selectedGame.UseIOCTL)
+                        {
+                            this.DMountLabel.Text += " (IOCTL in use)";
+                        }
+                    }
+                    else
+                    {
+                        this.DMountLabel.Text = "'A:' mount :" + selectedGame.CDPath;
+                    }
+                }
+                else
+                {
+                    if (selectedGame.MountAsFloppy == false)
+                    {
+                        this.DMountLabel.Text = "'D:' mount : none";
+                    }
+
+                    if (selectedGame.MountAsFloppy)
+                    {
+                        this.DMountLabel.Text = "'A:' mount : none.";
+                    }
+                }
+                if (selectedGame.NoConsole == true)
+                {
+                    this.NoConsoleLabel.Text = "No console : yes";
+                }
+                else
+                {
+                    this.NoConsoleLabel.Text = "No console : no";
+                }
+
+                if (selectedGame.InFullScreen == true)
+                {
+                    this.FullscreenLabel.Text = "Fullscreen : yes";
+                }
+                else
+                {
+                    this.FullscreenLabel.Text = "Fullscreen : no";
+                }
+
+                if (selectedGame.QuitOnExit == true)
+                {
+                    this.QuitOnExitLabel.Text = "Quit on exit : yes";
+                }
+                else
+                {
+                    this.QuitOnExitLabel.Text = "Quit on exit : no";
+                }
+
+                if (string.IsNullOrWhiteSpace(selectedGame.AdditionalCommands) == false)
+                {
+                    this.AdditionalCommandsLabel.Text = "Additional commands : " + selectedGame.AdditionalCommands;
+                }
+                else
+                {
+                    this.AdditionalCommandsLabel.Text = "Additional commands : none";
+                }
+            }
+
+            //if more than one game have been selected
+            else if (this.SelectedListView.SelectedItems.Count > 1)
+            {
+                //make all the game buttons disabled (except the ones for deleting games)
+                this.editGameMenuItem.Enabled = false;
+                this.EditSelectedgameToolStripMenuItem.Enabled = false;
+                this.GameEditButton.Enabled = false;
+                this.RunGameToolStripMenuItem.Enabled = false;
+                this.RunGameSetupButton.Enabled = false;
+                this.RunGameSetupToolStripMenuItem.Enabled = false;
+                this.runGameSetupMenuItem.Enabled = false;
+                this.runGameMenuItem.Enabled = false;
+                this.RunGameButton.Enabled = false;
+                this.editGameConfigurationMenuItem.Enabled = false;
+                this.GameEditConfigurationButton.Enabled = false;
+                this.EditConfigToolStripMenuItem.Enabled = false;
+                this.MakeConfigButton.Enabled = true;
+                this.MakeConfigurationFileToolStripMenuItem.Enabled = true;
+                this.makeGameConfigurationMenuItem.Enabled = true;
+            }
+
+            //if no game has been selected
+            else if (this.SelectedListView.SelectedItems.Count == 0)
+            {
+                this.deleteGameMenuItem.Enabled = false;
+                this.DeleteSelectedGameToolStripMenuItem.Enabled = false;
+                this.GameDeleteButton.Enabled = false;
+                this.editGameMenuItem.Enabled = false;
+                this.EditSelectedgameToolStripMenuItem.Enabled = false;
+                this.GameEditButton.Enabled = false;
+                this.RunGameToolStripMenuItem.Enabled = false;
+                this.RunGameSetupButton.Enabled = false;
+                this.RunGameSetupToolStripMenuItem.Enabled = false;
+                this.runGameSetupMenuItem.Enabled = false;
+                this.runGameMenuItem.Enabled = false;
+                this.RunGameButton.Enabled = false;
+                this.editGameConfigurationMenuItem.Enabled = false;
+                this.GameEditConfigurationButton.Enabled = false;
+                this.EditConfigToolStripMenuItem.Enabled = false;
+                this.MakeConfigButton.Enabled = false;
+                this.MakeConfigurationFileToolStripMenuItem.Enabled = false;
+                this.makeGameConfigurationMenuItem.Enabled = false;
+            }
+        }
+
+        /// <summary>
+        /// EventHandler for when a key is pressed while this.SelectedListView has focus.
+        /// </summary>
+        private void CurrentListView_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode != Keys.Delete)
+            {
+                return;
+            }
+            while (this.SelectedListView.SelectedItems.Count > 0)
+            {
+                var selectedItem = this.SelectedListView.SelectedItems[0];
+                var correspondingGame = UserDataAccessor.GetGameWithSignature((string)selectedItem.Tag);
+                if (MessageBox.Show(this, $"Do you really want to delete this game : {correspondingGame.Name} ?", this.GameDeleteButton.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    if (correspondingGame != null)
+                    {
+                        this.GetSelectedCategory().RemoveChild(correspondingGame);
+                    }
+                    this.SelectedListView.Items.Remove(selectedItem);
+                }
+            }
+        }
+
+        private void DetailsViewButton_Click(object sender, EventArgs e)
+        {
+            this.ChangeTabDisplayMode(View.Details);
+        }
+
+        private void DetailsViewButton_MouseEnter(object sender, EventArgs e)
+        {
+            this.DisplayHelpMessage(this.DetailsViewButton.ToolTipText);
+        }
+
+        private void DisplayHelpMessage(string toolTipText)
+        {
+            this.AdditionalCommandsLabel.Text = string.Empty;
+            this.ExecutablePathLabel.Text = string.Empty;
+            this.CMountLabel.Text = string.Empty;
+            this.DMountLabel.Text = string.Empty;
+            this.CustomConfigurationLabel.Text = string.Empty;
+            this.QuitOnExitLabel.Text = string.Empty;
+            this.FullscreenLabel.Text = string.Empty;
+            this.NoConsoleLabel.Text = string.Empty;
+            this.SetupPathLabel.Text = string.Empty;
+            this.ExecutablePathLabel.Text = toolTipText;
+        }
+
+        /// <summary> Create the TabPages (categories) ListViews, and games inside the ListViews. </summary>
         private void DisplayUserData()
         {
             var userData = UserDataAccessor.UserData;
@@ -352,706 +950,34 @@ namespace AmpShell.Views
             }
         }
 
-        private void CurrentListView_DragDrop(object sender, DragEventArgs e)
+        private void EditDefaultConfigurationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBDefaultConfFilePath) == false && File.Exists(UserDataAccessor.UserData.DBDefaultConfFilePath) && string.IsNullOrWhiteSpace(UserDataAccessor.UserData.ConfigEditorPath) == false && UserDataAccessor.UserData.ConfigEditorPath != "No text editor (Notepad in Windows' directory, or TextEditor.exe in AmpShell's directory) found." && File.Exists(UserDataAccessor.UserData.ConfigEditorPath))
             {
-                this.GameAddButton_Click(this, e);
-            }
-        }
-
-        private void CurrentListView_DragOver(object sender, DragEventArgs e)
-        {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
-            {
-                e.Effect = DragDropEffects.Copy;
+                System.Diagnostics.Process.Start(UserDataAccessor.UserData.ConfigEditorPath, UserDataAccessor.UserData.DBDefaultConfFilePath);
             }
             else
             {
-                e.Effect = DragDropEffects.None;
+                MessageBox.Show("Default configuration or configuration editor missing. Please set them in the preferences.");
             }
         }
 
-        /// <summary>
-        /// EventHandler for when a drag &amp; drop is initiated (drag).
-        /// </summary>
-        private void CurrentListView_ItemDrag(object sender, EventArgs e)
+        private void EditDefaultConfigurationToolStripMenuItem_MouseEnter(object sender, EventArgs e)
         {
-            if (this.SelectedListView.FocusedItem != null)
-            {
-                this.SelectedListView.DoDragDrop(this.SelectedListView.FocusedItem.Text, DragDropEffects.Move);
-            }
+            this.DisplayHelpMessage(this.EditDefaultConfigurationToolStripMenuItem.ToolTipText);
         }
 
-        /// <summary>
-        /// EventHandler for when items are dragged over a Tab.
-        /// </summary>
-        private void TabControl_DragOver(object sender, DragEventArgs e)
+        private void EditToolStripMenuItem_MouseEnter(object sender, EventArgs e)
         {
-            Point pos = this.TabControl.PointToClient(MousePosition);
-            for (int ix = 0; ix < this.TabControl.TabCount; ix++)
-            {
-                if (this.TabControl.GetTabRect(ix).Contains(pos))
-                {
-                    this.hoveredTabIndex = ix;
-                    break;
-                }
-            }
+            this.DisplayHelpMessage(this.EditToolStripMenuItem.ToolTipText);
         }
 
-        /// <summary>
-        /// EventHandler for when a drop begins.
-        /// </summary>
-        private void TabControl_DragEnter(object sender, DragEventArgs e)
+        private void FileToolStripMenuItem_MouseEnter(object sender, EventArgs e)
         {
-            if (e.Data.GetDataPresent(DataFormats.UnicodeText))
-            {
-                e.Effect = DragDropEffects.Move;
-            }
-            else
-            {
-                e.Effect = DragDropEffects.None;
-            }
+            this.DisplayHelpMessage(this.FileToolStripMenuItem.ToolTipText);
         }
 
-        /// <summary>
-        /// EventHandler for when a drop ends.
-        /// </summary>
-        private void TabControl_DragDrop(object sender, DragEventArgs e)
-        {
-            foreach (ListViewItem itemToMove in this.SelectedListView.SelectedItems)
-            {
-                this.SelectedListView.Items.Remove(itemToMove);
-                var droppedGame = UserDataAccessor.UserData.ListChildren.Cast<Category>().Select(x => x.ListChildren.Cast<Game>()).SelectMany(x => x).FirstOrDefault(x => x.Signature == (string)itemToMove.Tag);
-                this.GetSelectedCategory().RemoveChild(droppedGame);
-                this.TabControl.SelectTab(this.hoveredTabIndex);
-                this.SelectedListView.Items.Add((ListViewItem)itemToMove.Clone());
-                this.GetSelectedCategory(this.hoveredTabIndex).AddChild(droppedGame);
-            }
-
-            //Avoid yet again a nasty UI bug where the very first item in a TabPage has no icon.
-            if (this.SelectedListView.Items.Count == 1)
-            {
-                this.redrawWaitTimer.Interval = 1;
-                this.redrawWaitTimer.Tick += this.RedrawWaitTimer_Tick;
-                this.redrawWaitTimer.Enabled = true;
-                this.redrawWaitTimer.Tag = this.TabControl.TabPages[this.hoveredTabIndex];
-            }
-        }
-
-        /// <summary>
-        /// We use a timer to let the drag &amp; drop finish first (or else it loops forever).
-        /// </summary>
-        private void RedrawWaitTimer_Tick(object sender, EventArgs e)
-        {
-            this.redrawWaitTimer.Enabled = false;
-            if (this.redrawableTabs.Count == 0)
-            {
-                return;
-            }
-
-            //we need to redraw only when needed, as the drag&drop operation loops a few times otherwise
-            if (this.redrawableTabs.Contains((TabPage)this.redrawWaitTimer.Tag))
-            {
-                this.redrawableTabs.Remove((TabPage)this.redrawWaitTimer.Tag);
-            }
-            else
-            {
-                return;
-            }
-            this.TabControl.AllowDrop = false;
-            this.RedrawAllUserData();
-            this.TabControl.AllowDrop = true;
-        }
-
-        private Game GetSelectedGame()
-        {
-            if (this.SelectedListView.FocusedItem == null)
-            {
-                return new Game();
-            }
-            var selectedGame = UserDataAccessor.GetGameWithSignature((string)this.SelectedListView.FocusedItem.Tag);
-            if (selectedGame == null)
-            {
-                return new Game();
-            }
-            return selectedGame;
-        }
-
-        private Category GetSelectedCategory()
-        {
-            if (this.TabControl.SelectedTab == null)
-            {
-                return new Category();
-            }
-            var selectedCategory = UserDataAccessor.GetCategoryWithSignature((string)this.TabControl.SelectedTab.Tag);
-            if (selectedCategory == null)
-            {
-                return new Category();
-            }
-            return selectedCategory;
-        }
-
-        private Category GetSelectedCategory(int hoveredTabIndex)
-        {
-            var selectedCategory = UserDataAccessor.GetCategoryWithSignature((string)this.TabControl.TabPages[hoveredTabIndex].Tag);
-            if (selectedCategory == null)
-            {
-                return new Category();
-            }
-            return selectedCategory;
-        }
-
-        /// <summary>
-        /// Called when the user wants to edit an existing game.
-        /// </summary>
-        private void GameEditButton_Click(object sender, EventArgs e)
-        {
-            Game selectedGame = this.GetSelectedGame();
-            using (var gameEditForm = new GameForm(selectedGame))
-            {
-                if (gameEditForm.ShowDialog(this) == DialogResult.OK)
-                {
-                    this.RedrawAllUserData();
-                }
-            }
-        }
-
-        private void RedrawAllUserData()
-        {
-            Game selectedGame = this.GetSelectedGame();
-            Category selectedCategory = this.GetSelectedCategory();
-            this.DisplayUserData();
-            this.SelectCategory(selectedCategory.Signature);
-            this.SelectedListView.FocusedItem = this.SelectedListView.Items.Cast<ListViewItem>().FirstOrDefault(x => (string)x.Tag == selectedGame.Signature);
-            this.SelectedListView.FocusedItem.Selected = true;
-        }
-
-        /// <summary>
-        /// EventHandler for when this.SelectedListView (the current tab's ListView) item selection changes.
-        /// </summary>
-        private void CurrentListView_ItemSelectionChanged(object sender, EventArgs e)
-        {
-            this.AdditionalCommandsLabel.Text = string.Empty;
-            this.ExecutablePathLabel.Text = string.Empty;
-            this.CMountLabel.Text = string.Empty;
-            this.SetupPathLabel.Text = string.Empty;
-            this.DMountLabel.Text = string.Empty;
-            this.CustomConfigurationLabel.Text = string.Empty;
-            this.QuitOnExitLabel.Text = string.Empty;
-            this.FullscreenLabel.Text = string.Empty;
-            this.NoConsoleLabel.Text = string.Empty;
-
-            //several games can be selected at once, but it is only meant for drag&drop between categories
-            //Besides, running more than one game (one DOSBox instance) at once can be CPU intensive...
-            //if 1 game has been selected
-            if (this.SelectedListView.SelectedItems.Count == 1)
-            {
-                this.deleteGameMenuItem.Enabled = true;
-                this.DeleteSelectedGameToolStripMenuItem.Enabled = true;
-                this.GameDeleteButton.Enabled = true;
-                this.editGameMenuItem.Enabled = true;
-                this.EditSelectedgameToolStripMenuItem.Enabled = true;
-                this.GameEditButton.Enabled = true;
-                this.MakeConfigButton.Enabled = true;
-                this.MakeConfigurationFileToolStripMenuItem.Enabled = true;
-                this.makeGameConfigurationMenuItem.Enabled = true;
-                this.RunGameToolStripMenuItem.Enabled = true;
-                this.runGameMenuItem.Enabled = true;
-                this.RunGameButton.Enabled = true;
-                Game selectedGame = this.GetSelectedGame();
-
-                //if the selected game has a setup executable
-                if (string.IsNullOrWhiteSpace(selectedGame.SetupEXEPath) == false)
-                {
-                    this.RunGameSetupToolStripMenuItem.Enabled = true;
-                    this.runGameSetupMenuItem.Enabled = true;
-                    this.RunGameSetupButton.Enabled = true;
-                    this.SetupPathLabel.Text = "Setup : " + selectedGame.SetupEXEPath;
-                }
-                else
-                {
-                    this.RunGameSetupToolStripMenuItem.Enabled = false;
-                    this.runGameSetupMenuItem.Enabled = false;
-                    this.RunGameSetupButton.Enabled = false;
-                    this.SetupPathLabel.Text = "Setup : none";
-                }
-                if (string.IsNullOrWhiteSpace(selectedGame.DOSEXEPath) == false)
-                {
-                    this.ExecutablePathLabel.Text = "Executable : " + selectedGame.DOSEXEPath;
-                }
-                else
-                {
-                    this.ExecutablePathLabel.Text = "Executable : none";
-                }
-
-                if (string.IsNullOrWhiteSpace(selectedGame.Directory) == false)
-                {
-                    this.CMountLabel.Text = "'C:' mount : " + selectedGame.Directory;
-                }
-                else
-                {
-                    this.CMountLabel.Text = "'C:' mount : none";
-                }
-
-                if (selectedGame.NoConfig == false)
-                {
-                    if (string.IsNullOrWhiteSpace(selectedGame.DBConfPath) == false)
-                    {
-                        this.CustomConfigurationLabel.Text = "Configuration : " + selectedGame.DBConfPath;
-                        this.editGameConfigurationMenuItem.Enabled = true;
-                        this.GameEditConfigurationButton.Enabled = true;
-                        this.EditConfigToolStripMenuItem.Enabled = true;
-                    }
-                    else if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBDefaultConfFilePath) == false)
-                    {
-                        this.CustomConfigurationLabel.Text = "Configuration : default";
-                        this.editGameConfigurationMenuItem.Enabled = false;
-                        this.GameEditConfigurationButton.Enabled = false;
-                        this.EditConfigToolStripMenuItem.Enabled = false;
-                    }
-                    else
-                    {
-                        this.CustomConfigurationLabel.Text = "Configuration : none at all";
-                        this.editGameConfigurationMenuItem.Enabled = false;
-                        this.GameEditConfigurationButton.Enabled = false;
-                        this.EditConfigToolStripMenuItem.Enabled = false;
-                    }
-                }
-                else
-                {
-                    this.CustomConfigurationLabel.Text = "Configuration : none at all";
-                    this.editGameConfigurationMenuItem.Enabled = false;
-                    this.GameEditConfigurationButton.Enabled = false;
-                    this.EditConfigToolStripMenuItem.Enabled = false;
-                }
-                if (string.IsNullOrWhiteSpace(selectedGame.CDPath) == false)
-                {
-                    if (selectedGame.MountAsFloppy == false)
-                    {
-                        this.DMountLabel.Text = "'D:' mount :" + selectedGame.CDPath;
-                        if (selectedGame.UseIOCTL)
-                        {
-                            this.DMountLabel.Text += " (IOCTL in use)";
-                        }
-                    }
-                    else
-                    {
-                        this.DMountLabel.Text = "'A:' mount :" + selectedGame.CDPath;
-                    }
-                }
-                else
-                {
-                    if (selectedGame.MountAsFloppy == false)
-                    {
-                        this.DMountLabel.Text = "'D:' mount : none";
-                    }
-
-                    if (selectedGame.MountAsFloppy)
-                    {
-                        this.DMountLabel.Text = "'A:' mount : none.";
-                    }
-                }
-                if (selectedGame.NoConsole == true)
-                {
-                    this.NoConsoleLabel.Text = "No console : yes";
-                }
-                else
-                {
-                    this.NoConsoleLabel.Text = "No console : no";
-                }
-
-                if (selectedGame.InFullScreen == true)
-                {
-                    this.FullscreenLabel.Text = "Fullscreen : yes";
-                }
-                else
-                {
-                    this.FullscreenLabel.Text = "Fullscreen : no";
-                }
-
-                if (selectedGame.QuitOnExit == true)
-                {
-                    this.QuitOnExitLabel.Text = "Quit on exit : yes";
-                }
-                else
-                {
-                    this.QuitOnExitLabel.Text = "Quit on exit : no";
-                }
-
-                if (string.IsNullOrWhiteSpace(selectedGame.AdditionalCommands) == false)
-                {
-                    this.AdditionalCommandsLabel.Text = "Additional commands : " + selectedGame.AdditionalCommands;
-                }
-                else
-                {
-                    this.AdditionalCommandsLabel.Text = "Additional commands : none";
-                }
-            }
-
-            //if more than one game have been selected
-            else if (this.SelectedListView.SelectedItems.Count > 1)
-            {
-                //make all the game buttons disabled (except the ones for deleting games)
-                this.editGameMenuItem.Enabled = false;
-                this.EditSelectedgameToolStripMenuItem.Enabled = false;
-                this.GameEditButton.Enabled = false;
-                this.RunGameToolStripMenuItem.Enabled = false;
-                this.RunGameSetupButton.Enabled = false;
-                this.RunGameSetupToolStripMenuItem.Enabled = false;
-                this.runGameSetupMenuItem.Enabled = false;
-                this.runGameMenuItem.Enabled = false;
-                this.RunGameButton.Enabled = false;
-                this.editGameConfigurationMenuItem.Enabled = false;
-                this.GameEditConfigurationButton.Enabled = false;
-                this.EditConfigToolStripMenuItem.Enabled = false;
-                this.MakeConfigButton.Enabled = true;
-                this.MakeConfigurationFileToolStripMenuItem.Enabled = true;
-                this.makeGameConfigurationMenuItem.Enabled = true;
-            }
-
-            //if no game has been selected
-            else if (this.SelectedListView.SelectedItems.Count == 0)
-            {
-                this.deleteGameMenuItem.Enabled = false;
-                this.DeleteSelectedGameToolStripMenuItem.Enabled = false;
-                this.GameDeleteButton.Enabled = false;
-                this.editGameMenuItem.Enabled = false;
-                this.EditSelectedgameToolStripMenuItem.Enabled = false;
-                this.GameEditButton.Enabled = false;
-                this.RunGameToolStripMenuItem.Enabled = false;
-                this.RunGameSetupButton.Enabled = false;
-                this.RunGameSetupToolStripMenuItem.Enabled = false;
-                this.runGameSetupMenuItem.Enabled = false;
-                this.runGameMenuItem.Enabled = false;
-                this.RunGameButton.Enabled = false;
-                this.editGameConfigurationMenuItem.Enabled = false;
-                this.GameEditConfigurationButton.Enabled = false;
-                this.EditConfigToolStripMenuItem.Enabled = false;
-                this.MakeConfigButton.Enabled = false;
-                this.MakeConfigurationFileToolStripMenuItem.Enabled = false;
-                this.makeGameConfigurationMenuItem.Enabled = false;
-            }
-        }
-
-        /// <summary>
-        /// EventHandler when a Category (a TabPage) is added (created).
-        /// </summary>
-        private void CategoryAddButton_Click(object sender, EventArgs e)
-        {
-            using (var newCategoryForm = new CategoryForm())
-            {
-                if (newCategoryForm.ShowDialog(this) == DialogResult.OK)
-                {
-                    this.RedrawAllUserData();
-                }
-            }
-        }
-
-        /// <summary>
-        /// EventHandler for when a game is double-clicked (activated), or activated by the Enter key.
-        /// </summary>
-        private void CurrentListView_ItemActivate(object sender, EventArgs e)
-        {
-            this.StartDOSBox(this.GetDOSBoxPath(), this.GetSelectedGame(), false, UserDataAccessor.UserData.DBDefaultConfFilePath, UserDataAccessor.UserData.DBDefaultLangFilePath);
-        }
-
-        private void StartDOSBox(string dosboxPath, Game selectedGame, bool runSetup, string confFile, string langFile)
-        {
-            try
-            {
-                var dosboxProcess = DOSBoxController.StartDOSBox(dosboxPath, DOSBoxController.BuildArgs(selectedGame, runSetup, dosboxPath, confFile, langFile), selectedGame.DBConfPath);
-                if (dosboxProcess != null)
-                {
-                    this.WindowState = FormWindowState.Minimized;
-                    dosboxProcess.Exited += this.OnDOSBoxExit;
-                }
-            }
-#pragma warning disable CA1031 // Do not catch general exception types
-            catch (FileNotFoundException)
-            {
-                MessageBox.Show("DOSBox cannot be run (was it deleted ?) !", "Game Launch", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-#pragma warning restore CA1031 // Do not catch general exception types
-        }
-
-        private void OnDOSBoxExit(object sender, EventArgs e)
-        {
-            this.Invoke((MethodInvoker)(() => { this.WindowState = FormWindowState.Normal; }));
-        }
-
-        /// <summary>
-        /// EventHandler for when a key is pressed while this.SelectedListView has focus.
-        /// </summary>
-        private void CurrentListView_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode != Keys.Delete)
-            {
-                return;
-            }
-            while (this.SelectedListView.SelectedItems.Count > 0)
-            {
-                var selectedItem = this.SelectedListView.SelectedItems[0];
-                var correspondingGame = UserDataAccessor.GetGameWithSignature((string)selectedItem.Tag);
-                if (MessageBox.Show(this, $"Do you really want to delete this game : {correspondingGame.Name} ?", this.GameDeleteButton.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                {
-                    if (correspondingGame != null)
-                    {
-                        this.GetSelectedCategory().RemoveChild(correspondingGame);
-                    }
-                    this.SelectedListView.Items.Remove(selectedItem);
-                }
-            }
-        }
-
-        /// <summary>
-        /// EventHandler for when AmpShell is closed.
-        /// </summary>
-        private void AmpShell_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            UserDataAccessor.SaveUserSettings();
-        }
-
-        /// <summary>
-        /// EventHandler for the ? -> About button.
-        /// </summary>
-        private void AboutToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            using (var aboutBox = new AboutBox())
-            {
-                aboutBox.ShowDialog(this);
-            }
-        }
-
-        /// <summary>
-        /// EventHandler for when the delete button game is clicked.
-        /// </summary>
-        private void GameDeleteButton_Click(object sender, EventArgs e)
-        {
-            KeyEventArgs k = new KeyEventArgs(Keys.Delete);
-            this.CurrentListView_KeyDown(sender, k);
-        }
-
-        /// <summary>
-        /// EventHandler for when the Category delete button is clicked.
-        /// </summary>
-        private void CategoryDeleteButton_Click(object sender, EventArgs e)
-        {
-            Category selectedCategory = this.GetSelectedCategory();
-            if (UserDataAccessor.UserData.CategoryDeletePrompt != true ||
-                MessageBox.Show(
-                    this,
-                    $"Do you really want to delete '{selectedCategory.Title}' and all the games inside it ?",
-                    this.deleteCategoryMenuMenuItem.Text,
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question) == DialogResult.Yes)
-            {
-                UserDataAccessor.UserData.RemoveChild(selectedCategory);
-                this.TabControl.TabPages.Remove(this.TabControl.SelectedTab);
-            }
-            this.UpdateButtonsState();
-        }
-
-        /// <summary>
-        /// EventHandler when the user clicks on Tools -> Run DOSBox
-        /// which runs DOSBox only with the default .conf (configuration) and .lng (language) files.
-        /// </summary>
-        private void RunDOSBox_Click(object sender, EventArgs e)
-        {
-            var dosboxProcess = DOSBoxController.RunOnlyDOSBox(UserDataAccessor.UserData.DBPath, UserDataAccessor.UserData.DBDefaultConfFilePath, UserDataAccessor.UserData.DBDefaultLangFilePath);
-
-            if (dosboxProcess != null)
-            {
-                this.WindowState = FormWindowState.Minimized;
-                dosboxProcess.Exited += this.OnDOSBoxExit;
-            }
-        }
-
-        /// <summary>
-        /// EventHandler for when AmpShell is shown (happens after AmpShell_Load).
-        /// </summary>
-        private void AmpShell_Shown(object sender, EventArgs e)
-        {
-            this.ampShellShown = true;
-            _ = Task.Factory.StartNew(
-                () =>
-            {
-                this.CreateAndPopulateContextMenus();
-                this.Invoke(new Action(delegate
-                {
-                    this.DisplayUserData();
-                    this.redrawableTabs = this.TabControl.TabPages.Cast<TabPage>().Where(x => ((ListView)x.Controls[ListViewName]).Items.Count == 0).ToList();
-
-                    //select the first TabPage of tabcontrol
-                    if (this.TabControl.HasChildren)
-                    {
-                        //select the first TabPage
-                        this.TabControl.SelectedTab = this.TabControl.TabPages[0];
-                        this.CategoryEditButton.Enabled = true;
-                        this.EditSelectedcategoryToolStripMenuItem.Enabled = true;
-                        this.editCategoryMenuMenuItem.Enabled = true;
-                        this.deleteCategoryMenuMenuItem.Enabled = true;
-                        this.CategoryDeleteButton.Enabled = true;
-                        this.DeleteSelectedCategoryToolStripMenuItem.Enabled = true;
-                    }
-
-                    //if tabcontrol has no children, then it has no TabPages (categories)
-                    //so we prompt the user for the title of the first category.
-                    else
-                    {
-                        this.CategoryAddButton_Click(sender, e);
-                    }
-                }));
-            }, System.Threading.CancellationToken.None,
-                TaskCreationOptions.None,
-                TaskScheduler.Default);
-        }
-
-        private void CreateAndPopulateContextMenus()
-        {
-            this.addCategoryMenuMenuItem = new ToolStripMenuItem();
-            this.deleteCategoryMenuMenuItem = new ToolStripMenuItem();
-            this.editCategoryMenuMenuItem = new ToolStripMenuItem();
-            this.addCategoryMenuItem = new ToolStripMenuItem();
-            this.deleteCategoryMenuItem = new ToolStripMenuItem();
-            this.editCategoryMenuItem = new ToolStripMenuItem();
-            this.addGameMenuItem = new ToolStripMenuItem();
-            this.deleteGameMenuItem = new ToolStripMenuItem();
-            this.editGameMenuItem = new ToolStripMenuItem();
-            this.editGameConfigurationMenuItem = new ToolStripMenuItem();
-            this.makeGameConfigurationMenuItem = new ToolStripMenuItem();
-            this.runGameMenuItem = new ToolStripMenuItem();
-            this.runGameSetupMenuItem = new ToolStripMenuItem();
-            this.menuBarMenuItem = new ToolStripMenuItem("Menu bar");
-            this.toolBarMenuItem = new ToolStripMenuItem("Tool bar");
-            this.statusBarMenuItem = new ToolStripMenuItem("Details bar");
-            this.menuBarMenuItem.Click += new EventHandler(this.MenuBar_ContextMenu_Click);
-            this.toolBarMenuItem.Click += new EventHandler(this.ToolBar_ContextMenu_Click);
-            this.statusBarMenuItem.Click += new EventHandler(this.StatusBar_ContextMenu_Click);
-            this.windowContextMenuStrip = new ContextMenuStrip();
-            this.windowContextMenuStrip.Items.Add(this.menuBarMenuItem);
-            this.windowContextMenuStrip.Items.Add(this.toolBarMenuItem);
-            this.windowContextMenuStrip.Items.Add(this.statusBarMenuItem);
-            this.ContextMenuStrip = this.windowContextMenuStrip;
-            this.TabControl.AllowDrop = true;
-
-            //adding text, images, and EventHandlers to the context pop-up menu
-            this.addGameMenuItem.Image = this.GameAddButton.Image;
-            this.addGameMenuItem.Text = this.GameAddButton.Text;
-            this.addGameMenuItem.Click += new EventHandler(this.GameAddButton_Click);
-            this.addGameMenuItem.MouseEnter += new EventHandler(this.GameAddButton_MouseEnter);
-            this.addGameMenuItem.MouseLeave += new EventHandler(this.CurrentListView_ItemSelectionChanged);
-            this.currentListViewContextMenuStrip = new ContextMenuStrip();
-            this.currentListViewContextMenuStrip.Items.Add(this.addGameMenuItem);
-            this.runGameMenuItem.Image = this.RunGameButton.Image;
-            this.runGameMenuItem.Text = this.RunGameButton.Text;
-            this.runGameMenuItem.Click += new EventHandler(this.CurrentListView_ItemActivate);
-            this.runGameMenuItem.MouseLeave += new EventHandler(this.CurrentListView_ItemSelectionChanged);
-            this.runGameMenuItem.MouseEnter += new EventHandler(this.RunGameButton_MouseEnter);
-
-            //Only Enabled when a game is selected
-            this.runGameMenuItem.Enabled = false;
-            this.currentListViewContextMenuStrip.Items.Add(this.runGameMenuItem);
-            this.runGameSetupMenuItem.Image = this.RunGameSetupButton.Image;
-            this.runGameSetupMenuItem.Text = this.RunGameSetupButton.Text;
-            this.runGameSetupMenuItem.Click += new EventHandler(this.RunGameSetupButton_Click);
-            this.runGameSetupMenuItem.MouseLeave += new EventHandler(this.CurrentListView_ItemSelectionChanged);
-            this.runGameSetupMenuItem.MouseEnter += new EventHandler(this.RunGameSetupButton_MouseEnter);
-
-            //Only Enabled when a game is selected
-            this.runGameSetupMenuItem.Enabled = false;
-            this.currentListViewContextMenuStrip.Items.Add(this.runGameSetupMenuItem);
-            this.deleteGameMenuItem.Image = this.GameDeleteButton.Image;
-            this.deleteGameMenuItem.Text = this.GameDeleteButton.Text;
-            this.deleteGameMenuItem.Click += new EventHandler(this.GameDeleteButton_Click);
-            this.deleteGameMenuItem.MouseLeave += new EventHandler(this.CurrentListView_ItemSelectionChanged);
-            this.deleteGameMenuItem.MouseEnter += new EventHandler(this.GameDeleteButton_MouseEnter);
-
-            //Only Enabled when a game is selected
-            this.deleteGameMenuItem.Enabled = false;
-            this.currentListViewContextMenuStrip.Items.Add(this.deleteGameMenuItem);
-            this.editGameMenuItem.Image = this.GameEditButton.Image;
-            this.editGameMenuItem.Text = this.GameEditButton.Text;
-            this.editGameMenuItem.Click += new EventHandler(this.GameEditButton_Click);
-            this.editGameMenuItem.MouseLeave += new EventHandler(this.CurrentListView_ItemSelectionChanged);
-            this.editGameMenuItem.MouseEnter += new EventHandler(this.GameEditButton_MouseEnter);
-
-            //Only Enabled when a game is selected
-            this.editGameMenuItem.Enabled = false;
-            this.currentListViewContextMenuStrip.Items.Add(this.editGameMenuItem);
-            this.editGameConfigurationMenuItem.Image = this.GameEditConfigurationButton.Image;
-            this.editGameConfigurationMenuItem.Text = this.GameEditConfigurationButton.Text;
-            this.editGameConfigurationMenuItem.Click += new EventHandler(this.GameEditConfigurationButton_Click);
-            this.editGameConfigurationMenuItem.MouseLeave += new EventHandler(this.CurrentListView_ItemSelectionChanged);
-            this.editGameConfigurationMenuItem.MouseEnter += new EventHandler(this.GameEditConfigurationButton_MouseEnter);
-
-            //Only Enabled when a game is selected
-            this.editGameConfigurationMenuItem.Enabled = false;
-            this.currentListViewContextMenuStrip.Items.Add(this.editGameConfigurationMenuItem);
-            this.makeGameConfigurationMenuItem.Image = this.MakeConfigButton.Image;
-            this.makeGameConfigurationMenuItem.Text = this.MakeConfigButton.Text;
-            this.makeGameConfigurationMenuItem.Click += new EventHandler(this.MakeConfigButton_Click);
-            this.makeGameConfigurationMenuItem.MouseLeave += new EventHandler(this.CurrentListView_ItemSelectionChanged);
-            this.makeGameConfigurationMenuItem.MouseEnter += new EventHandler(this.MakeConfigurationFileToolStripMenuItem_MouseEnter);
-
-            //Only Enabled when a game is selected
-            this.makeGameConfigurationMenuItem.Enabled = false;
-            this.currentListViewContextMenuStrip.Items.Add(this.makeGameConfigurationMenuItem);
-            ToolStripSeparator ltview_ContextMenuStripSeparator = new ToolStripSeparator();
-            this.currentListViewContextMenuStrip.Items.Add(ltview_ContextMenuStripSeparator);
-
-            //The Categories are the tabs inside the this.TabControl. Each tab has only one ListView.
-            this.addCategoryMenuMenuItem.Image = this.CategoryAddButton.Image;
-            this.addCategoryMenuMenuItem.Text = this.CategoryAddButton.Text;
-            this.addCategoryMenuMenuItem.Click += new EventHandler(this.CategoryAddButton_Click);
-            this.addCategoryMenuMenuItem.MouseLeave += new EventHandler(this.CurrentListView_ItemSelectionChanged);
-            this.addCategoryMenuMenuItem.MouseEnter += new EventHandler(this.CategoryAddButton_MouseEnter);
-            this.addCategoryMenuItem.Image = this.CategoryAddButton.Image;
-            this.addCategoryMenuItem.Text = this.CategoryAddButton.Text;
-            this.addCategoryMenuItem.Click += new EventHandler(this.CategoryAddButton_Click);
-            this.addCategoryMenuItem.MouseLeave += new EventHandler(this.CurrentListView_ItemSelectionChanged);
-            this.addCategoryMenuItem.MouseEnter += new EventHandler(this.CategoryAddButton_MouseEnter);
-            this.currentListViewContextMenuStrip.Items.Add(this.addCategoryMenuMenuItem);
-            this.tabContextMenuStrip = new ContextMenuStrip();
-            this.tabContextMenuStrip.Items.Add(this.addCategoryMenuItem);
-            this.editCategoryMenuMenuItem.Image = this.CategoryEditButton.Image;
-            this.editCategoryMenuMenuItem.Text = this.CategoryEditButton.Text;
-            this.editCategoryMenuMenuItem.Click += new EventHandler(this.CategoryEditButton_Click);
-            this.editCategoryMenuMenuItem.MouseLeave += new EventHandler(this.CurrentListView_ItemSelectionChanged);
-            this.editCategoryMenuMenuItem.MouseEnter += new EventHandler(this.CategoryEditButton_MouseEnter);
-            this.editCategoryMenuItem.Image = this.CategoryEditButton.Image;
-            this.editCategoryMenuItem.Text = this.CategoryEditButton.Text;
-            this.editCategoryMenuItem.Click += new EventHandler(this.CategoryEditButton_Click);
-            this.editCategoryMenuItem.MouseLeave += new EventHandler(this.CurrentListView_ItemSelectionChanged);
-            this.editCategoryMenuItem.MouseEnter += new EventHandler(this.CategoryEditButton_MouseEnter);
-            this.currentListViewContextMenuStrip.Items.Add(this.editCategoryMenuMenuItem);
-            this.tabContextMenuStrip.Items.Add(this.editCategoryMenuItem);
-            this.deleteCategoryMenuMenuItem.Image = this.CategoryDeleteButton.Image;
-            this.deleteCategoryMenuMenuItem.Text = this.CategoryDeleteButton.Text;
-            this.deleteCategoryMenuMenuItem.Click += new EventHandler(this.CategoryDeleteButton_Click);
-            this.deleteCategoryMenuMenuItem.MouseLeave += new EventHandler(this.CurrentListView_ItemSelectionChanged);
-            this.deleteCategoryMenuMenuItem.MouseEnter += new EventHandler(this.CategoryDeleteButton_MouseEnter);
-            this.deleteCategoryMenuItem.Image = this.CategoryDeleteButton.Image;
-            this.deleteCategoryMenuItem.Text = this.CategoryDeleteButton.Text;
-            this.deleteCategoryMenuItem.Click += new EventHandler(this.CategoryDeleteButton_Click);
-            this.deleteCategoryMenuItem.MouseLeave += new EventHandler(this.CurrentListView_ItemSelectionChanged);
-            this.deleteCategoryMenuItem.MouseEnter += new EventHandler(this.CategoryDeleteButton_MouseEnter);
-            this.currentListViewContextMenuStrip.Items.Add(this.deleteCategoryMenuMenuItem);
-            this.tabContextMenuStrip.Items.Add(this.deleteCategoryMenuItem);
-            this.TabControl.ContextMenuStrip = this.tabContextMenuStrip;
-        }
-
-        /// <summary>
-        /// EventHander for File -> Quit.
-        /// </summary>
-        private void QuitToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
-        /// <summary>
-        /// EventHandler for when the user has clicked on the GameAddButton.
-        /// </summary>
+        /// <summary> EventHandler for when the user has clicked on the GameAddButton. </summary>
         private void GameAddButton_Click(object sender, EventArgs e)
         {
             var newGame = new Game();
@@ -1087,44 +1013,53 @@ namespace AmpShell.Views
             }
         }
 
-        private void SelectCategory(string signature)
+        private void GameAddButton_MouseEnter(object sender, EventArgs e)
         {
-            this.TabControl.SelectedTab = this.TabControl.TabPages.Cast<TabPage>().FirstOrDefault(x => (string)x.Tag == signature);
+            this.DisplayHelpMessage(this.GameAddButton.ToolTipText);
         }
 
-        /// <summary>
-        /// EventHandler for when the user has finished resizing the window.
-        /// </summary>
-        private void AmpShell_Resized(object sender, EventArgs e)
+        /// <summary> EventHandler for when the delete button game is clicked. </summary>
+        private void GameDeleteButton_Click(object sender, EventArgs e)
         {
-            //change the data about the Window's dimensions (restored on next session).
-            if (UserDataAccessor.UserData.RememberWindowSize == true)
-            {
-                UserDataAccessor.UserData.Height = this.Height;
-                UserDataAccessor.UserData.Width = this.Width;
-            }
+            KeyEventArgs k = new KeyEventArgs(Keys.Delete);
+            this.CurrentListView_KeyDown(sender, k);
         }
 
-        /// <summary>
-        /// EventHandler for when a category is edited (CategoryEditButton has been clicked).
-        /// </summary>
-        private void CategoryEditButton_Click(object sender, EventArgs e)
+        private void GameDeleteButton_MouseEnter(object sender, EventArgs e)
         {
-            using (var catEditForm = new CategoryForm((string)this.TabControl.SelectedTab.Tag))
+            this.DisplayHelpMessage(this.GameDeleteButton.ToolTipText);
+        }
+
+        /// <summary> Called when the user wants to edit an existing game. </summary>
+        private void GameEditButton_Click(object sender, EventArgs e)
+        {
+            Game selectedGame = this.GetSelectedGame();
+            using (var gameEditForm = new GameForm(selectedGame))
             {
-                if (catEditForm.ShowDialog(this) == DialogResult.OK)
+                if (gameEditForm.ShowDialog(this) == DialogResult.OK)
                 {
-                    this.TabControl.SelectedTab.Text = catEditForm.ViewModel.Name;
+                    this.RedrawAllUserData();
                 }
             }
         }
 
-        /// <summary>
-        /// EventHandler for when the RunGameSetupButton is clicked.
-        /// </summary>
-        private void RunGameSetupButton_Click(object sender, EventArgs e)
+        private void GameEditButton_MouseEnter(object sender, EventArgs e)
         {
-            this.StartDOSBox(this.GetDOSBoxPath(), this.GetSelectedGame(), true, UserDataAccessor.UserData.DBDefaultConfFilePath, UserDataAccessor.UserData.DBDefaultLangFilePath);
+            this.DisplayHelpMessage(this.GameEditButton.ToolTipText);
+        }
+
+        private void GameEditConfigurationButton_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.ConfigEditorPath) == false)
+            {
+                Game selectedGame = this.GetSelectedGame();
+                System.Diagnostics.Process.Start(UserDataAccessor.UserData.ConfigEditorPath, $"{selectedGame.DBConfPath} {UserDataAccessor.UserData.ConfigEditorAdditionalParameters}");
+            }
+        }
+
+        private void GameEditConfigurationButton_MouseEnter(object sender, EventArgs e)
+        {
+            this.DisplayHelpMessage(this.GameEditConfigurationButton.ToolTipText);
         }
 
         private string GetDOSBoxPath()
@@ -1138,22 +1073,104 @@ namespace AmpShell.Views
             return dosboxPath;
         }
 
-        /// <summary>
-        /// EventHandler for when the window is (un)maximized.
-        /// </summary>
-        private void AmpShell_Resize(object sender, EventArgs e)
+        private Category GetSelectedCategory()
         {
-            if (this.ampShellShown == true)
+            if (this.TabControl.SelectedTab == null)
             {
-                if (this.WindowState == FormWindowState.Maximized)
-                {
-                    UserDataAccessor.UserData.Fullscreen = true;
-                }
-                else
-                {
-                    UserDataAccessor.UserData.Fullscreen = false;
-                }
+                return new Category();
             }
+            var selectedCategory = UserDataAccessor.GetCategoryWithSignature((string)this.TabControl.SelectedTab.Tag);
+            if (selectedCategory == null)
+            {
+                return new Category();
+            }
+            return selectedCategory;
+        }
+
+        private Category GetSelectedCategory(int hoveredTabIndex)
+        {
+            var selectedCategory = UserDataAccessor.GetCategoryWithSignature((string)this.TabControl.TabPages[hoveredTabIndex].Tag);
+            if (selectedCategory == null)
+            {
+                return new Category();
+            }
+            return selectedCategory;
+        }
+
+        private Game GetSelectedGame()
+        {
+            if (this.SelectedListView.FocusedItem == null)
+            {
+                return new Game();
+            }
+            var selectedGame = UserDataAccessor.GetGameWithSignature((string)this.SelectedListView.FocusedItem.Tag);
+            if (selectedGame == null)
+            {
+                return new Game();
+            }
+            return selectedGame;
+        }
+
+        private void HelpToolStripMenuItem_MouseEnter(object sender, EventArgs e)
+        {
+            this.DisplayHelpMessage(this.HelpToolStripMenuItem.ToolTipText);
+        }
+
+        private void LargeIconViewButton_Click(object sender, EventArgs e)
+        {
+            this.ChangeTabDisplayMode(View.LargeIcon);
+        }
+
+        private void LargeIconViewButton_MouseEnter(object sender, EventArgs e)
+        {
+            this.DisplayHelpMessage(this.LargeIconViewButton.ToolTipText);
+        }
+
+        private void ListViewButton_Click(object sender, EventArgs e)
+        {
+            this.ChangeTabDisplayMode(View.List);
+        }
+
+        private void ListViewButton_MouseEnter(object sender, EventArgs e)
+        {
+            this.DisplayHelpMessage(this.ListViewButton.ToolTipText);
+        }
+
+        private void MakeConfigButton_Click(object sender, EventArgs e)
+        {
+            var selectedGame = this.GetSelectedGame();
+            var configPath = Path.Combine(selectedGame.Directory, Path.GetFileName(UserDataAccessor.UserData.DBDefaultConfFilePath));
+            if ((!File.Exists(configPath)) ||
+                (MessageBox.Show(this, $"{configPath} already exists, do you want to overwrite it ?", this.MakeConfigButton.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes))
+            {
+                File.Copy(UserDataAccessor.UserData.DBDefaultConfFilePath, configPath, true);
+                selectedGame.DBConfPath = configPath;
+            }
+        }
+
+        private void MakeConfigurationFileToolStripMenuItem_MouseEnter(object sender, EventArgs e)
+        {
+            this.DisplayHelpMessage(this.MakeConfigurationFileToolStripMenuItem.ToolTipText);
+        }
+
+        private void MenuBar_ContextMenu_Click(object sender, EventArgs e)
+        {
+            if (this.menuStrip.Visible == true)
+            {
+                this.menuBarMenuItem.Checked = false;
+                this.menuStrip.Visible = false;
+            }
+            else
+            {
+                this.menuBarMenuItem.Checked = true;
+                this.menuStrip.Visible = true;
+            }
+            UserDataAccessor.UserData.MenuBarVisible = this.menuStrip.Visible;
+        }
+
+        private void OnDOSBoxExit(object sender, EventArgs e)
+        {
+            this.Invoke((MethodInvoker)(() => { this.WindowState = FormWindowState.Normal; }));
         }
 
         private void PreferencesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1175,6 +1192,60 @@ namespace AmpShell.Views
             this.UpdateButtonsState();
         }
 
+        private void PreferencesToolStripMenuItem_MouseEnter(object sender, EventArgs e)
+        {
+            this.DisplayHelpMessage(this.PreferencesToolStripMenuItem.ToolTipText);
+        }
+
+        private void QuitterToolStripMenuItem_MouseEnter(object sender, EventArgs e)
+        {
+            this.DisplayHelpMessage(this.QuitterToolStripMenuItem.ToolTipText);
+        }
+
+        /// <summary> EventHander for File -&gt; Quit. </summary>
+        private void QuitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void RedrawAllUserData()
+        {
+            Game selectedGame = this.GetSelectedGame();
+            Category selectedCategory = this.GetSelectedCategory();
+            this.DisplayUserData();
+            this.SelectCategory(selectedCategory.Signature);
+            this.SelectedListView.FocusedItem = this.SelectedListView.Items.Cast<ListViewItem>().FirstOrDefault(x => (string)x.Tag == selectedGame.Signature);
+            if (this.SelectedListView.FocusedItem != null)
+            {
+                this.SelectedListView.FocusedItem.Selected = true;
+            }
+        }
+
+        /// <summary>
+        /// We use a timer to let the drag &amp; drop finish first (or else it loops forever).
+        /// </summary>
+        private void RedrawWaitTimer_Tick(object sender, EventArgs e)
+        {
+            this.redrawWaitTimer.Enabled = false;
+            if (this.redrawableTabs.Count == 0)
+            {
+                return;
+            }
+
+            //we need to redraw only when needed, as the drag&drop operation loops a few times otherwise
+            if (this.redrawableTabs.Contains((TabPage)this.redrawWaitTimer.Tag))
+            {
+                this.redrawableTabs.Remove((TabPage)this.redrawWaitTimer.Tag);
+            }
+            else
+            {
+                return;
+            }
+            this.TabControl.AllowDrop = false;
+            this.RedrawAllUserData();
+            this.TabControl.AllowDrop = true;
+        }
+
         private void RunConfigurationEditorButton_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.ConfigEditorPath) == false)
@@ -1190,18 +1261,50 @@ namespace AmpShell.Views
             }
         }
 
-        private void GameEditConfigurationButton_Click(object sender, EventArgs e)
+        private void RunConfigurationEditorButton_MouseEnter(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.ConfigEditorPath) == false)
+            this.DisplayHelpMessage(this.RunConfigurationEditorButton.ToolTipText);
+        }
+
+        /// <summary>
+        /// EventHandler when the user clicks on Tools -&gt; Run DOSBox which runs DOSBox only with
+        /// the default .conf (configuration) and .lng (language) files.
+        /// </summary>
+        private void RunDOSBox_Click(object sender, EventArgs e)
+        {
+            var dosboxProcess = DOSBoxController.RunOnlyDOSBox(UserDataAccessor.UserData.DBPath, UserDataAccessor.UserData.DBDefaultConfFilePath, UserDataAccessor.UserData.DBDefaultLangFilePath);
+
+            if (dosboxProcess != null)
             {
-                Game selectedGame = this.GetSelectedGame();
-                System.Diagnostics.Process.Start(UserDataAccessor.UserData.ConfigEditorPath, $"{selectedGame.DBConfPath} {UserDataAccessor.UserData.ConfigEditorAdditionalParameters}");
+                this.WindowState = FormWindowState.Minimized;
+                dosboxProcess.Exited += this.OnDOSBoxExit;
             }
         }
 
-        private void LargeIconViewButton_Click(object sender, EventArgs e)
+        private void RunDOSBoxButton_MouseEnter(object sender, EventArgs e)
         {
-            this.ChangeTabDisplayMode(View.LargeIcon);
+            this.DisplayHelpMessage(this.RunDOSBoxButton.ToolTipText);
+        }
+
+        private void RunGameButton_MouseEnter(object sender, EventArgs e)
+        {
+            this.DisplayHelpMessage(this.RunGameButton.ToolTipText);
+        }
+
+        /// <summary> EventHandler for when the RunGameSetupButton is clicked. </summary>
+        private void RunGameSetupButton_Click(object sender, EventArgs e)
+        {
+            this.StartDOSBox(this.GetDOSBoxPath(), this.GetSelectedGame(), true, UserDataAccessor.UserData.DBDefaultConfFilePath, UserDataAccessor.UserData.DBDefaultLangFilePath);
+        }
+
+        private void RunGameSetupButton_MouseEnter(object sender, EventArgs e)
+        {
+            this.DisplayHelpMessage(this.RunGameSetupButton.ToolTipText);
+        }
+
+        private void SelectCategory(string signature)
+        {
+            this.TabControl.SelectedTab = this.TabControl.TabPages.Cast<TabPage>().FirstOrDefault(x => (string)x.Tag == signature);
         }
 
         private void SmallIconViewButton_Click(object sender, EventArgs e)
@@ -1209,57 +1312,28 @@ namespace AmpShell.Views
             this.ChangeTabDisplayMode(View.SmallIcon);
         }
 
-        private void TileViewButton_Click(object sender, EventArgs e)
+        private void SmallIconViewButton_MouseEnter(object sender, EventArgs e)
         {
-            this.ChangeTabDisplayMode(View.Tile);
+            this.DisplayHelpMessage(this.SmallIconViewButton.ToolTipText);
         }
 
-        private void ListViewButton_Click(object sender, EventArgs e)
+        private void StartDOSBox(string dosboxPath, Game selectedGame, bool runSetup, string confFile, string langFile)
         {
-            this.ChangeTabDisplayMode(View.List);
-        }
-
-        private void DetailsViewButton_Click(object sender, EventArgs e)
-        {
-            this.ChangeTabDisplayMode(View.Details);
-        }
-
-        private void ChangeTabDisplayMode(View mode)
-        {
-            var selectedIndex = this.TabControl.SelectedIndex;
-            this.GetSelectedCategory().ViewMode = mode;
-            this.RedrawAllUserData();
-            this.TabControl.SelectedIndex = selectedIndex;
-        }
-
-        private void MenuBar_ContextMenu_Click(object sender, EventArgs e)
-        {
-            if (this.menuStrip.Visible == true)
+            try
             {
-                this.menuBarMenuItem.Checked = false;
-                this.menuStrip.Visible = false;
+                var dosboxProcess = DOSBoxController.StartDOSBox(dosboxPath, DOSBoxController.BuildArgs(selectedGame, runSetup, dosboxPath, confFile, langFile), selectedGame.DBConfPath);
+                if (dosboxProcess != null)
+                {
+                    this.WindowState = FormWindowState.Minimized;
+                    dosboxProcess.Exited += this.OnDOSBoxExit;
+                }
             }
-            else
+#pragma warning disable CA1031 // Do not catch general exception types
+            catch (FileNotFoundException)
             {
-                this.menuBarMenuItem.Checked = true;
-                this.menuStrip.Visible = true;
+                MessageBox.Show("DOSBox cannot be run (was it deleted ?) !", "Game Launch", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            UserDataAccessor.UserData.MenuBarVisible = this.menuStrip.Visible;
-        }
-
-        private void ToolBar_ContextMenu_Click(object sender, EventArgs e)
-        {
-            if (this.toolStrip.Visible == true)
-            {
-                this.toolBarMenuItem.Checked = false;
-                this.toolStrip.Visible = false;
-            }
-            else
-            {
-                this.toolBarMenuItem.Checked = true;
-                this.toolStrip.Visible = true;
-            }
-            UserDataAccessor.UserData.ToolBarVisible = this.toolStrip.Visible;
+#pragma warning restore CA1031 // Do not catch general exception types
         }
 
         private void StatusBar_ContextMenu_Click(object sender, EventArgs e)
@@ -1277,37 +1351,84 @@ namespace AmpShell.Views
             UserDataAccessor.UserData.StatusBarVisible = this.statusStrip.Visible;
         }
 
-        /// <summary>
-        /// EventHandler for when the window is moved.
-        /// </summary>
-        private void AmpShell_LocationChanged(object sender, EventArgs e)
+        /// <summary> EventHandler for when a drop ends. </summary>
+        private void TabControl_DragDrop(object sender, DragEventArgs e)
         {
-            if (UserDataAccessor.UserData.RememberWindowPosition == true && this.WindowState != FormWindowState.Minimized)
+            foreach (ListViewItem itemToMove in this.SelectedListView.SelectedItems)
             {
-                UserDataAccessor.UserData.X = this.Location.X;
-                UserDataAccessor.UserData.Y = this.Location.Y;
+                this.SelectedListView.Items.Remove(itemToMove);
+                var droppedGame = UserDataAccessor.UserData.ListChildren.Cast<Category>().Select(x => x.ListChildren.Cast<Game>()).SelectMany(x => x).FirstOrDefault(x => x.Signature == (string)itemToMove.Tag);
+                this.GetSelectedCategory().RemoveChild(droppedGame);
+                this.TabControl.SelectTab(this.hoveredTabIndex);
+                this.SelectedListView.Items.Add((ListViewItem)itemToMove.Clone());
+                this.GetSelectedCategory(this.hoveredTabIndex).AddChild(droppedGame);
+            }
+
+            //Avoid yet again a nasty UI bug where the very first item in a TabPage has no icon.
+            if (this.SelectedListView.Items.Count == 1)
+            {
+                this.redrawWaitTimer.Interval = 1;
+                this.redrawWaitTimer.Tick += this.RedrawWaitTimer_Tick;
+                this.redrawWaitTimer.Enabled = true;
+                this.redrawWaitTimer.Tag = this.TabControl.TabPages[this.hoveredTabIndex];
             }
         }
 
-        private void CurrentListView_ColumnWidthChanged(object sender, EventArgs e)
+        /// <summary> EventHandler for when a drop begins. </summary>
+        private void TabControl_DragEnter(object sender, DragEventArgs e)
         {
-            var category = this.GetSelectedCategory();
-            if (category.ViewMode != View.Details || this.SelectedListView.Columns.Count == 0)
+            if (e.Data.GetDataPresent(DataFormats.UnicodeText))
             {
-                return;
+                e.Effect = DragDropEffects.Move;
             }
-            category.NameColumnWidth = this.SelectedListView.Columns["NameColumn"].Width;
-            category.ReleaseDateColumnWidth = this.SelectedListView.Columns["ReleaseDateColumn"].Width;
-            category.ExecutableColumnWidth = this.SelectedListView.Columns["ExecutableColumn"].Width;
-            category.CMountColumnWidth = this.SelectedListView.Columns["CMountColumn"].Width;
-            category.SetupExecutableColumnWidth = this.SelectedListView.Columns["SetupExecutableColumn"].Width;
-            category.CustomConfigurationColumnWidth = this.SelectedListView.Columns["CustomConfigurationColumn"].Width;
-            category.DMountColumnWidth = this.SelectedListView.Columns["DMountColumn"].Width;
-            category.MountingOptionsColumnWidth = this.SelectedListView.Columns["MountingOptionsColumn"].Width;
-            category.AdditionnalCommandsColumnWidth = this.SelectedListView.Columns["AdditionalCommandsColumn"].Width;
-            category.NoConsoleColumnWidth = this.SelectedListView.Columns["NoConsoleColumn"].Width;
-            category.FullscreenColumnWidth = this.SelectedListView.Columns["FullscreenColumn"].Width;
-            category.QuitOnExitColumnWidth = this.SelectedListView.Columns["QuitOnExitColumn"].Width;
+            else
+            {
+                e.Effect = DragDropEffects.None;
+            }
+        }
+
+        /// <summary> EventHandler for when items are dragged over a Tab. </summary>
+        private void TabControl_DragOver(object sender, DragEventArgs e)
+        {
+            Point pos = this.TabControl.PointToClient(MousePosition);
+            for (int ix = 0; ix < this.TabControl.TabCount; ix++)
+            {
+                if (this.TabControl.GetTabRect(ix).Contains(pos))
+                {
+                    this.hoveredTabIndex = ix;
+                    break;
+                }
+            }
+        }
+
+        private void TilesViewButton_MouseEnter(object sender, EventArgs e)
+        {
+            this.DisplayHelpMessage(this.TilesViewButton.ToolTipText);
+        }
+
+        private void TileViewButton_Click(object sender, EventArgs e)
+        {
+            this.ChangeTabDisplayMode(View.Tile);
+        }
+
+        private void ToolBar_ContextMenu_Click(object sender, EventArgs e)
+        {
+            if (this.toolStrip.Visible == true)
+            {
+                this.toolBarMenuItem.Checked = false;
+                this.toolStrip.Visible = false;
+            }
+            else
+            {
+                this.toolBarMenuItem.Checked = true;
+                this.toolStrip.Visible = true;
+            }
+            UserDataAccessor.UserData.ToolBarVisible = this.toolStrip.Visible;
+        }
+
+        private void ToolsToolStripMenuItem_MouseEnter(object sender, EventArgs e)
+        {
+            this.DisplayHelpMessage(this.ToolsToolStripMenuItem.ToolTipText);
         }
 
         private void UpdateButtonsState()
@@ -1402,172 +1523,9 @@ namespace AmpShell.Views
             }
         }
 
-        private void DisplayHelpMessage(string toolTipText)
-        {
-            this.AdditionalCommandsLabel.Text = string.Empty;
-            this.ExecutablePathLabel.Text = string.Empty;
-            this.CMountLabel.Text = string.Empty;
-            this.DMountLabel.Text = string.Empty;
-            this.CustomConfigurationLabel.Text = string.Empty;
-            this.QuitOnExitLabel.Text = string.Empty;
-            this.FullscreenLabel.Text = string.Empty;
-            this.NoConsoleLabel.Text = string.Empty;
-            this.SetupPathLabel.Text = string.Empty;
-            this.ExecutablePathLabel.Text = toolTipText;
-        }
-
-        private void EditDefaultConfigurationToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBDefaultConfFilePath) == false && File.Exists(UserDataAccessor.UserData.DBDefaultConfFilePath) && string.IsNullOrWhiteSpace(UserDataAccessor.UserData.ConfigEditorPath) == false && UserDataAccessor.UserData.ConfigEditorPath != "No text editor (Notepad in Windows' directory, or TextEditor.exe in AmpShell's directory) found." && File.Exists(UserDataAccessor.UserData.ConfigEditorPath))
-            {
-                System.Diagnostics.Process.Start(UserDataAccessor.UserData.ConfigEditorPath, UserDataAccessor.UserData.DBDefaultConfFilePath);
-            }
-            else
-            {
-                MessageBox.Show("Default configuration or configuration editor missing. Please set them in the preferences.");
-            }
-        }
-
-        private void MakeConfigButton_Click(object sender, EventArgs e)
-        {
-            var selectedGame = this.GetSelectedGame();
-            var configPath = Path.Combine(selectedGame.Directory, Path.GetFileName(UserDataAccessor.UserData.DBDefaultConfFilePath));
-            if ((!File.Exists(configPath)) ||
-                (MessageBox.Show(this, $"{configPath} already exists, do you want to overwrite it ?", this.MakeConfigButton.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes))
-            {
-                File.Copy(UserDataAccessor.UserData.DBDefaultConfFilePath, configPath, true);
-                selectedGame.DBConfPath = configPath;
-            }
-        }
-
-        private void FileToolStripMenuItem_MouseEnter(object sender, EventArgs e)
-        {
-            this.DisplayHelpMessage(this.FileToolStripMenuItem.ToolTipText);
-        }
-
-        private void EditToolStripMenuItem_MouseEnter(object sender, EventArgs e)
-        {
-            this.DisplayHelpMessage(this.EditToolStripMenuItem.ToolTipText);
-        }
-
-        private void ToolsToolStripMenuItem_MouseEnter(object sender, EventArgs e)
-        {
-            this.DisplayHelpMessage(this.ToolsToolStripMenuItem.ToolTipText);
-        }
-
         private void ViewToolStripMenuItem_MouseEnter(object sender, EventArgs e)
         {
             this.DisplayHelpMessage(this.ViewToolStripMenuItem.ToolTipText);
-        }
-
-        private void HelpToolStripMenuItem_MouseEnter(object sender, EventArgs e)
-        {
-            this.DisplayHelpMessage(this.HelpToolStripMenuItem.ToolTipText);
-        }
-
-        private void CategoryAddButton_MouseEnter(object sender, EventArgs e)
-        {
-            this.DisplayHelpMessage(this.CategoryAddButton.ToolTipText);
-        }
-
-        private void GameAddButton_MouseEnter(object sender, EventArgs e)
-        {
-            this.DisplayHelpMessage(this.GameAddButton.ToolTipText);
-        }
-
-        private void RunGameButton_MouseEnter(object sender, EventArgs e)
-        {
-            this.DisplayHelpMessage(this.RunGameButton.ToolTipText);
-        }
-
-        private void RunGameSetupButton_MouseEnter(object sender, EventArgs e)
-        {
-            this.DisplayHelpMessage(this.RunGameSetupButton.ToolTipText);
-        }
-
-        private void GameEditButton_MouseEnter(object sender, EventArgs e)
-        {
-            this.DisplayHelpMessage(this.GameEditButton.ToolTipText);
-        }
-
-        private void GameEditConfigurationButton_MouseEnter(object sender, EventArgs e)
-        {
-            this.DisplayHelpMessage(this.GameEditConfigurationButton.ToolTipText);
-        }
-
-        private void CategoryEditButton_MouseEnter(object sender, EventArgs e)
-        {
-            this.DisplayHelpMessage(this.CategoryEditButton.ToolTipText);
-        }
-
-        private void GameDeleteButton_MouseEnter(object sender, EventArgs e)
-        {
-            this.DisplayHelpMessage(this.GameDeleteButton.ToolTipText);
-        }
-
-        private void CategoryDeleteButton_MouseEnter(object sender, EventArgs e)
-        {
-            this.DisplayHelpMessage(this.CategoryDeleteButton.ToolTipText);
-        }
-
-        private void RunDOSBoxButton_MouseEnter(object sender, EventArgs e)
-        {
-            this.DisplayHelpMessage(this.RunDOSBoxButton.ToolTipText);
-        }
-
-        private void RunConfigurationEditorButton_MouseEnter(object sender, EventArgs e)
-        {
-            this.DisplayHelpMessage(this.RunConfigurationEditorButton.ToolTipText);
-        }
-
-        private void LargeIconViewButton_MouseEnter(object sender, EventArgs e)
-        {
-            this.DisplayHelpMessage(this.LargeIconViewButton.ToolTipText);
-        }
-
-        private void SmallIconViewButton_MouseEnter(object sender, EventArgs e)
-        {
-            this.DisplayHelpMessage(this.SmallIconViewButton.ToolTipText);
-        }
-
-        private void TilesViewButton_MouseEnter(object sender, EventArgs e)
-        {
-            this.DisplayHelpMessage(this.TilesViewButton.ToolTipText);
-        }
-
-        private void ListViewButton_MouseEnter(object sender, EventArgs e)
-        {
-            this.DisplayHelpMessage(this.ListViewButton.ToolTipText);
-        }
-
-        private void DetailsViewButton_MouseEnter(object sender, EventArgs e)
-        {
-            this.DisplayHelpMessage(this.DetailsViewButton.ToolTipText);
-        }
-
-        private void PreferencesToolStripMenuItem_MouseEnter(object sender, EventArgs e)
-        {
-            this.DisplayHelpMessage(this.PreferencesToolStripMenuItem.ToolTipText);
-        }
-
-        private void AboutToolStripMenuItem_MouseEnter(object sender, EventArgs e)
-        {
-            this.DisplayHelpMessage(this.AboutToolStripMenuItem.ToolTipText);
-        }
-
-        private void QuitterToolStripMenuItem_MouseEnter(object sender, EventArgs e)
-        {
-            this.DisplayHelpMessage(this.QuitterToolStripMenuItem.ToolTipText);
-        }
-
-        private void EditDefaultConfigurationToolStripMenuItem_MouseEnter(object sender, EventArgs e)
-        {
-            this.DisplayHelpMessage(this.EditDefaultConfigurationToolStripMenuItem.ToolTipText);
-        }
-
-        private void MakeConfigurationFileToolStripMenuItem_MouseEnter(object sender, EventArgs e)
-        {
-            this.DisplayHelpMessage(this.MakeConfigurationFileToolStripMenuItem.ToolTipText);
         }
     }
 }
