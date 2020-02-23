@@ -18,6 +18,7 @@ namespace AmpShell.Views
     using System.Linq;
     using System.Threading.Tasks;
     using System.Windows.Forms;
+
     using AmpShell.DAL;
     using AmpShell.DOSBox;
     using AmpShell.Model;
@@ -100,6 +101,10 @@ namespace AmpShell.Views
             get
             {
                 if (this.TabControl.HasChildren == false)
+                {
+                    return new ListView();
+                }
+                if (this.TabControl.SelectedTab == null)
                 {
                     return new ListView();
                 }
@@ -216,6 +221,10 @@ namespace AmpShell.Views
                 if (newCategoryForm.ShowDialog(this) == DialogResult.OK)
                 {
                     this.RedrawAllUserData();
+                    if (this.TabControl.HasChildren && this.TabControl.TabCount == 1 && this.TabControl.SelectedTab == null)
+                    {
+                        this.TabControl.SelectedTab = this.TabControl.TabPages[0];
+                    }
                 }
             }
         }
@@ -253,6 +262,10 @@ namespace AmpShell.Views
         /// </summary>
         private void CategoryEditButton_Click(object sender, EventArgs e)
         {
+            if (this.TabControl.SelectedTab == null)
+            {
+                return;
+            }
             using (var catEditForm = new CategoryForm((string)this.TabControl.SelectedTab.Tag))
             {
                 if (catEditForm.ShowDialog(this) == DialogResult.OK)
