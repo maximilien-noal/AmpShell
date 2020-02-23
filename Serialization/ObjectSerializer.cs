@@ -29,7 +29,14 @@ namespace AmpShell.Serialization
             using (var reader = XmlReader.Create(xmlPath, settings))
             {
                 var serializer = new XmlSerializer(new T().GetType());
-                return (T)serializer.Deserialize(reader);
+                try
+                {
+                    return (T)serializer.Deserialize(reader);
+                }
+                catch (InvalidOperationException)
+                {
+                    return new T();
+                }
             }
         }
 
