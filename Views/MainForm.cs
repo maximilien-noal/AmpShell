@@ -768,7 +768,7 @@ namespace AmpShell.Views
                     this.WindowState = FormWindowState.Maximized;
                 }
             }
-            if (userData.RememberWindowPosition != false)
+            if (userData.RememberWindowPosition != false && userData.ListChildren.Count != 0)
             {
                 this.SetDesktopLocation(userData.X, userData.Y);
             }
