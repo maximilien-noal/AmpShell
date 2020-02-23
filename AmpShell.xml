@@ -9,6 +9,12 @@
             Gets object to load and save user data through XML (de)serialization.
             </summary>
         </member>
+        <member name="M:AmpShell.DAL.UserDataAccessor.GetDataFilePath">
+            <summary>
+            Returns the path to the user data file (AmpShell.xml).
+            </summary>
+            <returns>The absolute path to the user data file.</returns>
+        </member>
         <member name="M:AmpShell.DAL.UserDataAccessor.IsItAUniqueSignature(System.String)">
             <summary>
             Used when a new Category or Game is created : it's signature must be unique
@@ -16,11 +22,6 @@
             </summary>
             <param name="signatureToTest">A Category's or Game's signature..</param>
             <returns>Whether the signature equals none of the other ones, or not..</returns>
-        </member>
-        <member name="M:AmpShell.DAL.UserDataAccessor.GetDataFilePath">
-            <summary>
-            Returns the path to the user data file (AmpShell.xml).
-            </summary>
         </member>
         <member name="T:AmpShell.DOSBox.DOSBoxConfigFile">
             <summary>
