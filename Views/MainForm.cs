@@ -1192,7 +1192,10 @@ namespace AmpShell.Views
             {
                 if (prefsForm.ShowDialog(this) == DialogResult.OK)
                 {
-                    this.gamesLargeImageList.ImageSize = new Size(UserDataAccessor.UserData.LargeViewModeSize, UserDataAccessor.UserData.LargeViewModeSize);
+                    if (this.gamesLargeImageList != null)
+                    {
+                        this.gamesLargeImageList.ImageSize = new Size(UserDataAccessor.UserData.LargeViewModeSize, UserDataAccessor.UserData.LargeViewModeSize);
+                    }
                     this.menuStrip.Visible = UserDataAccessor.UserData.MenuBarVisible;
                     this.menuBarMenuItem.Checked = UserDataAccessor.UserData.MenuBarVisible;
                     this.toolStrip.Visible = UserDataAccessor.UserData.ToolBarVisible;
