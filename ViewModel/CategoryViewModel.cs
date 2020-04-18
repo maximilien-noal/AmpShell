@@ -38,7 +38,7 @@ namespace AmpShell.ViewModel
 
         public void CreateCategory()
         {
-            if (string.IsNullOrWhiteSpace(this.editedCategorySignature))
+            if (string.IsNullOrEmpty(this.editedCategorySignature))
             {
                 var category = new Category(this.Name, UserDataAccessor.GetAUniqueSignature());
                 UserDataAccessor.UserData.AddChild(category);
@@ -49,6 +49,9 @@ namespace AmpShell.ViewModel
             }
         }
 
-        public bool IsDataValid() => string.IsNullOrWhiteSpace(this.Name) == false;
+        public bool IsDataValid()
+        {
+            return string.IsNullOrEmpty(this.Name) == false;
+        }
     }
 }

@@ -21,8 +21,7 @@ namespace AmpShell.AutoConfig
         {
             try
             {
-                if (Directory.GetDirectoryRoot(PathFinder.GetStartupPath()) == Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles) ||
-                    Directory.GetDirectoryRoot(PathFinder.GetStartupPath()) == Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86))
+                if (Directory.GetDirectoryRoot(PathFinder.GetStartupPath()) == Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles))
                 {
                     return false;
                 }
@@ -42,22 +41,12 @@ namespace AmpShell.AutoConfig
 
         public static string SearchCommonTextEditor()
         {
-            string notepadPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "notepad.exe");
+            string notepadPath = Path.Combine(Path.GetDirectoryName(Environment.GetFolderPath(Environment.SpecialFolder.System)), "notepad.exe");
             if (File.Exists(notepadPath))
             {
                 return notepadPath;
             }
             return string.Empty;
-        }
-
-        public static string SearchDOSBoxConf(string userConfigDataPath, string dosboxExecutablePath)
-        {
-            return SearchFileWithExtension(userConfigDataPath, dosboxExecutablePath, "*.conf");
-        }
-
-        public static string SearchDOSBoxLanguageFile(string userConfigDataPath, string dosboxExecutablePath)
-        {
-            return SearchFileWithExtension(userConfigDataPath, dosboxExecutablePath, "*.lng");
         }
 
         public static string SearchDOSBox(string userConfigDataPath, bool portableMode)
@@ -73,7 +62,7 @@ namespace AmpShell.AutoConfig
             }
             else if (Directory.Exists(Path.Combine(windrive, "Program Files (x86)")))
             {
-                string[] dosboxNamedDirs = Directory.GetDirectories(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "DOSBox*", SearchOption.TopDirectoryOnly);
+                string[] dosboxNamedDirs = Directory.GetDirectories(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "DOSBox*", SearchOption.TopDirectoryOnly);
                 if (dosboxNamedDirs.GetLength(0) != 0)
                 {
                     var systemDOSBox = Path.Combine(dosboxNamedDirs[0], "dosbox.exe");
@@ -96,6 +85,16 @@ namespace AmpShell.AutoConfig
                 }
             }
             return string.Empty;
+        }
+
+        public static string SearchDOSBoxConf(string userConfigDataPath, string dosboxExecutablePath)
+        {
+            return SearchFileWithExtension(userConfigDataPath, dosboxExecutablePath, "*.conf");
+        }
+
+        public static string SearchDOSBoxLanguageFile(string userConfigDataPath, string dosboxExecutablePath)
+        {
+            return SearchFileWithExtension(userConfigDataPath, dosboxExecutablePath, "*.lng");
         }
 
         private static string SearchFileWithExtension(string userConfigDataPath, string dosboxExecutablePath, string extension)
@@ -123,7 +122,7 @@ namespace AmpShell.AutoConfig
             }
             else
             {
-                if (string.IsNullOrWhiteSpace(dosboxExecutablePath) == false && Directory.Exists(Path.GetDirectoryName(dosboxExecutablePath)))
+                if (string.IsNullOrEmpty(dosboxExecutablePath) == false && Directory.Exists(Path.GetDirectoryName(dosboxExecutablePath)))
                 {
                     var langFilesBesidesDOSBox = Directory.GetFiles(Path.GetDirectoryName(dosboxExecutablePath), extension);
                     if (langFilesBesidesDOSBox.Length > 0)

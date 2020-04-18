@@ -7,9 +7,7 @@
     using System.Linq;
     using System.Text.RegularExpressions;
 
-    /// <summary>
-    /// Represents a DOSBox Config File.
-    /// </summary>
+    /// <summary> Represents a DOSBox Config File. </summary>
     public class DOSBoxConfigFile
     {
         private readonly List<string> configFileContent = new List<string>();
@@ -18,22 +16,34 @@
 
         public DOSBoxConfigFile(string configFilePath)
         {
-            if (string.IsNullOrWhiteSpace(configFilePath) || File.Exists(configFilePath) == false)
+            if (string.IsNullOrEmpty(configFilePath) || File.Exists(configFilePath) == false)
             {
                 return;
             }
 
             this.configFileContent = File.ReadAllLines(configFilePath).Select(x => x.ToUpper(CultureInfo.CurrentCulture)).ToList();
-            int index = this.configFileContent.LastIndexOf("[AUTOEXEC]");
-            if (index != -1)
+        }
+
+        private string AutoExecSection
+        {
+            get
             {
-                var range = new Tuple<int, int>(index + 1, Math.Abs(index - (this.configFileContent.Count - 1)));
-                var section = this.configFileContent.GetRange(range.Item1, range.Item2);
-                section.RemoveAll(x => string.IsNullOrEmpty(x) || x[0] == '#');
-                this.autoExecSection = string.Join(string.Empty, section);
+                int index = this.configFileContent.LastIndexOf("[AUTOEXEC]");
+                if (index != -1)
+                {
+                    var rangeStart = index + 1;
+                    var rangeEnd = Math.Abs(index - (this.configFileContent.Count - 1));
+                    var section = this.configFileContent.GetRange(rangeStart, rangeEnd);
+                    section.RemoveAll(x => string.IsNullOrEmpty(x) || x.ToUpper().Trim().StartsWith("REM"));
+                    return string.Join(string.Empty, section.ToArray());
+                }
+                return string.Empty;
             }
         }
 
-        public bool IsAutoExecSectionUsed() => string.IsNullOrWhiteSpace(this.autoExecSection) == false && Regex.Split(this.autoExecSection, "\r\n|\r|\n").Any(x => string.IsNullOrWhiteSpace(x) == false && x.ToUpper().Trim().StartsWith("REM") == false);
+        public bool IsAutoExecSectionUsed()
+        {
+            return string.IsNullOrEmpty(this.AutoExecSection) == false && Regex.Split(this.autoExecSection, "\r\n|\r|\n").Any(x => string.IsNullOrEmpty(x) == false && x.ToUpper().Trim().StartsWith("REM") == false);
+        }
     }
 }

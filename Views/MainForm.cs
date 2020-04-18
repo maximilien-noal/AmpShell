@@ -12,12 +12,12 @@ namespace AmpShell.Views
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Diagnostics;
     using System.Drawing;
     using System.Globalization;
     using System.IO;
     using System.Linq;
-    using System.Threading.Tasks;
     using System.Windows.Forms;
 
     using AmpShell.DAL;
@@ -192,38 +192,43 @@ namespace AmpShell.Views
         private void AmpShell_Shown(object sender, EventArgs e)
         {
             this.ampShellShown = true;
-            _ = Task.Factory.StartNew(
-                () =>
+            using (var worker = new BackgroundWorker())
             {
-                this.CreateAndPopulateContextMenus();
-                this.Invoke(new Action(delegate
+                worker.DoWork += (s, d) => this.CreateAndPopulateContextMenus();
+                worker.RunWorkerCompleted += (s, d) =>
                 {
-                    this.DisplayUserData();
-                    this.redrawableTabs = this.TabControl.TabPages.Cast<TabPage>().Where(x => ((ListView)x.Controls[ListViewName]).Items.Count == 0).ToList();
-
-                    //select the first TabPage of tabcontrol
-                    if (this.TabControl.HasChildren)
+                    this.Invoke(new Action(delegate
                     {
-                        //select the first TabPage
-                        this.TabControl.SelectedTab = this.TabControl.TabPages[0];
-                        this.CategoryEditButton.Enabled = true;
-                        this.EditSelectedcategoryToolStripMenuItem.Enabled = true;
-                        this.editCategoryMenuMenuItem.Enabled = true;
-                        this.deleteCategoryMenuMenuItem.Enabled = true;
-                        this.CategoryDeleteButton.Enabled = true;
-                        this.DeleteSelectedCategoryToolStripMenuItem.Enabled = true;
-                    }
+                        this.DisplayUserData();
+                        this.redrawableTabs = this.TabControl.TabPages.Cast<TabPage>().Where(x => ((ListView)x.Controls[ListViewName]).Items.Count == 0).ToList();
 
-                    //if tabcontrol has no children, then it has no TabPages (categories)
-                    //so we prompt the user for the title of the first category.
-                    else
-                    {
-                        this.CategoryAddButton_Click(sender, e);
-                    }
-                }));
-            }, System.Threading.CancellationToken.None,
-                TaskCreationOptions.None,
-                TaskScheduler.Default);
+                        //select the first TabPage of tabcontrol
+                        if (this.TabControl.HasChildren)
+                        {
+                            //select the first TabPage
+                            this.TabControl.SelectedTab = this.TabControl.TabPages[0];
+                            this.CategoryEditButton.Enabled = true;
+                            this.EditSelectedcategoryToolStripMenuItem.Enabled = true;
+                            this.editCategoryMenuMenuItem.Enabled = true;
+                            this.deleteCategoryMenuMenuItem.Enabled = true;
+                            this.CategoryDeleteButton.Enabled = true;
+                            this.DeleteSelectedCategoryToolStripMenuItem.Enabled = true;
+                        }
+
+                        //if tabcontrol has no children, then it has no TabPages (categories)
+                        //so we prompt the user for the title of the first category.
+                        else
+                        {
+                            this.CategoryAddButton_Click(sender, e);
+                        }
+                    }));
+                };
+                worker.RunWorkerAsync();
+                while (worker.IsBusy)
+                {
+                    Application.DoEvents();
+                }
+            }
         }
 
         /// <summary>
@@ -538,7 +543,7 @@ namespace AmpShell.Views
                 Game selectedGame = this.GetSelectedGame();
 
                 //if the selected game has a setup executable
-                if (string.IsNullOrWhiteSpace(selectedGame.SetupEXEPath) == false)
+                if (string.IsNullOrEmpty(selectedGame.SetupEXEPath) == false)
                 {
                     this.RunGameSetupToolStripMenuItem.Enabled = true;
                     this.runGameSetupMenuItem.Enabled = true;
@@ -552,7 +557,7 @@ namespace AmpShell.Views
                     this.RunGameSetupButton.Enabled = false;
                     this.SetupPathLabel.Text = "Setup: none";
                 }
-                if (string.IsNullOrWhiteSpace(selectedGame.DOSEXEPath) == false)
+                if (string.IsNullOrEmpty(selectedGame.DOSEXEPath) == false)
                 {
                     this.ExecutablePathLabel.Text = $"Executable: {selectedGame.DOSEXEPath}";
                 }
@@ -561,7 +566,7 @@ namespace AmpShell.Views
                     this.ExecutablePathLabel.Text = "Executable: none";
                 }
 
-                if (string.IsNullOrWhiteSpace(selectedGame.Directory) == false)
+                if (string.IsNullOrEmpty(selectedGame.Directory) == false)
                 {
                     this.CMountLabel.Text = $"'C:' mount: {selectedGame.Directory}";
                 }
@@ -572,14 +577,14 @@ namespace AmpShell.Views
 
                 if (selectedGame.NoConfig == false)
                 {
-                    if (string.IsNullOrWhiteSpace(selectedGame.DBConfPath) == false)
+                    if (string.IsNullOrEmpty(selectedGame.DBConfPath) == false)
                     {
                         this.CustomConfigurationLabel.Text = $"Configuration: {selectedGame.DBConfPath}";
                         this.editGameConfigurationMenuItem.Enabled = true;
                         this.GameEditConfigurationButton.Enabled = true;
                         this.EditConfigToolStripMenuItem.Enabled = true;
                     }
-                    else if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBDefaultConfFilePath) == false)
+                    else if (string.IsNullOrEmpty(UserDataAccessor.UserData.DBDefaultConfFilePath) == false)
                     {
                         this.CustomConfigurationLabel.Text = "Configuration: default";
                         this.editGameConfigurationMenuItem.Enabled = false;
@@ -601,7 +606,7 @@ namespace AmpShell.Views
                     this.GameEditConfigurationButton.Enabled = false;
                     this.EditConfigToolStripMenuItem.Enabled = false;
                 }
-                if (string.IsNullOrWhiteSpace(selectedGame.CDPath) == false)
+                if (string.IsNullOrEmpty(selectedGame.CDPath) == false)
                 {
                     if (selectedGame.MountAsFloppy == false)
                     {
@@ -655,7 +660,7 @@ namespace AmpShell.Views
                     this.QuitOnExitLabel.Text = "Quit on exit: no";
                 }
 
-                if (string.IsNullOrWhiteSpace(selectedGame.AdditionalCommands) == false)
+                if (string.IsNullOrEmpty(selectedGame.AdditionalCommands) == false)
                 {
                     this.AdditionalCommandsLabel.Text = $"Additional commands: {selectedGame.AdditionalCommands}";
                 }
@@ -664,7 +669,7 @@ namespace AmpShell.Views
                     this.AdditionalCommandsLabel.Text = "Additional commands: none";
                 }
 
-                if (string.IsNullOrWhiteSpace(selectedGame.Directory) == false)
+                if (string.IsNullOrEmpty(selectedGame.Directory) == false)
                 {
                     this.NotesLabel.Text = $"Notes: {selectedGame.Notes}";
                 }
@@ -775,19 +780,19 @@ namespace AmpShell.Views
         {
             var userData = UserDataAccessor.UserData;
             this.TabControl.TabPages.Clear();
-            if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBDefaultConfFilePath) == false && string.IsNullOrWhiteSpace(UserDataAccessor.UserData.ConfigEditorPath) == false)
+            if (string.IsNullOrEmpty(UserDataAccessor.UserData.DBDefaultConfFilePath) == false && string.IsNullOrEmpty(UserDataAccessor.UserData.ConfigEditorPath) == false)
             {
                 this.EditDefaultConfigurationToolStripMenuItem.Enabled = true;
                 this.EditDefaultConfigurationButton.Enabled = true;
             }
 
-            if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.ConfigEditorPath))
+            if (string.IsNullOrEmpty(UserDataAccessor.UserData.ConfigEditorPath))
             {
                 this.RunConfigurationEditorButton.Enabled = false;
                 this.RunConfigurationEditorToolStripMenuItem.Enabled = false;
             }
 
-            if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBPath) || File.Exists(UserDataAccessor.UserData.DBPath) == false)
+            if (string.IsNullOrEmpty(UserDataAccessor.UserData.DBPath) || File.Exists(UserDataAccessor.UserData.DBPath) == false)
             {
                 this.RunDOSBoxToolStripMenuItem.Enabled = false;
                 this.RunDOSBoxButton.Enabled = false;
@@ -861,7 +866,7 @@ namespace AmpShell.Views
                     this.gamesLargeImageList.Images.Add("DefaultIcon", Properties.Resources.Generic_Application.GetThumbnailImage(userData.LargeViewModeSize, userData.LargeViewModeSize, null, IntPtr.Zero));
                     this.gamesMediumImageList.Images.Add("DefaultIcon", Properties.Resources.Generic_Application1.GetThumbnailImage(32, 32, null, IntPtr.Zero));
                     this.gamesSmallImageList.Images.Add("DefaultIcon", Properties.Resources.Generic_Application1.GetThumbnailImage(16, 16, null, IntPtr.Zero));
-                    if (string.IsNullOrWhiteSpace(gameToDisplay.Icon) == false && File.Exists(gameToDisplay.Icon))
+                    if (string.IsNullOrEmpty(gameToDisplay.Icon) == false && File.Exists(gameToDisplay.Icon))
                     {
                         this.gamesLargeImageList.Images.Add(gameToDisplay.Signature, Image.FromFile(gameToDisplay.Icon, true).GetThumbnailImage(userData.LargeViewModeSize, userData.LargeViewModeSize, null, IntPtr.Zero));
                         this.gamesMediumImageList.Images.Add(gameToDisplay.Signature, Image.FromFile(gameToDisplay.Icon, true).GetThumbnailImage(32, 32, null, IntPtr.Zero));
@@ -1008,7 +1013,7 @@ namespace AmpShell.Views
 
         private void EditDefaultConfigurationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBDefaultConfFilePath) == false && File.Exists(UserDataAccessor.UserData.DBDefaultConfFilePath) && string.IsNullOrWhiteSpace(UserDataAccessor.UserData.ConfigEditorPath) == false && UserDataAccessor.UserData.ConfigEditorPath != "No text editor (Notepad in Windows' directory, or TextEditor.exe in AmpShell's directory) found." && File.Exists(UserDataAccessor.UserData.ConfigEditorPath))
+            if (string.IsNullOrEmpty(UserDataAccessor.UserData.DBDefaultConfFilePath) == false && File.Exists(UserDataAccessor.UserData.DBDefaultConfFilePath) && string.IsNullOrEmpty(UserDataAccessor.UserData.ConfigEditorPath) == false && UserDataAccessor.UserData.ConfigEditorPath != "No text editor (Notepad in Windows' directory, or TextEditor.exe in AmpShell's directory) found." && File.Exists(UserDataAccessor.UserData.ConfigEditorPath))
             {
                 Process.Start(UserDataAccessor.UserData.ConfigEditorPath, UserDataAccessor.UserData.DBDefaultConfFilePath);
             }
@@ -1034,7 +1039,7 @@ namespace AmpShell.Views
             {
                 string[] files = (string[])dragArgs.Data.GetData(DataFormats.FileDrop);
                 var firstFile = files.FirstOrDefault();
-                if (string.IsNullOrWhiteSpace(firstFile) == false)
+                if (string.IsNullOrEmpty(firstFile) == false)
                 {
                     if (Path.GetExtension(firstFile).ToUpper(CultureInfo.InvariantCulture) == ".LNK")
                     {
@@ -1090,7 +1095,7 @@ namespace AmpShell.Views
 
         private void GameEditConfigurationButton_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.ConfigEditorPath) == false)
+            if (string.IsNullOrEmpty(UserDataAccessor.UserData.ConfigEditorPath) == false)
             {
                 Game selectedGame = this.GetSelectedGame();
                 Process.Start(UserDataAccessor.UserData.ConfigEditorPath, $"{selectedGame.DBConfPath} {UserDataAccessor.UserData.ConfigEditorAdditionalParameters}");
@@ -1249,7 +1254,7 @@ namespace AmpShell.Views
 
         private void RunConfigurationEditorButton_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.ConfigEditorPath) == false)
+            if (string.IsNullOrEmpty(UserDataAccessor.UserData.ConfigEditorPath) == false)
             {
                 if (File.Exists(UserDataAccessor.UserData.ConfigEditorPath))
                 {
@@ -1478,7 +1483,7 @@ namespace AmpShell.Views
                 this.NewGameToolStripMenuItem.Enabled = true;
                 this.addGameMenuItem.Enabled = true;
                 this.GameAddButton.Enabled = true;
-                if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBPath) == false)
+                if (string.IsNullOrEmpty(UserDataAccessor.UserData.DBPath) == false)
                 {
                     this.OpenGameFolderButton.Enabled = true;
                     this.openGameFolderMenuItem.Enabled = true;
@@ -1499,12 +1504,12 @@ namespace AmpShell.Views
                 this.DeleteSelectedCategoryToolStripMenuItem.Enabled = true;
                 this.deleteCategoryMenuMenuItem.Enabled = true;
                 this.GameEditButton.Enabled = true;
-                if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.ConfigEditorPath) == false)
+                if (string.IsNullOrEmpty(UserDataAccessor.UserData.ConfigEditorPath) == false)
                 {
                     this.RunConfigurationEditorButton.Enabled = true;
                     this.RunConfigurationEditorToolStripMenuItem.Enabled = true;
                 }
-                if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBDefaultConfFilePath) == false)
+                if (string.IsNullOrEmpty(UserDataAccessor.UserData.DBDefaultConfFilePath) == false)
                 {
                     this.EditDefaultConfigurationToolStripMenuItem.Enabled = true;
                     this.EditDefaultConfigurationButton.Enabled = true;

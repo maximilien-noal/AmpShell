@@ -21,7 +21,10 @@ namespace AmpShell.DAL
 
     public static class UserDataAccessor
     {
-        static UserDataAccessor() => UserData = new Preferences();
+        static UserDataAccessor()
+        {
+            UserData = new Preferences();
+        }
 
         /// <summary>
         /// Gets object to load and save user data through XML (de)serialization.
@@ -40,7 +43,10 @@ namespace AmpShell.DAL
             return newSignature;
         }
 
-        public static Category GetCategoryWithSignature(string signature) => UserData.ListChildren.Cast<Category>().FirstOrDefault(x => x.Signature == signature);
+        public static Category GetCategoryWithSignature(string signature)
+        {
+            return UserData.ListChildren.Cast<Category>().FirstOrDefault(x => x.Signature == signature);
+        }
 
         /// <summary>
         /// Returns the path to the user data file (AmpShell.xml).
@@ -49,7 +55,7 @@ namespace AmpShell.DAL
         public static string GetDataFilePath()
         {
             var appDataFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "AmpShell\\AmpShell.xml");
-            if (string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("AmpShellDebug")) == false)
+            if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable("AmpShellDebug")) == false)
             {
                 return appDataFile;
             }
@@ -74,11 +80,11 @@ namespace AmpShell.DAL
 
         public static Game GetFirstGameWithName(string name)
         {
-            if (string.IsNullOrWhiteSpace(name))
+            if (string.IsNullOrEmpty(name))
             {
                 return new Game();
             }
-            var game = UserData.ListChildren.Cast<Category>().SelectMany(x => x.ListChildren.Cast<Game>()).FirstOrDefault(x => string.IsNullOrWhiteSpace(x.Name) == false && x.Name.Trim().ToUpperInvariant() == name.Trim().ToUpperInvariant());
+            var game = UserData.ListChildren.Cast<Category>().SelectMany(x => x.ListChildren.Cast<Game>()).FirstOrDefault(x => string.IsNullOrEmpty(x.Name) == false && x.Name.Trim().ToUpperInvariant() == name.Trim().ToUpperInvariant());
             if (game is null)
             {
                 return new Game();
@@ -88,11 +94,11 @@ namespace AmpShell.DAL
 
         public static Game GetGameWithMainExecutable(string executablePath)
         {
-            if (string.IsNullOrWhiteSpace(executablePath))
+            if (string.IsNullOrEmpty(executablePath))
             {
                 return new Game();
             }
-            var game = UserData.ListChildren.Cast<Category>().SelectMany(x => x.ListChildren.Cast<Game>()).FirstOrDefault(x => string.IsNullOrWhiteSpace(x.DOSEXEPath) == false && x.DOSEXEPath.Trim().ToUpperInvariant() == executablePath.Trim().ToUpperInvariant());
+            var game = UserData.ListChildren.Cast<Category>().SelectMany(x => x.ListChildren.Cast<Game>()).FirstOrDefault(x => string.IsNullOrEmpty(x.DOSEXEPath) == false && x.DOSEXEPath.Trim().ToUpperInvariant() == executablePath.Trim().ToUpperInvariant());
             if (game is null)
             {
                 return new Game()
@@ -166,7 +172,7 @@ namespace AmpShell.DAL
             UserData.ConfigEditorPath = UserData.ConfigEditorPath.Replace("AppPath", PathFinder.GetStartupPath());
             UserData.ConfigEditorAdditionalParameters = UserData.ConfigEditorAdditionalParameters.Replace("AppPath", PathFinder.GetStartupPath());
 
-            if (string.IsNullOrWhiteSpace(UserData.DBPath))
+            if (string.IsNullOrEmpty(UserData.DBPath))
             {
                 UserData.DBPath = FileFinder.SearchDOSBox(dataFilePath, UserData.PortableMode);
             }
@@ -174,7 +180,7 @@ namespace AmpShell.DAL
             {
                 UserData.DBPath = FileFinder.SearchDOSBox(dataFilePath, UserData.PortableMode);
             }
-            if (string.IsNullOrWhiteSpace(UserData.ConfigEditorPath))
+            if (string.IsNullOrEmpty(UserData.ConfigEditorPath))
             {
                 UserData.ConfigEditorPath = FileFinder.SearchCommonTextEditor();
             }
@@ -183,7 +189,7 @@ namespace AmpShell.DAL
                 UserData.ConfigEditorPath = FileFinder.SearchCommonTextEditor();
             }
 
-            if (string.IsNullOrWhiteSpace(UserData.DBDefaultConfFilePath))
+            if (string.IsNullOrEmpty(UserData.DBDefaultConfFilePath))
             {
                 UserData.DBDefaultConfFilePath = FileFinder.SearchDOSBoxConf(dataFilePath, UserData.DBPath);
             }
@@ -192,7 +198,7 @@ namespace AmpShell.DAL
                 UserData.DBDefaultConfFilePath = FileFinder.SearchDOSBoxConf(dataFilePath, UserData.DBPath);
             }
 
-            if (string.IsNullOrWhiteSpace(UserData.DBDefaultLangFilePath) == false)
+            if (string.IsNullOrEmpty(UserData.DBDefaultLangFilePath) == false)
             {
                 UserData.DBDefaultLangFilePath = FileFinder.SearchDOSBoxLanguageFile(dataFilePath, UserData.DBPath);
             }

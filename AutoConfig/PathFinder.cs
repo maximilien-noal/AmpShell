@@ -16,7 +16,7 @@ namespace AmpShell.AutoConfig
 
         public static string GetStartupPath()
         {
-            if (string.IsNullOrWhiteSpace(startupPath))
+            if (string.IsNullOrEmpty(startupPath))
             {
                 startupPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
             }

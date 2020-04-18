@@ -28,13 +28,16 @@ namespace AmpShell.Views
     {
         private const string NoTextEditorFound = "No text editor (Notepad in Windows' directory, or TextEditor.exe in AmpShell's directory) found.";
 
-        public PreferencesForm() => this.InitializeComponent();
+        public PreferencesForm()
+        {
+            this.InitializeComponent();
+        }
 
         private void BrowseForEditorButton_Click(object sender, EventArgs e)
         {
             using (var textEditorFileDialog = new OpenFileDialog())
             {
-                if (string.IsNullOrWhiteSpace(this.EditorBinaryPathTextBox.Text) == false)
+                if (string.IsNullOrEmpty(this.EditorBinaryPathTextBox.Text) == false)
                 {
                     if (Directory.Exists(Path.GetDirectoryName(this.EditorBinaryPathTextBox.Text).ToString(CultureInfo.InvariantCulture)))
                     {
@@ -54,14 +57,14 @@ namespace AmpShell.Views
 
         private void OK_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(this.GamesDirTextBox.Text) == false)
+            if (string.IsNullOrEmpty(this.GamesDirTextBox.Text) == false)
             {
                 if (Directory.Exists(this.GamesDirTextBox.Text))
                 {
                     UserDataAccessor.UserData.GamesDefaultDir = this.GamesDirTextBox.Text;
                 }
             }
-            if (string.IsNullOrWhiteSpace(this.CDImageDirTextBox.Text) == false)
+            if (string.IsNullOrEmpty(this.CDImageDirTextBox.Text) == false)
             {
                 if (Directory.Exists(this.CDImageDirTextBox.Text))
                 {
@@ -148,7 +151,10 @@ namespace AmpShell.Views
             }
         }
 
-        private void Cancel_Click(object sender, EventArgs e) => this.Close();
+        private void Cancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
 
         private void Main_Prefs_Load(object sender, EventArgs e)
         {
@@ -164,7 +170,7 @@ namespace AmpShell.Views
             this.QuitOnExitCheckBox.Checked = UserDataAccessor.UserData.GamesQuitOnExit;
             this.NoConsoleCheckBox.Checked = UserDataAccessor.UserData.GamesNoConsole;
             this.FullscreenCheckBox.Checked = UserDataAccessor.UserData.GamesInFullScreen;
-            if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.GamesAdditionalCommands) == false)
+            if (string.IsNullOrEmpty(UserDataAccessor.UserData.GamesAdditionalCommands) == false)
             {
                 this.GameAdditionalCommandsTextBox.Text = UserDataAccessor.UserData.GamesAdditionalCommands;
             }
@@ -194,37 +200,37 @@ namespace AmpShell.Views
                 this.TilesIconsRadioButton.Checked = true;
             }
 
-            if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBPath) == false)
+            if (string.IsNullOrEmpty(UserDataAccessor.UserData.DBPath) == false)
             {
                 this.DOSBoxPathTextBox.Text = UserDataAccessor.UserData.DBPath;
             }
 
-            if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBDefaultConfFilePath) == false)
+            if (string.IsNullOrEmpty(UserDataAccessor.UserData.DBDefaultConfFilePath) == false)
             {
                 this.DOSBoxConfFileTextBox.Text = UserDataAccessor.UserData.DBDefaultConfFilePath;
             }
 
-            if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBDefaultLangFilePath) == false)
+            if (string.IsNullOrEmpty(UserDataAccessor.UserData.DBDefaultLangFilePath) == false)
             {
                 this.DOSBoxLangFileTextBox.Text = UserDataAccessor.UserData.DBDefaultLangFilePath;
             }
 
-            if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.ConfigEditorPath) == false)
+            if (string.IsNullOrEmpty(UserDataAccessor.UserData.ConfigEditorPath) == false)
             {
                 this.EditorBinaryPathTextBox.Text = UserDataAccessor.UserData.ConfigEditorPath;
             }
 
-            if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.ConfigEditorAdditionalParameters) == false)
+            if (string.IsNullOrEmpty(UserDataAccessor.UserData.ConfigEditorAdditionalParameters) == false)
             {
                 this.AdditionalParametersTextBox.Text = UserDataAccessor.UserData.ConfigEditorPath;
             }
 
-            if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.CDsDefaultDir) == false)
+            if (string.IsNullOrEmpty(UserDataAccessor.UserData.CDsDefaultDir) == false)
             {
                 this.CDImageDirTextBox.Text = UserDataAccessor.UserData.CDsDefaultDir;
             }
 
-            if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.GamesDefaultDir) == false)
+            if (string.IsNullOrEmpty(UserDataAccessor.UserData.GamesDefaultDir) == false)
             {
                 this.GamesDirTextBox.Text = UserDataAccessor.UserData.GamesDefaultDir;
             }
@@ -260,7 +266,10 @@ namespace AmpShell.Views
             }
         }
 
-        private void MoveFirstButton_Click(object sender, EventArgs e) => this.CategoriesListViewItemMoveTo(0);
+        private void MoveFirstButton_Click(object sender, EventArgs e)
+        {
+            this.CategoriesListViewItemMoveTo(0);
+        }
 
         private void DOSBoxPathBrowseButton_Click(object sender, EventArgs e)
         {
@@ -275,7 +284,7 @@ namespace AmpShell.Views
                     UserDataAccessor.UserData.DBPath = dosBoxExePathFileDialog.FileName;
                     this.DOSBoxPathTextBox.Text = dosBoxExePathFileDialog.FileName;
                 }
-                else if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBPath))
+                else if (string.IsNullOrEmpty(UserDataAccessor.UserData.DBPath))
                 {
                     MessageBox.Show("Location of DOSBox's executable unknown. You will not be able to run games!", "Select DOSBox's executable", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
@@ -286,7 +295,7 @@ namespace AmpShell.Views
         {
             using (var dosboxDefaultConfFileDialog = new OpenFileDialog())
             {
-                if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBDefaultConfFilePath) == false
+                if (string.IsNullOrEmpty(UserDataAccessor.UserData.DBDefaultConfFilePath) == false
                     && Directory.Exists(Path.GetDirectoryName(UserDataAccessor.UserData.DBDefaultConfFilePath)))
                 {
                     dosboxDefaultConfFileDialog.InitialDirectory = Path.GetDirectoryName(UserDataAccessor.UserData.DBDefaultConfFilePath);
@@ -307,7 +316,7 @@ namespace AmpShell.Views
         {
             using (var dosBoxDefaultLangFileDialog = new OpenFileDialog())
             {
-                if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBDefaultLangFilePath) == false
+                if (string.IsNullOrEmpty(UserDataAccessor.UserData.DBDefaultLangFilePath) == false
                     && Directory.Exists(Path.GetDirectoryName(UserDataAccessor.UserData.DBDefaultLangFilePath)))
                 {
                     dosBoxDefaultLangFileDialog.InitialDirectory = Path.GetDirectoryName(UserDataAccessor.UserData.DBDefaultLangFilePath);
@@ -506,6 +515,9 @@ namespace AmpShell.Views
             }
         }
 
-        private void ReScanDirButton_Click(object sender, EventArgs e) => this.PortableModeCheckBox_CheckedChanged(sender, EventArgs.Empty);
+        private void ReScanDirButton_Click(object sender, EventArgs e)
+        {
+            this.PortableModeCheckBox_CheckedChanged(sender, EventArgs.Empty);
+        }
     }
 }

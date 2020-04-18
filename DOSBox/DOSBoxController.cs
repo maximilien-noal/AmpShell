@@ -38,11 +38,11 @@ namespace AmpShell.DOSBox
         public static Process RunOnlyDOSBox()
         {
             var arguments = new StringBuilder();
-            if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBDefaultConfFilePath) == false)
+            if (string.IsNullOrEmpty(UserDataAccessor.UserData.DBDefaultConfFilePath) == false)
             {
                 arguments.Append($" -conf \"{UserDataAccessor.UserData.DBDefaultConfFilePath}\"");
             }
-            if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBDefaultLangFilePath) == false)
+            if (string.IsNullOrEmpty(UserDataAccessor.UserData.DBDefaultLangFilePath) == false)
             {
                 arguments.Append($" -lang \"{UserDataAccessor.UserData.DBDefaultLangFilePath}\"");
             }
@@ -79,14 +79,14 @@ namespace AmpShell.DOSBox
 
             var dosboxArgs = new StringBuilder();
             string dosBoxExePath = this.gameInstance.GetDOSBoxPath();
-            if (string.IsNullOrWhiteSpace(dosBoxExePath) == true || dosBoxExePath == "dosbox.exe isn't is the same directory as AmpShell.exe!" || File.Exists(dosBoxExePath) == false)
+            if (string.IsNullOrEmpty(dosBoxExePath) == true || dosBoxExePath == "dosbox.exe isn't is the same directory as AmpShell.exe!" || File.Exists(dosBoxExePath) == false)
             {
                 throw new FileNotFoundException("DOSBox not found!");
             }
 
             dosboxArgs.Append(this.AddCustomConfigFile());
 
-            if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBDefaultLangFilePath) == false && UserDataAccessor.UserData.DBDefaultLangFilePath != "No language file (*.lng) found in AmpShell's directory.")
+            if (string.IsNullOrEmpty(UserDataAccessor.UserData.DBDefaultLangFilePath) == false && UserDataAccessor.UserData.DBDefaultLangFilePath != "No language file (*.lng) found in AmpShell's directory.")
             {
                 dosboxArgs.Append($" -lang \"{UserDataAccessor.UserData.DBDefaultLangFilePath}\"");
             }
@@ -122,12 +122,12 @@ namespace AmpShell.DOSBox
         {
             var psi = new ProcessStartInfo(this.gameInstance.GetDOSBoxPath());
 
-            if (string.IsNullOrWhiteSpace(this.gameInstance.DBConfPath) == false)
+            if (string.IsNullOrEmpty(this.gameInstance.DBConfPath) == false)
             {
                 psi.WorkingDirectory = Path.GetDirectoryName(this.gameInstance.DBConfPath);
             }
 
-            if (string.IsNullOrWhiteSpace(args) == false)
+            if (string.IsNullOrEmpty(args) == false)
             {
                 psi.Arguments = args;
             }
@@ -150,13 +150,13 @@ namespace AmpShell.DOSBox
             lines.AppendLine("[AUTOEXEC]");
 
             //the game directory mounted as C
-            if (string.IsNullOrWhiteSpace(this.gameInstance.Directory) == false)
+            if (string.IsNullOrEmpty(this.gameInstance.Directory) == false)
             {
                 lines.AppendLine($"mount c \"{this.gameInstance.Directory}\"");
             }
 
             //Path for the game's CD image (.bin, .cue, or .iso) mounted as D:
-            if (string.IsNullOrWhiteSpace(this.gameInstance.CDPath) == false)
+            if (string.IsNullOrEmpty(this.gameInstance.CDPath) == false)
             {
                 var imgmount = new StringBuilder();
 
@@ -193,7 +193,7 @@ namespace AmpShell.DOSBox
                         addedMountOptions = true;
                         folderMount.Append($"mount d \"{this.gameInstance.CDPath}\"");
                     }
-                    if (string.IsNullOrWhiteSpace(this.gameInstance.CDLabel) == false && addedMountOptions)
+                    if (string.IsNullOrEmpty(this.gameInstance.CDLabel) == false && addedMountOptions)
                     {
                         folderMount.Append($" -label \"{this.gameInstance.CDLabel}\"");
                     }
@@ -201,12 +201,12 @@ namespace AmpShell.DOSBox
                 }
             }
 
-            if (string.IsNullOrWhiteSpace(this.gameInstance.AdditionalCommands) == false)
+            if (string.IsNullOrEmpty(this.gameInstance.AdditionalCommands) == false)
             {
                 lines.Append(this.gameInstance.PutEachAdditionnalCommandsOnANewLine());
             }
 
-            if (string.IsNullOrWhiteSpace(this.gameInstance.DOSEXEPath) == false)
+            if (string.IsNullOrEmpty(this.gameInstance.DOSEXEPath) == false)
             {
                 lines.AppendLine("C:");
                 if (!forSetupExe)
@@ -237,19 +237,19 @@ namespace AmpShell.DOSBox
             if (this.gameInstance.NoConfig == false)
             {
                 //use at first the game's custom config file
-                if (string.IsNullOrWhiteSpace(this.gameInstance.DBConfPath) == false)
+                if (string.IsNullOrEmpty(this.gameInstance.DBConfPath) == false)
                 {
                     gameConfigFilePath = this.gameInstance.DBConfPath;
                 }
 
                 //if not, use the default dosbox.conf file
-                else if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBDefaultConfFilePath) == false && UserDataAccessor.UserData.DBDefaultConfFilePath != "No configuration file (*.conf) found in AmpShell's directory.")
+                else if (string.IsNullOrEmpty(UserDataAccessor.UserData.DBDefaultConfFilePath) == false && UserDataAccessor.UserData.DBDefaultConfFilePath != "No configuration file (*.conf) found in AmpShell's directory.")
                 {
                     gameConfigFilePath = UserDataAccessor.UserData.DBDefaultConfFilePath;
                 }
             }
             string dosboxArgs = string.Empty;
-            if (string.IsNullOrWhiteSpace(gameConfigFilePath) == false)
+            if (string.IsNullOrEmpty(gameConfigFilePath) == false)
             {
                 dosboxArgs += $"-conf \"{gameConfigFilePath}\"";
             }
