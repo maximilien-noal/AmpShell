@@ -35,3 +35,11 @@ This program can also be used on a removable media, no setup required. To that e
 ### Multiple DOSBox support
 
 The emulator we all know and love has alot of variations out there (DOSBox SVN, ECE, SVN Daum, DOSBox-X, ...), so that's why you can use another DOSBox executable and config files on a per-game basis if you need to.
+
+### Command Line options
+
+In this mode, AmpShell will launch the game, and exit. The GUI will be not shown.
+
+-g to run a game (with its name or main executable path)
+-s to run its setup utility
+-v for verbosity
