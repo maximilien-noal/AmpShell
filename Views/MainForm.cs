@@ -12,20 +12,23 @@ namespace AmpShell.Views
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Drawing;
     using System.Globalization;
     using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
     using System.Windows.Forms;
-
     using AmpShell.DAL;
     using AmpShell.DOSBox;
+    using AmpShell.Extensions;
     using AmpShell.Model;
     using AmpShell.Views.UserControls;
     using AmpShell.WinShell;
 
-    /// <summary> MainWindow content. </summary>
+    /// <summary>
+    /// MainWindow content.
+    /// </summary>
     public partial class MainForm : Form
     {
         private const string ListViewName = "GamesListView";
@@ -40,7 +43,9 @@ namespace AmpShell.Views
 
         private bool ampShellShown;
 
-        /// <summary> Context Menu for the ListView. </summary>
+        /// <summary>
+        /// Context Menu for the ListView.
+        /// </summary>
         private ContextMenuStrip currentListViewContextMenuStrip;
 
         private ToolStripMenuItem deleteCategoryMenuItem;
@@ -77,15 +82,21 @@ namespace AmpShell.Views
 
         private ToolStripMenuItem statusBarMenuItem;
 
-        /// <summary> Context Menu for the TabPages. </summary>
+        /// <summary>
+        /// Context Menu for the TabPages.
+        /// </summary>
         private ContextMenuStrip tabContextMenuStrip;
 
         private ToolStripMenuItem toolBarMenuItem;
 
-        /// <summary> Top-level context menu. </summary>
+        /// <summary>
+        /// Top-level context menu.
+        /// </summary>
         private ContextMenuStrip windowContextMenuStrip;
 
-        /// <summary> Initializes a new instance of the <see cref="MainForm" /> class. </summary>
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MainForm" /> class.
+        /// </summary>
         public MainForm()
         {
             this.InitializeComponent();
@@ -112,7 +123,9 @@ namespace AmpShell.Views
             }
         }
 
-        /// <summary> EventHandler for the ? -&gt; About button. </summary>
+        /// <summary>
+        /// EventHandler for the ? -&gt; About button.
+        /// </summary>
         private void AboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using (var aboutBox = new AboutBox())
@@ -126,19 +139,17 @@ namespace AmpShell.Views
             this.DisplayHelpMessage(this.AboutToolStripMenuItem.ToolTipText);
         }
 
-        /// <summary> EventHandler for when AmpShell is closed. </summary>
+        /// <summary>
+        /// EventHandler for when AmpShell is closed.
+        /// </summary>
         private void AmpShell_FormClosing(object sender, FormClosingEventArgs e)
         {
             UserDataAccessor.SaveUserSettings();
         }
 
-        private void AmpShell_Load(object sender, EventArgs e)
-        {
-            UserDataAccessor.LoadUserSettings();
-            DOSBoxController.AskForDOSBox();
-        }
-
-        /// <summary> EventHandler for when the window is moved. </summary>
+        /// <summary>
+        /// EventHandler for when the window is moved.
+        /// </summary>
         private void AmpShell_LocationChanged(object sender, EventArgs e)
         {
             if (UserDataAccessor.UserData.RememberWindowPosition == true && this.WindowState != FormWindowState.Minimized)
@@ -148,7 +159,9 @@ namespace AmpShell.Views
             }
         }
 
-        /// <summary> EventHandler for when the window is (un)maximized. </summary>
+        /// <summary>
+        /// EventHandler for when the window is (un)maximized.
+        /// </summary>
         private void AmpShell_Resize(object sender, EventArgs e)
         {
             if (this.ampShellShown == true)
@@ -164,7 +177,9 @@ namespace AmpShell.Views
             }
         }
 
-        /// <summary> EventHandler for when the user has finished resizing the window. </summary>
+        /// <summary>
+        /// EventHandler for when the user has finished resizing the window.
+        /// </summary>
         private void AmpShell_Resized(object sender, EventArgs e)
         {
             //change the data about the Window's dimensions (restored on next session).
@@ -175,7 +190,9 @@ namespace AmpShell.Views
             }
         }
 
-        /// <summary> EventHandler for when AmpShell is shown (happens after AmpShell_Load). </summary>
+        /// <summary>
+        /// EventHandler for when AmpShell is shown (happens after AmpShell_Load).
+        /// </summary>
         private void AmpShell_Shown(object sender, EventArgs e)
         {
             this.ampShellShown = true;
@@ -213,7 +230,9 @@ namespace AmpShell.Views
                 TaskScheduler.Default);
         }
 
-        /// <summary> EventHandler when a Category (a TabPage) is added (created). </summary>
+        /// <summary>
+        /// EventHandler when a Category (a TabPage) is added (created).
+        /// </summary>
         private void CategoryAddButton_Click(object sender, EventArgs e)
         {
             using (var newCategoryForm = new CategoryForm())
@@ -234,7 +253,9 @@ namespace AmpShell.Views
             this.DisplayHelpMessage(this.CategoryAddButton.ToolTipText);
         }
 
-        /// <summary> EventHandler for when the Category delete button is clicked. </summary>
+        /// <summary>
+        /// EventHandler for when the Category delete button is clicked.
+        /// </summary>
         private void CategoryDeleteButton_Click(object sender, EventArgs e)
         {
             Category selectedCategory = this.GetSelectedCategory();
@@ -468,10 +489,12 @@ namespace AmpShell.Views
         /// </summary>
         private void CurrentListView_ItemActivate(object sender, EventArgs e)
         {
-            this.StartDOSBox(this.GetDOSBoxPath(), this.GetSelectedGame(), false, UserDataAccessor.UserData.DBDefaultConfFilePath, UserDataAccessor.UserData.DBDefaultLangFilePath);
+            this.StartDOSBox(false);
         }
 
-        /// <summary> EventHandler for when a drag &amp; drop is initiated (drag). </summary>
+        /// <summary>
+        /// EventHandler for when a drag &amp; drop is initiated (drag).
+        /// </summary>
         private void CurrentListView_ItemDrag(object sender, EventArgs e)
         {
             if (this.SelectedListView.FocusedItem != null)
@@ -520,7 +543,7 @@ namespace AmpShell.Views
                     this.RunGameSetupToolStripMenuItem.Enabled = true;
                     this.runGameSetupMenuItem.Enabled = true;
                     this.RunGameSetupButton.Enabled = true;
-                    this.SetupPathLabel.Text = "Setup : " + selectedGame.SetupEXEPath;
+                    this.SetupPathLabel.Text = $"Setup : {selectedGame.SetupEXEPath}";
                 }
                 else
                 {
@@ -531,7 +554,7 @@ namespace AmpShell.Views
                 }
                 if (string.IsNullOrWhiteSpace(selectedGame.DOSEXEPath) == false)
                 {
-                    this.ExecutablePathLabel.Text = "Executable : " + selectedGame.DOSEXEPath;
+                    this.ExecutablePathLabel.Text = $"Executable : {selectedGame.DOSEXEPath}";
                 }
                 else
                 {
@@ -540,7 +563,7 @@ namespace AmpShell.Views
 
                 if (string.IsNullOrWhiteSpace(selectedGame.Directory) == false)
                 {
-                    this.CMountLabel.Text = "'C:' mount : " + selectedGame.Directory;
+                    this.CMountLabel.Text = $"'C:' mount : {selectedGame.Directory}";
                 }
                 else
                 {
@@ -551,7 +574,7 @@ namespace AmpShell.Views
                 {
                     if (string.IsNullOrWhiteSpace(selectedGame.DBConfPath) == false)
                     {
-                        this.CustomConfigurationLabel.Text = "Configuration : " + selectedGame.DBConfPath;
+                        this.CustomConfigurationLabel.Text = $"Configuration : {selectedGame.DBConfPath}";
                         this.editGameConfigurationMenuItem.Enabled = true;
                         this.GameEditConfigurationButton.Enabled = true;
                         this.EditConfigToolStripMenuItem.Enabled = true;
@@ -582,7 +605,7 @@ namespace AmpShell.Views
                 {
                     if (selectedGame.MountAsFloppy == false)
                     {
-                        this.DMountLabel.Text = "'D:' mount :" + selectedGame.CDPath;
+                        this.DMountLabel.Text = $"'D:' mount :{selectedGame.CDPath}";
                         if (selectedGame.UseIOCTL)
                         {
                             this.DMountLabel.Text += " (IOCTL in use)";
@@ -590,7 +613,7 @@ namespace AmpShell.Views
                     }
                     else
                     {
-                        this.DMountLabel.Text = "'A:' mount :" + selectedGame.CDPath;
+                        this.DMountLabel.Text = $"'A:' mount :{selectedGame.CDPath}";
                     }
                 }
                 else
@@ -634,7 +657,7 @@ namespace AmpShell.Views
 
                 if (string.IsNullOrWhiteSpace(selectedGame.AdditionalCommands) == false)
                 {
-                    this.AdditionalCommandsLabel.Text = "Additional commands : " + selectedGame.AdditionalCommands;
+                    this.AdditionalCommandsLabel.Text = $"Additional commands : {selectedGame.AdditionalCommands}";
                 }
                 else
                 {
@@ -735,7 +758,9 @@ namespace AmpShell.Views
             this.ExecutablePathLabel.Text = toolTipText;
         }
 
-        /// <summary> Create the TabPages (categories) ListViews, and games inside the ListViews. </summary>
+        /// <summary>
+        /// Create the TabPages (categories) ListViews, and games inside the ListViews.
+        /// </summary>
         private void DisplayUserData()
         {
             var userData = UserDataAccessor.UserData;
@@ -990,7 +1015,9 @@ namespace AmpShell.Views
             this.DisplayHelpMessage(this.FileToolStripMenuItem.ToolTipText);
         }
 
-        /// <summary> EventHandler for when the user has clicked on the GameAddButton. </summary>
+        /// <summary>
+        /// EventHandler for when the user has clicked on the GameAddButton.
+        /// </summary>
         private void GameAddButton_Click(object sender, EventArgs e)
         {
             var newGame = new Game();
@@ -1031,7 +1058,9 @@ namespace AmpShell.Views
             this.DisplayHelpMessage(this.GameAddButton.ToolTipText);
         }
 
-        /// <summary> EventHandler for when the delete button game is clicked. </summary>
+        /// <summary>
+        /// EventHandler for when the delete button game is clicked.
+        /// </summary>
         private void GameDeleteButton_Click(object sender, EventArgs e)
         {
             KeyEventArgs k = new KeyEventArgs(Keys.Delete);
@@ -1043,7 +1072,9 @@ namespace AmpShell.Views
             this.DisplayHelpMessage(this.GameDeleteButton.ToolTipText);
         }
 
-        /// <summary> Called when the user wants to edit an existing game. </summary>
+        /// <summary>
+        /// Called when the user wants to edit an existing game.
+        /// </summary>
         private void GameEditButton_Click(object sender, EventArgs e)
         {
             Game selectedGame = this.GetSelectedGame();
@@ -1073,17 +1104,6 @@ namespace AmpShell.Views
         private void GameEditConfigurationButton_MouseEnter(object sender, EventArgs e)
         {
             this.DisplayHelpMessage(this.GameEditConfigurationButton.ToolTipText);
-        }
-
-        private string GetDOSBoxPath()
-        {
-            string dosboxPath = this.GetSelectedGame().AlternateDOSBoxExePath;
-            if (string.IsNullOrWhiteSpace(dosboxPath))
-            {
-                dosboxPath = UserDataAccessor.UserData.DBPath;
-            }
-
-            return dosboxPath;
         }
 
         private Category GetSelectedCategory()
@@ -1218,7 +1238,9 @@ namespace AmpShell.Views
             this.DisplayHelpMessage(this.QuitterToolStripMenuItem.ToolTipText);
         }
 
-        /// <summary> EventHander for File -&gt; Quit. </summary>
+        /// <summary>
+        /// EventHander for File -&gt; Quit.
+        /// </summary>
         private void QuitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
@@ -1307,10 +1329,12 @@ namespace AmpShell.Views
             this.DisplayHelpMessage(this.RunGameButton.ToolTipText);
         }
 
-        /// <summary> EventHandler for when the RunGameSetupButton is clicked. </summary>
+        /// <summary>
+        /// EventHandler for when the RunGameSetupButton is clicked.
+        /// </summary>
         private void RunGameSetupButton_Click(object sender, EventArgs e)
         {
-            this.StartDOSBox(this.GetDOSBoxPath(), this.GetSelectedGame(), true, UserDataAccessor.UserData.DBDefaultConfFilePath, UserDataAccessor.UserData.DBDefaultLangFilePath);
+            this.StartDOSBox(true);
         }
 
         private void RunGameSetupButton_MouseEnter(object sender, EventArgs e)
@@ -1333,11 +1357,24 @@ namespace AmpShell.Views
             this.DisplayHelpMessage(this.SmallIconViewButton.ToolTipText);
         }
 
-        private void StartDOSBox(string dosboxPath, Game selectedGame, bool runSetup, string confFile, string langFile)
+        private void StartDOSBox(bool runSetup)
         {
+            var selectedGame = this.GetSelectedGame();
+            if (selectedGame is null)
+            {
+                return;
+            }
             try
             {
-                var dosboxProcess = DOSBoxController.StartDOSBox(dosboxPath, DOSBoxController.BuildArgs(selectedGame, runSetup, dosboxPath, confFile, langFile), selectedGame.DBConfPath);
+                Process dosboxProcess;
+                if (runSetup)
+                {
+                    dosboxProcess = selectedGame.RunSetup();
+                }
+                else
+                {
+                    dosboxProcess = selectedGame.Run();
+                }
                 if (dosboxProcess != null)
                 {
                     this.WindowState = FormWindowState.Minimized;
@@ -1367,7 +1404,9 @@ namespace AmpShell.Views
             UserDataAccessor.UserData.StatusBarVisible = this.statusStrip.Visible;
         }
 
-        /// <summary> EventHandler for when a drop ends. </summary>
+        /// <summary>
+        /// EventHandler for when a drop ends.
+        /// </summary>
         private void TabControl_DragDrop(object sender, DragEventArgs e)
         {
             foreach (ListViewItem itemToMove in this.SelectedListView.SelectedItems)
@@ -1390,7 +1429,9 @@ namespace AmpShell.Views
             }
         }
 
-        /// <summary> EventHandler for when a drop begins. </summary>
+        /// <summary>
+        /// EventHandler for when a drop begins.
+        /// </summary>
         private void TabControl_DragEnter(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.UnicodeText))
@@ -1403,7 +1444,9 @@ namespace AmpShell.Views
             }
         }
 
-        /// <summary> EventHandler for when items are dragged over a Tab. </summary>
+        /// <summary>
+        /// EventHandler for when items are dragged over a Tab.
+        /// </summary>
         private void TabControl_DragOver(object sender, DragEventArgs e)
         {
             Point pos = this.TabControl.PointToClient(MousePosition);

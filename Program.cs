@@ -13,8 +13,17 @@
 namespace AmpShell
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Runtime.InteropServices;
     using System.Windows.Forms;
+    using AmpShell.DAL;
+    using AmpShell.DOSBox;
+    using AmpShell.Extensions;
+    using AmpShell.Model;
     using AmpShell.Views;
+    using AmpShell.WinShell;
+    using CommandLine;
 
     internal static class Program
     {
@@ -22,7 +31,82 @@ namespace AmpShell
         /// Application entry point.
         /// </summary>
         [STAThread]
-        private static void Main()
+        private static void Main(string[] args)
+        {
+            UserDataAccessor.LoadUserSettings();
+            DOSBoxController.AskForDOSBoxIfNotFound();
+            if (args is null || args.Any() == false)
+            {
+                RunMainForm();
+            }
+            else
+            {
+                // get console output
+                if (!NativeMethods.AttachConsole(-1))
+                {
+                    NativeMethods.AllocConsole();
+                }
+
+                CommandLine.Parser.Default.ParseArguments<Options>(args)
+                    .WithParsed(RunCli)
+                    .WithNotParsed(OutputErrors);
+
+                // detach console
+                NativeMethods.FreeConsole();
+
+                // gives command prompt back to the user
+                SendKeys.SendWait("{ENTER}");
+            }
+        }
+
+        private static void OutputErrors(IEnumerable<Error> errs)
+        {
+            if (errs is null || errs.Any(x => x is VersionRequestedError))
+            {
+                return;
+            }
+            else
+            {
+                foreach (var err in errs)
+                {
+                    Console.WriteLine($"Command line option parse error: {err.Tag}");
+                }
+            }
+        }
+
+        private static void RunCli(Options options)
+        {
+            var request = options.Game;
+            if (string.IsNullOrWhiteSpace(request))
+            {
+                Console.WriteLine($"Empty game specified. Exiting...");
+            }
+            Game game;
+            game = DAL.UserDataAccessor.GetFirstGameWithName(request);
+            if (string.IsNullOrWhiteSpace(game.DOSEXEPath))
+            {
+                game = DAL.UserDataAccessor.GetGameWithMainExecutable(request);
+            }
+            if (options.Setup)
+            {
+                if (options.Verbose)
+                {
+                    Console.WriteLine($"Running '{game.Name}''s setup executable: {game.SetupEXEPath}...");
+                }
+                game.RunSetup();
+            }
+            else
+            {
+                if (options.Verbose)
+                {
+                    Console.WriteLine($"Running the game named '{game.Name}' via the main executable at {game.DOSEXEPath}...");
+                }
+
+                game.Run();
+            }
+        }
+
+        private static void RunMainForm()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

@@ -22,7 +22,7 @@ namespace AmpShell.DOSBox
     /// </summary>
     public static class DOSBoxController
     {
-        public static void AskForDOSBox()
+        public static void AskForDOSBoxIfNotFound()
         {
             //if DOSBoxPath is still empty, say to the user that dosbox's executable cannot be found
             if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBPath))
@@ -60,38 +60,12 @@ namespace AmpShell.DOSBox
         }
 
         /// <summary>
-        /// Starts DOSBox, and returns whether it was successful.
-        /// </summary>
-        /// <param name="dosboxPath">Path to DOSBox.exe.</param>
-        /// <param name="args">Command line args passed to DOSBox.</param>
-        /// <param name="customConfFilePath">DOSBox config file to use (optional).</param>
-        /// <returns>True if DOSBox started, false if it did not.</returns>
-        public static Process StartDOSBox(string dosboxPath, string args, string customConfFilePath = "")
-        {
-            var psi = new ProcessStartInfo(dosboxPath);
-
-            if (string.IsNullOrWhiteSpace(customConfFilePath) == false)
-            {
-                psi.WorkingDirectory = Path.GetDirectoryName(customConfFilePath);
-            }
-
-            if (string.IsNullOrWhiteSpace(args) == false)
-            {
-                psi.Arguments = args;
-            }
-            Process dosboxProcess = Process.Start(psi);
-            if (dosboxProcess != null)
-            {
-                dosboxProcess.EnableRaisingEvents = true;
-            }
-            return dosboxProcess;
-        }
-
-        /// <summary>
         /// Builds the argument line in order to start DOSBox.
         /// </summary>
         /// <param name="selectedGame">Game the user wants to start.</param>
-        /// <param name="forSetupExe">Whether or not we are starting the game's setup utility or the game itself.</param>
+        /// <param name="forSetupExe">
+        /// Whether or not we are starting the game's setup utility or the game itself.
+        /// </param>
         /// <param name="dosBoxExePath">The path to DOSBox.exe.</param>
         /// <param name="dosboxDefaultConfFilePath">The .conf file to use for DOSBox.</param>
         /// <param name="dosboxDefaultLangFilePath">The .lng file to use for DOSBox.</param>
@@ -170,47 +144,32 @@ namespace AmpShell.DOSBox
             }
         }
 
-        private static string AddCustomConfigFile(Game selectedGame, string dosboxDefaultConfFilePath)
-        {
-            string gameConfigFilePath = string.Empty;
-
-            //if the "do not use any config file at all" has not been checked
-            if (selectedGame.NoConfig == false)
-            {
-                //use at first the game's custom config file
-                if (string.IsNullOrWhiteSpace(selectedGame.DBConfPath) == false)
-                {
-                    gameConfigFilePath = selectedGame.DBConfPath;
-                }
-
-                //if not, use the default dosbox.conf file
-                else if (string.IsNullOrWhiteSpace(dosboxDefaultConfFilePath) == false && dosboxDefaultConfFilePath != "No configuration file (*.conf) found in AmpShell's directory.")
-                {
-                    gameConfigFilePath = dosboxDefaultConfFilePath;
-                }
-            }
-            string dosboxArgs = string.Empty;
-            if (string.IsNullOrWhiteSpace(gameConfigFilePath) == false)
-            {
-                dosboxArgs += $" -conf \"{gameConfigFilePath}\"";
-            }
-
-            return dosboxArgs;
-        }
-
         /// <summary>
-        /// Path for the default language file used for DOSBox and specified by the user in the Tools menu.
+        /// Starts DOSBox, and returns its <see cref="Process" />.
         /// </summary>
-        /// <param name="dosboxDefaultLangFilePath">.</param>
-        private static string AddPrefsLangFile(string dosboxDefaultLangFilePath)
+        /// <param name="dosboxPath">Path to DOSBox.exe.</param>
+        /// <param name="args">Command line args passed to DOSBox.</param>
+        /// <param name="customConfFilePath">DOSBox config file to use (optional).</param>
+        /// <returns>The DOSBox <see cref="Process" />.</returns>
+        public static Process StartDOSBox(string dosboxPath, string args, string customConfFilePath = "")
         {
-            string dosboxArgs = string.Empty;
-            if (string.IsNullOrWhiteSpace(dosboxDefaultLangFilePath) == false && dosboxDefaultLangFilePath != "No language file (*.lng) found in AmpShell's directory.")
+            var psi = new ProcessStartInfo(dosboxPath);
+
+            if (string.IsNullOrWhiteSpace(customConfFilePath) == false)
             {
-                dosboxArgs += $" -lang \"{dosboxDefaultLangFilePath}\"";
+                psi.WorkingDirectory = Path.GetDirectoryName(customConfFilePath);
             }
 
-            return dosboxArgs;
+            if (string.IsNullOrWhiteSpace(args) == false)
+            {
+                psi.Arguments = args;
+            }
+            Process dosboxProcess = Process.Start(psi);
+            if (dosboxProcess != null)
+            {
+                dosboxProcess.EnableRaisingEvents = true;
+            }
+            return dosboxProcess;
         }
 
         private static string AddAdditionalCommands(Game selectedGame, bool forSetupExe, DOSBoxConfigFile configFile)
@@ -290,6 +249,50 @@ namespace AmpShell.DOSBox
             if (string.IsNullOrWhiteSpace(selectedGame.AdditionalCommands) == false)
             {
                 dosboxArgs += $" {selectedGame.AdditionalCommands}";
+            }
+
+            return dosboxArgs;
+        }
+
+        private static string AddCustomConfigFile(Game selectedGame, string dosboxDefaultConfFilePath)
+        {
+            string gameConfigFilePath = string.Empty;
+
+            //if the "do not use any config file at all" has not been checked
+            if (selectedGame.NoConfig == false)
+            {
+                //use at first the game's custom config file
+                if (string.IsNullOrWhiteSpace(selectedGame.DBConfPath) == false)
+                {
+                    gameConfigFilePath = selectedGame.DBConfPath;
+                }
+
+                //if not, use the default dosbox.conf file
+                else if (string.IsNullOrWhiteSpace(dosboxDefaultConfFilePath) == false && dosboxDefaultConfFilePath != "No configuration file (*.conf) found in AmpShell's directory.")
+                {
+                    gameConfigFilePath = dosboxDefaultConfFilePath;
+                }
+            }
+            string dosboxArgs = string.Empty;
+            if (string.IsNullOrWhiteSpace(gameConfigFilePath) == false)
+            {
+                dosboxArgs += $" -conf \"{gameConfigFilePath}\"";
+            }
+
+            return dosboxArgs;
+        }
+
+        /// <summary>
+        /// Path for the default language file used for DOSBox and specified by the user in the
+        /// Tools menu.
+        /// </summary>
+        /// <param name="dosboxDefaultLangFilePath">.</param>
+        private static string AddPrefsLangFile(string dosboxDefaultLangFilePath)
+        {
+            string dosboxArgs = string.Empty;
+            if (string.IsNullOrWhiteSpace(dosboxDefaultLangFilePath) == false && dosboxDefaultLangFilePath != "No language file (*.lng) found in AmpShell's directory.")
+            {
+                dosboxArgs += $" -lang \"{dosboxDefaultLangFilePath}\"";
             }
 
             return dosboxArgs;

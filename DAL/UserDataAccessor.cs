@@ -74,14 +74,45 @@ namespace AmpShell.DAL
             }
         }
 
+        public static Game GetFirstGameWithName(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return new Game();
+            }
+            var game = UserData.ListChildren.Cast<Category>().SelectMany(x => x.ListChildren.Cast<Game>()).FirstOrDefault(x => string.IsNullOrWhiteSpace(x.Name) == false && x.Name.Trim().ToUpperInvariant() == name.Trim().ToUpperInvariant());
+            if (game is null)
+            {
+                return new Game();
+            }
+            return game;
+        }
+
+        public static Game GetGameWithMainExecutable(string executablePath)
+        {
+            if (string.IsNullOrWhiteSpace(executablePath))
+            {
+                return new Game();
+            }
+            var game = UserData.ListChildren.Cast<Category>().SelectMany(x => x.ListChildren.Cast<Game>()).FirstOrDefault(x => string.IsNullOrWhiteSpace(x.DOSEXEPath) == false && x.DOSEXEPath.Trim().ToUpperInvariant() == executablePath.Trim().ToUpperInvariant());
+            if (game is null)
+            {
+                return new Game()
+                {
+                    DOSEXEPath = executablePath
+                };
+            }
+            return game;
+        }
+
         public static Game GetGameWithSignature(string signature)
         {
             return UserData.ListChildren.Cast<Category>().SelectMany(x => x.ListChildren.Cast<Game>()).FirstOrDefault(x => x.Signature == signature);
         }
 
         /// <summary>
-        /// Used when a new Category or Game is created : it's signature must be unique
-        /// so AmpShell can recognize it instantly.
+        /// Used when a new Category or Game is created : its signature must be unique so AmpShell
+        /// can recognize it instantly.
         /// </summary>
         /// <param name="signatureToTest">A Category's or Game's signature..</param>
         /// <returns>Whether the signature equals none of the other ones, or not..</returns>
@@ -113,9 +144,10 @@ namespace AmpShell.DAL
         public static void LoadUserSettings()
         {
             UserData = new Preferences();
-            if (File.Exists(GetDataFilePath()))
+            string dataFilePath = GetDataFilePath();
+            if (File.Exists(dataFilePath))
             {
-                UserData = ObjectSerializer.Deserialize<Preferences>(GetDataFilePath());
+                UserData = ObjectSerializer.Deserialize<Preferences>(dataFilePath);
             }
             foreach (Category concernedCategory in UserData.ListChildren)
             {
@@ -138,11 +170,11 @@ namespace AmpShell.DAL
 
             if (string.IsNullOrWhiteSpace(UserData.DBPath))
             {
-                UserData.DBPath = FileFinder.SearchDOSBox(GetDataFilePath(), UserData.PortableMode);
+                UserData.DBPath = FileFinder.SearchDOSBox(dataFilePath, UserData.PortableMode);
             }
             else if (File.Exists(UserData.DBPath) == false)
             {
-                UserData.DBPath = FileFinder.SearchDOSBox(GetDataFilePath(), UserData.PortableMode);
+                UserData.DBPath = FileFinder.SearchDOSBox(dataFilePath, UserData.PortableMode);
             }
             if (string.IsNullOrWhiteSpace(UserData.ConfigEditorPath))
             {
@@ -155,20 +187,20 @@ namespace AmpShell.DAL
 
             if (string.IsNullOrWhiteSpace(UserData.DBDefaultConfFilePath))
             {
-                UserData.DBDefaultConfFilePath = FileFinder.SearchDOSBoxConf(GetDataFilePath(), UserData.DBPath);
+                UserData.DBDefaultConfFilePath = FileFinder.SearchDOSBoxConf(dataFilePath, UserData.DBPath);
             }
             else if (File.Exists(UserData.DBDefaultConfFilePath) == false)
             {
-                UserData.DBDefaultConfFilePath = FileFinder.SearchDOSBoxConf(GetDataFilePath(), UserData.DBPath);
+                UserData.DBDefaultConfFilePath = FileFinder.SearchDOSBoxConf(dataFilePath, UserData.DBPath);
             }
 
             if (string.IsNullOrWhiteSpace(UserData.DBDefaultLangFilePath) == false)
             {
-                UserData.DBDefaultLangFilePath = FileFinder.SearchDOSBoxLanguageFile(GetDataFilePath(), UserData.DBPath);
+                UserData.DBDefaultLangFilePath = FileFinder.SearchDOSBoxLanguageFile(dataFilePath, UserData.DBPath);
             }
             else if (File.Exists(UserData.DBDefaultLangFilePath) == false)
             {
-                UserData.DBDefaultLangFilePath = FileFinder.SearchDOSBoxLanguageFile(GetDataFilePath(), UserData.DBPath);
+                UserData.DBDefaultLangFilePath = FileFinder.SearchDOSBoxLanguageFile(dataFilePath, UserData.DBPath);
             }
         }
 

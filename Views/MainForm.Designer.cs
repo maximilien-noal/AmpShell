@@ -862,7 +862,6 @@ namespace AmpShell.Views
             this.Name = "MainForm";
             this.Text = "AmpShell";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AmpShell_FormClosing);
-            this.Load += new System.EventHandler(this.AmpShell_Load);
             this.Shown += new System.EventHandler(this.AmpShell_Shown);
             this.ResizeEnd += new System.EventHandler(this.AmpShell_Resized);
             this.LocationChanged += new System.EventHandler(this.AmpShell_LocationChanged);

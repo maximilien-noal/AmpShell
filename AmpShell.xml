@@ -17,8 +17,8 @@
         </member>
         <member name="M:AmpShell.DAL.UserDataAccessor.IsItAUniqueSignature(System.String)">
             <summary>
-            Used when a new Category or Game is created : it's signature must be unique
-            so AmpShell can recognize it instantly.
+            Used when a new Category or Game is created : its signature must be unique so AmpShell
+            can recognize it instantly.
             </summary>
             <param name="signatureToTest">A Category's or Game's signature..</param>
             <returns>Whether the signature equals none of the other ones, or not..</returns>
@@ -33,21 +33,14 @@
             Used to start DOSBox with a game in it.
             </summary>
         </member>
-        <member name="M:AmpShell.DOSBox.DOSBoxController.StartDOSBox(System.String,System.String,System.String)">
-            <summary>
-            Starts DOSBox, and returns whether it was successful.
-            </summary>
-            <param name="dosboxPath">Path to DOSBox.exe.</param>
-            <param name="args">Command line args passed to DOSBox.</param>
-            <param name="customConfFilePath">DOSBox config file to use (optional).</param>
-            <returns>True if DOSBox started, false if it did not.</returns>
-        </member>
         <member name="M:AmpShell.DOSBox.DOSBoxController.BuildArgs(AmpShell.Model.Game,System.Boolean,System.String,System.String,System.String)">
             <summary>
             Builds the argument line in order to start DOSBox.
             </summary>
             <param name="selectedGame">Game the user wants to start.</param>
-            <param name="forSetupExe">Whether or not we are starting the game's setup utility or the game itself.</param>
+            <param name="forSetupExe">
+            Whether or not we are starting the game's setup utility or the game itself.
+            </param>
             <param name="dosBoxExePath">The path to DOSBox.exe.</param>
             <param name="dosboxDefaultConfFilePath">The .conf file to use for DOSBox.</param>
             <param name="dosboxDefaultLangFilePath">The .lng file to use for DOSBox.</param>
@@ -62,9 +55,19 @@
             <param name="dosboxDefaultLangFilePath">Path to DOSBox.lng.</param>
             <returns>The DOSBox process if it started successfully, null otherwise.</returns>
         </member>
+        <member name="M:AmpShell.DOSBox.DOSBoxController.StartDOSBox(System.String,System.String,System.String)">
+            <summary>
+            Starts DOSBox, and returns its <see cref="T:System.Diagnostics.Process" />.
+            </summary>
+            <param name="dosboxPath">Path to DOSBox.exe.</param>
+            <param name="args">Command line args passed to DOSBox.</param>
+            <param name="customConfFilePath">DOSBox config file to use (optional).</param>
+            <returns>The DOSBox <see cref="T:System.Diagnostics.Process" />.</returns>
+        </member>
         <member name="M:AmpShell.DOSBox.DOSBoxController.AddPrefsLangFile(System.String)">
             <summary>
-            Path for the default language file used for DOSBox and specified by the user in the Tools menu.
+            Path for the default language file used for DOSBox and specified by the user in the
+            Tools menu.
             </summary>
             <param name="dosboxDefaultLangFilePath">.</param>
         </member>
@@ -163,7 +166,7 @@
             <returns>True if the value was changed, false if the existing value matched the
             desired value..</returns>
         </member>
-        <member name="M:AmpShell.Program.Main">
+        <member name="M:AmpShell.Program.Main(System.String[])">
             <summary>
             Application entry point.
             </summary>
@@ -508,19 +511,29 @@
             </summary>
         </member>
         <member name="T:AmpShell.Views.MainForm">
-            <summary> MainWindow content. </summary>
+            <summary>
+            MainWindow content.
+            </summary>
         </member>
         <member name="F:AmpShell.Views.MainForm.currentListViewContextMenuStrip">
-            <summary> Context Menu for the ListView. </summary>
+            <summary>
+            Context Menu for the ListView.
+            </summary>
         </member>
         <member name="F:AmpShell.Views.MainForm.tabContextMenuStrip">
-            <summary> Context Menu for the TabPages. </summary>
+            <summary>
+            Context Menu for the TabPages.
+            </summary>
         </member>
         <member name="F:AmpShell.Views.MainForm.windowContextMenuStrip">
-            <summary> Top-level context menu. </summary>
+            <summary>
+            Top-level context menu.
+            </summary>
         </member>
         <member name="M:AmpShell.Views.MainForm.#ctor">
-            <summary> Initializes a new instance of the <see cref="T:AmpShell.Views.MainForm" /> class. </summary>
+            <summary>
+            Initializes a new instance of the <see cref="T:AmpShell.Views.MainForm" /> class.
+            </summary>
         </member>
         <member name="P:AmpShell.Views.MainForm.SelectedListView">
             <summary>
@@ -529,28 +542,44 @@
             </summary>
         </member>
         <member name="M:AmpShell.Views.MainForm.AboutToolStripMenuItem_Click(System.Object,System.EventArgs)">
-            <summary> EventHandler for the ? -&gt; About button. </summary>
+            <summary>
+            EventHandler for the ? -&gt; About button.
+            </summary>
         </member>
         <member name="M:AmpShell.Views.MainForm.AmpShell_FormClosing(System.Object,System.Windows.Forms.FormClosingEventArgs)">
-            <summary> EventHandler for when AmpShell is closed. </summary>
+            <summary>
+            EventHandler for when AmpShell is closed.
+            </summary>
         </member>
         <member name="M:AmpShell.Views.MainForm.AmpShell_LocationChanged(System.Object,System.EventArgs)">
-            <summary> EventHandler for when the window is moved. </summary>
+            <summary>
+            EventHandler for when the window is moved.
+            </summary>
         </member>
         <member name="M:AmpShell.Views.MainForm.AmpShell_Resize(System.Object,System.EventArgs)">
-            <summary> EventHandler for when the window is (un)maximized. </summary>
+            <summary>
+            EventHandler for when the window is (un)maximized.
+            </summary>
         </member>
         <member name="M:AmpShell.Views.MainForm.AmpShell_Resized(System.Object,System.EventArgs)">
-            <summary> EventHandler for when the user has finished resizing the window. </summary>
+            <summary>
+            EventHandler for when the user has finished resizing the window.
+            </summary>
         </member>
         <member name="M:AmpShell.Views.MainForm.AmpShell_Shown(System.Object,System.EventArgs)">
-            <summary> EventHandler for when AmpShell is shown (happens after AmpShell_Load). </summary>
+            <summary>
+            EventHandler for when AmpShell is shown (happens after AmpShell_Load).
+            </summary>
         </member>
         <member name="M:AmpShell.Views.MainForm.CategoryAddButton_Click(System.Object,System.EventArgs)">
-            <summary> EventHandler when a Category (a TabPage) is added (created). </summary>
+            <summary>
+            EventHandler when a Category (a TabPage) is added (created).
+            </summary>
         </member>
         <member name="M:AmpShell.Views.MainForm.CategoryDeleteButton_Click(System.Object,System.EventArgs)">
-            <summary> EventHandler for when the Category delete button is clicked. </summary>
+            <summary>
+            EventHandler for when the Category delete button is clicked.
+            </summary>
         </member>
         <member name="M:AmpShell.Views.MainForm.CategoryEditButton_Click(System.Object,System.EventArgs)">
             <summary>
@@ -563,7 +592,9 @@
             </summary>
         </member>
         <member name="M:AmpShell.Views.MainForm.CurrentListView_ItemDrag(System.Object,System.EventArgs)">
-            <summary> EventHandler for when a drag &amp; drop is initiated (drag). </summary>
+            <summary>
+            EventHandler for when a drag &amp; drop is initiated (drag).
+            </summary>
         </member>
         <member name="M:AmpShell.Views.MainForm.CurrentListView_ItemSelectionChanged(System.Object,System.EventArgs)">
             <summary>
@@ -576,19 +607,29 @@
             </summary>
         </member>
         <member name="M:AmpShell.Views.MainForm.DisplayUserData">
-            <summary> Create the TabPages (categories) ListViews, and games inside the ListViews. </summary>
+            <summary>
+            Create the TabPages (categories) ListViews, and games inside the ListViews.
+            </summary>
         </member>
         <member name="M:AmpShell.Views.MainForm.GameAddButton_Click(System.Object,System.EventArgs)">
-            <summary> EventHandler for when the user has clicked on the GameAddButton. </summary>
+            <summary>
+            EventHandler for when the user has clicked on the GameAddButton.
+            </summary>
         </member>
         <member name="M:AmpShell.Views.MainForm.GameDeleteButton_Click(System.Object,System.EventArgs)">
-            <summary> EventHandler for when the delete button game is clicked. </summary>
+            <summary>
+            EventHandler for when the delete button game is clicked.
+            </summary>
         </member>
         <member name="M:AmpShell.Views.MainForm.GameEditButton_Click(System.Object,System.EventArgs)">
-            <summary> Called when the user wants to edit an existing game. </summary>
+            <summary>
+            Called when the user wants to edit an existing game.
+            </summary>
         </member>
         <member name="M:AmpShell.Views.MainForm.QuitToolStripMenuItem_Click(System.Object,System.EventArgs)">
-            <summary> EventHander for File -&gt; Quit. </summary>
+            <summary>
+            EventHander for File -&gt; Quit.
+            </summary>
         </member>
         <member name="M:AmpShell.Views.MainForm.RedrawWaitTimer_Tick(System.Object,System.EventArgs)">
             <summary>
@@ -602,16 +643,24 @@
             </summary>
         </member>
         <member name="M:AmpShell.Views.MainForm.RunGameSetupButton_Click(System.Object,System.EventArgs)">
-            <summary> EventHandler for when the RunGameSetupButton is clicked. </summary>
+            <summary>
+            EventHandler for when the RunGameSetupButton is clicked.
+            </summary>
         </member>
         <member name="M:AmpShell.Views.MainForm.TabControl_DragDrop(System.Object,System.Windows.Forms.DragEventArgs)">
-            <summary> EventHandler for when a drop ends. </summary>
+            <summary>
+            EventHandler for when a drop ends.
+            </summary>
         </member>
         <member name="M:AmpShell.Views.MainForm.TabControl_DragEnter(System.Object,System.Windows.Forms.DragEventArgs)">
-            <summary> EventHandler for when a drop begins. </summary>
+            <summary>
+            EventHandler for when a drop begins.
+            </summary>
         </member>
         <member name="M:AmpShell.Views.MainForm.TabControl_DragOver(System.Object,System.Windows.Forms.DragEventArgs)">
-            <summary> EventHandler for when items are dragged over a Tab. </summary>
+            <summary>
+            EventHandler for when items are dragged over a Tab.
+            </summary>
         </member>
         <member name="F:AmpShell.Views.MainForm.components">
             <summary>
