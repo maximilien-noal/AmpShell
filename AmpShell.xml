@@ -113,8 +113,8 @@
         </member>
         <member name="P:AmpShell.Model.Game.NoConfig">
             <summary>
-            Gets or sets a value indicating whether boolean if no config is used ("Don't use any config file at all" checkbox in GameForm)
-            Legacy 0.72 or older DOSBox option.
+            Gets or sets a value indicating whether boolean if no config is used ("Don't use any
+            config file at all" checkbox in GameForm) Legacy 0.72 or older DOSBox option.
             </summary>
         </member>
         <member name="P:AmpShell.Model.Game.NoConsole">
@@ -124,7 +124,8 @@
         </member>
         <member name="P:AmpShell.Model.Game.QuitOnExit">
             <summary>
-            Gets or sets a value indicating whether boolean for the -exit switch for DOSBox (if set to true, DOSBox closes when the game exits).
+            Gets or sets a value indicating whether boolean for the -exit switch for DOSBox (if set
+            to true, DOSBox closes when the game exits).
             </summary>
         </member>
         <member name="P:AmpShell.Model.Game.DOSEXEPath">
@@ -134,12 +135,14 @@
         </member>
         <member name="P:AmpShell.Model.Game.CDIsAnImage">
             <summary>
-            Gets or sets a value indicating whether if GameCDPath points to a CD image file (false if it points to a directory).
+            Gets or sets a value indicating whether if GameCDPath points to a CD image file (false
+            if it points to a directory).
             </summary>
         </member>
         <member name="P:AmpShell.Model.Game.AlternateDOSBoxExePath">
             <summary>
-            Gets or sets if we want to use DOSBox Daum, ECE, SVN, or other instead of the one set in the global preferences.
+            Gets or sets if we want to use DOSBox Daum, ECE, SVN, or other instead of the one set in
+            the global preferences.
             </summary>
         </member>
         <member name="T:AmpShell.Model.ModelWithChildren">
@@ -463,7 +466,8 @@
         </member>
         <member name="M:AmpShell.Views.GameForm.GameLocationTextbox_TextChanged(System.Object,System.EventArgs)">
             <summary>
-            EventHandler for when the this.GameLocationTextbox (for the game's executable location) text is changed.
+            EventHandler for when the this.GameLocationTextbox (for the game's executable location)
+            text is changed.
             </summary>
         </member>
         <member name="M:AmpShell.Views.GameForm.GameDirectoryTextbox_TextChanged(System.Object,System.EventArgs)">
@@ -488,9 +492,8 @@
         </member>
         <member name="M:AmpShell.Views.GameForm.GameCDDirBrowseButton_Click(System.Object,System.EventArgs)">
             <summary>
-            EventHandler to choose the directory mounted as D:
-            Because a CD can be a CD Image, or a drive.
-            Or, the user just wants to mount another directory as D:.
+            EventHandler to choose the directory mounted as D: Because a CD can be a CD Image, or a
+            drive. Or, the user just wants to mount another directory as D:.
             </summary>
         </member>
         <member name="F:AmpShell.Views.GameForm.components">

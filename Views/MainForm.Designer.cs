@@ -99,6 +99,7 @@ namespace AmpShell.Views
             this.FullscreenLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.QuitOnExitLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.AdditionalCommandsLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.NotesLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.TabControl = new System.Windows.Forms.TabControl();
             this.menuStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
@@ -784,7 +785,8 @@ namespace AmpShell.Views
             this.NoConsoleLabel,
             this.FullscreenLabel,
             this.QuitOnExitLabel,
-            this.AdditionalCommandsLabel});
+            this.AdditionalCommandsLabel,
+            this.NotesLabel});
             this.statusStrip.Location = new System.Drawing.Point(0, 339);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Size = new System.Drawing.Size(624, 22);
@@ -834,6 +836,11 @@ namespace AmpShell.Views
             // 
             this.AdditionalCommandsLabel.Name = "AdditionalCommandsLabel";
             this.AdditionalCommandsLabel.Size = new System.Drawing.Size(0, 17);
+            //
+            // NotesLabel
+            //
+            this.NotesLabel.Name = "NotesLabel";
+            this.NotesLabel.Size = new System.Drawing.Size(0, 17);
             // 
             // TabControl
             // 
@@ -931,6 +938,7 @@ namespace AmpShell.Views
         private System.Windows.Forms.ToolStripStatusLabel FullscreenLabel;
         private System.Windows.Forms.ToolStripStatusLabel QuitOnExitLabel;
         private System.Windows.Forms.ToolStripStatusLabel AdditionalCommandsLabel;
+        private System.Windows.Forms.ToolStripStatusLabel NotesLabel;
         private System.Windows.Forms.ToolStripMenuItem ViewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem LargeIconToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem SmallIconToolStripMenuItem;

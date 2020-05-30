@@ -72,6 +72,7 @@ namespace AmpShell.Views
             this.GameAdditionalCommandsTextBox.Text = this.GameAdditionalCommandsTextBox.Text.Replace("AppPath", Application.StartupPath);
             this.GameSetupTextBox.Text = this.GameSetupTextBox.Text.Replace("AppPath", Application.StartupPath);
             this.AlternateDOSBoxLocationTextbox.Text = this.AlternateDOSBoxLocationTextbox.Text.Replace("AppPath", Application.StartupPath);
+            this.NotesRichTextBox.Text = this.GameInstance.Notes;
 
             if (newGame)
             {
@@ -150,6 +151,7 @@ namespace AmpShell.Views
                             this.GameInstance.CDIsAnImage = false;
                         }
                     }
+                    this.GameInstance.Notes = this.NotesRichTextBox.Text;
                     this.DialogResult = DialogResult.OK;
                     this.Close();
                 }
@@ -267,7 +269,8 @@ namespace AmpShell.Views
         }
 
         /// <summary>
-        /// EventHandler for when the this.GameLocationTextbox (for the game's executable location) text is changed.
+        /// EventHandler for when the this.GameLocationTextbox (for the game's executable location)
+        /// text is changed.
         /// </summary>
         private void GameLocationTextbox_TextChanged(object sender, EventArgs e)
         {
@@ -418,9 +421,8 @@ namespace AmpShell.Views
         }
 
         /// <summary>
-        /// EventHandler to choose the directory mounted as D:
-        /// Because a CD can be a CD Image, or a drive.
-        /// Or, the user just wants to mount another directory as D:.
+        /// EventHandler to choose the directory mounted as D: Because a CD can be a CD Image, or a
+        /// drive. Or, the user just wants to mount another directory as D:.
         /// </summary>
         private void GameCDDirBrowseButton_Click(object sender, EventArgs e)
         {

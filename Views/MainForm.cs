@@ -462,6 +462,7 @@ namespace AmpShell.Views
             category.NoConsoleColumnWidth = this.SelectedListView.Columns["NoConsoleColumn"].Width;
             category.FullscreenColumnWidth = this.SelectedListView.Columns["FullscreenColumn"].Width;
             category.QuitOnExitColumnWidth = this.SelectedListView.Columns["QuitOnExitColumn"].Width;
+            category.NotesColumnWidth = this.SelectedListView.Columns["NotesColumn"].Width;
         }
 
         private void CurrentListView_DragDrop(object sender, DragEventArgs e)
@@ -517,6 +518,7 @@ namespace AmpShell.Views
             this.QuitOnExitLabel.Text = string.Empty;
             this.FullscreenLabel.Text = string.Empty;
             this.NoConsoleLabel.Text = string.Empty;
+            this.NotesLabel.Text = string.Empty;
 
             //several games can be selected at once, but it is only meant for drag&drop between categories
             //Besides, running more than one game (one DOSBox instance) at once can be CPU intensive...
@@ -543,52 +545,52 @@ namespace AmpShell.Views
                     this.RunGameSetupToolStripMenuItem.Enabled = true;
                     this.runGameSetupMenuItem.Enabled = true;
                     this.RunGameSetupButton.Enabled = true;
-                    this.SetupPathLabel.Text = $"Setup : {selectedGame.SetupEXEPath}";
+                    this.SetupPathLabel.Text = $"Setup: {selectedGame.SetupEXEPath}";
                 }
                 else
                 {
                     this.RunGameSetupToolStripMenuItem.Enabled = false;
                     this.runGameSetupMenuItem.Enabled = false;
                     this.RunGameSetupButton.Enabled = false;
-                    this.SetupPathLabel.Text = "Setup : none";
+                    this.SetupPathLabel.Text = "Setup: none";
                 }
                 if (string.IsNullOrWhiteSpace(selectedGame.DOSEXEPath) == false)
                 {
-                    this.ExecutablePathLabel.Text = $"Executable : {selectedGame.DOSEXEPath}";
+                    this.ExecutablePathLabel.Text = $"Executable: {selectedGame.DOSEXEPath}";
                 }
                 else
                 {
-                    this.ExecutablePathLabel.Text = "Executable : none";
+                    this.ExecutablePathLabel.Text = "Executable: none";
                 }
 
                 if (string.IsNullOrWhiteSpace(selectedGame.Directory) == false)
                 {
-                    this.CMountLabel.Text = $"'C:' mount : {selectedGame.Directory}";
+                    this.CMountLabel.Text = $"'C:' mount: {selectedGame.Directory}";
                 }
                 else
                 {
-                    this.CMountLabel.Text = "'C:' mount : none";
+                    this.CMountLabel.Text = "'C:' mount: none";
                 }
 
                 if (selectedGame.NoConfig == false)
                 {
                     if (string.IsNullOrWhiteSpace(selectedGame.DBConfPath) == false)
                     {
-                        this.CustomConfigurationLabel.Text = $"Configuration : {selectedGame.DBConfPath}";
+                        this.CustomConfigurationLabel.Text = $"Configuration: {selectedGame.DBConfPath}";
                         this.editGameConfigurationMenuItem.Enabled = true;
                         this.GameEditConfigurationButton.Enabled = true;
                         this.EditConfigToolStripMenuItem.Enabled = true;
                     }
                     else if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBDefaultConfFilePath) == false)
                     {
-                        this.CustomConfigurationLabel.Text = "Configuration : default";
+                        this.CustomConfigurationLabel.Text = "Configuration: default";
                         this.editGameConfigurationMenuItem.Enabled = false;
                         this.GameEditConfigurationButton.Enabled = false;
                         this.EditConfigToolStripMenuItem.Enabled = false;
                     }
                     else
                     {
-                        this.CustomConfigurationLabel.Text = "Configuration : none at all";
+                        this.CustomConfigurationLabel.Text = "Configuration: none at all";
                         this.editGameConfigurationMenuItem.Enabled = false;
                         this.GameEditConfigurationButton.Enabled = false;
                         this.EditConfigToolStripMenuItem.Enabled = false;
@@ -596,7 +598,7 @@ namespace AmpShell.Views
                 }
                 else
                 {
-                    this.CustomConfigurationLabel.Text = "Configuration : none at all";
+                    this.CustomConfigurationLabel.Text = "Configuration: none at all";
                     this.editGameConfigurationMenuItem.Enabled = false;
                     this.GameEditConfigurationButton.Enabled = false;
                     this.EditConfigToolStripMenuItem.Enabled = false;
@@ -605,7 +607,7 @@ namespace AmpShell.Views
                 {
                     if (selectedGame.MountAsFloppy == false)
                     {
-                        this.DMountLabel.Text = $"'D:' mount :{selectedGame.CDPath}";
+                        this.DMountLabel.Text = $"'D:' mount: {selectedGame.CDPath}";
                         if (selectedGame.UseIOCTL)
                         {
                             this.DMountLabel.Text += " (IOCTL in use)";
@@ -613,55 +615,64 @@ namespace AmpShell.Views
                     }
                     else
                     {
-                        this.DMountLabel.Text = $"'A:' mount :{selectedGame.CDPath}";
+                        this.DMountLabel.Text = $"'A:' mount: {selectedGame.CDPath}";
                     }
                 }
                 else
                 {
                     if (selectedGame.MountAsFloppy == false)
                     {
-                        this.DMountLabel.Text = "'D:' mount : none";
+                        this.DMountLabel.Text = "'D:' mount: none";
                     }
 
                     if (selectedGame.MountAsFloppy)
                     {
-                        this.DMountLabel.Text = "'A:' mount : none.";
+                        this.DMountLabel.Text = "'A:' mount: none.";
                     }
                 }
                 if (selectedGame.NoConsole == true)
                 {
-                    this.NoConsoleLabel.Text = "No console : yes";
+                    this.NoConsoleLabel.Text = "No console: yes";
                 }
                 else
                 {
-                    this.NoConsoleLabel.Text = "No console : no";
+                    this.NoConsoleLabel.Text = "No console: no";
                 }
 
                 if (selectedGame.InFullScreen == true)
                 {
-                    this.FullscreenLabel.Text = "Fullscreen : yes";
+                    this.FullscreenLabel.Text = "Fullscreen: yes";
                 }
                 else
                 {
-                    this.FullscreenLabel.Text = "Fullscreen : no";
+                    this.FullscreenLabel.Text = "Fullscreen: no";
                 }
 
                 if (selectedGame.QuitOnExit == true)
                 {
-                    this.QuitOnExitLabel.Text = "Quit on exit : yes";
+                    this.QuitOnExitLabel.Text = "Quit on exit: yes";
                 }
                 else
                 {
-                    this.QuitOnExitLabel.Text = "Quit on exit : no";
+                    this.QuitOnExitLabel.Text = "Quit on exit: no";
                 }
 
                 if (string.IsNullOrWhiteSpace(selectedGame.AdditionalCommands) == false)
                 {
-                    this.AdditionalCommandsLabel.Text = $"Additional commands : {selectedGame.AdditionalCommands}";
+                    this.AdditionalCommandsLabel.Text = $"Additional commands: {selectedGame.AdditionalCommands}";
                 }
                 else
                 {
-                    this.AdditionalCommandsLabel.Text = "Additional commands : none";
+                    this.AdditionalCommandsLabel.Text = "Additional commands: none";
+                }
+
+                if (string.IsNullOrWhiteSpace(selectedGame.Directory) == false)
+                {
+                    this.NotesLabel.Text = $"Notes: {selectedGame.Notes}";
+                }
+                else
+                {
+                    this.CMountLabel.Text = "Notes: none";
                 }
             }
 
@@ -756,6 +767,7 @@ namespace AmpShell.Views
             this.NoConsoleLabel.Text = string.Empty;
             this.SetupPathLabel.Text = string.Empty;
             this.ExecutablePathLabel.Text = toolTipText;
+            this.NotesLabel.Text = string.Empty;
         }
 
         /// <summary>
@@ -828,6 +840,7 @@ namespace AmpShell.Views
                 tabltview.Columns.Add("NoConsoleColumn", "No Console ?", categoryToDisplay.NoConsoleColumnWidth);
                 tabltview.Columns.Add("FullscreenColumn", "Fullscreen ?", categoryToDisplay.FullscreenColumnWidth);
                 tabltview.Columns.Add("QuitOnExitColumn", "Quit on exit ?", categoryToDisplay.QuitOnExitColumnWidth);
+                tabltview.Columns.Add("NotesColumn", "Notes", categoryToDisplay.NotesColumnWidth);
 
                 //for each game, create a ListViewItem instance.
                 foreach (Game gameToDisplay in categoryToDisplay.ListChildren)
@@ -935,6 +948,13 @@ namespace AmpShell.Views
                         Text = gameToDisplay.QuitOnExit.ToString(CultureInfo.InvariantCulture)
                     };
                     gameforlt.SubItems.Add(gameQuitOnExitLVSubItem);
+
+                    ListViewItem.ListViewSubItem gameNotesLVSubItem = new ListViewItem.ListViewSubItem
+                    {
+                        Text = gameToDisplay.Notes
+                    };
+                    gameforlt.SubItems.Add(gameNotesLVSubItem);
+
                     tabltview.Items.Add(gameforlt);
                 }
 

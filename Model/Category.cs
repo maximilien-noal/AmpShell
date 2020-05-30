@@ -131,6 +131,14 @@ namespace AmpShell.Model
             set { Set(ref quitOnExitColumnWidth, value); }
         }
 
+        private int notesColumnWidth = 400;
+
+        public int NotesColumnWidth
+        {
+            get => notesColumnWidth;
+            set { Set(ref notesColumnWidth, value); }
+        }
+
         private View viewMode = View.LargeIcon;
 
         public View ViewMode

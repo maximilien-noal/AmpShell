@@ -20,6 +20,14 @@ namespace AmpShell.Model
 
     public class Game : PropertyChangedNotifier
     {
+        private string notes = string.Empty;
+
+        public string Notes
+        {
+            get => notes;
+            set { Set(ref notes, value); }
+        }
+
         [XmlAttribute("Signature")]
         public string Signature { get; set; }
 
@@ -130,8 +138,8 @@ namespace AmpShell.Model
         private bool noConfig;
 
         /// <summary>
-        /// Gets or sets a value indicating whether boolean if no config is used ("Don't use any config file at all" checkbox in GameForm)
-        /// Legacy 0.72 or older DOSBox option.
+        /// Gets or sets a value indicating whether boolean if no config is used ("Don't use any
+        /// config file at all" checkbox in GameForm) Legacy 0.72 or older DOSBox option.
         /// </summary>
         public bool NoConfig
         {
@@ -161,7 +169,8 @@ namespace AmpShell.Model
         private bool quitOnExit;
 
         /// <summary>
-        /// Gets or sets a value indicating whether boolean for the -exit switch for DOSBox (if set to true, DOSBox closes when the game exits).
+        /// Gets or sets a value indicating whether boolean for the -exit switch for DOSBox (if set
+        /// to true, DOSBox closes when the game exits).
         /// </summary>
         public bool QuitOnExit
         {
@@ -183,7 +192,8 @@ namespace AmpShell.Model
         private bool cdIsAnImage;
 
         /// <summary>
-        /// Gets or sets a value indicating whether if GameCDPath points to a CD image file (false if it points to a directory).
+        /// Gets or sets a value indicating whether if GameCDPath points to a CD image file (false
+        /// if it points to a directory).
         /// </summary>
         public bool CDIsAnImage
         {
@@ -202,7 +212,8 @@ namespace AmpShell.Model
         private string alternateDOSBoxExePath = string.Empty;
 
         /// <summary>
-        /// Gets or sets if we want to use DOSBox Daum, ECE, SVN, or other instead of the one set in the global preferences.
+        /// Gets or sets if we want to use DOSBox Daum, ECE, SVN, or other instead of the one set in
+        /// the global preferences.
         /// </summary>
         public string AlternateDOSBoxExePath
         {

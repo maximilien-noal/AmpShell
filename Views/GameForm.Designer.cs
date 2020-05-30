@@ -81,18 +81,22 @@ namespace AmpShell.Views
             this.AlternateDOSBoxLocationLabel = new System.Windows.Forms.Label();
             this.OK = new System.Windows.Forms.Button();
             this.Cancel = new System.Windows.Forms.Button();
+            this.NotesTabPage = new System.Windows.Forms.TabPage();
+            this.NotesRichTextBox = new System.Windows.Forms.RichTextBox();
             this.ConfigTabControl.SuspendLayout();
             this.BasicTabPage.SuspendLayout();
             this.MountingOptionsGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GameIconPictureBox)).BeginInit();
             this.OtherOptionsGroupBox.SuspendLayout();
             this.AdvancedTabPage.SuspendLayout();
+            this.NotesTabPage.SuspendLayout();
             this.SuspendLayout();
             // 
             // ConfigTabControl
             // 
             this.ConfigTabControl.Controls.Add(this.BasicTabPage);
             this.ConfigTabControl.Controls.Add(this.AdvancedTabPage);
+            this.ConfigTabControl.Controls.Add(this.NotesTabPage);
             this.ConfigTabControl.Location = new System.Drawing.Point(0, 0);
             this.ConfigTabControl.Name = "ConfigTabControl";
             this.ConfigTabControl.SelectedIndex = 0;
@@ -589,6 +593,26 @@ namespace AmpShell.Views
             this.Cancel.UseVisualStyleBackColor = true;
             this.Cancel.Click += new System.EventHandler(this.Cancel_Click);
             // 
+            // NotesTabPage
+            // 
+            this.NotesTabPage.Controls.Add(this.NotesRichTextBox);
+            this.NotesTabPage.Location = new System.Drawing.Point(4, 22);
+            this.NotesTabPage.Name = "NotesTabPage";
+            this.NotesTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.NotesTabPage.Size = new System.Drawing.Size(456, 550);
+            this.NotesTabPage.TabIndex = 2;
+            this.NotesTabPage.Text = "Notes";
+            this.NotesTabPage.UseVisualStyleBackColor = true;
+            // 
+            // NotesRichTextBox
+            // 
+            this.NotesRichTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.NotesRichTextBox.Location = new System.Drawing.Point(3, 3);
+            this.NotesRichTextBox.Name = "NotesRichTextBox";
+            this.NotesRichTextBox.Size = new System.Drawing.Size(450, 544);
+            this.NotesRichTextBox.TabIndex = 0;
+            this.NotesRichTextBox.Text = "";
+            // 
             // GameForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -614,6 +638,7 @@ namespace AmpShell.Views
             this.OtherOptionsGroupBox.PerformLayout();
             this.AdvancedTabPage.ResumeLayout(false);
             this.AdvancedTabPage.PerformLayout();
+            this.NotesTabPage.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -663,5 +688,7 @@ namespace AmpShell.Views
         private System.Windows.Forms.Label DiscLabelLabel;
         private System.Windows.Forms.Label ReleaseDateLabel;
         private System.Windows.Forms.DateTimePicker GameReleaseDatePicker;
+        private System.Windows.Forms.TabPage NotesTabPage;
+        private System.Windows.Forms.RichTextBox NotesRichTextBox;
     }
 }
