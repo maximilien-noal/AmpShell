@@ -63,6 +63,7 @@ namespace AmpShell.AutoConfig
 
         public static string SearchDOSBox(string userConfigDataPath, bool portableMode)
         {
+            var windrive = Path.GetPathRoot(Environment.SystemDirectory);
             if (userConfigDataPath == Path.Combine(PathFinder.GetStartupPath(), "AmpShell.xml") && portableMode)
             {
                 var localDOSBox = Path.Combine(PathFinder.GetStartupPath(), "dosbox.exe");
@@ -71,9 +72,21 @@ namespace AmpShell.AutoConfig
                     return localDOSBox;
                 }
             }
-            else
+            else if (Directory.Exists(Path.Combine(windrive, "Program Files (x86)")))
             {
                 string[] dosboxNamedDirs = Directory.GetDirectories(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "DOSBox*", SearchOption.TopDirectoryOnly);
+                if (dosboxNamedDirs.GetLength(0) != 0)
+                {
+                    var systemDOSBox = Path.Combine(dosboxNamedDirs[0], "dosbox.exe");
+                    if (File.Exists(systemDOSBox))
+                    {
+                        return systemDOSBox;
+                    }
+                }
+            }
+            else
+            {
+                string[] dosboxNamedDirs = Directory.GetDirectories(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "DOSBox*", SearchOption.TopDirectoryOnly);
                 if (dosboxNamedDirs.GetLength(0) != 0)
                 {
                     var systemDOSBox = Path.Combine(dosboxNamedDirs[0], "dosbox.exe");
