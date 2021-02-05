@@ -10,8 +10,8 @@
 
 namespace AmpShell.Extensions
 {
-    using System;
     using System.Diagnostics;
+
     using AmpShell.DAL;
     using AmpShell.DOSBox;
     using AmpShell.Model;

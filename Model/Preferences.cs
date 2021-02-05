@@ -46,7 +46,7 @@ namespace AmpShell.Model
         public System.Windows.Forms.View CategoriesDefaultViewMode
         {
             get => categoriesDefaultViewMode;
-            set { Set<System.Windows.Forms.View>(ref categoriesDefaultViewMode, value); }
+            set { Set(ref categoriesDefaultViewMode, value); }
         }
 
         private bool rememberWindowPosition = true;

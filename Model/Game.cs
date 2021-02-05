@@ -16,6 +16,7 @@ namespace AmpShell.Model
     using System;
     using System.Globalization;
     using System.Xml.Serialization;
+
     using AmpShell.Notification;
 
     public class Game : PropertyChangedNotifier

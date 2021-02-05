@@ -12,6 +12,7 @@ namespace AmpShell.Model
 {
     using System.Collections.Generic;
     using System.Xml.Serialization;
+
     using AmpShell.Notification;
 
     /// <summary>
@@ -33,7 +34,6 @@ namespace AmpShell.Model
         [XmlElement("Window", typeof(Preferences))]
         [XmlElement("Category", typeof(Category))]
         [XmlElement("Game", typeof(Game))]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2227:Collection properties should be read only", Justification = "User Data Compatibility")]
         public List<object> ListChildren
         {
             get => this.children;
