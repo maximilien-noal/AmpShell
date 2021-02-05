@@ -25,6 +25,7 @@ namespace AmpShell.Serialization
             {
                 throw new ArgumentNullException(nameof(xmlPath));
             }
+            Directory.CreateDirectory(Path.GetDirectoryName(xmlPath));
             XmlReaderSettings settings = new XmlReaderSettings() { XmlResolver = null };
             using (var reader = XmlReader.Create(xmlPath, settings))
             {
@@ -46,6 +47,7 @@ namespace AmpShell.Serialization
             {
                 throw new ArgumentNullException(nameof(objectToSerialize));
             }
+            Directory.CreateDirectory(Path.GetDirectoryName(xmlPath));
             XmlSerializer serializer = new XmlSerializer(typeof(T));
             using (var writer = new StreamWriter(xmlPath, false, Encoding.Unicode))
             {

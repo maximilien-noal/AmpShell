@@ -49,6 +49,10 @@ namespace AmpShell.DAL
         public static string GetDataFilePath()
         {
             var appDataFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "AmpShell\\AmpShell.xml");
+            if (string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("AmpShellDebug")) == false)
+            {
+                return appDataFile;
+            }
             if (FileFinder.HasWriteAccessToAssemblyLocationFolder() == false)
             {
                 var appDataDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "AmpShell");
