@@ -18,15 +18,9 @@ namespace AmpShell.Views.UserControls
     {
         private readonly int col;
 
-        public CustomListViewItemSorter()
-        {
-            this.col = 0;
-        }
+        public CustomListViewItemSorter() => this.col = 0;
 
-        public CustomListViewItemSorter(int column)
-        {
-            this.col = column;
-        }
+        public CustomListViewItemSorter(int column) => this.col = column;
 
         public int Compare(object x, object y)
         {

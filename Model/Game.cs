@@ -14,9 +14,12 @@
 namespace AmpShell.Model
 {
     using System;
+    using System.Diagnostics;
     using System.Globalization;
     using System.Xml.Serialization;
 
+    using AmpShell.DAL;
+    using AmpShell.DOSBox;
     using AmpShell.Notification;
 
     public class Game : PropertyChangedNotifier
@@ -221,5 +224,11 @@ namespace AmpShell.Model
             get => alternateDOSBoxExePath;
             set { Set(ref alternateDOSBoxExePath, value); }
         }
+
+        public string GetDOSBoxPath() => string.IsNullOrWhiteSpace(AlternateDOSBoxExePath) ? UserDataAccessor.UserData.DBPath : AlternateDOSBoxExePath;
+
+        public Process Run() => DOSBoxController.StartDOSBox(GetDOSBoxPath(), DOSBoxController.BuildArgs(this, false, GetDOSBoxPath(), UserDataAccessor.UserData.DBDefaultConfFilePath, UserDataAccessor.UserData.DBDefaultLangFilePath), DBConfPath);
+
+        public Process RunSetup() => DOSBoxController.StartDOSBox(GetDOSBoxPath(), DOSBoxController.BuildArgs(this, true, GetDOSBoxPath(), UserDataAccessor.UserData.DBDefaultConfFilePath, UserDataAccessor.UserData.DBDefaultLangFilePath), DBConfPath);
     }
 }

@@ -14,9 +14,6 @@ namespace AmpShell.Views.UserControls
 
     public class CustomListView : ListView
     {
-        public CustomListView()
-        {
-            this.DoubleBuffered = true;
-        }
+        public CustomListView() => this.DoubleBuffered = true;
     }
 }

@@ -15,14 +15,14 @@ namespace AmpShell
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Runtime.InteropServices;
     using System.Windows.Forms;
+
     using AmpShell.DAL;
     using AmpShell.DOSBox;
-    using AmpShell.Extensions;
     using AmpShell.Model;
     using AmpShell.Views;
     using AmpShell.WinShell;
+
     using CommandLine;
 
     internal static class Program

@@ -14,6 +14,7 @@ namespace AmpShell.Views
     using System.Drawing;
     using System.IO;
     using System.Windows.Forms;
+
     using AmpShell.DAL;
     using AmpShell.Model;
 
@@ -470,7 +471,6 @@ namespace AmpShell.Views
                     }
                 }
             }
-#pragma warning disable CA1031 // Do not catch general exception types
             catch (OutOfMemoryException)
             {
                 MessageBox.Show(this, "There is an error in the image file, or its format is not supported. Please check the file.", "Changing the game's icon", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -483,7 +483,6 @@ namespace AmpShell.Views
                     this.GameIconPictureBox.Image = Image.FromFile(this.GameInstance.Icon).GetThumbnailImage(64, 64, null, IntPtr.Zero);
                 }
             }
-#pragma warning restore CA1031 // Do not catch general exception types
         }
 
         private void ResetIconButton_Click(object sender, EventArgs e)

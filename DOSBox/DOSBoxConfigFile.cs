@@ -39,9 +39,6 @@
             }
         }
 
-        public bool IsAutoExecSectionUsed()
-        {
-            return string.IsNullOrWhiteSpace(this.AutoExecSection) == false;
-        }
+        public bool IsAutoExecSectionUsed() => string.IsNullOrWhiteSpace(this.AutoExecSection) == false;
     }
 }

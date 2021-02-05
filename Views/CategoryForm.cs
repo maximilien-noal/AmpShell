@@ -12,6 +12,7 @@ namespace AmpShell.Views
 {
     using System;
     using System.Windows.Forms;
+
     using AmpShell.ViewModel;
 
     /// <summary>
@@ -19,10 +20,7 @@ namespace AmpShell.Views
     /// </summary>
     public partial class CategoryForm : Form
     {
-        public CategoryForm()
-        {
-            this.Initialize();
-        }
+        public CategoryForm() => this.Initialize();
 
         public CategoryForm(string editedCategorySignature)
         {
@@ -49,10 +47,7 @@ namespace AmpShell.Views
             this.Text = $"Editing {this.ViewModel.Name} ...";
         }
 
-        private void Cancel_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
+        private void Cancel_Click(object sender, EventArgs e) => this.Close();
 
         private void OK_Click(object sender, EventArgs e)
         {

@@ -16,6 +16,7 @@ namespace AmpShell.Views
     using System.IO;
     using System.Linq;
     using System.Windows.Forms;
+
     using AmpShell.AutoConfig;
     using AmpShell.DAL;
     using AmpShell.Model;
@@ -27,10 +28,7 @@ namespace AmpShell.Views
     {
         private const string NoTextEditorFound = "No text editor (Notepad in Windows' directory, or TextEditor.exe in AmpShell's directory) found.";
 
-        public PreferencesForm()
-        {
-            this.InitializeComponent();
-        }
+        public PreferencesForm() => this.InitializeComponent();
 
         private void BrowseForEditorButton_Click(object sender, EventArgs e)
         {
@@ -150,10 +148,7 @@ namespace AmpShell.Views
             }
         }
 
-        private void Cancel_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
+        private void Cancel_Click(object sender, EventArgs e) => this.Close();
 
         private void Main_Prefs_Load(object sender, EventArgs e)
         {
@@ -265,10 +260,7 @@ namespace AmpShell.Views
             }
         }
 
-        private void MoveFirstButton_Click(object sender, EventArgs e)
-        {
-            this.CategoriesListViewItemMoveTo(0);
-        }
+        private void MoveFirstButton_Click(object sender, EventArgs e) => this.CategoriesListViewItemMoveTo(0);
 
         private void DOSBoxPathBrowseButton_Click(object sender, EventArgs e)
         {
@@ -361,10 +353,7 @@ namespace AmpShell.Views
             this.CategoriesListView.Sorting = SortOrder.None;
         }
 
-        private void MoveLastButton_Click(object sender, EventArgs e)
-        {
-            this.CategoriesListViewItemMoveTo(this.CategoriesListView.Items.Count - 1);
-        }
+        private void MoveLastButton_Click(object sender, EventArgs e) => this.CategoriesListViewItemMoveTo(this.CategoriesListView.Items.Count - 1);
 
         private void LargeIconsRadioButton_MouseClick(object sender, MouseEventArgs e)
         {
@@ -517,9 +506,6 @@ namespace AmpShell.Views
             }
         }
 
-        private void ReScanDirButton_Click(object sender, EventArgs e)
-        {
-            this.PortableModeCheckBox_CheckedChanged(sender, EventArgs.Empty);
-        }
+        private void ReScanDirButton_Click(object sender, EventArgs e) => this.PortableModeCheckBox_CheckedChanged(sender, EventArgs.Empty);
     }
 }

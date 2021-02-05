@@ -19,9 +19,9 @@ namespace AmpShell.Views
     using System.Linq;
     using System.Threading.Tasks;
     using System.Windows.Forms;
+
     using AmpShell.DAL;
     using AmpShell.DOSBox;
-    using AmpShell.Extensions;
     using AmpShell.Model;
     using AmpShell.Views.UserControls;
     using AmpShell.WinShell;
@@ -134,18 +134,12 @@ namespace AmpShell.Views
             }
         }
 
-        private void AboutToolStripMenuItem_MouseEnter(object sender, EventArgs e)
-        {
-            this.DisplayHelpMessage(this.AboutToolStripMenuItem.ToolTipText);
-        }
+        private void AboutToolStripMenuItem_MouseEnter(object sender, EventArgs e) => this.DisplayHelpMessage(this.AboutToolStripMenuItem.ToolTipText);
 
         /// <summary>
         /// EventHandler for when AmpShell is closed.
         /// </summary>
-        private void AmpShell_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            UserDataAccessor.SaveUserSettings();
-        }
+        private void AmpShell_FormClosing(object sender, FormClosingEventArgs e) => UserDataAccessor.SaveUserSettings();
 
         /// <summary>
         /// EventHandler for when the window is moved.
@@ -248,10 +242,7 @@ namespace AmpShell.Views
             }
         }
 
-        private void CategoryAddButton_MouseEnter(object sender, EventArgs e)
-        {
-            this.DisplayHelpMessage(this.CategoryAddButton.ToolTipText);
-        }
+        private void CategoryAddButton_MouseEnter(object sender, EventArgs e) => this.DisplayHelpMessage(this.CategoryAddButton.ToolTipText);
 
         /// <summary>
         /// EventHandler for when the Category delete button is clicked.
@@ -273,10 +264,7 @@ namespace AmpShell.Views
             this.UpdateButtonsState();
         }
 
-        private void CategoryDeleteButton_MouseEnter(object sender, EventArgs e)
-        {
-            this.DisplayHelpMessage(this.CategoryDeleteButton.ToolTipText);
-        }
+        private void CategoryDeleteButton_MouseEnter(object sender, EventArgs e) => this.DisplayHelpMessage(this.CategoryDeleteButton.ToolTipText);
 
         /// <summary>
         /// EventHandler for when a category is edited (CategoryEditButton has been clicked).
@@ -296,10 +284,7 @@ namespace AmpShell.Views
             }
         }
 
-        private void CategoryEditButton_MouseEnter(object sender, EventArgs e)
-        {
-            this.DisplayHelpMessage(this.CategoryEditButton.ToolTipText);
-        }
+        private void CategoryEditButton_MouseEnter(object sender, EventArgs e) => this.DisplayHelpMessage(this.CategoryEditButton.ToolTipText);
 
         private void ChangeTabDisplayMode(View mode)
         {
@@ -488,10 +473,7 @@ namespace AmpShell.Views
         /// <summary>
         /// EventHandler for when a game is double-clicked (activated), or activated by the Enter key.
         /// </summary>
-        private void CurrentListView_ItemActivate(object sender, EventArgs e)
-        {
-            this.StartDOSBox(false);
-        }
+        private void CurrentListView_ItemActivate(object sender, EventArgs e) => this.StartDOSBox(false);
 
         /// <summary>
         /// EventHandler for when a drag &amp; drop is initiated (drag).
@@ -745,15 +727,9 @@ namespace AmpShell.Views
             }
         }
 
-        private void DetailsViewButton_Click(object sender, EventArgs e)
-        {
-            this.ChangeTabDisplayMode(View.Details);
-        }
+        private void DetailsViewButton_Click(object sender, EventArgs e) => this.ChangeTabDisplayMode(View.Details);
 
-        private void DetailsViewButton_MouseEnter(object sender, EventArgs e)
-        {
-            this.DisplayHelpMessage(this.DetailsViewButton.ToolTipText);
-        }
+        private void DetailsViewButton_MouseEnter(object sender, EventArgs e) => this.DisplayHelpMessage(this.DetailsViewButton.ToolTipText);
 
         private void DisplayHelpMessage(string toolTipText)
         {
@@ -1012,7 +988,7 @@ namespace AmpShell.Views
         {
             if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBDefaultConfFilePath) == false && File.Exists(UserDataAccessor.UserData.DBDefaultConfFilePath) && string.IsNullOrWhiteSpace(UserDataAccessor.UserData.ConfigEditorPath) == false && UserDataAccessor.UserData.ConfigEditorPath != "No text editor (Notepad in Windows' directory, or TextEditor.exe in AmpShell's directory) found." && File.Exists(UserDataAccessor.UserData.ConfigEditorPath))
             {
-                System.Diagnostics.Process.Start(UserDataAccessor.UserData.ConfigEditorPath, UserDataAccessor.UserData.DBDefaultConfFilePath);
+                Process.Start(UserDataAccessor.UserData.ConfigEditorPath, UserDataAccessor.UserData.DBDefaultConfFilePath);
             }
             else
             {
@@ -1020,20 +996,11 @@ namespace AmpShell.Views
             }
         }
 
-        private void EditDefaultConfigurationToolStripMenuItem_MouseEnter(object sender, EventArgs e)
-        {
-            this.DisplayHelpMessage(this.EditDefaultConfigurationToolStripMenuItem.ToolTipText);
-        }
+        private void EditDefaultConfigurationToolStripMenuItem_MouseEnter(object sender, EventArgs e) => this.DisplayHelpMessage(this.EditDefaultConfigurationToolStripMenuItem.ToolTipText);
 
-        private void EditToolStripMenuItem_MouseEnter(object sender, EventArgs e)
-        {
-            this.DisplayHelpMessage(this.EditToolStripMenuItem.ToolTipText);
-        }
+        private void EditToolStripMenuItem_MouseEnter(object sender, EventArgs e) => this.DisplayHelpMessage(this.EditToolStripMenuItem.ToolTipText);
 
-        private void FileToolStripMenuItem_MouseEnter(object sender, EventArgs e)
-        {
-            this.DisplayHelpMessage(this.FileToolStripMenuItem.ToolTipText);
-        }
+        private void FileToolStripMenuItem_MouseEnter(object sender, EventArgs e) => this.DisplayHelpMessage(this.FileToolStripMenuItem.ToolTipText);
 
         /// <summary>
         /// EventHandler for when the user has clicked on the GameAddButton.
@@ -1073,24 +1040,14 @@ namespace AmpShell.Views
             }
         }
 
-        private void GameAddButton_MouseEnter(object sender, EventArgs e)
-        {
-            this.DisplayHelpMessage(this.GameAddButton.ToolTipText);
-        }
+        private void GameAddButton_MouseEnter(object sender, EventArgs e) => this.DisplayHelpMessage(this.GameAddButton.ToolTipText);
 
         /// <summary>
         /// EventHandler for when the delete button game is clicked.
         /// </summary>
-        private void GameDeleteButton_Click(object sender, EventArgs e)
-        {
-            KeyEventArgs k = new KeyEventArgs(Keys.Delete);
-            this.CurrentListView_KeyDown(sender, k);
-        }
+        private void GameDeleteButton_Click(object sender, EventArgs e) => this.CurrentListView_KeyDown(sender, new KeyEventArgs(Keys.Delete));
 
-        private void GameDeleteButton_MouseEnter(object sender, EventArgs e)
-        {
-            this.DisplayHelpMessage(this.GameDeleteButton.ToolTipText);
-        }
+        private void GameDeleteButton_MouseEnter(object sender, EventArgs e) => this.DisplayHelpMessage(this.GameDeleteButton.ToolTipText);
 
         /// <summary>
         /// Called when the user wants to edit an existing game.
@@ -1107,24 +1064,18 @@ namespace AmpShell.Views
             }
         }
 
-        private void GameEditButton_MouseEnter(object sender, EventArgs e)
-        {
-            this.DisplayHelpMessage(this.GameEditButton.ToolTipText);
-        }
+        private void GameEditButton_MouseEnter(object sender, EventArgs e) => this.DisplayHelpMessage(this.GameEditButton.ToolTipText);
 
         private void GameEditConfigurationButton_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.ConfigEditorPath) == false)
             {
                 Game selectedGame = this.GetSelectedGame();
-                System.Diagnostics.Process.Start(UserDataAccessor.UserData.ConfigEditorPath, $"{selectedGame.DBConfPath} {UserDataAccessor.UserData.ConfigEditorAdditionalParameters}");
+                Process.Start(UserDataAccessor.UserData.ConfigEditorPath, $"{selectedGame.DBConfPath} {UserDataAccessor.UserData.ConfigEditorAdditionalParameters}");
             }
         }
 
-        private void GameEditConfigurationButton_MouseEnter(object sender, EventArgs e)
-        {
-            this.DisplayHelpMessage(this.GameEditConfigurationButton.ToolTipText);
-        }
+        private void GameEditConfigurationButton_MouseEnter(object sender, EventArgs e) => this.DisplayHelpMessage(this.GameEditConfigurationButton.ToolTipText);
 
         private Category GetSelectedCategory()
         {
@@ -1164,30 +1115,15 @@ namespace AmpShell.Views
             return selectedGame;
         }
 
-        private void HelpToolStripMenuItem_MouseEnter(object sender, EventArgs e)
-        {
-            this.DisplayHelpMessage(this.HelpToolStripMenuItem.ToolTipText);
-        }
+        private void HelpToolStripMenuItem_MouseEnter(object sender, EventArgs e) => this.DisplayHelpMessage(this.HelpToolStripMenuItem.ToolTipText);
 
-        private void LargeIconViewButton_Click(object sender, EventArgs e)
-        {
-            this.ChangeTabDisplayMode(View.LargeIcon);
-        }
+        private void LargeIconViewButton_Click(object sender, EventArgs e) => this.ChangeTabDisplayMode(View.LargeIcon);
 
-        private void LargeIconViewButton_MouseEnter(object sender, EventArgs e)
-        {
-            this.DisplayHelpMessage(this.LargeIconViewButton.ToolTipText);
-        }
+        private void LargeIconViewButton_MouseEnter(object sender, EventArgs e) => this.DisplayHelpMessage(this.LargeIconViewButton.ToolTipText);
 
-        private void ListViewButton_Click(object sender, EventArgs e)
-        {
-            this.ChangeTabDisplayMode(View.List);
-        }
+        private void ListViewButton_Click(object sender, EventArgs e) => this.ChangeTabDisplayMode(View.List);
 
-        private void ListViewButton_MouseEnter(object sender, EventArgs e)
-        {
-            this.DisplayHelpMessage(this.ListViewButton.ToolTipText);
-        }
+        private void ListViewButton_MouseEnter(object sender, EventArgs e) => this.DisplayHelpMessage(this.ListViewButton.ToolTipText);
 
         private void MakeConfigButton_Click(object sender, EventArgs e)
         {
@@ -1201,10 +1137,7 @@ namespace AmpShell.Views
             }
         }
 
-        private void MakeConfigurationFileToolStripMenuItem_MouseEnter(object sender, EventArgs e)
-        {
-            this.DisplayHelpMessage(this.MakeConfigurationFileToolStripMenuItem.ToolTipText);
-        }
+        private void MakeConfigurationFileToolStripMenuItem_MouseEnter(object sender, EventArgs e) => this.DisplayHelpMessage(this.MakeConfigurationFileToolStripMenuItem.ToolTipText);
 
         private void MenuBar_ContextMenu_Click(object sender, EventArgs e)
         {
@@ -1221,10 +1154,7 @@ namespace AmpShell.Views
             UserDataAccessor.UserData.MenuBarVisible = this.menuStrip.Visible;
         }
 
-        private void OnDOSBoxExit(object sender, EventArgs e)
-        {
-            this.Invoke((MethodInvoker)(() => { this.WindowState = FormWindowState.Normal; }));
-        }
+        private void OnDOSBoxExit(object sender, EventArgs e) => this.Invoke((MethodInvoker)(() => { this.WindowState = FormWindowState.Normal; }));
 
         private void PreferencesToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1248,23 +1178,14 @@ namespace AmpShell.Views
             this.UpdateButtonsState();
         }
 
-        private void PreferencesToolStripMenuItem_MouseEnter(object sender, EventArgs e)
-        {
-            this.DisplayHelpMessage(this.PreferencesToolStripMenuItem.ToolTipText);
-        }
+        private void PreferencesToolStripMenuItem_MouseEnter(object sender, EventArgs e) => this.DisplayHelpMessage(this.PreferencesToolStripMenuItem.ToolTipText);
 
-        private void QuitterToolStripMenuItem_MouseEnter(object sender, EventArgs e)
-        {
-            this.DisplayHelpMessage(this.QuitterToolStripMenuItem.ToolTipText);
-        }
+        private void QuitterToolStripMenuItem_MouseEnter(object sender, EventArgs e) => this.DisplayHelpMessage(this.QuitterToolStripMenuItem.ToolTipText);
 
         /// <summary>
         /// EventHander for File -&gt; Quit.
         /// </summary>
-        private void QuitToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
+        private void QuitToolStripMenuItem_Click(object sender, EventArgs e) => Application.Exit();
 
         private void RedrawAllUserData()
         {
@@ -1310,7 +1231,7 @@ namespace AmpShell.Views
             {
                 if (File.Exists(UserDataAccessor.UserData.ConfigEditorPath))
                 {
-                    System.Diagnostics.Process.Start(UserDataAccessor.UserData.ConfigEditorPath);
+                    Process.Start(UserDataAccessor.UserData.ConfigEditorPath);
                 }
                 else
                 {
@@ -1319,10 +1240,7 @@ namespace AmpShell.Views
             }
         }
 
-        private void RunConfigurationEditorButton_MouseEnter(object sender, EventArgs e)
-        {
-            this.DisplayHelpMessage(this.RunConfigurationEditorButton.ToolTipText);
-        }
+        private void RunConfigurationEditorButton_MouseEnter(object sender, EventArgs e) => this.DisplayHelpMessage(this.RunConfigurationEditorButton.ToolTipText);
 
         /// <summary>
         /// EventHandler when the user clicks on Tools -&gt; Run DOSBox which runs DOSBox only with
@@ -1339,43 +1257,22 @@ namespace AmpShell.Views
             }
         }
 
-        private void RunDOSBoxButton_MouseEnter(object sender, EventArgs e)
-        {
-            this.DisplayHelpMessage(this.RunDOSBoxButton.ToolTipText);
-        }
+        private void RunDOSBoxButton_MouseEnter(object sender, EventArgs e) => this.DisplayHelpMessage(this.RunDOSBoxButton.ToolTipText);
 
-        private void RunGameButton_MouseEnter(object sender, EventArgs e)
-        {
-            this.DisplayHelpMessage(this.RunGameButton.ToolTipText);
-        }
+        private void RunGameButton_MouseEnter(object sender, EventArgs e) => this.DisplayHelpMessage(this.RunGameButton.ToolTipText);
 
         /// <summary>
         /// EventHandler for when the RunGameSetupButton is clicked.
         /// </summary>
-        private void RunGameSetupButton_Click(object sender, EventArgs e)
-        {
-            this.StartDOSBox(true);
-        }
+        private void RunGameSetupButton_Click(object sender, EventArgs e) => this.StartDOSBox(true);
 
-        private void RunGameSetupButton_MouseEnter(object sender, EventArgs e)
-        {
-            this.DisplayHelpMessage(this.RunGameSetupButton.ToolTipText);
-        }
+        private void RunGameSetupButton_MouseEnter(object sender, EventArgs e) => this.DisplayHelpMessage(this.RunGameSetupButton.ToolTipText);
 
-        private void SelectCategory(string signature)
-        {
-            this.TabControl.SelectedTab = this.TabControl.TabPages.Cast<TabPage>().FirstOrDefault(x => (string)x.Tag == signature);
-        }
+        private void SelectCategory(string signature) => this.TabControl.SelectedTab = this.TabControl.TabPages.Cast<TabPage>().FirstOrDefault(x => (string)x.Tag == signature);
 
-        private void SmallIconViewButton_Click(object sender, EventArgs e)
-        {
-            this.ChangeTabDisplayMode(View.SmallIcon);
-        }
+        private void SmallIconViewButton_Click(object sender, EventArgs e) => this.ChangeTabDisplayMode(View.SmallIcon);
 
-        private void SmallIconViewButton_MouseEnter(object sender, EventArgs e)
-        {
-            this.DisplayHelpMessage(this.SmallIconViewButton.ToolTipText);
-        }
+        private void SmallIconViewButton_MouseEnter(object sender, EventArgs e) => this.DisplayHelpMessage(this.SmallIconViewButton.ToolTipText);
 
         private void StartDOSBox(bool runSetup)
         {
@@ -1401,12 +1298,10 @@ namespace AmpShell.Views
                     dosboxProcess.Exited += this.OnDOSBoxExit;
                 }
             }
-#pragma warning disable CA1031 // Do not catch general exception types
             catch (FileNotFoundException)
             {
                 MessageBox.Show("DOSBox cannot be run (was it deleted ?) !", "Game Launch", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-#pragma warning restore CA1031 // Do not catch general exception types
         }
 
         private void StatusBar_ContextMenu_Click(object sender, EventArgs e)
@@ -1480,15 +1375,9 @@ namespace AmpShell.Views
             }
         }
 
-        private void TilesViewButton_MouseEnter(object sender, EventArgs e)
-        {
-            this.DisplayHelpMessage(this.TilesViewButton.ToolTipText);
-        }
+        private void TilesViewButton_MouseEnter(object sender, EventArgs e) => this.DisplayHelpMessage(this.TilesViewButton.ToolTipText);
 
-        private void TileViewButton_Click(object sender, EventArgs e)
-        {
-            this.ChangeTabDisplayMode(View.Tile);
-        }
+        private void TileViewButton_Click(object sender, EventArgs e) => this.ChangeTabDisplayMode(View.Tile);
 
         private void ToolBar_ContextMenu_Click(object sender, EventArgs e)
         {
@@ -1505,10 +1394,7 @@ namespace AmpShell.Views
             UserDataAccessor.UserData.ToolBarVisible = this.toolStrip.Visible;
         }
 
-        private void ToolsToolStripMenuItem_MouseEnter(object sender, EventArgs e)
-        {
-            this.DisplayHelpMessage(this.ToolsToolStripMenuItem.ToolTipText);
-        }
+        private void ToolsToolStripMenuItem_MouseEnter(object sender, EventArgs e) => this.DisplayHelpMessage(this.ToolsToolStripMenuItem.ToolTipText);
 
         private void UpdateButtonsState()
         {
@@ -1602,9 +1488,6 @@ namespace AmpShell.Views
             }
         }
 
-        private void ViewToolStripMenuItem_MouseEnter(object sender, EventArgs e)
-        {
-            this.DisplayHelpMessage(this.ViewToolStripMenuItem.ToolTipText);
-        }
+        private void ViewToolStripMenuItem_MouseEnter(object sender, EventArgs e) => this.DisplayHelpMessage(this.ViewToolStripMenuItem.ToolTipText);
     }
 }

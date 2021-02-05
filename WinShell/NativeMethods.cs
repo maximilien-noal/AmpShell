@@ -10,7 +10,6 @@
 
         private const uint STGM_READ = 0;
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Reliability", "CA2010:Always consume the value returned by methods marked with PreserveSigAttribute", Justification = "We don't care about it")]
         public static string ResolveShortcut(string filename)
         {
             ShellLink link = new ShellLink();
