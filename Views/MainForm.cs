@@ -146,7 +146,7 @@ namespace AmpShell.Views
         /// </summary>
         private void AmpShell_LocationChanged(object sender, EventArgs e)
         {
-            if (UserDataAccessor.UserData.RememberWindowPosition == true && this.WindowState != FormWindowState.Minimized)
+            if (this.ampShellShown && UserDataAccessor.UserData.RememberWindowPosition == true && this.WindowState != FormWindowState.Minimized)
             {
                 UserDataAccessor.UserData.X = this.Location.X;
                 UserDataAccessor.UserData.Y = this.Location.Y;
