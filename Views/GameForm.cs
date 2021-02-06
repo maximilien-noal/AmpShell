@@ -102,64 +102,55 @@ namespace AmpShell.Views
         private void OK_Click(object sender, EventArgs e)
         {
             //if the game has a name but no executable nor directory mounted as C: specified...
-            if (string.IsNullOrWhiteSpace(this.GameNameTextbox.Text) == false)
-            {
-                if (string.IsNullOrWhiteSpace(this.GameLocationTextbox.Text) && string.IsNullOrWhiteSpace(this.GameDirectoryTextbox.Text))
-                {
-                    MessageBox.Show(this, "You must enter the game's executable location or the directory that will be mounted as C:", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-
-                //else : the game has a name and a directory mounted has C:
-                else
-                {
-                    //close the form
-                    this.GameInstance.DOSEXEPath = this.GameLocationTextbox.Text;
-                    this.GameInstance.DBConfPath = this.GameCustomConfigurationTextbox.Text;
-                    this.GameInstance.NoConfig = this.NoConfigCheckBox.Checked;
-                    this.GameInstance.AdditionalCommands = this.GameAdditionalCommandsTextBox.Text;
-                    this.GameInstance.NoConsole = this.NoConsoleCheckBox.Checked;
-                    this.GameInstance.InFullScreen = this.FullscreenCheckBox.Checked;
-                    this.GameInstance.QuitOnExit = this.QuitOnExitCheckBox.Checked;
-                    this.GameInstance.Directory = this.GameDirectoryTextbox.Text;
-                    this.GameInstance.Name = this.GameNameTextbox.Text;
-                    this.GameInstance.ReleaseDate = this.GameReleaseDatePicker.Value;
-                    this.GameInstance.CDPath = this.GameCDPathTextBox.Text;
-                    this.GameInstance.CDLabel = this.DiscLabelTextBox.Text;
-                    this.GameInstance.SetupEXEPath = this.GameSetupTextBox.Text;
-                    this.GameInstance.AlternateDOSBoxExePath = this.AlternateDOSBoxLocationTextbox.Text;
-                    if (string.IsNullOrWhiteSpace(this.GameIconPictureBox.ImageLocation) == false)
-                    {
-                        this.GameInstance.Icon = this.GameIconPictureBox.ImageLocation;
-                    }
-                    else
-                    {
-                        this.GameInstance.Icon = string.Empty;
-                    }
-
-                    this.GameInstance.UseIOCTL = this.UseIOCTLRadioButton.Checked;
-                    this.GameInstance.MountAsFloppy = this.IsAFloppyDiskRadioButton.Checked;
-                    if (string.IsNullOrWhiteSpace(this.GameCDPathTextBox.Text) == false)
-                    {
-                        if (File.Exists(this.GameCDPathTextBox.Text))
-                        {
-                            this.GameInstance.CDIsAnImage = true;
-                        }
-                        else
-                        {
-                            this.GameInstance.CDIsAnImage = false;
-                        }
-                    }
-                    this.GameInstance.Notes = this.NotesRichTextBox.Text;
-                    this.DialogResult = DialogResult.OK;
-                    this.Close();
-                }
-            }
-
-            //if the game has no name
-            else
+            if (string.IsNullOrWhiteSpace(this.GameNameTextbox.Text) == true)
             {
                 MessageBox.Show(this, "You must enter the game's name.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+
+            //else : the game has a name and a directory mounted has C:
+            else
+            {
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }
+
+            this.GameInstance.DOSEXEPath = this.GameLocationTextbox.Text;
+            this.GameInstance.DBConfPath = this.GameCustomConfigurationTextbox.Text;
+            this.GameInstance.NoConfig = this.NoConfigCheckBox.Checked;
+            this.GameInstance.AdditionalCommands = this.GameAdditionalCommandsTextBox.Text;
+            this.GameInstance.NoConsole = this.NoConsoleCheckBox.Checked;
+            this.GameInstance.InFullScreen = this.FullscreenCheckBox.Checked;
+            this.GameInstance.QuitOnExit = this.QuitOnExitCheckBox.Checked;
+            this.GameInstance.Directory = this.GameDirectoryTextbox.Text;
+            this.GameInstance.Name = this.GameNameTextbox.Text;
+            this.GameInstance.ReleaseDate = this.GameReleaseDatePicker.Value;
+            this.GameInstance.CDPath = this.GameCDPathTextBox.Text;
+            this.GameInstance.CDLabel = this.DiscLabelTextBox.Text;
+            this.GameInstance.SetupEXEPath = this.GameSetupTextBox.Text;
+            this.GameInstance.AlternateDOSBoxExePath = this.AlternateDOSBoxLocationTextbox.Text;
+            if (string.IsNullOrWhiteSpace(this.GameIconPictureBox.ImageLocation) == false)
+            {
+                this.GameInstance.Icon = this.GameIconPictureBox.ImageLocation;
+            }
+            else
+            {
+                this.GameInstance.Icon = string.Empty;
+            }
+
+            this.GameInstance.UseIOCTL = this.UseIOCTLRadioButton.Checked;
+            this.GameInstance.MountAsFloppy = this.IsAFloppyDiskRadioButton.Checked;
+            if (string.IsNullOrWhiteSpace(this.GameCDPathTextBox.Text) == false)
+            {
+                if (File.Exists(this.GameCDPathTextBox.Text))
+                {
+                    this.GameInstance.CDIsAnImage = true;
+                }
+                else
+                {
+                    this.GameInstance.CDIsAnImage = false;
+                }
+            }
+            this.GameInstance.Notes = this.NotesRichTextBox.Text;
         }
 
         /// <summary>
@@ -245,7 +236,7 @@ namespace AmpShell.Views
             using (var cdImageFileDialog = new OpenFileDialog())
             {
                 cdImageFileDialog.Title = this.GameCDPathLabel.Text;
-                cdImageFileDialog.Filter = "DOSBox compatible CD images (*.bin;*.cue;*.iso;*.img)|*.bin;*.cue;*.iso;*.img;*.BIN;*.CUE;*.ISO;*.IMG";
+                cdImageFileDialog.Filter = "DOSBox compatible CD or Floppy image files (*.bin;*.cue;*.iso;*.img;*.ima)|*.bin;*.cue;*.iso;*.img;*.ima;*.BIN;*.CUE;*.ISO;*.IMG;*.IMA";
                 if (UserDataAccessor.UserData.PortableMode == true)
                 {
                     cdImageFileDialog.InitialDirectory = Application.StartupPath;

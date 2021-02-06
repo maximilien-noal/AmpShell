@@ -196,7 +196,7 @@ namespace AmpShell.Views
             // NoneRadioButton
             // 
             this.NoneRadioButton.AutoSize = true;
-            this.NoneRadioButton.Location = new System.Drawing.Point(356, 19);
+            this.NoneRadioButton.Location = new System.Drawing.Point(373, 19);
             this.NoneRadioButton.Name = "NoneRadioButton";
             this.NoneRadioButton.Size = new System.Drawing.Size(51, 17);
             this.NoneRadioButton.TabIndex = 23;
@@ -222,10 +222,10 @@ namespace AmpShell.Views
             this.IsAFloppyDiskRadioButton.Enabled = false;
             this.IsAFloppyDiskRadioButton.Location = new System.Drawing.Point(164, 19);
             this.IsAFloppyDiskRadioButton.Name = "IsAFloppyDiskRadioButton";
-            this.IsAFloppyDiskRadioButton.Size = new System.Drawing.Size(186, 17);
+            this.IsAFloppyDiskRadioButton.Size = new System.Drawing.Size(203, 17);
             this.IsAFloppyDiskRadioButton.TabIndex = 22;
             this.IsAFloppyDiskRadioButton.TabStop = true;
-            this.IsAFloppyDiskRadioButton.Text = "Floppy disk image (mounted as A:)";
+            this.IsAFloppyDiskRadioButton.Text = "Is a floppy disk image (mounted as A:)";
             this.IsAFloppyDiskRadioButton.UseVisualStyleBackColor = true;
             // 
             // ResetIconButton
@@ -508,9 +508,9 @@ namespace AmpShell.Views
             this.GameLocationLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.GameLocationLabel.Location = new System.Drawing.Point(6, 90);
             this.GameLocationLabel.Name = "GameLocationLabel";
-            this.GameLocationLabel.Size = new System.Drawing.Size(341, 13);
+            this.GameLocationLabel.Size = new System.Drawing.Size(200, 13);
             this.GameLocationLabel.TabIndex = 34;
-            this.GameLocationLabel.Text = "      Game executable location (optional if a directory is mounted as C:) :";
+            this.GameLocationLabel.Text = "      Game executable location (optional) :";
             this.GameLocationLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // GameLocationTextbox
