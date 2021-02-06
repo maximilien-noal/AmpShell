@@ -79,10 +79,10 @@ namespace AmpShell.Views
             this.AlternateDOSBoxLocationBrowsSearchButton = new System.Windows.Forms.Button();
             this.AlternateDOSBoxLocationTextbox = new System.Windows.Forms.TextBox();
             this.AlternateDOSBoxLocationLabel = new System.Windows.Forms.Label();
-            this.OK = new System.Windows.Forms.Button();
-            this.Cancel = new System.Windows.Forms.Button();
             this.NotesTabPage = new System.Windows.Forms.TabPage();
             this.NotesRichTextBox = new System.Windows.Forms.RichTextBox();
+            this.OK = new System.Windows.Forms.Button();
+            this.Cancel = new System.Windows.Forms.Button();
             this.ConfigTabControl.SuspendLayout();
             this.BasicTabPage.SuspendLayout();
             this.MountingOptionsGroupBox.SuspendLayout();
@@ -566,6 +566,26 @@ namespace AmpShell.Views
             this.AlternateDOSBoxLocationLabel.Text = "\r\n           Use another DOSBox executable (DOSBox ECE, DOSBox SVN, ...) :\r\n\r\n";
             this.AlternateDOSBoxLocationLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // NotesTabPage
+            // 
+            this.NotesTabPage.Controls.Add(this.NotesRichTextBox);
+            this.NotesTabPage.Location = new System.Drawing.Point(4, 22);
+            this.NotesTabPage.Name = "NotesTabPage";
+            this.NotesTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.NotesTabPage.Size = new System.Drawing.Size(456, 550);
+            this.NotesTabPage.TabIndex = 2;
+            this.NotesTabPage.Text = "Notes";
+            this.NotesTabPage.UseVisualStyleBackColor = true;
+            // 
+            // NotesRichTextBox
+            // 
+            this.NotesRichTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.NotesRichTextBox.Location = new System.Drawing.Point(3, 3);
+            this.NotesRichTextBox.Name = "NotesRichTextBox";
+            this.NotesRichTextBox.Size = new System.Drawing.Size(450, 544);
+            this.NotesRichTextBox.TabIndex = 0;
+            this.NotesRichTextBox.Text = "";
+            // 
             // OK
             // 
             this.OK.Image = ((System.Drawing.Image)(resources.GetObject("OK.Image")));
@@ -593,26 +613,6 @@ namespace AmpShell.Views
             this.Cancel.UseVisualStyleBackColor = true;
             this.Cancel.Click += new System.EventHandler(this.Cancel_Click);
             // 
-            // NotesTabPage
-            // 
-            this.NotesTabPage.Controls.Add(this.NotesRichTextBox);
-            this.NotesTabPage.Location = new System.Drawing.Point(4, 22);
-            this.NotesTabPage.Name = "NotesTabPage";
-            this.NotesTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.NotesTabPage.Size = new System.Drawing.Size(456, 550);
-            this.NotesTabPage.TabIndex = 2;
-            this.NotesTabPage.Text = "Notes";
-            this.NotesTabPage.UseVisualStyleBackColor = true;
-            // 
-            // NotesRichTextBox
-            // 
-            this.NotesRichTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.NotesRichTextBox.Location = new System.Drawing.Point(3, 3);
-            this.NotesRichTextBox.Name = "NotesRichTextBox";
-            this.NotesRichTextBox.Size = new System.Drawing.Size(450, 544);
-            this.NotesRichTextBox.TabIndex = 0;
-            this.NotesRichTextBox.Text = "";
-            // 
             // GameForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -628,6 +628,7 @@ namespace AmpShell.Views
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Add a game...";
+            this.Shown += new System.EventHandler(this.GameForm_Shown);
             this.ConfigTabControl.ResumeLayout(false);
             this.BasicTabPage.ResumeLayout(false);
             this.BasicTabPage.PerformLayout();

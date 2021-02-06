@@ -94,10 +94,7 @@ namespace AmpShell.Views
 
         public Game GameInstance { get; private set; }
 
-        private void Cancel_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
+        private void Cancel_Click(object sender, EventArgs e) => this.Close();
 
         /// <summary>
         /// EventHandler for when the user has clicked on "OK".
@@ -570,5 +567,7 @@ namespace AmpShell.Views
             }
             return initialDirectory;
         }
+
+        private void GameForm_Shown(object sender, EventArgs e) => this.GameNameTextbox.Focus();
     }
 }
