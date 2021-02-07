@@ -78,6 +78,8 @@ namespace AmpShell.Views
 
         private ToolStripMenuItem runGameMenuItem;
 
+        private ToolStripMenuItem openGameFolderMenuItem;
+
         private ToolStripMenuItem runGameSetupMenuItem;
 
         private ToolStripMenuItem statusBarMenuItem;
@@ -308,6 +310,7 @@ namespace AmpShell.Views
             this.editGameConfigurationMenuItem = new ToolStripMenuItem();
             this.makeGameConfigurationMenuItem = new ToolStripMenuItem();
             this.runGameMenuItem = new ToolStripMenuItem();
+            this.openGameFolderMenuItem = new ToolStripMenuItem();
             this.runGameSetupMenuItem = new ToolStripMenuItem();
             this.menuBarMenuItem = new ToolStripMenuItem("Menu bar");
             this.toolBarMenuItem = new ToolStripMenuItem("Tool bar");
@@ -335,6 +338,16 @@ namespace AmpShell.Views
             this.runGameMenuItem.Click += new EventHandler(this.CurrentListView_ItemActivate);
             this.runGameMenuItem.MouseLeave += new EventHandler(this.CurrentListView_ItemSelectionChanged);
             this.runGameMenuItem.MouseEnter += new EventHandler(this.RunGameButton_MouseEnter);
+
+            this.openGameFolderMenuItem.Image = this.OpenGameFolderButton.Image;
+            this.openGameFolderMenuItem.Text = this.OpenGameFolderButton.Text;
+            this.openGameFolderMenuItem.Click += (s, e) => this.OpenGameFolderButton_Click(s, e);
+            this.openGameFolderMenuItem.MouseLeave += (s, e) => this.CurrentListView_ItemSelectionChanged(s, e);
+            this.openGameFolderMenuItem.MouseEnter += (s, e) => this.DisplayHelpMessage(this.OpenGameFolderButton.ToolTipText);
+
+            //Only Enabled when a game is selected
+            this.openGameFolderMenuItem.Enabled = false;
+            this.currentListViewContextMenuStrip.Items.Add(this.openGameFolderMenuItem);
 
             //Only Enabled when a game is selected
             this.runGameMenuItem.Enabled = false;
@@ -519,6 +532,9 @@ namespace AmpShell.Views
                 this.RunGameToolStripMenuItem.Enabled = true;
                 this.runGameMenuItem.Enabled = true;
                 this.RunGameButton.Enabled = true;
+                this.OpenGameFolderButton.Enabled = true;
+                this.openGameFolderMenuItem.Enabled = true;
+                this.OpenGameFolderToolStripMenuItem.Enabled = true;
                 Game selectedGame = this.GetSelectedGame();
 
                 //if the selected game has a setup executable
@@ -671,6 +687,9 @@ namespace AmpShell.Views
                 this.runGameSetupMenuItem.Enabled = false;
                 this.runGameMenuItem.Enabled = false;
                 this.RunGameButton.Enabled = false;
+                this.OpenGameFolderButton.Enabled = false;
+                this.openGameFolderMenuItem.Enabled = false;
+                this.OpenGameFolderToolStripMenuItem.Enabled = false;
                 this.editGameConfigurationMenuItem.Enabled = false;
                 this.GameEditConfigurationButton.Enabled = false;
                 this.EditConfigToolStripMenuItem.Enabled = false;
@@ -694,6 +713,9 @@ namespace AmpShell.Views
                 this.runGameSetupMenuItem.Enabled = false;
                 this.runGameMenuItem.Enabled = false;
                 this.RunGameButton.Enabled = false;
+                this.OpenGameFolderButton.Enabled = false;
+                this.openGameFolderMenuItem.Enabled = false;
+                this.OpenGameFolderToolStripMenuItem.Enabled = false;
                 this.editGameConfigurationMenuItem.Enabled = false;
                 this.GameEditConfigurationButton.Enabled = false;
                 this.EditConfigToolStripMenuItem.Enabled = false;
@@ -1412,6 +1434,9 @@ namespace AmpShell.Views
             this.addGameMenuItem.Enabled = false;
             this.GameAddButton.Enabled = false;
             this.RunGameButton.Enabled = false;
+            this.OpenGameFolderButton.Enabled = false;
+            this.openGameFolderMenuItem.Enabled = false;
+            this.OpenGameFolderToolStripMenuItem.Enabled = false;
             this.runGameMenuItem.Enabled = false;
             this.RunGameToolStripMenuItem.Enabled = false;
             this.GameEditButton.Enabled = false;
@@ -1455,6 +1480,9 @@ namespace AmpShell.Views
                 this.GameAddButton.Enabled = true;
                 if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBPath) == false)
                 {
+                    this.OpenGameFolderButton.Enabled = true;
+                    this.openGameFolderMenuItem.Enabled = true;
+                    this.OpenGameFolderToolStripMenuItem.Enabled = true;
                     this.RunGameButton.Enabled = true;
                     this.runGameMenuItem.Enabled = true;
                     this.RunGameToolStripMenuItem.Enabled = true;
@@ -1489,5 +1517,13 @@ namespace AmpShell.Views
         }
 
         private void ViewToolStripMenuItem_MouseEnter(object sender, EventArgs e) => this.DisplayHelpMessage(this.ViewToolStripMenuItem.ToolTipText);
+
+        private void OpenGameFolderButton_Click(object sender, EventArgs e) => this.GetSelectedGame().OpenGameFolder();
+
+        private void OpenGameFolderButton_MouseEnter(object sender, EventArgs e) => this.DisplayHelpMessage(this.OpenGameFolderButton.ToolTipText);
+
+        private void OpenGameFolderToolStripMenuItem_MouseEnter(object sender, EventArgs e) => this.DisplayHelpMessage(this.OpenGameFolderToolStripMenuItem.ToolTipText);
+
+        private void OpenGameFolderToolStripMenuItem_Click(object sender, EventArgs e) => this.GetSelectedGame().OpenGameFolder();
     }
 }

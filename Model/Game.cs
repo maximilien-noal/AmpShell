@@ -16,6 +16,7 @@ namespace AmpShell.Model
     using System;
     using System.Diagnostics;
     using System.Globalization;
+    using System.IO;
     using System.Xml.Serialization;
 
     using AmpShell.DAL;
@@ -230,5 +231,16 @@ namespace AmpShell.Model
         public Process Run() => DOSBoxController.StartDOSBox(GetDOSBoxPath(), DOSBoxController.BuildArgs(this, false, GetDOSBoxPath(), UserDataAccessor.UserData.DBDefaultConfFilePath, UserDataAccessor.UserData.DBDefaultLangFilePath), DBConfPath);
 
         public Process RunSetup() => DOSBoxController.StartDOSBox(GetDOSBoxPath(), DOSBoxController.BuildArgs(this, true, GetDOSBoxPath(), UserDataAccessor.UserData.DBDefaultConfFilePath, UserDataAccessor.UserData.DBDefaultLangFilePath), DBConfPath);
+
+        internal void OpenGameFolder()
+        {
+            try
+            {
+                Process.Start(new ProcessStartInfo() { FileName = Path.GetDirectoryName(this.DOSEXEPath), UseShellExecute = true });
+            }
+            catch (Exception)
+            {
+            }
+        }
     }
 }

@@ -72,6 +72,7 @@ namespace AmpShell.Views
             this.GameAddButton = new System.Windows.Forms.ToolStripButton();
             this.RunGameButton = new System.Windows.Forms.ToolStripButton();
             this.RunGameSetupButton = new System.Windows.Forms.ToolStripButton();
+            this.OpenGameFolderButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.GameEditButton = new System.Windows.Forms.ToolStripButton();
             this.GameEditConfigurationButton = new System.Windows.Forms.ToolStripButton();
@@ -101,6 +102,7 @@ namespace AmpShell.Views
             this.AdditionalCommandsLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.NotesLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.TabControl = new System.Windows.Forms.TabControl();
+            this.OpenGameFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
@@ -127,6 +129,7 @@ namespace AmpShell.Views
             this.NewGameToolStripMenuItem,
             this.RunGameToolStripMenuItem,
             this.RunGameSetupToolStripMenuItem,
+            this.OpenGameFolderToolStripMenuItem,
             this.toolStripSeparator1,
             this.QuitterToolStripMenuItem});
             this.FileToolStripMenuItem.Name = "FileToolStripMenuItem";
@@ -263,7 +266,8 @@ namespace AmpShell.Views
             this.MakeConfigurationFileToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.M)));
             this.MakeConfigurationFileToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
             this.MakeConfigurationFileToolStripMenuItem.Text = "&Make configuration file...";
-            this.MakeConfigurationFileToolStripMenuItem.ToolTipText = "Copy the default configuration file into the game\'s directory, to be used as a custom configuration file";
+            this.MakeConfigurationFileToolStripMenuItem.ToolTipText = "Copy the default configuration file into the game\'s directory, to be used as a cu" +
+    "stom configuration file";
             this.MakeConfigurationFileToolStripMenuItem.Click += new System.EventHandler(this.MakeConfigButton_Click);
             this.MakeConfigurationFileToolStripMenuItem.MouseEnter += new System.EventHandler(this.MakeConfigurationFileToolStripMenuItem_MouseEnter);
             this.MakeConfigurationFileToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
@@ -399,7 +403,7 @@ namespace AmpShell.Views
             // 
             this.LargeIconToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("LargeIconToolStripMenuItem.Image")));
             this.LargeIconToolStripMenuItem.Name = "LargeIconToolStripMenuItem";
-            this.LargeIconToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
+            this.LargeIconToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.L)));
             this.LargeIconToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
             this.LargeIconToolStripMenuItem.Text = "&Large icons";
@@ -412,7 +416,7 @@ namespace AmpShell.Views
             // 
             this.SmallIconToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("SmallIconToolStripMenuItem.Image")));
             this.SmallIconToolStripMenuItem.Name = "SmallIconToolStripMenuItem";
-            this.SmallIconToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
+            this.SmallIconToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.S)));
             this.SmallIconToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
             this.SmallIconToolStripMenuItem.Text = "&Small icons";
@@ -425,7 +429,7 @@ namespace AmpShell.Views
             // 
             this.TileToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("TileToolStripMenuItem.Image")));
             this.TileToolStripMenuItem.Name = "TileToolStripMenuItem";
-            this.TileToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
+            this.TileToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.T)));
             this.TileToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
             this.TileToolStripMenuItem.Text = "&Tiles";
@@ -450,7 +454,7 @@ namespace AmpShell.Views
             // 
             this.DetailsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("DetailsToolStripMenuItem.Image")));
             this.DetailsToolStripMenuItem.Name = "DetailsToolStripMenuItem";
-            this.DetailsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
+            this.DetailsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.D)));
             this.DetailsToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
             this.DetailsToolStripMenuItem.Text = "&Details";
@@ -476,7 +480,7 @@ namespace AmpShell.Views
             this.AboutToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.White;
             this.AboutToolStripMenuItem.Name = "AboutToolStripMenuItem";
             this.AboutToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F1;
-            this.AboutToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.AboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.AboutToolStripMenuItem.Text = "&About...";
             this.AboutToolStripMenuItem.ToolTipText = "Display the about dialog";
             this.AboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
@@ -490,6 +494,7 @@ namespace AmpShell.Views
             this.GameAddButton,
             this.RunGameButton,
             this.RunGameSetupButton,
+            this.OpenGameFolderButton,
             this.toolStripSeparator7,
             this.GameEditButton,
             this.GameEditConfigurationButton,
@@ -568,6 +573,20 @@ namespace AmpShell.Views
             this.RunGameSetupButton.MouseEnter += new System.EventHandler(this.RunGameSetupButton_MouseEnter);
             this.RunGameSetupButton.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
+            // OpenGameFolderButton
+            // 
+            this.OpenGameFolderButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.OpenGameFolderButton.Enabled = false;
+            this.OpenGameFolderButton.Image = global::AmpShell.Properties.Resources.Folder_Open;
+            this.OpenGameFolderButton.ImageTransparentColor = System.Drawing.Color.White;
+            this.OpenGameFolderButton.Name = "OpenGameFolderButton";
+            this.OpenGameFolderButton.Size = new System.Drawing.Size(23, 22);
+            this.OpenGameFolderButton.Text = "Open Game Folder";
+            this.OpenGameFolderButton.ToolTipText = "Open Game Folder in Windows Explorer";
+            this.OpenGameFolderButton.Click += new System.EventHandler(this.OpenGameFolderButton_Click);
+            this.OpenGameFolderButton.MouseEnter += new System.EventHandler(this.OpenGameFolderButton_MouseEnter);
+            this.OpenGameFolderButton.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
+            // 
             // toolStripSeparator7
             // 
             this.toolStripSeparator7.Name = "toolStripSeparator7";
@@ -610,7 +629,8 @@ namespace AmpShell.Views
             this.MakeConfigButton.Name = "MakeConfigButton";
             this.MakeConfigButton.Size = new System.Drawing.Size(23, 22);
             this.MakeConfigButton.Text = "Make configuration file";
-            this.MakeConfigButton.ToolTipText = "Copy the default configuration file into the game\'s directory, to be used as a custom configuration file";
+            this.MakeConfigButton.ToolTipText = "Copy the default configuration file into the game\'s directory, to be used as a cu" +
+    "stom configuration file";
             this.MakeConfigButton.Click += new System.EventHandler(this.MakeConfigButton_Click);
             this.MakeConfigButton.MouseEnter += new System.EventHandler(this.MakeConfigurationFileToolStripMenuItem_MouseEnter);
             this.MakeConfigButton.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
@@ -836,9 +856,9 @@ namespace AmpShell.Views
             // 
             this.AdditionalCommandsLabel.Name = "AdditionalCommandsLabel";
             this.AdditionalCommandsLabel.Size = new System.Drawing.Size(0, 17);
-            //
+            // 
             // NotesLabel
-            //
+            // 
             this.NotesLabel.Name = "NotesLabel";
             this.NotesLabel.Size = new System.Drawing.Size(0, 17);
             // 
@@ -852,6 +872,20 @@ namespace AmpShell.Views
             this.TabControl.SelectedIndex = 0;
             this.TabControl.Size = new System.Drawing.Size(624, 290);
             this.TabControl.TabIndex = 1;
+            // 
+            // OpenGameFolderToolStripMenuItem
+            // 
+            this.OpenGameFolderToolStripMenuItem.Enabled = false;
+            this.OpenGameFolderToolStripMenuItem.Image = global::AmpShell.Properties.Resources.Folder_Open;
+            this.OpenGameFolderToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.White;
+            this.OpenGameFolderToolStripMenuItem.Name = "OpenGameFolderToolStripMenuItem";
+            this.OpenGameFolderToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.W)));
+            this.OpenGameFolderToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
+            this.OpenGameFolderToolStripMenuItem.Text = "Open game &folder";
+            this.OpenGameFolderToolStripMenuItem.ToolTipText = "Open the game\'s folder in Windows Explorer";
+            this.OpenGameFolderToolStripMenuItem.Click += new System.EventHandler(this.OpenGameFolderToolStripMenuItem_Click);
+            this.OpenGameFolderToolStripMenuItem.MouseEnter += new System.EventHandler(this.OpenGameFolderToolStripMenuItem_MouseEnter);
+            this.OpenGameFolderToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
             // MainForm
             // 
@@ -949,6 +983,8 @@ namespace AmpShell.Views
         private System.Windows.Forms.ToolStripButton MakeConfigButton;
         private System.Windows.Forms.ToolStripButton EditDefaultConfigurationButton;
         private System.Windows.Forms.ToolStripMenuItem MakeConfigurationFileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripButton OpenGameFolderButton;
+        private System.Windows.Forms.ToolStripMenuItem OpenGameFolderToolStripMenuItem;
     }
 }
 
