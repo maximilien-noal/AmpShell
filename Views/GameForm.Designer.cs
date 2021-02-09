@@ -61,8 +61,6 @@ namespace AmpShell.Views
             this.FullscreenCheckBox = new System.Windows.Forms.CheckBox();
             this.NoConsoleCheckBox = new System.Windows.Forms.CheckBox();
             this.QuitOnExitCheckBox = new System.Windows.Forms.CheckBox();
-            this.GameAdditionalCommandsLabel = new System.Windows.Forms.Label();
-            this.GameAdditionalCommandsTextBox = new System.Windows.Forms.TextBox();
             this.NoConfigCheckBox = new System.Windows.Forms.CheckBox();
             this.GameCDPathBrowseButton = new System.Windows.Forms.Button();
             this.GameCDPathLabel = new System.Windows.Forms.Label();
@@ -83,6 +81,8 @@ namespace AmpShell.Views
             this.NotesRichTextBox = new System.Windows.Forms.RichTextBox();
             this.OK = new System.Windows.Forms.Button();
             this.Cancel = new System.Windows.Forms.Button();
+            this.GameAdditionalCommandsLabel = new System.Windows.Forms.Label();
+            this.GameAdditionalCommandsTextBox = new System.Windows.Forms.TextBox();
             this.ConfigTabControl.SuspendLayout();
             this.BasicTabPage.SuspendLayout();
             this.MountingOptionsGroupBox.SuspendLayout();
@@ -118,8 +118,6 @@ namespace AmpShell.Views
             this.BasicTabPage.Controls.Add(this.GameDirectoryLabel);
             this.BasicTabPage.Controls.Add(this.GameDirectoryTextbox);
             this.BasicTabPage.Controls.Add(this.OtherOptionsGroupBox);
-            this.BasicTabPage.Controls.Add(this.GameAdditionalCommandsLabel);
-            this.BasicTabPage.Controls.Add(this.GameAdditionalCommandsTextBox);
             this.BasicTabPage.Controls.Add(this.NoConfigCheckBox);
             this.BasicTabPage.Controls.Add(this.GameCDPathBrowseButton);
             this.BasicTabPage.Controls.Add(this.GameCDPathLabel);
@@ -169,14 +167,14 @@ namespace AmpShell.Views
             this.MountingOptionsGroupBox.Enabled = false;
             this.MountingOptionsGroupBox.Location = new System.Drawing.Point(8, 349);
             this.MountingOptionsGroupBox.Name = "MountingOptionsGroupBox";
-            this.MountingOptionsGroupBox.Size = new System.Drawing.Size(438, 88);
+            this.MountingOptionsGroupBox.Size = new System.Drawing.Size(438, 139);
             this.MountingOptionsGroupBox.TabIndex = 51;
             this.MountingOptionsGroupBox.TabStop = false;
             this.MountingOptionsGroupBox.Text = "Mounting options";
             // 
             // DiscLabelTextBox
             // 
-            this.DiscLabelTextBox.Location = new System.Drawing.Point(3, 60);
+            this.DiscLabelTextBox.Location = new System.Drawing.Point(6, 113);
             this.DiscLabelTextBox.Name = "DiscLabelTextBox";
             this.DiscLabelTextBox.Size = new System.Drawing.Size(429, 20);
             this.DiscLabelTextBox.TabIndex = 35;
@@ -186,7 +184,7 @@ namespace AmpShell.Views
             this.DiscLabelLabel.AutoSize = true;
             this.DiscLabelLabel.Image = global::AmpShell.Properties.Resources.CD_ROM_Label;
             this.DiscLabelLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.DiscLabelLabel.Location = new System.Drawing.Point(3, 41);
+            this.DiscLabelLabel.Location = new System.Drawing.Point(6, 97);
             this.DiscLabelLabel.Name = "DiscLabelLabel";
             this.DiscLabelLabel.Size = new System.Drawing.Size(183, 13);
             this.DiscLabelLabel.TabIndex = 34;
@@ -196,7 +194,7 @@ namespace AmpShell.Views
             // NoneRadioButton
             // 
             this.NoneRadioButton.AutoSize = true;
-            this.NoneRadioButton.Location = new System.Drawing.Point(373, 19);
+            this.NoneRadioButton.Location = new System.Drawing.Point(6, 65);
             this.NoneRadioButton.Name = "NoneRadioButton";
             this.NoneRadioButton.Size = new System.Drawing.Size(51, 17);
             this.NoneRadioButton.TabIndex = 23;
@@ -220,7 +218,7 @@ namespace AmpShell.Views
             // 
             this.IsAFloppyDiskRadioButton.AutoSize = true;
             this.IsAFloppyDiskRadioButton.Enabled = false;
-            this.IsAFloppyDiskRadioButton.Location = new System.Drawing.Point(164, 19);
+            this.IsAFloppyDiskRadioButton.Location = new System.Drawing.Point(6, 42);
             this.IsAFloppyDiskRadioButton.Name = "IsAFloppyDiskRadioButton";
             this.IsAFloppyDiskRadioButton.Size = new System.Drawing.Size(203, 17);
             this.IsAFloppyDiskRadioButton.TabIndex = 22;
@@ -374,25 +372,6 @@ namespace AmpShell.Views
             this.QuitOnExitCheckBox.UseVisualStyleBackColor = true;
             this.QuitOnExitCheckBox.EnabledChanged += new System.EventHandler(this.QuitOnExitCheckBox_EnabledChanged);
             // 
-            // GameAdditionalCommandsLabel
-            // 
-            this.GameAdditionalCommandsLabel.AutoSize = true;
-            this.GameAdditionalCommandsLabel.Image = global::AmpShell.Properties.Resources.cmd;
-            this.GameAdditionalCommandsLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.GameAdditionalCommandsLabel.Location = new System.Drawing.Point(5, 446);
-            this.GameAdditionalCommandsLabel.Name = "GameAdditionalCommandsLabel";
-            this.GameAdditionalCommandsLabel.Size = new System.Drawing.Size(298, 13);
-            this.GameAdditionalCommandsLabel.TabIndex = 52;
-            this.GameAdditionalCommandsLabel.Text = "      Additional DOSBox commands (-c \"command\") (optional) :";
-            this.GameAdditionalCommandsLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // GameAdditionalCommandsTextBox
-            // 
-            this.GameAdditionalCommandsTextBox.Location = new System.Drawing.Point(7, 465);
-            this.GameAdditionalCommandsTextBox.Name = "GameAdditionalCommandsTextBox";
-            this.GameAdditionalCommandsTextBox.Size = new System.Drawing.Size(433, 20);
-            this.GameAdditionalCommandsTextBox.TabIndex = 53;
-            // 
             // NoConfigCheckBox
             // 
             this.NoConfigCheckBox.AutoSize = true;
@@ -523,6 +502,8 @@ namespace AmpShell.Views
             // 
             // AdvancedTabPage
             // 
+            this.AdvancedTabPage.Controls.Add(this.GameAdditionalCommandsLabel);
+            this.AdvancedTabPage.Controls.Add(this.GameAdditionalCommandsTextBox);
             this.AdvancedTabPage.Controls.Add(this.AlternateDOSBoxLocationBrowsSearchButton);
             this.AdvancedTabPage.Controls.Add(this.AlternateDOSBoxLocationTextbox);
             this.AdvancedTabPage.Controls.Add(this.AlternateDOSBoxLocationLabel);
@@ -613,6 +594,26 @@ namespace AmpShell.Views
             this.Cancel.UseVisualStyleBackColor = true;
             this.Cancel.Click += new System.EventHandler(this.Cancel_Click);
             // 
+            // GameAdditionalCommandsLabel
+            // 
+            this.GameAdditionalCommandsLabel.AutoSize = true;
+            this.GameAdditionalCommandsLabel.Image = global::AmpShell.Properties.Resources.cmd;
+            this.GameAdditionalCommandsLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.GameAdditionalCommandsLabel.Location = new System.Drawing.Point(8, 68);
+            this.GameAdditionalCommandsLabel.Name = "GameAdditionalCommandsLabel";
+            this.GameAdditionalCommandsLabel.Size = new System.Drawing.Size(221, 13);
+            this.GameAdditionalCommandsLabel.TabIndex = 54;
+            this.GameAdditionalCommandsLabel.Text = "      Additional DOSBox commands (optional) :";
+            this.GameAdditionalCommandsLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // GameAdditionalCommandsTextBox
+            // 
+            this.GameAdditionalCommandsTextBox.Location = new System.Drawing.Point(10, 87);
+            this.GameAdditionalCommandsTextBox.Multiline = true;
+            this.GameAdditionalCommandsTextBox.Name = "GameAdditionalCommandsTextBox";
+            this.GameAdditionalCommandsTextBox.Size = new System.Drawing.Size(433, 457);
+            this.GameAdditionalCommandsTextBox.TabIndex = 55;
+            // 
             // GameForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -665,8 +666,6 @@ namespace AmpShell.Views
         private System.Windows.Forms.CheckBox FullscreenCheckBox;
         private System.Windows.Forms.CheckBox NoConsoleCheckBox;
         private System.Windows.Forms.CheckBox QuitOnExitCheckBox;
-        private System.Windows.Forms.Label GameAdditionalCommandsLabel;
-        private System.Windows.Forms.TextBox GameAdditionalCommandsTextBox;
         private System.Windows.Forms.CheckBox NoConfigCheckBox;
         private System.Windows.Forms.Button GameCDPathBrowseButton;
         private System.Windows.Forms.Label GameCDPathLabel;
@@ -691,5 +690,7 @@ namespace AmpShell.Views
         private System.Windows.Forms.DateTimePicker GameReleaseDatePicker;
         private System.Windows.Forms.TabPage NotesTabPage;
         private System.Windows.Forms.RichTextBox NotesRichTextBox;
+        private System.Windows.Forms.Label GameAdditionalCommandsLabel;
+        private System.Windows.Forms.TextBox GameAdditionalCommandsTextBox;
     }
 }
