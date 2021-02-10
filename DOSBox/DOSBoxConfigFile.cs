@@ -5,6 +5,7 @@
     using System.Globalization;
     using System.IO;
     using System.Linq;
+    using System.Text.RegularExpressions;
 
     /// <summary>
     /// Represents a DOSBox Config File.
@@ -39,6 +40,6 @@
             }
         }
 
-        public bool IsAutoExecSectionUsed() => string.IsNullOrWhiteSpace(this.AutoExecSection) == false;
+        public bool IsAutoExecSectionUsed() => string.IsNullOrWhiteSpace(this.AutoExecSection) == false && Regex.Split(this.AutoExecSection, "\r\n|\r|\n").Any(x => string.IsNullOrWhiteSpace(x) == false && x.ToUpper().Trim().StartsWith("REM") == false);
     }
 }
