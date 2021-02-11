@@ -33,7 +33,7 @@ namespace AmpShell.ViewModel
         public string Name
         {
             get => this.name;
-            set { this.Set(ref this.name, value); }
+            set => this.Set(ref this.name, value);
         }
 
         public void CreateCategory()
@@ -49,9 +49,6 @@ namespace AmpShell.ViewModel
             }
         }
 
-        public bool IsDataValid()
-        {
-            return string.IsNullOrWhiteSpace(this.Name) == false;
-        }
+        public bool IsDataValid() => string.IsNullOrWhiteSpace(this.Name) == false;
     }
 }
