@@ -57,7 +57,7 @@ namespace AmpShell.Views
             this.GameAdditionalCommandsTextBox.Text += $"REM Examples of DOSBox commands: 'core=normal'\r\n";
             this.GameAdditionalCommandsTextBox.Text += $"REM or 'IMGMOUNT D C:\\Temp\\MyCDImage.iso -t iso'\r\n";
             this.GameAdditionalCommandsTextBox.Text += "REM or anything recognized by DOSBox.\r\n\r\n";
-            this.GameAdditionalCommandsTextBox.Text += PutEachAdditionnalCommandsOnANewLine(this.GameInstance.AdditionalCommands);
+            this.GameAdditionalCommandsTextBox.Text += this.GameInstance.PutEachAdditionnalCommandsOnANewLine();
             this.AlternateDOSBoxLocationTextbox.Text = this.GameInstance.AlternateDOSBoxExePath;
             this.NoConsoleCheckBox.Checked = this.GameInstance.NoConsole;
             this.QuitOnExitCheckBox.Checked = this.GameInstance.QuitOnExit;
@@ -96,39 +96,6 @@ namespace AmpShell.Views
         }
 
         public Game GameInstance { get; private set; }
-
-        private static string PutEachAdditionnalCommandsOnANewLine(string additionnalCommands)
-        {
-            if (string.IsNullOrWhiteSpace(additionnalCommands))
-            {
-                return string.Empty;
-            }
-            var commands = new StringBuilder();
-            string[] array = additionnalCommands.Split('-');
-            for (int i = 0; i < array.Length; i++)
-            {
-                string line = (string)array[i];
-                if (string.IsNullOrWhiteSpace(line) == false)
-                {
-                    if (line.StartsWith("c "))
-                    {
-                        line = line.TrimStart('c');
-                    }
-                    line = line.Trim();
-                    if (line.StartsWith("\""))
-                    {
-                        line = line.TrimStart('\"');
-                        if (line.EndsWith("\""))
-                        {
-                            line = line.TrimEnd('\"');
-                        }
-                    }
-                    line = line.Trim();
-                    commands.AppendLine(line);
-                }
-            }
-            return commands.ToString();
-        }
 
         private void Cancel_Click(object sender, EventArgs e) => this.Close();
 

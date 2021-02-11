@@ -98,6 +98,39 @@ namespace AmpShell.Model
 
         private string dbConfPath = string.Empty;
 
+        internal string PutEachAdditionnalCommandsOnANewLine()
+        {
+            if (string.IsNullOrWhiteSpace(this.AdditionalCommands))
+            {
+                return string.Empty;
+            }
+            var commands = new System.Text.StringBuilder();
+            string[] array = this.AdditionalCommands.Split('-');
+            for (int i = 0; i < array.Length; i++)
+            {
+                string line = (string)array[i];
+                if (string.IsNullOrWhiteSpace(line) == false)
+                {
+                    if (line.StartsWith("c "))
+                    {
+                        line = line.TrimStart('c');
+                    }
+                    line = line.Trim();
+                    if (line.StartsWith("\""))
+                    {
+                        line = line.TrimStart('\"');
+                        if (line.EndsWith("\""))
+                        {
+                            line = line.TrimEnd('\"');
+                        }
+                    }
+                    line = line.Trim();
+                    commands.AppendLine(line);
+                }
+            }
+            return commands.ToString();
+        }
+
         /// <summary>
         /// Gets or sets game's custom DOSBox .conf file path.
         /// </summary>
