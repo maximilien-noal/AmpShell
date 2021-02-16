@@ -33,6 +33,27 @@
             Used to start DOSBox with a game in it.
             </summary>
         </member>
+        <member name="M:AmpShell.DOSBox.DOSBoxController.RunOnlyDOSBox(System.String,System.String,System.String)">
+            <summary>
+            Run DOSBox itself, without any game.
+            </summary>
+            <param name="dosboxPath">Path to DOSBox.exe.</param>
+            <param name="dosboxDefaultConfFilePath">Path to DOSBox.conf.</param>
+            <param name="dosboxDefaultLangFilePath">Path to DOSBox.lng.</param>
+            <returns>The DOSBox process if it started successfully, null otherwise.</returns>
+        </member>
+        <member name="M:AmpShell.DOSBox.DOSBoxController.StartGame">
+            <summary>
+            Starts DOSBox with <see cref="T:AmpShell.Model.Game"/> inside it.
+            </summary>
+            <returns>The DOSBox process.</returns>
+        </member>
+        <member name="M:AmpShell.DOSBox.DOSBoxController.StartGameSetup">
+            <summary>
+            Starts DOSBox with <see cref="T:AmpShell.Model.Game"/>.<see cref="P:AmpShell.Model.Game.SetupEXEPath"/> inside it.
+            </summary>
+            <returns>The DOSBox process.</returns>
+        </member>
         <member name="M:AmpShell.DOSBox.DOSBoxController.BuildArgs(AmpShell.Model.Game,System.Boolean,System.String,System.String,System.String)">
             <summary>
             Builds the argument line in order to start DOSBox.
@@ -45,15 +66,6 @@
             <param name="dosboxDefaultConfFilePath">The .conf file to use for DOSBox.</param>
             <param name="dosboxDefaultLangFilePath">The .lng file to use for DOSBox.</param>
             <returns>.</returns>
-        </member>
-        <member name="M:AmpShell.DOSBox.DOSBoxController.RunOnlyDOSBox(System.String,System.String,System.String)">
-            <summary>
-            Run DOSBox itself, without any game.
-            </summary>
-            <param name="dosboxPath">Path to DOSBox.exe.</param>
-            <param name="dosboxDefaultConfFilePath">Path to DOSBox.conf.</param>
-            <param name="dosboxDefaultLangFilePath">Path to DOSBox.lng.</param>
-            <returns>The DOSBox process if it started successfully, null otherwise.</returns>
         </member>
         <member name="M:AmpShell.DOSBox.DOSBoxController.StartDOSBox(System.String,System.String,System.String)">
             <summary>
@@ -141,8 +153,8 @@
         </member>
         <member name="P:AmpShell.Model.Game.AlternateDOSBoxExePath">
             <summary>
-            Gets or sets if we want to use DOSBox Daum, ECE, SVN, or other instead of the one set in
-            the global preferences.
+            Gets or sets the path to DOSBox Daum, ECE, SVN, DOSBox-X, DOSBox Staging,
+            or other fork instead of the DOSBox version set in the global preferences.
             </summary>
         </member>
         <member name="T:AmpShell.Model.ModelWithChildren">

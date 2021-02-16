@@ -14,14 +14,22 @@ namespace AmpShell.DOSBox
     using System.Diagnostics;
     using System.IO;
     using System.Windows.Forms;
+
     using AmpShell.DAL;
     using AmpShell.Model;
 
     /// <summary>
     /// Used to start DOSBox with a game in it.
     /// </summary>
-    public static class DOSBoxController
+    public class DOSBoxController
     {
+        private readonly Game gameInstance;
+
+        public DOSBoxController(Game game)
+        {
+            this.gameInstance = game;
+        }
+
         public static void AskForDOSBoxIfNotFound()
         {
             //if DOSBoxPath is still empty, say to the user that dosbox's executable cannot be found
@@ -60,6 +68,50 @@ namespace AmpShell.DOSBox
         }
 
         /// <summary>
+        /// Run DOSBox itself, without any game.
+        /// </summary>
+        /// <param name="dosboxPath">Path to DOSBox.exe.</param>
+        /// <param name="dosboxDefaultConfFilePath">Path to DOSBox.conf.</param>
+        /// <param name="dosboxDefaultLangFilePath">Path to DOSBox.lng.</param>
+        /// <returns>The DOSBox process if it started successfully, null otherwise.</returns>
+        public static Process RunOnlyDOSBox(string dosboxPath, string dosboxDefaultConfFilePath, string dosboxDefaultLangFilePath)
+        {
+            if (string.IsNullOrWhiteSpace(dosboxPath) == true)
+            {
+                return null;
+            }
+
+            //check first for the lang file
+            string langArgument = string.Empty;
+            if (string.IsNullOrWhiteSpace(dosboxDefaultConfFilePath) == false)
+            {
+                langArgument = $" -lang \"{dosboxDefaultConfFilePath}\"";
+            }
+
+            //then for the conf file
+            if (string.IsNullOrWhiteSpace(dosboxDefaultLangFilePath) == false)
+            {
+                return StartDOSBox(dosboxPath, $" -conf \"{dosboxDefaultConfFilePath}\"{langArgument}");
+            }
+            else
+            {
+                return StartDOSBox(dosboxPath, langArgument);
+            }
+        }
+
+        /// <summary>
+        /// Starts DOSBox with <see cref="Game"/> inside it.
+        /// </summary>
+        /// <returns>The DOSBox process.</returns>
+        public Process StartGame() => StartDOSBox(this.gameInstance.GetDOSBoxPath(), DOSBoxController.BuildArgs(this.gameInstance, false, this.gameInstance.GetDOSBoxPath(), UserDataAccessor.UserData.DBDefaultConfFilePath, UserDataAccessor.UserData.DBDefaultLangFilePath), this.gameInstance.DBConfPath);
+
+        /// <summary>
+        /// Starts DOSBox with <see cref="Game"/>.<see cref="Game.SetupEXEPath"/> inside it.
+        /// </summary>
+        /// <returns>The DOSBox process.</returns>
+        public Process StartGameSetup() => StartDOSBox(this.gameInstance.GetDOSBoxPath(), DOSBoxController.BuildArgs(this.gameInstance, true, this.gameInstance.GetDOSBoxPath(), UserDataAccessor.UserData.DBDefaultConfFilePath, UserDataAccessor.UserData.DBDefaultLangFilePath), this.gameInstance.DBConfPath);
+
+        /// <summary>
         /// Builds the argument line in order to start DOSBox.
         /// </summary>
         /// <param name="selectedGame">Game the user wants to start.</param>
@@ -70,7 +122,7 @@ namespace AmpShell.DOSBox
         /// <param name="dosboxDefaultConfFilePath">The .conf file to use for DOSBox.</param>
         /// <param name="dosboxDefaultLangFilePath">The .lng file to use for DOSBox.</param>
         /// <returns>.</returns>
-        public static string BuildArgs(Game selectedGame, bool forSetupExe, string dosBoxExePath, string dosboxDefaultConfFilePath, string dosboxDefaultLangFilePath)
+        private static string BuildArgs(Game selectedGame, bool forSetupExe, string dosBoxExePath, string dosboxDefaultConfFilePath, string dosboxDefaultLangFilePath)
         {
             if (selectedGame == null)
             {
@@ -113,45 +165,13 @@ namespace AmpShell.DOSBox
         }
 
         /// <summary>
-        /// Run DOSBox itself, without any game.
-        /// </summary>
-        /// <param name="dosboxPath">Path to DOSBox.exe.</param>
-        /// <param name="dosboxDefaultConfFilePath">Path to DOSBox.conf.</param>
-        /// <param name="dosboxDefaultLangFilePath">Path to DOSBox.lng.</param>
-        /// <returns>The DOSBox process if it started successfully, null otherwise.</returns>
-        public static Process RunOnlyDOSBox(string dosboxPath, string dosboxDefaultConfFilePath, string dosboxDefaultLangFilePath)
-        {
-            if (string.IsNullOrWhiteSpace(dosboxPath) == true)
-            {
-                return null;
-            }
-
-            //check first for the lang file
-            string languageFile = string.Empty;
-            if (string.IsNullOrWhiteSpace(dosboxDefaultConfFilePath) == false)
-            {
-                languageFile = $" -lang \"{dosboxDefaultConfFilePath}\"";
-            }
-
-            //then for the conf file
-            if (string.IsNullOrWhiteSpace(dosboxDefaultLangFilePath) == false)
-            {
-                return StartDOSBox(dosboxPath, $" -conf \"{dosboxDefaultConfFilePath}\"{languageFile}");
-            }
-            else
-            {
-                return StartDOSBox(dosboxPath, languageFile);
-            }
-        }
-
-        /// <summary>
         /// Starts DOSBox, and returns its <see cref="Process" />.
         /// </summary>
         /// <param name="dosboxPath">Path to DOSBox.exe.</param>
         /// <param name="args">Command line args passed to DOSBox.</param>
         /// <param name="customConfFilePath">DOSBox config file to use (optional).</param>
         /// <returns>The DOSBox <see cref="Process" />.</returns>
-        public static Process StartDOSBox(string dosboxPath, string args, string customConfFilePath = "")
+        private static Process StartDOSBox(string dosboxPath, string args, string customConfFilePath = "")
         {
             var psi = new ProcessStartInfo(dosboxPath);
 

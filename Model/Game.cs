@@ -250,8 +250,8 @@ namespace AmpShell.Model
         private string alternateDOSBoxExePath = string.Empty;
 
         /// <summary>
-        /// Gets or sets if we want to use DOSBox Daum, ECE, SVN, or other instead of the one set in
-        /// the global preferences.
+        /// Gets or sets the path to DOSBox Daum, ECE, SVN, DOSBox-X, DOSBox Staging,
+        /// or other fork instead of the DOSBox version set in the global preferences.
         /// </summary>
         public string AlternateDOSBoxExePath
         {
@@ -261,9 +261,9 @@ namespace AmpShell.Model
 
         public string GetDOSBoxPath() => string.IsNullOrWhiteSpace(AlternateDOSBoxExePath) ? UserDataAccessor.UserData.DBPath : AlternateDOSBoxExePath;
 
-        public Process Run() => DOSBoxController.StartDOSBox(GetDOSBoxPath(), DOSBoxController.BuildArgs(this, false, GetDOSBoxPath(), UserDataAccessor.UserData.DBDefaultConfFilePath, UserDataAccessor.UserData.DBDefaultLangFilePath), DBConfPath);
+        public Process Run() => new DOSBoxController(this).StartGame();
 
-        public Process RunSetup() => DOSBoxController.StartDOSBox(GetDOSBoxPath(), DOSBoxController.BuildArgs(this, true, GetDOSBoxPath(), UserDataAccessor.UserData.DBDefaultConfFilePath, UserDataAccessor.UserData.DBDefaultLangFilePath), DBConfPath);
+        public Process RunSetup() => new DOSBoxController(this).StartGameSetup();
 
         internal void OpenGameFolder()
         {
