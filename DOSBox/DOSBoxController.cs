@@ -37,18 +37,16 @@ namespace AmpShell.DOSBox
         /// <returns>The DOSBox process if it started successfully, null otherwise.</returns>
         public static Process RunOnlyDOSBox()
         {
-            string langArgument = string.Empty;
-            if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBDefaultLangFilePath) == false)
-            {
-                langArgument = $" -lang \"{UserDataAccessor.UserData.DBDefaultLangFilePath}\"";
-            }
-
-            string args = langArgument;
+            var arguments = new StringBuilder();
             if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBDefaultConfFilePath) == false)
             {
-                args = $" -conf \"{UserDataAccessor.UserData.DBDefaultConfFilePath}\"{langArgument}";
+                arguments.Append($" -conf \"{UserDataAccessor.UserData.DBDefaultConfFilePath}\"");
             }
-            var proc = Process.Start(UserDataAccessor.UserData.DBPath, args);
+            if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBDefaultLangFilePath) == false)
+            {
+                arguments.Append($" -lang \"{UserDataAccessor.UserData.DBDefaultLangFilePath}\"");
+            }
+            var proc = Process.Start(UserDataAccessor.UserData.DBPath, arguments.ToString());
             if (proc != null)
             {
                 proc.EnableRaisingEvents = true;
