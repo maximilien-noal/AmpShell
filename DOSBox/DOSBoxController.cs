@@ -79,41 +79,41 @@ namespace AmpShell.DOSBox
         {
             var configFile = new DOSBoxConfigFile(this.gameInstance.DBConfPath);
 
-            string dosboxArgs = string.Empty;
+            var dosboxArgs = new StringBuilder();
             string dosBoxExePath = this.gameInstance.GetDOSBoxPath();
             if (string.IsNullOrWhiteSpace(dosBoxExePath) == true || dosBoxExePath == "dosbox.exe isn't is the same directory as AmpShell.exe!" || File.Exists(dosBoxExePath) == false)
             {
                 throw new FileNotFoundException("DOSBox not found!");
             }
 
-            dosboxArgs += this.AddCustomConfigFile();
+            dosboxArgs.Append(this.AddCustomConfigFile());
 
             if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBDefaultLangFilePath) == false && UserDataAccessor.UserData.DBDefaultLangFilePath != "No language file (*.lng) found in AmpShell's directory.")
             {
-                dosboxArgs += $" -lang \"{UserDataAccessor.UserData.DBDefaultLangFilePath}\"";
+                dosboxArgs.Append($" -lang \"{UserDataAccessor.UserData.DBDefaultLangFilePath}\"");
             }
 
-            dosboxArgs += this.AddAdditionalCommands(forSetupExe, configFile);
+            dosboxArgs.Append(this.AddAdditionalCommands(forSetupExe, configFile));
 
             //corresponds to the Fullscreen checkbox in GameForm
             if (this.gameInstance.InFullScreen == true)
             {
-                dosboxArgs += " -fullscreen";
+                dosboxArgs.Append(" -fullscreen");
             }
 
             //corresponds to the "no console" checkbox in the GameForm
             if (this.gameInstance.NoConsole == true)
             {
-                dosboxArgs += " -noconsole";
+                dosboxArgs.Append(" -noconsole");
             }
 
             //corresponds to the "quit on exit (only for .exe)" checkbox in the GameForm
             if (this.gameInstance.QuitOnExit == true)
             {
-                dosboxArgs += " -exit";
+                dosboxArgs.Append(" -exit");
             }
 
-            return dosboxArgs;
+            return dosboxArgs.ToString();
         }
 
         /// <summary>
