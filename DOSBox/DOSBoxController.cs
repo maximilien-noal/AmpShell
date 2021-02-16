@@ -10,8 +10,11 @@
 
 namespace AmpShell.DOSBox
 {
+    using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
+    using System.Text;
 
     using AmpShell.DAL;
     using AmpShell.Model;
@@ -140,83 +143,92 @@ namespace AmpShell.DOSBox
 
         private string AddAdditionalCommands(bool forSetupExe, DOSBoxConfigFile configFile)
         {
-            string dosboxArgs = string.Empty;
             if (configFile.IsAutoExecSectionUsed() == true)
             {
-                return dosboxArgs;
+                return string.Empty;
             }
 
-            //The arguments for DOSBox begins with the game executable (.exe, .bat, or .com)
-            if (string.IsNullOrWhiteSpace(this.gameInstance.DOSEXEPath) == false)
-            {
-                if (!forSetupExe)
-                {
-                    dosboxArgs = $"\"{this.gameInstance.DOSEXEPath}\"";
-                }
-                else
-                {
-                    dosboxArgs = $"\"{this.gameInstance.SetupEXEPath}\"";
-                }
-            }
+            var lines = new StringBuilder();
+            lines.AppendLine("[AUTOEXEC]");
 
-            //the game directory mounted as C (if the DOSEXEPath is specified, the DOSEXEPath parent directory will be mounted as C: by DOSBox
-            //hence the "else if" instead of "if".
-            else if (string.IsNullOrWhiteSpace(this.gameInstance.Directory) == false)
+            //the game directory mounted as C
+            if (string.IsNullOrWhiteSpace(this.gameInstance.Directory) == false)
             {
-                dosboxArgs = $" -c \"mount c '{this.gameInstance.Directory}'\"";
+                lines.AppendLine($"mount c \"{this.gameInstance.Directory}\"");
             }
 
             //Path for the game's CD image (.bin, .cue, or .iso) mounted as D:
             if (string.IsNullOrWhiteSpace(this.gameInstance.CDPath) == false)
             {
+                var imgmount = new StringBuilder();
+
                 //put ' and not " after imgmount (or else the path will be misunderstood by DOSBox).
                 if (this.gameInstance.CDIsAnImage == true)
                 {
-                    dosboxArgs += $" -c \"imgmount";
+                    imgmount.Append("imgmount");
                     if (this.gameInstance.MountAsFloppy == true)
                     {
-                        dosboxArgs += $" a '{this.gameInstance.CDPath}' -t floppy\"";
+                        imgmount.Append($" a \"{this.gameInstance.CDPath}\" -t floppy\"");
                     }
                     else
                     {
-                        dosboxArgs += $" d '{this.gameInstance.CDPath}' -t iso\"";
+                        imgmount.Append($" d \"{this.gameInstance.CDPath}\" -t iso\"");
                     }
+                    lines.AppendLine(imgmount.ToString());
                 }
                 else
                 {
+                    var folderMount = new StringBuilder();
                     bool addedMountOptions;
                     if (this.gameInstance.UseIOCTL == true)
                     {
                         addedMountOptions = true;
-                        dosboxArgs += $" -c \"mount d '{this.gameInstance.CDPath}' -t cdrom -usecd 0 -ioctl";
+                        folderMount.Append($"mount d \"{this.gameInstance.CDPath}\" -t cdrom -usecd 0 -ioctl");
                     }
                     else if (this.gameInstance.MountAsFloppy == true)
                     {
                         addedMountOptions = true;
-                        dosboxArgs += $" -c \"mount a '{this.gameInstance.CDPath}' -t floppy";
+                        folderMount.Append($"mount a \"{this.gameInstance.CDPath}\" -t floppy");
                     }
                     else
                     {
                         addedMountOptions = true;
-                        dosboxArgs += $" -c \"mount d '{this.gameInstance.CDPath}'";
+                        folderMount.Append($"mount d \"{this.gameInstance.CDPath}\"");
                     }
                     if (string.IsNullOrWhiteSpace(this.gameInstance.CDLabel) == false && addedMountOptions)
                     {
-                        dosboxArgs += $" -label {this.gameInstance.CDLabel}";
+                        folderMount.Append($" -label \"{this.gameInstance.CDLabel}\"");
                     }
-                    if (addedMountOptions)
-                    {
-                        dosboxArgs += '"';
-                    }
+                    lines.AppendLine(folderMount.ToString());
                 }
             }
 
             if (string.IsNullOrWhiteSpace(this.gameInstance.AdditionalCommands) == false)
             {
-                dosboxArgs += $" {this.gameInstance.AdditionalCommands}";
+                lines.Append(this.gameInstance.PutEachAdditionnalCommandsOnANewLine());
             }
 
-            return dosboxArgs;
+            if (string.IsNullOrWhiteSpace(this.gameInstance.DOSEXEPath) == false)
+            {
+                lines.AppendLine("C:");
+                if (!forSetupExe)
+                {
+                    lines.AppendLine($"CALL {Path.GetFileName(this.gameInstance.DOSEXEPath)}");
+                }
+                else
+                {
+                    lines.AppendLine($"CALL {Path.GetFileName(this.gameInstance.SetupEXEPath)}");
+                }
+            }
+
+            if (this.gameInstance.QuitOnExit == true)
+            {
+                lines.AppendLine("EXIT");
+            }
+
+            var tmpFile = Path.GetTempFileName();
+            File.WriteAllText(tmpFile, lines.ToString());
+            return $" -conf {Path.GetFullPath(tmpFile)}";
         }
 
         private string AddCustomConfigFile()
@@ -241,7 +253,7 @@ namespace AmpShell.DOSBox
             string dosboxArgs = string.Empty;
             if (string.IsNullOrWhiteSpace(gameConfigFilePath) == false)
             {
-                dosboxArgs += $" -conf \"{gameConfigFilePath}\"";
+                dosboxArgs += $"-conf \"{gameConfigFilePath}\"";
             }
 
             return dosboxArgs;
