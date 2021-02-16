@@ -1270,7 +1270,7 @@ namespace AmpShell.Views
         /// </summary>
         private void RunDOSBox_Click(object sender, EventArgs e)
         {
-            var dosboxProcess = DOSBoxController.RunOnlyDOSBox(UserDataAccessor.UserData.DBPath, UserDataAccessor.UserData.DBDefaultConfFilePath, UserDataAccessor.UserData.DBDefaultLangFilePath);
+            var dosboxProcess = DOSBoxController.RunOnlyDOSBox();
 
             if (dosboxProcess != null)
             {

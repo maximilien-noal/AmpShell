@@ -33,13 +33,10 @@
             Used to start DOSBox with a game in it.
             </summary>
         </member>
-        <member name="M:AmpShell.DOSBox.DOSBoxController.RunOnlyDOSBox(System.String,System.String,System.String)">
+        <member name="M:AmpShell.DOSBox.DOSBoxController.RunOnlyDOSBox">
             <summary>
             Run DOSBox itself, without any game.
             </summary>
-            <param name="dosboxPath">Path to DOSBox.exe.</param>
-            <param name="dosboxDefaultConfFilePath">Path to DOSBox.conf.</param>
-            <param name="dosboxDefaultLangFilePath">Path to DOSBox.lng.</param>
             <returns>The DOSBox process if it started successfully, null otherwise.</returns>
         </member>
         <member name="M:AmpShell.DOSBox.DOSBoxController.StartGame">
@@ -54,34 +51,20 @@
             </summary>
             <returns>The DOSBox process.</returns>
         </member>
-        <member name="M:AmpShell.DOSBox.DOSBoxController.BuildArgs(AmpShell.Model.Game,System.Boolean,System.String,System.String,System.String)">
+        <member name="M:AmpShell.DOSBox.DOSBoxController.BuildArgs(System.Boolean)">
             <summary>
             Builds the argument line in order to start DOSBox.
             </summary>
-            <param name="selectedGame">Game the user wants to start.</param>
             <param name="forSetupExe">
             Whether or not we are starting the game's setup utility or the game itself.
             </param>
-            <param name="dosBoxExePath">The path to DOSBox.exe.</param>
-            <param name="dosboxDefaultConfFilePath">The .conf file to use for DOSBox.</param>
-            <param name="dosboxDefaultLangFilePath">The .lng file to use for DOSBox.</param>
-            <returns>.</returns>
+            <returns>The list of command line arguments to pass to DOSBox.</returns>
         </member>
-        <member name="M:AmpShell.DOSBox.DOSBoxController.StartDOSBox(System.String,System.String,System.String)">
+        <member name="M:AmpShell.DOSBox.DOSBoxController.StartDOSBox(System.String)">
             <summary>
             Starts DOSBox, and returns its <see cref="T:System.Diagnostics.Process" />.
             </summary>
-            <param name="dosboxPath">Path to DOSBox.exe.</param>
-            <param name="args">Command line args passed to DOSBox.</param>
-            <param name="customConfFilePath">DOSBox config file to use (optional).</param>
             <returns>The DOSBox <see cref="T:System.Diagnostics.Process" />.</returns>
-        </member>
-        <member name="M:AmpShell.DOSBox.DOSBoxController.AddPrefsLangFile(System.String)">
-            <summary>
-            Path for the default language file used for DOSBox and specified by the user in the
-            Tools menu.
-            </summary>
-            <param name="dosboxDefaultLangFilePath">.</param>
         </member>
         <member name="P:AmpShell.Model.Game.Directory">
             <summary>

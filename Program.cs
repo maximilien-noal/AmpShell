@@ -18,7 +18,6 @@ namespace AmpShell
     using System.Windows.Forms;
 
     using AmpShell.DAL;
-    using AmpShell.DOSBox;
     using AmpShell.Model;
     using AmpShell.Views;
     using AmpShell.WinShell;
@@ -33,8 +32,41 @@ namespace AmpShell
         [STAThread]
         private static void Main(string[] args)
         {
-            UserDataAccessor.LoadUserSettings();
-            DOSBoxController.AskForDOSBoxIfNotFound();
+            UserDataAccessor.LoadUserSettingsAndRunAutoConfig();
+
+            // if DOSBoxPath is still empty, say to the user that dosbox's executable cannot be found
+            if (string.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBPath))
+            {
+                switch (MessageBox.Show("AmpShell cannot find DOSBox, do you want to indicate DOSBox's executable location now ? Choose 'Cancel' to quit.", "Cannot find DOSBox", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question))
+                {
+                    case DialogResult.Cancel:
+                        Environment.Exit(0);
+                        break;
+
+                    case DialogResult.Yes:
+                        {
+                            using (var dosboxExeFileDialog = new OpenFileDialog())
+                            {
+                                dosboxExeFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
+                                dosboxExeFileDialog.Title = "Please indicate DOSBox's executable location...";
+                                dosboxExeFileDialog.Filter = "DOSBox executable (dosbox*)|dosbox*";
+                                if (dosboxExeFileDialog.ShowDialog() == DialogResult.OK)
+                                {
+                                    UserDataAccessor.UserData.DBPath = dosboxExeFileDialog.FileName;
+                                }
+                                else
+                                {
+                                    Environment.Exit(0);
+                                }
+                            }
+                        }
+                        break;
+
+                    case DialogResult.No:
+                        UserDataAccessor.UserData.DBPath = string.Empty;
+                        break;
+                }
+            }
             if (args is null || args.Any() == false)
             {
                 RunMainForm();

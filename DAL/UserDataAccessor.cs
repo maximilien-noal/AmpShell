@@ -139,7 +139,7 @@ namespace AmpShell.DAL
             return true;
         }
 
-        public static void LoadUserSettings()
+        public static void LoadUserSettingsAndRunAutoConfig()
         {
             UserData = new Preferences();
             string dataFilePath = GetDataFilePath();
