@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net2</TargetFramework>
+    <TargetFrameworks>net20;net40</TargetFrameworks>
     <UseWindowsForms>true</UseWindowsForms>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <!-- https://github.com/dotnet/core/issues/3319 -->
@@ -28,7 +28,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="LINQlone" Version="1.1.0" />
+    <PackageReference Condition="'$(TargetFrameworkVersion)' == 'v2.0'" Include="LINQlone" Version="1.1.0" />
     <PackageReference Include="Costura.Fody" Version="4.1.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="5.0.3">
       <PrivateAssets>all</PrivateAssets>
