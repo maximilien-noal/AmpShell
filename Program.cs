@@ -22,8 +22,6 @@ namespace AmpShell
     using AmpShell.Views;
     using AmpShell.WinShell;
 
-    using CommandLine;
-
     internal static class Program
     {
         /// <summary>
@@ -78,10 +76,14 @@ namespace AmpShell
                 {
                     NativeMethods.AllocConsole();
                 }
-
-                CommandLine.Parser.Default.ParseArguments<Options>(args)
-                    .WithParsed(RunCli)
-                    .WithNotParsed(OutputErrors);
+                if (args.Contains("-g"))
+                {
+                    RunCli(new Options(args));
+                }
+                else
+                {
+                    OutputHelpText(new Options());
+                }
 
                 // detach console
                 NativeMethods.FreeConsole();
@@ -91,37 +93,29 @@ namespace AmpShell
             }
         }
 
-        private static void OutputErrors(IEnumerable<Error> errs)
+        private static void OutputHelpText(Options options)
         {
-            if (errs is null || errs.Any(x => x is VersionRequestedError))
+            foreach (var item in new List<CommandLineOption>() { options.Game, options.Setup, options.Verbose })
             {
-                return;
-            }
-            else
-            {
-                foreach (var err in errs)
-                {
-                    Console.WriteLine($"Command line option parse error: {err.Tag}");
-                }
+                Console.WriteLine(item.HelpText);
             }
         }
 
         private static void RunCli(Options options)
         {
-            var request = options.Game;
-            if (string.IsNullOrEmpty(request))
+            if (string.IsNullOrEmpty(options.Game.Value))
             {
                 Console.WriteLine($"Empty game specified. Exiting...");
             }
             Game game;
-            game = DAL.UserDataAccessor.GetFirstGameWithName(request);
+            game = DAL.UserDataAccessor.GetFirstGameWithName(options.Game.Value);
             if (string.IsNullOrEmpty(game.DOSEXEPath))
             {
-                game = DAL.UserDataAccessor.GetGameWithMainExecutable(request);
+                game = DAL.UserDataAccessor.GetGameWithMainExecutable(options.Game.Value);
             }
-            if (options.Setup)
+            if (options.Setup.IsProvided)
             {
-                if (options.Verbose)
+                if (options.Verbose.IsProvided)
                 {
                     Console.WriteLine($"Running '{game.Name}''s setup executable: {game.SetupEXEPath}...");
                 }
@@ -129,7 +123,7 @@ namespace AmpShell
             }
             else
             {
-                if (options.Verbose)
+                if (options.Verbose.IsProvided)
                 {
                     Console.WriteLine($"Running the game named '{game.Name}' via the main executable at {game.DOSEXEPath}...");
                 }

@@ -10,21 +10,47 @@
 
 namespace AmpShell
 {
-    using CommandLine;
+    using System.Linq;
 
-#pragma warning disable CA1812 // Avoid never-instantiated public classes (it is instantiated by the CommandLine package)
-
-    public class Options
+    internal class Options
     {
-        [Option('g', "game", Required = true, HelpText = "Game to launch silently. The game's name (ie. 'DOOM') or main executable path (ie. 'C:\\games\\Doom.exe') is required.")]
-        public string Game { get; set; }
+        private readonly CommandLineOption game = new CommandLineOption() { ShortName = "-g", LongName = "--game", Required = true, Value = string.Empty, HelpText = "Game to launch silently. The game's name (ie. 'DOOM') or main executable path (ie. 'C:\\games\\Doom.exe') is required." };
+        private readonly CommandLineOption verbose = new CommandLineOption() { ShortName = "-v", LongName = "--verbose", Required = false, Value = string.Empty, HelpText = "Verbose mode. AmpShell will tell what it is doing on the standard output." };
+        private readonly CommandLineOption setup = new CommandLineOption() { ShortName = "-s", LongName = "--setup", Required = false, Value = string.Empty, HelpText = "Run the game's setup executable." };
 
-        [Option('v', "verbose", Required = false, HelpText = "Verbose mode. AmpShell will tell what it is doing on the standard output.")]
-        public bool Verbose { get; set; }
+        public Options()
+        {
+        }
 
-        [Option('s', "setup", Required = false, HelpText = "Run the game's setup executable.")]
-        public bool Setup { get; set; }
+        public Options(string[] args)
+        {
+            this.verbose.IsProvided = args.Contains(this.verbose.ShortName) || args.Contains(this.verbose.LongName);
+            this.setup.IsProvided = args.Contains(this.setup.ShortName) || args.Contains(this.setup.LongName);
+            this.game.IsProvided = args.Contains(this.game.ShortName) || args.Contains(this.game.LongName);
+
+            for (int i = 0; i < args.Length; i++)
+            {
+                string arg = args[i];
+                if (string.IsNullOrEmpty(arg) == false)
+                {
+                    arg = arg.Trim();
+                    if (arg == this.game.ShortName || arg == this.game.LongName)
+                    {
+                        var index = i + 1;
+                        if (args.Length > index)
+                        {
+                            this.Game.Value = args[index];
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        public CommandLineOption Game { get => this.game; }
+
+        public CommandLineOption Verbose { get => this.verbose; }
+
+        public CommandLineOption Setup { get => this.setup; }
     }
-
-#pragma warning restore CA1812 // Avoid never-instantiated public classes (it is instantiated by the CommandLine package)
 }
