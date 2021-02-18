@@ -55,7 +55,7 @@ namespace AmpShell.DAL
         public static string GetDataFilePath()
         {
             var appDataFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "AmpShell\\AmpShell.xml");
-            if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable("AmpShellDebug")) == false)
+            if (StringExt.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("AmpShellDebug")) == false)
             {
                 return appDataFile;
             }
@@ -80,11 +80,11 @@ namespace AmpShell.DAL
 
         public static Game GetFirstGameWithName(string name)
         {
-            if (string.IsNullOrEmpty(name))
+            if (StringExt.IsNullOrWhiteSpace(name))
             {
                 return new Game();
             }
-            var game = UserData.ListChildren.Cast<Category>().SelectMany(x => x.ListChildren.Cast<Game>()).FirstOrDefault(x => string.IsNullOrEmpty(x.Name) == false && x.Name.Trim().ToUpperInvariant() == name.Trim().ToUpperInvariant());
+            var game = UserData.ListChildren.Cast<Category>().SelectMany(x => x.ListChildren.Cast<Game>()).FirstOrDefault(x => StringExt.IsNullOrWhiteSpace(x.Name) == false && x.Name.Trim().ToUpperInvariant() == name.Trim().ToUpperInvariant());
             if (game is null)
             {
                 return new Game();
@@ -94,11 +94,11 @@ namespace AmpShell.DAL
 
         public static Game GetGameWithMainExecutable(string executablePath)
         {
-            if (string.IsNullOrEmpty(executablePath))
+            if (StringExt.IsNullOrWhiteSpace(executablePath))
             {
                 return new Game();
             }
-            var game = UserData.ListChildren.Cast<Category>().SelectMany(x => x.ListChildren.Cast<Game>()).FirstOrDefault(x => string.IsNullOrEmpty(x.DOSEXEPath) == false && x.DOSEXEPath.Trim().ToUpperInvariant() == executablePath.Trim().ToUpperInvariant());
+            var game = UserData.ListChildren.Cast<Category>().SelectMany(x => x.ListChildren.Cast<Game>()).FirstOrDefault(x => StringExt.IsNullOrWhiteSpace(x.DOSEXEPath) == false && x.DOSEXEPath.Trim().ToUpperInvariant() == executablePath.Trim().ToUpperInvariant());
             if (game is null)
             {
                 return new Game()
@@ -172,7 +172,7 @@ namespace AmpShell.DAL
             UserData.ConfigEditorPath = UserData.ConfigEditorPath.Replace("AppPath", PathFinder.GetStartupPath());
             UserData.ConfigEditorAdditionalParameters = UserData.ConfigEditorAdditionalParameters.Replace("AppPath", PathFinder.GetStartupPath());
 
-            if (string.IsNullOrEmpty(UserData.DBPath))
+            if (StringExt.IsNullOrWhiteSpace(UserData.DBPath))
             {
                 UserData.DBPath = FileFinder.SearchDOSBox(dataFilePath, UserData.PortableMode);
             }
@@ -180,7 +180,7 @@ namespace AmpShell.DAL
             {
                 UserData.DBPath = FileFinder.SearchDOSBox(dataFilePath, UserData.PortableMode);
             }
-            if (string.IsNullOrEmpty(UserData.ConfigEditorPath))
+            if (StringExt.IsNullOrWhiteSpace(UserData.ConfigEditorPath))
             {
                 UserData.ConfigEditorPath = FileFinder.SearchCommonTextEditor();
             }
@@ -189,7 +189,7 @@ namespace AmpShell.DAL
                 UserData.ConfigEditorPath = FileFinder.SearchCommonTextEditor();
             }
 
-            if (string.IsNullOrEmpty(UserData.DBDefaultConfFilePath))
+            if (StringExt.IsNullOrWhiteSpace(UserData.DBDefaultConfFilePath))
             {
                 UserData.DBDefaultConfFilePath = FileFinder.SearchDOSBoxConf(dataFilePath, UserData.DBPath);
             }
@@ -198,7 +198,7 @@ namespace AmpShell.DAL
                 UserData.DBDefaultConfFilePath = FileFinder.SearchDOSBoxConf(dataFilePath, UserData.DBPath);
             }
 
-            if (string.IsNullOrEmpty(UserData.DBDefaultLangFilePath) == false)
+            if (StringExt.IsNullOrWhiteSpace(UserData.DBDefaultLangFilePath) == false)
             {
                 UserData.DBDefaultLangFilePath = FileFinder.SearchDOSBoxLanguageFile(dataFilePath, UserData.DBPath);
             }

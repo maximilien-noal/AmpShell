@@ -33,7 +33,7 @@ namespace AmpShell
             UserDataAccessor.LoadUserSettingsAndRunAutoConfig();
 
             // if DOSBoxPath is still empty, say to the user that dosbox's executable cannot be found
-            if (string.IsNullOrEmpty(UserDataAccessor.UserData.DBPath))
+            if (StringExt.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBPath))
             {
                 switch (MessageBox.Show("AmpShell cannot find DOSBox, do you want to indicate DOSBox's executable location now ? Choose 'Cancel' to quit.", "Cannot find DOSBox", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question))
                 {
@@ -103,13 +103,13 @@ namespace AmpShell
 
         private static void RunCli(Options options)
         {
-            if (string.IsNullOrEmpty(options.Game.Value))
+            if (StringExt.IsNullOrWhiteSpace(options.Game.Value))
             {
                 Console.WriteLine($"Empty game specified. Exiting...");
             }
             Game game;
             game = DAL.UserDataAccessor.GetFirstGameWithName(options.Game.Value);
-            if (string.IsNullOrEmpty(game.DOSEXEPath))
+            if (StringExt.IsNullOrWhiteSpace(game.DOSEXEPath))
             {
                 game = DAL.UserDataAccessor.GetGameWithMainExecutable(options.Game.Value);
             }

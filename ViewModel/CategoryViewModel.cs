@@ -10,6 +10,8 @@
 
 namespace AmpShell.ViewModel
 {
+    using System;
+
     using AmpShell.DAL;
     using AmpShell.Model;
     using AmpShell.Notification;
@@ -38,7 +40,7 @@ namespace AmpShell.ViewModel
 
         public void CreateCategory()
         {
-            if (string.IsNullOrEmpty(this.editedCategorySignature))
+            if (StringExt.IsNullOrWhiteSpace(this.editedCategorySignature))
             {
                 var category = new Category(this.Name, UserDataAccessor.GetAUniqueSignature());
                 UserDataAccessor.UserData.AddChild(category);
@@ -51,7 +53,7 @@ namespace AmpShell.ViewModel
 
         public bool IsDataValid()
         {
-            return string.IsNullOrEmpty(this.Name) == false;
+            return StringExt.IsNullOrWhiteSpace(this.Name) == false;
         }
     }
 }

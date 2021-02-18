@@ -21,7 +21,7 @@ namespace AmpShell.Serialization
         public static T Deserialize<T>(string xmlPath)
             where T : new()
         {
-            if (string.IsNullOrEmpty(xmlPath))
+            if (StringExt.IsNullOrWhiteSpace(xmlPath))
             {
                 throw new ArgumentNullException(nameof(xmlPath));
             }

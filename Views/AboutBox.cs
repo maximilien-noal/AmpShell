@@ -38,7 +38,7 @@ namespace AmpShell.Views
                 if (attributes.Length > 0)
                 {
                     AssemblyTitleAttribute titleAttribute = (AssemblyTitleAttribute)attributes[0];
-                    if (string.IsNullOrEmpty(titleAttribute.Title) == false)
+                    if (StringExt.IsNullOrWhiteSpace(titleAttribute.Title) == false)
                     {
                         return titleAttribute.Title;
                     }

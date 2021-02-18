@@ -10,6 +10,7 @@
 
 namespace AmpShell
 {
+    using System;
     using System.Linq;
 
     internal class Options
@@ -31,7 +32,7 @@ namespace AmpShell
             for (int i = 0; i < args.Length; i++)
             {
                 string arg = args[i];
-                if (string.IsNullOrEmpty(arg) == false)
+                if (StringExt.IsNullOrWhiteSpace(arg) == false)
                 {
                     arg = arg.Trim();
                     if (arg == this.game.ShortName || arg == this.game.LongName)

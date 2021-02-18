@@ -100,7 +100,7 @@ namespace AmpShell.Model
 
         internal string PutEachAdditionnalCommandsOnANewLine()
         {
-            if (string.IsNullOrEmpty(this.AdditionalCommands))
+            if (StringExt.IsNullOrWhiteSpace(this.AdditionalCommands))
             {
                 return string.Empty;
             }
@@ -109,7 +109,7 @@ namespace AmpShell.Model
             for (int i = 0; i < array.Length; i++)
             {
                 string line = (string)array[i];
-                if (string.IsNullOrEmpty(line) == false)
+                if (StringExt.IsNullOrWhiteSpace(line) == false)
                 {
                     if (line.StartsWith("c "))
                     {
@@ -259,7 +259,7 @@ namespace AmpShell.Model
             set { Set(ref alternateDOSBoxExePath, value); }
         }
 
-        public string GetDOSBoxPath() => string.IsNullOrEmpty(AlternateDOSBoxExePath) ? UserDataAccessor.UserData.DBPath : AlternateDOSBoxExePath;
+        public string GetDOSBoxPath() => StringExt.IsNullOrWhiteSpace(AlternateDOSBoxExePath) ? UserDataAccessor.UserData.DBPath : AlternateDOSBoxExePath;
 
         public Process Run() => new DOSBoxController(this).StartGame();
 

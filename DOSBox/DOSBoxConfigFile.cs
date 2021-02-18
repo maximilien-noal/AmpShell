@@ -16,7 +16,7 @@
 
         public DOSBoxConfigFile(string configFilePath)
         {
-            if (string.IsNullOrEmpty(configFilePath) || File.Exists(configFilePath) == false)
+            if (StringExt.IsNullOrWhiteSpace(configFilePath) || File.Exists(configFilePath) == false)
             {
                 return;
             }
@@ -34,7 +34,7 @@
                     var rangeStart = index + 1;
                     var rangeEnd = Math.Abs(index - (this.configFileContent.Count - 1));
                     var section = this.configFileContent.GetRange(rangeStart, rangeEnd);
-                    section.RemoveAll(x => string.IsNullOrEmpty(x) || x.ToUpper().Trim().StartsWith("REM"));
+                    section.RemoveAll(x => StringExt.IsNullOrWhiteSpace(x) || x.ToUpper().Trim().StartsWith("REM"));
                     return string.Join(string.Empty, section.ToArray());
                 }
                 return string.Empty;
@@ -43,7 +43,7 @@
 
         public bool IsAutoExecSectionUsed()
         {
-            return string.IsNullOrEmpty(this.AutoExecSection) == false && Regex.Split(this.autoExecSection, "\r\n|\r|\n").Any(x => string.IsNullOrEmpty(x) == false && x.ToUpper().Trim().StartsWith("REM") == false);
+            return StringExt.IsNullOrWhiteSpace(this.AutoExecSection) == false && Regex.Split(this.autoExecSection, "\r\n|\r|\n").Any(x => StringExt.IsNullOrWhiteSpace(x) == false && x.ToUpper().Trim().StartsWith("REM") == false);
         }
     }
 }

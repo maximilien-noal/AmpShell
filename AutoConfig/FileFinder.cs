@@ -122,7 +122,7 @@ namespace AmpShell.AutoConfig
             }
             else
             {
-                if (string.IsNullOrEmpty(dosboxExecutablePath) == false && Directory.Exists(Path.GetDirectoryName(dosboxExecutablePath)))
+                if (StringExt.IsNullOrWhiteSpace(dosboxExecutablePath) == false && Directory.Exists(Path.GetDirectoryName(dosboxExecutablePath)))
                 {
                     var langFilesBesidesDOSBox = Directory.GetFiles(Path.GetDirectoryName(dosboxExecutablePath), extension);
                     if (langFilesBesidesDOSBox.Length > 0)

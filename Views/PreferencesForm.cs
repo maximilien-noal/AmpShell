@@ -37,7 +37,7 @@ namespace AmpShell.Views
         {
             using (var textEditorFileDialog = new OpenFileDialog())
             {
-                if (string.IsNullOrEmpty(this.EditorBinaryPathTextBox.Text) == false)
+                if (StringExt.IsNullOrWhiteSpace(this.EditorBinaryPathTextBox.Text) == false)
                 {
                     if (Directory.Exists(Path.GetDirectoryName(this.EditorBinaryPathTextBox.Text).ToString(CultureInfo.InvariantCulture)))
                     {
@@ -57,14 +57,14 @@ namespace AmpShell.Views
 
         private void OK_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(this.GamesDirTextBox.Text) == false)
+            if (StringExt.IsNullOrWhiteSpace(this.GamesDirTextBox.Text) == false)
             {
                 if (Directory.Exists(this.GamesDirTextBox.Text))
                 {
                     UserDataAccessor.UserData.GamesDefaultDir = this.GamesDirTextBox.Text;
                 }
             }
-            if (string.IsNullOrEmpty(this.CDImageDirTextBox.Text) == false)
+            if (StringExt.IsNullOrWhiteSpace(this.CDImageDirTextBox.Text) == false)
             {
                 if (Directory.Exists(this.CDImageDirTextBox.Text))
                 {
@@ -170,7 +170,7 @@ namespace AmpShell.Views
             this.QuitOnExitCheckBox.Checked = UserDataAccessor.UserData.GamesQuitOnExit;
             this.NoConsoleCheckBox.Checked = UserDataAccessor.UserData.GamesNoConsole;
             this.FullscreenCheckBox.Checked = UserDataAccessor.UserData.GamesInFullScreen;
-            if (string.IsNullOrEmpty(UserDataAccessor.UserData.GamesAdditionalCommands) == false)
+            if (StringExt.IsNullOrWhiteSpace(UserDataAccessor.UserData.GamesAdditionalCommands) == false)
             {
                 this.GameAdditionalCommandsTextBox.Text = UserDataAccessor.UserData.GamesAdditionalCommands;
             }
@@ -200,37 +200,37 @@ namespace AmpShell.Views
                 this.TilesIconsRadioButton.Checked = true;
             }
 
-            if (string.IsNullOrEmpty(UserDataAccessor.UserData.DBPath) == false)
+            if (StringExt.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBPath) == false)
             {
                 this.DOSBoxPathTextBox.Text = UserDataAccessor.UserData.DBPath;
             }
 
-            if (string.IsNullOrEmpty(UserDataAccessor.UserData.DBDefaultConfFilePath) == false)
+            if (StringExt.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBDefaultConfFilePath) == false)
             {
                 this.DOSBoxConfFileTextBox.Text = UserDataAccessor.UserData.DBDefaultConfFilePath;
             }
 
-            if (string.IsNullOrEmpty(UserDataAccessor.UserData.DBDefaultLangFilePath) == false)
+            if (StringExt.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBDefaultLangFilePath) == false)
             {
                 this.DOSBoxLangFileTextBox.Text = UserDataAccessor.UserData.DBDefaultLangFilePath;
             }
 
-            if (string.IsNullOrEmpty(UserDataAccessor.UserData.ConfigEditorPath) == false)
+            if (StringExt.IsNullOrWhiteSpace(UserDataAccessor.UserData.ConfigEditorPath) == false)
             {
                 this.EditorBinaryPathTextBox.Text = UserDataAccessor.UserData.ConfigEditorPath;
             }
 
-            if (string.IsNullOrEmpty(UserDataAccessor.UserData.ConfigEditorAdditionalParameters) == false)
+            if (StringExt.IsNullOrWhiteSpace(UserDataAccessor.UserData.ConfigEditorAdditionalParameters) == false)
             {
                 this.AdditionalParametersTextBox.Text = UserDataAccessor.UserData.ConfigEditorPath;
             }
 
-            if (string.IsNullOrEmpty(UserDataAccessor.UserData.CDsDefaultDir) == false)
+            if (StringExt.IsNullOrWhiteSpace(UserDataAccessor.UserData.CDsDefaultDir) == false)
             {
                 this.CDImageDirTextBox.Text = UserDataAccessor.UserData.CDsDefaultDir;
             }
 
-            if (string.IsNullOrEmpty(UserDataAccessor.UserData.GamesDefaultDir) == false)
+            if (StringExt.IsNullOrWhiteSpace(UserDataAccessor.UserData.GamesDefaultDir) == false)
             {
                 this.GamesDirTextBox.Text = UserDataAccessor.UserData.GamesDefaultDir;
             }
@@ -284,7 +284,7 @@ namespace AmpShell.Views
                     UserDataAccessor.UserData.DBPath = dosBoxExePathFileDialog.FileName;
                     this.DOSBoxPathTextBox.Text = dosBoxExePathFileDialog.FileName;
                 }
-                else if (string.IsNullOrEmpty(UserDataAccessor.UserData.DBPath))
+                else if (StringExt.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBPath))
                 {
                     MessageBox.Show("Location of DOSBox's executable unknown. You will not be able to run games!", "Select DOSBox's executable", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
@@ -295,7 +295,7 @@ namespace AmpShell.Views
         {
             using (var dosboxDefaultConfFileDialog = new OpenFileDialog())
             {
-                if (string.IsNullOrEmpty(UserDataAccessor.UserData.DBDefaultConfFilePath) == false
+                if (StringExt.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBDefaultConfFilePath) == false
                     && Directory.Exists(Path.GetDirectoryName(UserDataAccessor.UserData.DBDefaultConfFilePath)))
                 {
                     dosboxDefaultConfFileDialog.InitialDirectory = Path.GetDirectoryName(UserDataAccessor.UserData.DBDefaultConfFilePath);
@@ -316,7 +316,7 @@ namespace AmpShell.Views
         {
             using (var dosBoxDefaultLangFileDialog = new OpenFileDialog())
             {
-                if (string.IsNullOrEmpty(UserDataAccessor.UserData.DBDefaultLangFilePath) == false
+                if (StringExt.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBDefaultLangFilePath) == false
                     && Directory.Exists(Path.GetDirectoryName(UserDataAccessor.UserData.DBDefaultLangFilePath)))
                 {
                     dosBoxDefaultLangFileDialog.InitialDirectory = Path.GetDirectoryName(UserDataAccessor.UserData.DBDefaultLangFilePath);

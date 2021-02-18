@@ -35,7 +35,7 @@ namespace AmpShell.Notification
         /// </returns>
         public bool Set<T>(ref T storage, T value, [CallerMemberName]string propertyName = "")
         {
-            if (string.IsNullOrEmpty(propertyName))
+            if (StringExt.IsNullOrWhiteSpace(propertyName))
             {
                 throw new ArgumentNullException(nameof(propertyName));
             }
