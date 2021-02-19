@@ -51,9 +51,6 @@ namespace AmpShell.ViewModel
             }
         }
 
-        public bool IsDataValid()
-        {
-            return StringExt.IsNullOrWhiteSpace(this.Name) == false;
-        }
+        public bool IsDataValid() => StringExt.IsNullOrWhiteSpace(this.Name) == false;
     }
 }
