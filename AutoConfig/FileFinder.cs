@@ -112,7 +112,7 @@ namespace AmpShell.AutoConfig
                 string[] appDataLangFiles = Directory.GetFiles(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "DOSBox"), extension);
                 if (appDataLangFiles.Length > 0)
                 {
-                    var bestCandidate = appDataLangFiles.FirstOrDefault(x => dosboxExecutablePath.ToLower(CultureInfo.CurrentCulture).Contains(Path.GetFileNameWithoutExtension(x.ToLower(CultureInfo.CurrentCulture))));
+                    var bestCandidate = appDataLangFiles.FirstOrDefault(x => dosboxExecutablePath.ToUpperInvariant().Contains(Path.GetFileNameWithoutExtension(x.ToUpperInvariant())));
                     if (bestCandidate != null)
                     {
                         return bestCandidate;
