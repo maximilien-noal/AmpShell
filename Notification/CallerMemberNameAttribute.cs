@@ -1,4 +1,5 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+#if NET20 || NET40
 
 namespace System.Runtime.CompilerServices
 {
@@ -10,3 +11,5 @@ namespace System.Runtime.CompilerServices
         }
     }
 }
+
+#endif
