@@ -14,6 +14,7 @@ namespace AmpShell
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using System.Windows.Forms;
 
@@ -33,7 +34,7 @@ namespace AmpShell
             UserDataAccessor.LoadUserSettingsAndRunAutoConfig();
 
             // if DOSBoxPath is still empty, say to the user that dosbox's executable cannot be found
-            if (StringExt.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBPath))
+            if (StringExt.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBPath) || File.Exists(UserDataAccessor.UserData.DBPath) == false)
             {
                 switch (MessageBox.Show("AmpShell cannot find DOSBox, do you want to indicate DOSBox's executable location now ? Choose 'Cancel' to quit.", "Cannot find DOSBox", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question))
                 {
@@ -64,6 +65,12 @@ namespace AmpShell
                         UserDataAccessor.UserData.DBPath = string.Empty;
                         break;
                 }
+            }
+            else
+            {
+#if NET461
+                //JumpListUpdater.InitJumpTasks();
+#endif
             }
             if (args is null || args.Any() == false)
             {
