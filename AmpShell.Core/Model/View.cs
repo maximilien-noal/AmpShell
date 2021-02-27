@@ -1,11 +1,8 @@
 ﻿namespace AmpShell.Model
 {
-    using System.Runtime.CompilerServices;
-
     /// <summary>
     /// View mode.
     /// </summary>
-    [TypeForwardedFrom("System.Windows.Forms")]
     public enum View
     {
         /// <summary>
