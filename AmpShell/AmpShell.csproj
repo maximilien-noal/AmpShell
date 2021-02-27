@@ -51,9 +51,10 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AmpShell.Core\AmpShell.Core.csproj" />
+    <ProjectReference Include="..\AmpShell.Windows\AmpShell.Windows.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Condition="'$(TargetFramework)' == 'net20'" Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
