@@ -11,7 +11,7 @@
 #pragma warning disable SA1201 // Elements should appear in the correct order
 #pragma warning disable SA1101 // Prefix local calls with this
 
-namespace AmpShell.Model
+namespace AmpShell.Core.Model
 {
     using System;
     using System.Diagnostics;
@@ -21,9 +21,9 @@ namespace AmpShell.Model
     using System.Text;
     using System.Xml.Serialization;
 
-    using AmpShell.DAL;
-    using AmpShell.Games;
-    using AmpShell.Notification;
+    using AmpShell.Core.DAL;
+    using AmpShell.Core.Games;
+    using AmpShell.Core.Notification;
 
     public class Game : PropertyChangedNotifier
     {

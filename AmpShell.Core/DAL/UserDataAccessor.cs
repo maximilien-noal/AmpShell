@@ -8,16 +8,16 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
 
-namespace AmpShell.DAL
+namespace AmpShell.Core.DAL
 {
     using System;
     using System.Globalization;
     using System.IO;
     using System.Linq;
 
-    using AmpShell.AutoConfig;
-    using AmpShell.Model;
-    using AmpShell.Serialization;
+    using AmpShell.Core.AutoConfig;
+    using AmpShell.Core.Model;
+    using AmpShell.Core.Serialization;
 
     public static class UserDataAccessor
     {

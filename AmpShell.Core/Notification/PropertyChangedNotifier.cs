@@ -8,7 +8,7 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
 
-namespace AmpShell.Notification
+namespace AmpShell.Core.Notification
 {
     using System;
     using System.Collections.Generic;
@@ -31,9 +31,9 @@ namespace AmpShell.Notification
         /// provided automatically when invoked from compilers that support CallerMemberName.
         /// </param>
         /// <returns>
-        /// True if the value was changed, false if the existing value matched the desired value..
+        /// True if the value was changed, false if the existing value matched the desired value.
         /// </returns>
-        public bool Set<T>(ref T storage, T value, [CallerMemberName]string propertyName = "")
+        public bool Set<T>(ref T storage, T value, [CallerMemberName] string propertyName = "")
         {
             if (StringExt.IsNullOrWhiteSpace(propertyName))
             {

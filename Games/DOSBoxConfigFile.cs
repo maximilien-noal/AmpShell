@@ -1,4 +1,4 @@
-﻿namespace AmpShell.Games
+﻿namespace AmpShell.Core.DOSBox
 {
     using System;
     using System.Collections.Generic;

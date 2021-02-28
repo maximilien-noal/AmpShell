@@ -20,10 +20,10 @@ namespace AmpShell.Legacy.Views
     using System.Linq;
     using System.Windows.Forms;
 
-    using AmpShell.DAL;
-    using AmpShell.Games;
+    using AmpShell.Core.DAL;
+    using AmpShell.Core.Games;
+    using AmpShell.Core.Model;
     using AmpShell.Legacy.Views.UserControls;
-    using AmpShell.Model;
     using AmpShell.WinShell;
 
     using View = System.Windows.Forms.View;
@@ -305,7 +305,7 @@ namespace AmpShell.Legacy.Views
         private void ChangeTabDisplayMode(View mode)
         {
             var selectedIndex = this.TabControl.SelectedIndex;
-            this.GetSelectedCategory().ViewMode = (Model.View)mode;
+            this.GetSelectedCategory().ViewMode = (Core.Model.View)mode;
             this.RedrawAllUserData();
             this.TabControl.SelectedIndex = selectedIndex;
         }

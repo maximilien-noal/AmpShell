@@ -4,18 +4,18 @@
         <name>AmpShell.Core</name>
     </assembly>
     <members>
-        <member name="P:AmpShell.DAL.UserDataAccessor.UserData">
+        <member name="P:AmpShell.Core.DAL.UserDataAccessor.UserData">
             <summary>
             Gets object to load and save user data through XML (de)serialization.
             </summary>
         </member>
-        <member name="M:AmpShell.DAL.UserDataAccessor.GetDataFilePath">
+        <member name="M:AmpShell.Core.DAL.UserDataAccessor.GetDataFilePath">
             <summary>
             Returns the path to the user data file (AmpShell.xml).
             </summary>
             <returns>The absolute path to the user data file.</returns>
         </member>
-        <member name="M:AmpShell.DAL.UserDataAccessor.IsItAUniqueSignature(System.String)">
+        <member name="M:AmpShell.Core.DAL.UserDataAccessor.IsItAUniqueSignature(System.String)">
             <summary>
             Used when a new Category or Game is created : its signature must be unique so AmpShell
             can recognize it instantly.
@@ -23,33 +23,33 @@
             <param name="signatureToTest">A Category's or Game's signature..</param>
             <returns>Whether the signature equals none of the other ones, or not..</returns>
         </member>
-        <member name="T:AmpShell.DOSBox.DOSBoxConfigFile">
+        <member name="T:AmpShell.Core.DOSBox.DOSBoxConfigFile">
             <summary> Represents a DOSBox Config File. </summary>
         </member>
-        <member name="T:AmpShell.DOSBox.DOSBoxController">
+        <member name="T:AmpShell.Core.DOSBox.DOSBoxController">
             <summary>
             Used to start DOSBox with a game in it.
             </summary>
         </member>
-        <member name="M:AmpShell.DOSBox.DOSBoxController.RunOnlyDOSBox">
+        <member name="M:AmpShell.Core.DOSBox.DOSBoxController.RunOnlyDOSBox">
             <summary>
             Run DOSBox itself, without any game.
             </summary>
             <returns>The DOSBox process if it started successfully, null otherwise.</returns>
         </member>
-        <member name="M:AmpShell.DOSBox.DOSBoxController.StartGame">
+        <member name="M:AmpShell.Core.DOSBox.DOSBoxController.StartGame">
             <summary>
-            Starts DOSBox with <see cref="T:AmpShell.Model.Game"/> inside it.
+            Starts DOSBox with <see cref="T:AmpShell.Core.Model.Game"/> inside it.
             </summary>
             <returns>The DOSBox process.</returns>
         </member>
-        <member name="M:AmpShell.DOSBox.DOSBoxController.StartGameSetup">
+        <member name="M:AmpShell.Core.DOSBox.DOSBoxController.StartGameSetup">
             <summary>
-            Starts DOSBox with <see cref="T:AmpShell.Model.Game"/>.<see cref="P:AmpShell.Model.Game.SetupEXEPath"/> inside it.
+            Starts DOSBox with <see cref="T:AmpShell.Core.Model.Game"/>.<see cref="P:AmpShell.Core.Model.Game.SetupEXEPath"/> inside it.
             </summary>
             <returns>The DOSBox process.</returns>
         </member>
-        <member name="M:AmpShell.DOSBox.DOSBoxController.BuildArgs(System.Boolean)">
+        <member name="M:AmpShell.Core.DOSBox.DOSBoxController.BuildArgs(System.Boolean)">
             <summary>
             Builds the argument line in order to start DOSBox.
             </summary>
@@ -58,127 +58,127 @@
             </param>
             <returns>The list of command line arguments to pass to DOSBox.</returns>
         </member>
-        <member name="M:AmpShell.DOSBox.DOSBoxController.StartDOSBox(System.String)">
+        <member name="M:AmpShell.Core.DOSBox.DOSBoxController.StartDOSBox(System.String)">
             <summary>
             Starts DOSBox, and returns its <see cref="T:System.Diagnostics.Process" />.
             </summary>
             <returns>The DOSBox <see cref="T:System.Diagnostics.Process" />.</returns>
         </member>
-        <member name="P:AmpShell.Model.Game.Directory">
+        <member name="P:AmpShell.Core.Model.Game.Directory">
             <summary>
             Gets or sets game's directory mounted as C:.
             </summary>
         </member>
-        <member name="P:AmpShell.Model.Game.CDPath">
+        <member name="P:AmpShell.Core.Model.Game.CDPath">
             <summary>
             Gets or sets game's CD image / CD directory (like 'D:\') location.
             </summary>
         </member>
-        <member name="P:AmpShell.Model.Game.CDLabel">
+        <member name="P:AmpShell.Core.Model.Game.CDLabel">
             <summary>
             Gets or sets optional, user-specified CD LABEL (only when it is not an image).
             </summary>
         </member>
-        <member name="P:AmpShell.Model.Game.SetupEXEPath">
+        <member name="P:AmpShell.Core.Model.Game.SetupEXEPath">
             <summary>
             Gets or sets game's setup executable location.
             </summary>
         </member>
-        <member name="P:AmpShell.Model.Game.DBConfPath">
+        <member name="P:AmpShell.Core.Model.Game.DBConfPath">
             <summary>
             Gets or sets game's custom DOSBox .conf file path.
             </summary>
         </member>
-        <member name="P:AmpShell.Model.Game.AdditionalCommands">
+        <member name="P:AmpShell.Core.Model.Game.AdditionalCommands">
             <summary>
             Gets or sets game's additional commands for DOSBox.
             </summary>
         </member>
-        <member name="P:AmpShell.Model.Game.UseIOCTL">
+        <member name="P:AmpShell.Core.Model.Game.UseIOCTL">
             <summary>
             Gets or sets a value indicating whether option to use IOCTL (only available for optical drives).
             </summary>
         </member>
-        <member name="P:AmpShell.Model.Game.MountAsFloppy">
+        <member name="P:AmpShell.Core.Model.Game.MountAsFloppy">
             <summary>
             Gets or sets a value indicating whether option to use the image file as a floppy (A:).
             </summary>
         </member>
-        <member name="P:AmpShell.Model.Game.NoConfig">
+        <member name="P:AmpShell.Core.Model.Game.NoConfig">
             <summary>
             Gets or sets a value indicating whether boolean if no config is used ("Don't use any
             config file at all" checkbox in GameForm) Legacy 0.72 or older DOSBox option.
             </summary>
         </member>
-        <member name="P:AmpShell.Model.Game.NoConsole">
+        <member name="P:AmpShell.Core.Model.Game.NoConsole">
             <summary>
             Gets or sets a value indicating whether boolean for displaying DOSBox's console.
             </summary>
         </member>
-        <member name="P:AmpShell.Model.Game.QuitOnExit">
+        <member name="P:AmpShell.Core.Model.Game.QuitOnExit">
             <summary>
             Gets or sets a value indicating whether boolean for the -exit switch for DOSBox (if set
             to true, DOSBox closes when the game exits).
             </summary>
         </member>
-        <member name="P:AmpShell.Model.Game.DOSEXEPath">
+        <member name="P:AmpShell.Core.Model.Game.DOSEXEPath">
             <summary>
             Gets or sets game's main executable location.
             </summary>
         </member>
-        <member name="P:AmpShell.Model.Game.CDIsAnImage">
+        <member name="P:AmpShell.Core.Model.Game.CDIsAnImage">
             <summary>
             Gets or sets a value indicating whether if GameCDPath points to a CD image file (false
             if it points to a directory).
             </summary>
         </member>
-        <member name="P:AmpShell.Model.Game.AlternateDOSBoxExePath">
+        <member name="P:AmpShell.Core.Model.Game.AlternateDOSBoxExePath">
             <summary>
             Gets or sets the path to DOSBox Daum, ECE, SVN, DOSBox-X, DOSBox Staging,
             or other fork instead of the DOSBox version set in the global preferences.
             </summary>
         </member>
-        <member name="T:AmpShell.Model.ModelWithChildren">
+        <member name="T:AmpShell.Core.Model.ModelWithChildren">
             <summary>
             Root node for the xml file.
             </summary>
         </member>
-        <member name="F:AmpShell.Model.ModelWithChildren.children">
+        <member name="F:AmpShell.Core.Model.ModelWithChildren.children">
             <summary>
             List that will build up the tree of categories and games through the AddChild and RemoveChild and ListChildren methods.
             </summary>
         </member>
-        <member name="T:AmpShell.Model.View">
+        <member name="T:AmpShell.Core.Model.View">
             <summary>
             View mode.
             </summary>
         </member>
-        <member name="F:AmpShell.Model.View.LargeIcon">
+        <member name="F:AmpShell.Core.Model.View.LargeIcon">
             <summary>
             Large Icons
             </summary>
         </member>
-        <member name="F:AmpShell.Model.View.Details">
+        <member name="F:AmpShell.Core.Model.View.Details">
             <summary>
             Details with columns
             </summary>
         </member>
-        <member name="F:AmpShell.Model.View.SmallIcon">
+        <member name="F:AmpShell.Core.Model.View.SmallIcon">
             <summary>
             Small Icons
             </summary>
         </member>
-        <member name="F:AmpShell.Model.View.List">
+        <member name="F:AmpShell.Core.Model.View.List">
             <summary>
             List
             </summary>
         </member>
-        <member name="F:AmpShell.Model.View.Tile">
+        <member name="F:AmpShell.Core.Model.View.Tile">
             <summary>
             Tile
             </summary>
         </member>
-        <member name="M:AmpShell.Notification.PropertyChangedNotifier.Set``1(``0@,``0,System.String)">
+        <member name="M:AmpShell.Core.Notification.PropertyChangedNotifier.Set``1(``0@,``0,System.String)">
             <summary>
             Checks if a property already matches a desired value. Sets the property and notifies
             listeners only when necessary.

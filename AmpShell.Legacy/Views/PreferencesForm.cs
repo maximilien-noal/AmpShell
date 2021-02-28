@@ -17,9 +17,8 @@ namespace AmpShell.Legacy.Views
     using System.Linq;
     using System.Windows.Forms;
 
-    using AmpShell.AutoConfig;
-    using AmpShell.DAL;
-    using AmpShell.Model;
+    using AmpShell.Core.AutoConfig;
+    using AmpShell.Core.DAL;
 
     using View = System.Windows.Forms.View;
 
@@ -99,32 +98,32 @@ namespace AmpShell.Legacy.Views
             UserDataAccessor.UserData.ConfigEditorAdditionalParameters = this.AdditionalParametersTextBox.Text;
             if (this.LargeViewModeSizeComboBox.SelectedIndex >= 0)
             {
-                UserDataAccessor.UserData.LargeViewModeSize = Preferences.LargeViewModeSizes[this.LargeViewModeSizeComboBox.SelectedIndex];
+                UserDataAccessor.UserData.LargeViewModeSize = Core.Model.Preferences.LargeViewModeSizes[this.LargeViewModeSizeComboBox.SelectedIndex];
             }
 
             if (this.LargeIconsRadioButton.Checked == true)
             {
-                UserDataAccessor.UserData.CategoriesDefaultViewMode = (Model.View)View.LargeIcon;
+                UserDataAccessor.UserData.CategoriesDefaultViewMode = (Core.Model.View)View.LargeIcon;
             }
 
             if (this.SmallIconsRadioButton.Checked == true)
             {
-                UserDataAccessor.UserData.CategoriesDefaultViewMode = (Model.View)View.SmallIcon;
+                UserDataAccessor.UserData.CategoriesDefaultViewMode = (Core.Model.View)View.SmallIcon;
             }
 
             if (this.ListsIconsRadioButton.Checked == true)
             {
-                UserDataAccessor.UserData.CategoriesDefaultViewMode = (Model.View)View.List;
+                UserDataAccessor.UserData.CategoriesDefaultViewMode = (Core.Model.View)View.List;
             }
 
             if (this.TilesIconsRadioButton.Checked == true)
             {
-                UserDataAccessor.UserData.CategoriesDefaultViewMode = (Model.View)View.Tile;
+                UserDataAccessor.UserData.CategoriesDefaultViewMode = (Core.Model.View)View.Tile;
             }
 
             if (this.DetailsIconsRadioButton.Checked == true)
             {
-                UserDataAccessor.UserData.CategoriesDefaultViewMode = (Model.View)View.Details;
+                UserDataAccessor.UserData.CategoriesDefaultViewMode = (Core.Model.View)View.Details;
             }
 
             UserDataAccessor.UserData.PortableMode = this.PortableModeCheckBox.Checked;
@@ -163,8 +162,7 @@ namespace AmpShell.Legacy.Views
         private void Main_Prefs_Load(object sender, EventArgs e)
         {
             this.CheckForPortableModeAvailabilityAndUpdateUI();
-            this.UseDOSBoxToLaunchGamesCheckBox.Checked = UserDataAccessor.UserData.GamesUseDOSBox;
-            this.LargeViewModeSizeComboBox.Text = this.LargeViewModeSizeComboBox.Items[Preferences.LargeViewModeSizes.IndexOf(UserDataAccessor.UserData.LargeViewModeSize)].ToString();
+            this.LargeViewModeSizeComboBox.Text = this.LargeViewModeSizeComboBox.Items[Core.Model.Preferences.LargeViewModeSizes.IndexOf(UserDataAccessor.UserData.LargeViewModeSize)].ToString();
             this.CategoyDeletePromptCheckBox.Checked = UserDataAccessor.UserData.CategoryDeletePrompt;
             this.GameDeletePromptCheckBox.Checked = UserDataAccessor.UserData.GameDeletePrompt;
             this.WindowPositionCheckBox.Checked = UserDataAccessor.UserData.RememberWindowPosition;

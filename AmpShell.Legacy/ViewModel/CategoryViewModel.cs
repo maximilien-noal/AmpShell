@@ -12,9 +12,9 @@ namespace AmpShell.Legacy.ViewModel
 {
     using System;
 
-    using AmpShell.DAL;
-    using AmpShell.Model;
-    using AmpShell.Notification;
+    using AmpShell.Core.DAL;
+    using AmpShell.Core.Model;
+    using AmpShell.Core.Notification;
 
     public class CategoryViewModel : PropertyChangedNotifier
     {

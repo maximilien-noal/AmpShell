@@ -18,9 +18,9 @@ namespace AmpShell.Legacy
     using System.Threading;
     using System.Windows.Forms;
 
-    using AmpShell.DAL;
+    using AmpShell.Core.DAL;
+    using AmpShell.Core.Model;
     using AmpShell.Legacy.Views;
-    using AmpShell.Model;
     using AmpShell.WinShell;
 
     internal static class Program
@@ -147,10 +147,10 @@ namespace AmpShell.Legacy
                 Console.WriteLine($"Empty game specified. Exiting...");
             }
             Game game;
-            game = DAL.UserDataAccessor.GetFirstGameWithName(options.Game.Value);
+            game = UserDataAccessor.GetFirstGameWithName(options.Game.Value);
             if (StringExt.IsNullOrWhiteSpace(game.DOSEXEPath))
             {
-                game = DAL.UserDataAccessor.GetGameWithMainExecutable(options.Game.Value);
+                game = UserDataAccessor.GetGameWithMainExecutable(options.Game.Value);
             }
             if (options.Setup.IsProvided)
             {

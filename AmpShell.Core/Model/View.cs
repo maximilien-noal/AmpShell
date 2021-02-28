@@ -1,4 +1,4 @@
-﻿namespace AmpShell.Model
+﻿namespace AmpShell.Core.Model
 {
     /// <summary>
     /// View mode.

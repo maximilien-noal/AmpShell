@@ -8,7 +8,7 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
 
-namespace AmpShell.Games
+namespace AmpShell.Core.Games
 {
     using System;
     using System.Diagnostics;
@@ -16,8 +16,8 @@ namespace AmpShell.Games
     using System.Text;
     using System.Windows.Forms;
 
-    using AmpShell.DAL;
-    using AmpShell.Model;
+    using AmpShell.Core.DAL;
+    using AmpShell.Core.Model;
 
     /// <summary>
     /// Used to start DOSBox with a game in it, or to run the game directly.

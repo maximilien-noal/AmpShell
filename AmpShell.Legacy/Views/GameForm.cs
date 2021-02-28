@@ -15,8 +15,8 @@ namespace AmpShell.Legacy.Views
     using System.IO;
     using System.Windows.Forms;
 
-    using AmpShell.DAL;
-    using AmpShell.Model;
+    using AmpShell.Core.DAL;
+    using AmpShell.Core.Model;
 
     /// <summary>
     /// Form to add or modify a Game.
