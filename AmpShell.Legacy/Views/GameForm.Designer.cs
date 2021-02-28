@@ -7,7 +7,7 @@
  * See the GNU General Public License for more details.
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
-namespace AmpShell.Views
+namespace AmpShell.Legacy.Views
 {
     partial class GameForm
     {
@@ -146,7 +146,7 @@ namespace AmpShell.Views
             // ReleaseDateLabel
             //
             this.ReleaseDateLabel.AutoSize = true;
-            this.ReleaseDateLabel.Image = global::AmpShell.Properties.Resources.DateOrTimePicker_675;
+            this.ReleaseDateLabel.Image = global::AmpShell.Legacy.Properties.Resources.DateOrTimePicker_675;
             this.ReleaseDateLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.ReleaseDateLabel.Location = new System.Drawing.Point(3, 47);
             this.ReleaseDateLabel.Name = "ReleaseDateLabel";
@@ -187,7 +187,7 @@ namespace AmpShell.Views
             // DiscLabelLabel
             //
             this.DiscLabelLabel.AutoSize = true;
-            this.DiscLabelLabel.Image = global::AmpShell.Properties.Resources.CD_ROM_Label;
+            this.DiscLabelLabel.Image = global::AmpShell.Legacy.Properties.Resources.CD_ROM_Label;
             this.DiscLabelLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.DiscLabelLabel.Location = new System.Drawing.Point(6, 97);
             this.DiscLabelLabel.Name = "DiscLabelLabel";
@@ -233,7 +233,7 @@ namespace AmpShell.Views
             //
             // ResetIconButton
             //
-            this.ResetIconButton.Image = global::AmpShell.Properties.Resources.DeleteHS;
+            this.ResetIconButton.Image = global::AmpShell.Legacy.Properties.Resources.DeleteHS;
             this.ResetIconButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.ResetIconButton.Location = new System.Drawing.Point(366, 76);
             this.ResetIconButton.Name = "ResetIconButton";
@@ -247,7 +247,7 @@ namespace AmpShell.Views
             // GameIconPictureBox
             //
             this.GameIconPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.GameIconPictureBox.Image = global::AmpShell.Properties.Resources.Generic_Application1;
+            this.GameIconPictureBox.Image = global::AmpShell.Legacy.Properties.Resources.Generic_Application1;
             this.GameIconPictureBox.Location = new System.Drawing.Point(373, 4);
             this.GameIconPictureBox.Name = "GameIconPictureBox";
             this.GameIconPictureBox.Size = new System.Drawing.Size(66, 66);
@@ -258,7 +258,7 @@ namespace AmpShell.Views
             //
             // GameCDDirBrowseButton
             //
-            this.GameCDDirBrowseButton.Image = global::AmpShell.Properties.Resources.SearchFolderHS;
+            this.GameCDDirBrowseButton.Image = global::AmpShell.Legacy.Properties.Resources.SearchFolderHS;
             this.GameCDDirBrowseButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.GameCDDirBrowseButton.Location = new System.Drawing.Point(416, 320);
             this.GameCDDirBrowseButton.Name = "GameCDDirBrowseButton";
@@ -271,7 +271,7 @@ namespace AmpShell.Views
             //
             // GameSetupBrowseButton
             //
-            this.GameSetupBrowseButton.Image = global::AmpShell.Properties.Resources.search;
+            this.GameSetupBrowseButton.Image = global::AmpShell.Legacy.Properties.Resources.search;
             this.GameSetupBrowseButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.GameSetupBrowseButton.Location = new System.Drawing.Point(416, 196);
             this.GameSetupBrowseButton.Name = "GameSetupBrowseButton";
@@ -303,7 +303,7 @@ namespace AmpShell.Views
             //
             // GameDirectoryBrowseButton
             //
-            this.GameDirectoryBrowseButton.Image = global::AmpShell.Properties.Resources.search;
+            this.GameDirectoryBrowseButton.Image = global::AmpShell.Legacy.Properties.Resources.search;
             this.GameDirectoryBrowseButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.GameDirectoryBrowseButton.Location = new System.Drawing.Point(416, 150);
             this.GameDirectoryBrowseButton.Name = "GameDirectoryBrowseButton";
@@ -317,7 +317,7 @@ namespace AmpShell.Views
             // GameDirectoryLabel
             //
             this.GameDirectoryLabel.AutoSize = true;
-            this.GameDirectoryLabel.Image = global::AmpShell.Properties.Resources.Folder_Open;
+            this.GameDirectoryLabel.Image = global::AmpShell.Legacy.Properties.Resources.Folder_Open;
             this.GameDirectoryLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.GameDirectoryLabel.Location = new System.Drawing.Point(6, 134);
             this.GameDirectoryLabel.Name = "GameDirectoryLabel";
@@ -390,7 +390,7 @@ namespace AmpShell.Views
             //
             // GameCDPathBrowseButton
             //
-            this.GameCDPathBrowseButton.Image = global::AmpShell.Properties.Resources.search;
+            this.GameCDPathBrowseButton.Image = global::AmpShell.Legacy.Properties.Resources.search;
             this.GameCDPathBrowseButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.GameCDPathBrowseButton.Location = new System.Drawing.Point(416, 297);
             this.GameCDPathBrowseButton.Name = "GameCDPathBrowseButton";
@@ -404,7 +404,7 @@ namespace AmpShell.Views
             // GameCDPathLabel
             //
             this.GameCDPathLabel.AutoSize = true;
-            this.GameCDPathLabel.Image = global::AmpShell.Properties.Resources.CD_ROM;
+            this.GameCDPathLabel.Image = global::AmpShell.Legacy.Properties.Resources.CD_ROM;
             this.GameCDPathLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.GameCDPathLabel.Location = new System.Drawing.Point(6, 297);
             this.GameCDPathLabel.Name = "GameCDPathLabel";
@@ -431,7 +431,7 @@ namespace AmpShell.Views
             // GameNameLabel
             //
             this.GameNameLabel.AutoSize = true;
-            this.GameNameLabel.Image = global::AmpShell.Properties.Resources.Rename;
+            this.GameNameLabel.Image = global::AmpShell.Legacy.Properties.Resources.Rename;
             this.GameNameLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.GameNameLabel.Location = new System.Drawing.Point(5, 6);
             this.GameNameLabel.Name = "GameNameLabel";
@@ -442,7 +442,7 @@ namespace AmpShell.Views
             //
             // GameCustomConfigurationBrowseButton
             //
-            this.GameCustomConfigurationBrowseButton.Image = global::AmpShell.Properties.Resources.search;
+            this.GameCustomConfigurationBrowseButton.Image = global::AmpShell.Legacy.Properties.Resources.search;
             this.GameCustomConfigurationBrowseButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.GameCustomConfigurationBrowseButton.Location = new System.Drawing.Point(416, 246);
             this.GameCustomConfigurationBrowseButton.Name = "GameCustomConfigurationBrowseButton";
@@ -456,7 +456,7 @@ namespace AmpShell.Views
             // GameCustomConfigurationLabel
             //
             this.GameCustomConfigurationLabel.AutoSize = true;
-            this.GameCustomConfigurationLabel.Image = global::AmpShell.Properties.Resources.Configuration;
+            this.GameCustomConfigurationLabel.Image = global::AmpShell.Legacy.Properties.Resources.Configuration;
             this.GameCustomConfigurationLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.GameCustomConfigurationLabel.Location = new System.Drawing.Point(6, 226);
             this.GameCustomConfigurationLabel.Name = "GameCustomConfigurationLabel";
@@ -474,7 +474,7 @@ namespace AmpShell.Views
             //
             // GameLocationBrowseButton
             //
-            this.GameLocationBrowseButton.Image = global::AmpShell.Properties.Resources.search;
+            this.GameLocationBrowseButton.Image = global::AmpShell.Legacy.Properties.Resources.search;
             this.GameLocationBrowseButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.GameLocationBrowseButton.Location = new System.Drawing.Point(416, 108);
             this.GameLocationBrowseButton.Name = "GameLocationBrowseButton";
@@ -488,7 +488,7 @@ namespace AmpShell.Views
             // GameLocationLabel
             //
             this.GameLocationLabel.AutoSize = true;
-            this.GameLocationLabel.Image = global::AmpShell.Properties.Resources.GameEditExecutableLabelImage;
+            this.GameLocationLabel.Image = global::AmpShell.Legacy.Properties.Resources.GameEditExecutableLabelImage;
             this.GameLocationLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.GameLocationLabel.Location = new System.Drawing.Point(6, 90);
             this.GameLocationLabel.Name = "GameLocationLabel";
@@ -571,7 +571,7 @@ namespace AmpShell.Views
             // GameAdditionalCommandsLabel
             //
             this.GameAdditionalCommandsLabel.AutoSize = true;
-            this.GameAdditionalCommandsLabel.Image = global::AmpShell.Properties.Resources.cmd;
+            this.GameAdditionalCommandsLabel.Image = global::AmpShell.Legacy.Properties.Resources.cmd;
             this.GameAdditionalCommandsLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.GameAdditionalCommandsLabel.Location = new System.Drawing.Point(8, 139);
             this.GameAdditionalCommandsLabel.Name = "GameAdditionalCommandsLabel";
@@ -590,7 +590,7 @@ namespace AmpShell.Views
             //
             // AlternateDOSBoxLocationBrowseButton
             //
-            this.AlternateDOSBoxLocationBrowseButton.Image = global::AmpShell.Properties.Resources.search;
+            this.AlternateDOSBoxLocationBrowseButton.Image = global::AmpShell.Legacy.Properties.Resources.search;
             this.AlternateDOSBoxLocationBrowseButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.AlternateDOSBoxLocationBrowseButton.Location = new System.Drawing.Point(424, 44);
             this.AlternateDOSBoxLocationBrowseButton.Name = "AlternateDOSBoxLocationBrowseButton";
@@ -611,7 +611,7 @@ namespace AmpShell.Views
             // AlternateDOSBoxLocationLabel
             //
             this.AlternateDOSBoxLocationLabel.AutoSize = true;
-            this.AlternateDOSBoxLocationLabel.Image = global::AmpShell.Properties.Resources.DOSBox;
+            this.AlternateDOSBoxLocationLabel.Image = global::AmpShell.Legacy.Properties.Resources.DOSBox;
             this.AlternateDOSBoxLocationLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.AlternateDOSBoxLocationLabel.Location = new System.Drawing.Point(8, 3);
             this.AlternateDOSBoxLocationLabel.Name = "AlternateDOSBoxLocationLabel";
@@ -657,7 +657,7 @@ namespace AmpShell.Views
             // Cancel
             //
             this.Cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.Cancel.Image = global::AmpShell.Properties.Resources.DeleteHS;
+            this.Cancel.Image = global::AmpShell.Legacy.Properties.Resources.DeleteHS;
             this.Cancel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.Cancel.Location = new System.Drawing.Point(377, 582);
             this.Cancel.Name = "Cancel";

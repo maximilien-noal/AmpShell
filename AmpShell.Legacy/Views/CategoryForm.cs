@@ -8,12 +8,12 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
 
-namespace AmpShell.Views
+namespace AmpShell.Legacy.Views
 {
     using System;
     using System.Windows.Forms;
 
-    using AmpShell.ViewModel;
+    using AmpShell.Legacy.ViewModel;
 
     /// <summary>
     /// Form to add or modify a category (tab).

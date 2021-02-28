@@ -9,7 +9,7 @@
  * If not, see <http://www.gnu.org/licenses/>.*/
 
 [assembly: System.Resources.NeutralResourcesLanguage("en-US")]
-namespace AmpShell
+namespace AmpShell.Legacy
 {
     using System;
     using System.Collections.Generic;
@@ -19,8 +19,8 @@ namespace AmpShell
     using System.Windows.Forms;
 
     using AmpShell.DAL;
+    using AmpShell.Legacy.Views;
     using AmpShell.Model;
-    using AmpShell.Views;
     using AmpShell.WinShell;
 
     internal static class Program

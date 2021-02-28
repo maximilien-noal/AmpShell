@@ -7,7 +7,7 @@
  * See the GNU General Public License for more details.
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
-namespace AmpShell.Views
+namespace AmpShell.Legacy.Views
 {
     partial class AboutBox
     {
@@ -76,7 +76,7 @@ namespace AmpShell.Views
             // LogoPictureBox
             // 
             this.LogoPictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.LogoPictureBox.Image = global::AmpShell.Properties.Resources.AmpShell;
+            this.LogoPictureBox.Image = global::AmpShell.Legacy.Properties.Resources.AmpShell;
             this.LogoPictureBox.Location = new System.Drawing.Point(3, 3);
             this.LogoPictureBox.Name = "LogoPictureBox";
             this.TableLayoutPanel.SetRowSpan(this.LogoPictureBox, 6);

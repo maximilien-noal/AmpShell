@@ -8,7 +8,7 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
 
-namespace AmpShell.Views
+namespace AmpShell.Legacy.Views
 {
     using System;
     using System.Collections.Generic;
@@ -22,8 +22,8 @@ namespace AmpShell.Views
 
     using AmpShell.DAL;
     using AmpShell.Games;
+    using AmpShell.Legacy.Views.UserControls;
     using AmpShell.Model;
-    using AmpShell.Views.UserControls;
     using AmpShell.WinShell;
 
     using View = System.Windows.Forms.View;

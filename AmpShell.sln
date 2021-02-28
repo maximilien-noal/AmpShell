@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.29311.281
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AmpShell.Core", "AmpShell.Core\AmpShell.Core.csproj", "{32FBA9A9-C5F9-4BEA-887F-AED65EDF377B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AmpShell", "AmpShell\AmpShell.csproj", "{67EE93A1-2F75-4ABC-A38A-608ACD5B4B12}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AmpShell.Legacy", "AmpShell.Legacy\AmpShell.Legacy.csproj", "{67EE93A1-2F75-4ABC-A38A-608ACD5B4B12}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AmpShell.Windows", "AmpShell.Windows\AmpShell.Windows.csproj", "{11A6780A-FCB4-499C-8574-DB1F9AC61FD7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AmpShell.Windows", "AmpShell.Windows\AmpShell.Windows.csproj", "{11A6780A-FCB4-499C-8574-DB1F9AC61FD7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

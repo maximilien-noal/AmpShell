@@ -7,7 +7,7 @@
  * See the GNU General Public License for more details.
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
-namespace AmpShell.Views
+namespace AmpShell.Legacy.Views
 {
     partial class CategoryForm
     {
@@ -53,7 +53,7 @@ namespace AmpShell.Views
             // 
             // OK
             // 
-            this.OK.Image = global::AmpShell.Properties.Resources.NewFolderHS;
+            this.OK.Image = global::AmpShell.Legacy.Properties.Resources.NewFolderHS;
             this.OK.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.OK.Location = new System.Drawing.Point(143, 41);
             this.OK.Name = "OK";
@@ -67,7 +67,7 @@ namespace AmpShell.Views
             // Cancel
             // 
             this.Cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.Cancel.Image = global::AmpShell.Properties.Resources.DeleteHS;
+            this.Cancel.Image = global::AmpShell.Legacy.Properties.Resources.DeleteHS;
             this.Cancel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.Cancel.Location = new System.Drawing.Point(260, 41);
             this.Cancel.Name = "Cancel";
@@ -81,7 +81,7 @@ namespace AmpShell.Views
             // label
             // 
             this.label.AutoSize = true;
-            this.label.Image = global::AmpShell.Properties.Resources.Rename;
+            this.label.Image = global::AmpShell.Legacy.Properties.Resources.Rename;
             this.label.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.label.Location = new System.Drawing.Point(0, 0);
             this.label.Name = "label";
