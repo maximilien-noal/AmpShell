@@ -1,0 +1,21 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:AmpShell.Modern.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="AmpShell.Modern.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="AmpShell">
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
+  <DockPanel HorizontalAlignment="Left" VerticalAlignment="Top">
+    <Menu DockPanel.Dock="Top">
+      <MenuItem Header="_File">
+        <Separator />
+        <MenuItem Header="_Quit" Command="{Binding ExitApp}" />
+      </MenuItem>
+    </Menu>
+  </DockPanel>
+</Window>
