@@ -70,11 +70,15 @@ namespace AmpShell.DAL
             }
             else
             {
-                if (File.Exists(appDataFile))
+                var portableAppDataFile = Path.Combine(PathFinder.GetStartupPath(), "AmpShell.xml");
+                if (File.Exists(portableAppDataFile))
+                {
+                    return portableAppDataFile;
+                }
+                else
                 {
                     return appDataFile;
                 }
-                return Path.Combine(PathFinder.GetStartupPath(), "AmpShell.xml");
             }
         }
 

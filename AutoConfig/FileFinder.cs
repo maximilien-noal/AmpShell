@@ -51,6 +51,7 @@ namespace AmpShell.AutoConfig
         public static string SearchDOSBox(string userConfigDataPath, bool portableMode)
         {
             var windrive = Path.GetPathRoot(Environment.SystemDirectory);
+            var programFilesX86Path = Path.Combine(windrive, "Program Files (x86)");
             if (userConfigDataPath == Path.Combine(PathFinder.GetStartupPath(), "AmpShell.xml") && portableMode)
             {
                 var localDOSBox = Path.Combine(PathFinder.GetStartupPath(), "dosbox.exe");
@@ -59,9 +60,9 @@ namespace AmpShell.AutoConfig
                     return localDOSBox;
                 }
             }
-            else if (Directory.Exists(Path.Combine(windrive, "Program Files (x86)")))
+            else if (Directory.Exists(programFilesX86Path))
             {
-                string[] dosboxNamedDirs = Directory.GetDirectories(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "DOSBox*", SearchOption.TopDirectoryOnly);
+                string[] dosboxNamedDirs = Directory.GetDirectories(programFilesX86Path, "DOSBox*", SearchOption.TopDirectoryOnly);
                 if (dosboxNamedDirs.GetLength(0) != 0)
                 {
                     var systemDOSBox = Path.Combine(dosboxNamedDirs[0], "dosbox.exe");
@@ -86,15 +87,9 @@ namespace AmpShell.AutoConfig
             return string.Empty;
         }
 
-        public static string SearchDOSBoxConf(string userConfigDataPath, string dosboxExecutablePath)
-        {
-            return SearchFileWithExtension(userConfigDataPath, dosboxExecutablePath, "*.conf");
-        }
+        public static string SearchDOSBoxConf(string userConfigDataPath, string dosboxExecutablePath) => SearchFileWithExtension(userConfigDataPath, dosboxExecutablePath, "*.conf");
 
-        public static string SearchDOSBoxLanguageFile(string userConfigDataPath, string dosboxExecutablePath)
-        {
-            return SearchFileWithExtension(userConfigDataPath, dosboxExecutablePath, "*.lng");
-        }
+        public static string SearchDOSBoxLanguageFile(string userConfigDataPath, string dosboxExecutablePath) => SearchFileWithExtension(userConfigDataPath, dosboxExecutablePath, "*.lng");
 
         private static string SearchFileWithExtension(string userConfigDataPath, string dosboxExecutablePath, string extension)
         {
