@@ -449,9 +449,9 @@ namespace AmpShell.Views
                 this.BrowseCDImageDirButton.Enabled = false;
                 this.EditorBinaryPathTextBox.Enabled = false;
                 this.BrowseForEditorButton.Enabled = false;
-                if (File.Exists(Path.Combine(Application.StartupPath, "\\dosbox.exe")))
+                if (File.Exists(Path.Combine(Application.StartupPath, "dosbox.exe")))
                 {
-                    this.DOSBoxPathTextBox.Text = Path.Combine(Application.StartupPath, "\\dosbox.exe");
+                    this.DOSBoxPathTextBox.Text = Path.Combine(Application.StartupPath, "dosbox.exe");
                 }
                 else
                 {
@@ -480,9 +480,9 @@ namespace AmpShell.Views
                 {
                     this.EditorBinaryPathTextBox.Text = Path.Combine(Directory.GetParent(Environment.GetFolderPath(Environment.SpecialFolder.System)).FullName, "notepad.exe");
                 }
-                else if (File.Exists(Path.Combine(Application.StartupPath, "\\TextEditor.exe")))
+                else if (File.Exists(Path.Combine(Application.StartupPath, "TextEditor.exe")))
                 {
-                    this.EditorBinaryPathTextBox.Text = Path.Combine(Application.StartupPath, "\\TextEditor.exe");
+                    this.EditorBinaryPathTextBox.Text = Path.Combine(Application.StartupPath, "TextEditor.exe");
                 }
                 else
                 {
