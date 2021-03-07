@@ -107,10 +107,7 @@ namespace AmpShell.Core.DAL
             return game;
         }
 
-        public static Game GetGameWithSignature(string signature)
-        {
-            return UserData.ListChildren.Cast<Category>().SelectMany(x => x.ListChildren.Cast<Game>()).FirstOrDefault(x => x.Signature == signature);
-        }
+        public static Game GetGameWithSignature(string signature) => UserData.ListChildren.Cast<Category>().SelectMany(x => x.ListChildren.Cast<Game>()).FirstOrDefault(x => x.Signature == signature);
 
         /// <summary>
         /// Used when a new Category or Game is created : its signature must be unique so AmpShell
