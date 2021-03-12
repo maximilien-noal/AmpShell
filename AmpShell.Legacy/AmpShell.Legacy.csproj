@@ -32,10 +32,7 @@
     <OutputPath></OutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Costura.Fody" Version="5.1.0">
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Condition="'$(TargetFramework)' == 'net20'" Include="LINQlone" Version="1.1.0" />
+    <PackageReference Condition="'$(TargetFrameworkVersion)' == 'v2.0'" Include="LINQlone" Version="1.1.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="5.0.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

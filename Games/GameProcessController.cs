@@ -17,6 +17,7 @@ namespace AmpShell.Core.Games
     using System.Windows.Forms;
 
     using AmpShell.Core.DAL;
+    using AmpShell.Core.DOSBox;
     using AmpShell.Core.Model;
 
     /// <summary>
