@@ -146,87 +146,74 @@ namespace AmpShell.DOSBox
                 return string.Empty;
             }
 
-            var lines = new StringBuilder();
-            lines.AppendLine("[AUTOEXEC]");
+            var commands = new StringBuilder();
+
+            if (StringExt.IsNullOrWhiteSpace(this.gameInstance.DOSEXEPath) == false)
+            {
+                if (!forSetupExe)
+                {
+                    commands.Append($" {Path.GetFullPath(this.gameInstance.DOSEXEPath)}");
+                }
+                else
+                {
+                    commands.Append($" {Path.GetFullPath(this.gameInstance.SetupEXEPath)}");
+                }
+            }
 
             //the game directory mounted as C
             if (StringExt.IsNullOrWhiteSpace(this.gameInstance.Directory) == false)
             {
-                lines.AppendLine($"mount c \"{this.gameInstance.Directory}\"");
+                commands.Append($" -c \"mount c '{this.gameInstance.Directory}'\"");
             }
 
             //Path for the game's CD image (.bin, .cue, or .iso) mounted as D:
             if (StringExt.IsNullOrWhiteSpace(this.gameInstance.CDPath) == false)
             {
-                var imgmount = new StringBuilder();
-
                 //put ' and not " after imgmount (or else the path will be misunderstood by DOSBox).
                 if (this.gameInstance.CDIsAnImage == true)
                 {
-                    imgmount.Append("imgmount");
+                    commands.Append(" -c \"imgmount");
                     if (this.gameInstance.MountAsFloppy == true)
                     {
-                        imgmount.Append($" a \"{this.gameInstance.CDPath}\" -t floppy\"");
+                        commands.Append($" a '{this.gameInstance.CDPath}' -t floppy\"");
                     }
                     else
                     {
-                        imgmount.Append($" d \"{this.gameInstance.CDPath}\" -t iso\"");
+                        commands.Append($" d '{this.gameInstance.CDPath}' -t iso\"");
                     }
-                    lines.AppendLine(imgmount.ToString());
                 }
                 else
                 {
-                    var folderMount = new StringBuilder();
-                    bool addedMountOptions;
+                    var addedMountOptions = false;
                     if (this.gameInstance.UseIOCTL == true)
                     {
                         addedMountOptions = true;
-                        folderMount.Append($"mount d \"{this.gameInstance.CDPath}\" -t cdrom -usecd 0 -ioctl");
+                        commands.Append($" -c \"mount d '{this.gameInstance.CDPath}' -t cdrom -usecd 0 -ioctl");
                     }
                     else if (this.gameInstance.MountAsFloppy == true)
                     {
                         addedMountOptions = true;
-                        folderMount.Append($"mount a \"{this.gameInstance.CDPath}\" -t floppy");
+                        commands.Append($" -c \"mount a '{this.gameInstance.CDPath}' -t floppy");
                     }
                     else
                     {
                         addedMountOptions = true;
-                        folderMount.Append($"mount d \"{this.gameInstance.CDPath}\"");
+                        commands.Append($" -c \"mount d '{this.gameInstance.CDPath}'");
                     }
                     if (StringExt.IsNullOrWhiteSpace(this.gameInstance.CDLabel) == false && addedMountOptions)
                     {
-                        folderMount.Append($" -label \"{this.gameInstance.CDLabel}\"");
+                        commands.Append($" -label '{this.gameInstance.CDLabel}'");
                     }
-                    lines.AppendLine(folderMount.ToString());
+                    commands.Append("\"");
                 }
             }
 
             if (StringExt.IsNullOrWhiteSpace(this.gameInstance.AdditionalCommands) == false)
             {
-                lines.Append(this.gameInstance.PutEachAdditionnalCommandsOnANewLine());
+                commands.Append(this.gameInstance.AdditionalCommands);
             }
 
-            if (StringExt.IsNullOrWhiteSpace(this.gameInstance.DOSEXEPath) == false)
-            {
-                lines.AppendLine("C:");
-                if (!forSetupExe)
-                {
-                    lines.AppendLine($"CALL {Path.GetFileName(this.gameInstance.DOSEXEPath)}");
-                }
-                else
-                {
-                    lines.AppendLine($"CALL {Path.GetFileName(this.gameInstance.SetupEXEPath)}");
-                }
-            }
-
-            if (this.gameInstance.QuitOnExit == true)
-            {
-                lines.AppendLine("EXIT");
-            }
-
-            var tmpFile = Path.GetTempFileName();
-            File.WriteAllText(tmpFile, lines.ToString());
-            return $" -conf {Path.GetFullPath(tmpFile)}";
+            return commands.ToString();
         }
 
         private string AddCustomConfigFile()
