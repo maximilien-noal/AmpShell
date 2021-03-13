@@ -1,4 +1,7 @@
 Changelog---------
+1.3.1 (13 March 2021)
+* Removed previous workaround for -c commands, as it broke mounting paths with spaces or 'special' characters characters...
+
 1.3.0 (7 March 2021) 'Back to the roots'
 * Jumped to v1.3.0 because this release reintroduces Windows 98SE compatibility.
 * Detect if DOSBox executable doesn't exist anymore (at startup) and ask for it if needed.
