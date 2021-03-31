@@ -101,6 +101,8 @@ namespace AmpShell.Views
             this.ReScanDirButton = new System.Windows.Forms.Button();
             this.OKButton = new System.Windows.Forms.Button();
             this.FormCancelButton = new System.Windows.Forms.Button();
+            this.UseGroupBox = new System.Windows.Forms.GroupBox();
+            this.UseDOSBoxToLaunchGamesCheckBox = new System.Windows.Forms.CheckBox();
             this.PrefsTabControl.SuspendLayout();
             this.DOSBoxTabPage.SuspendLayout();
             this.GamesTabPage.SuspendLayout();
@@ -111,6 +113,7 @@ namespace AmpShell.Views
             this.PromptGroupBox.SuspendLayout();
             this.RememberGroupBox.SuspendLayout();
             this.ShowGroupBox.SuspendLayout();
+            this.UseGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // PrefsTabControl
@@ -631,6 +634,7 @@ namespace AmpShell.Views
             // BehaviorTabPage
             // 
             this.BehaviorTabPage.BackColor = System.Drawing.Color.Transparent;
+            this.BehaviorTabPage.Controls.Add(this.UseGroupBox);
             this.BehaviorTabPage.Controls.Add(this.PromptGroupBox);
             this.BehaviorTabPage.Controls.Add(this.RememberGroupBox);
             this.BehaviorTabPage.Controls.Add(this.ShowGroupBox);
@@ -815,6 +819,26 @@ namespace AmpShell.Views
             this.FormCancelButton.UseVisualStyleBackColor = true;
             this.FormCancelButton.Click += new System.EventHandler(this.Cancel_Click);
             // 
+            // UseGroupBox
+            // 
+            this.UseGroupBox.Controls.Add(this.UseDOSBoxToLaunchGamesCheckBox);
+            this.UseGroupBox.Location = new System.Drawing.Point(214, 81);
+            this.UseGroupBox.Name = "UseGroupBox";
+            this.UseGroupBox.Size = new System.Drawing.Size(200, 90);
+            this.UseGroupBox.TabIndex = 43;
+            this.UseGroupBox.TabStop = false;
+            this.UseGroupBox.Text = "Use...";
+            // 
+            // UseDOSBoxToLaunchGamesCheckBox
+            // 
+            this.UseDOSBoxToLaunchGamesCheckBox.AutoSize = true;
+            this.UseDOSBoxToLaunchGamesCheckBox.Location = new System.Drawing.Point(6, 19);
+            this.UseDOSBoxToLaunchGamesCheckBox.Name = "UseDOSBoxToLaunchGamesCheckBox";
+            this.UseDOSBoxToLaunchGamesCheckBox.Size = new System.Drawing.Size(148, 17);
+            this.UseDOSBoxToLaunchGamesCheckBox.TabIndex = 40;
+            this.UseDOSBoxToLaunchGamesCheckBox.Text = "DOSBox to launch games";
+            this.UseDOSBoxToLaunchGamesCheckBox.UseVisualStyleBackColor = true;
+            // 
             // PreferencesForm
             // 
             this.AcceptButton = this.OKButton;
@@ -855,6 +879,8 @@ namespace AmpShell.Views
             this.RememberGroupBox.PerformLayout();
             this.ShowGroupBox.ResumeLayout(false);
             this.ShowGroupBox.PerformLayout();
+            this.UseGroupBox.ResumeLayout(false);
+            this.UseGroupBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -925,5 +951,7 @@ namespace AmpShell.Views
         private System.Windows.Forms.Button ReScanDirButton;
         private System.Windows.Forms.Label LargeViewModeSizeLabel;
         private System.Windows.Forms.ComboBox LargeViewModeSizeComboBox;
+        private System.Windows.Forms.GroupBox UseGroupBox;
+        private System.Windows.Forms.CheckBox UseDOSBoxToLaunchGamesCheckBox;
     }
 }

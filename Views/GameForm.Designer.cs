@@ -74,7 +74,7 @@ namespace AmpShell.Views
             this.GameLocationLabel = new System.Windows.Forms.Label();
             this.GameLocationTextbox = new System.Windows.Forms.TextBox();
             this.AdvancedTabPage = new System.Windows.Forms.TabPage();
-            this.AlternateDOSBoxLocationBrowsSearchButton = new System.Windows.Forms.Button();
+            this.AlternateDOSBoxLocationBrowseButton = new System.Windows.Forms.Button();
             this.AlternateDOSBoxLocationTextbox = new System.Windows.Forms.TextBox();
             this.AlternateDOSBoxLocationLabel = new System.Windows.Forms.Label();
             this.NotesTabPage = new System.Windows.Forms.TabPage();
@@ -504,7 +504,7 @@ namespace AmpShell.Views
             // 
             this.AdvancedTabPage.Controls.Add(this.GameAdditionalCommandsLabel);
             this.AdvancedTabPage.Controls.Add(this.GameAdditionalCommandsTextBox);
-            this.AdvancedTabPage.Controls.Add(this.AlternateDOSBoxLocationBrowsSearchButton);
+            this.AdvancedTabPage.Controls.Add(this.AlternateDOSBoxLocationBrowseButton);
             this.AdvancedTabPage.Controls.Add(this.AlternateDOSBoxLocationTextbox);
             this.AdvancedTabPage.Controls.Add(this.AlternateDOSBoxLocationLabel);
             this.AdvancedTabPage.Location = new System.Drawing.Point(4, 22);
@@ -517,16 +517,16 @@ namespace AmpShell.Views
             // 
             // AlternateDOSBoxLocationBrowsSearchButton
             // 
-            this.AlternateDOSBoxLocationBrowsSearchButton.Image = global::AmpShell.Properties.Resources.search;
-            this.AlternateDOSBoxLocationBrowsSearchButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.AlternateDOSBoxLocationBrowsSearchButton.Location = new System.Drawing.Point(424, 44);
-            this.AlternateDOSBoxLocationBrowsSearchButton.Name = "AlternateDOSBoxLocationBrowsSearchButton";
-            this.AlternateDOSBoxLocationBrowsSearchButton.Size = new System.Drawing.Size(24, 23);
-            this.AlternateDOSBoxLocationBrowsSearchButton.TabIndex = 37;
-            this.AlternateDOSBoxLocationBrowsSearchButton.Text = "...";
-            this.AlternateDOSBoxLocationBrowsSearchButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.AlternateDOSBoxLocationBrowsSearchButton.UseVisualStyleBackColor = true;
-            this.AlternateDOSBoxLocationBrowsSearchButton.Click += new System.EventHandler(this.AlternateDOSBoxLocationBrowsSearchButton_Click);
+            this.AlternateDOSBoxLocationBrowseButton.Image = global::AmpShell.Properties.Resources.search;
+            this.AlternateDOSBoxLocationBrowseButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.AlternateDOSBoxLocationBrowseButton.Location = new System.Drawing.Point(424, 44);
+            this.AlternateDOSBoxLocationBrowseButton.Name = "AlternateDOSBoxLocationBrowsSearchButton";
+            this.AlternateDOSBoxLocationBrowseButton.Size = new System.Drawing.Size(24, 23);
+            this.AlternateDOSBoxLocationBrowseButton.TabIndex = 37;
+            this.AlternateDOSBoxLocationBrowseButton.Text = "...";
+            this.AlternateDOSBoxLocationBrowseButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.AlternateDOSBoxLocationBrowseButton.UseVisualStyleBackColor = true;
+            this.AlternateDOSBoxLocationBrowseButton.Click += new System.EventHandler(this.AlternateDOSBoxLocationBrowsSearchButton_Click);
             // 
             // AlternateDOSBoxLocationTextbox
             // 
@@ -681,7 +681,7 @@ namespace AmpShell.Views
         private System.Windows.Forms.Label GameLocationLabel;
         private System.Windows.Forms.TextBox GameLocationTextbox;
         private System.Windows.Forms.TabPage AdvancedTabPage;
-        private System.Windows.Forms.Button AlternateDOSBoxLocationBrowsSearchButton;
+        private System.Windows.Forms.Button AlternateDOSBoxLocationBrowseButton;
         private System.Windows.Forms.TextBox AlternateDOSBoxLocationTextbox;
         private System.Windows.Forms.Label AlternateDOSBoxLocationLabel;
         private System.Windows.Forms.TextBox DiscLabelTextBox;

@@ -48,44 +48,39 @@ namespace AmpShell.Views
             this.GameNameTextbox.Text = this.GameInstance.Name;
             this.GameReleaseDatePicker.Value = this.GameInstance.ReleaseDate;
             this.GameLocationTextbox.Text = this.GameInstance.DOSEXEPath;
-            this.GameDirectoryTextbox.Text = this.GameInstance.Directory;
-            this.GameCustomConfigurationTextbox.Text = this.GameInstance.DBConfPath;
-            this.NoConfigCheckBox.Checked = this.GameInstance.NoConfig;
-            this.GameCDPathTextBox.Text = this.GameInstance.CDPath;
-            this.DiscLabelTextBox.Text = this.GameInstance.CDLabel;
-            this.GameAdditionalCommandsTextBox.Text = $"REM Put each command on a new line.\r\n";
-            this.GameAdditionalCommandsTextBox.Text += $"REM Examples of DOSBox commands: 'core=normal'\r\n";
-            this.GameAdditionalCommandsTextBox.Text += $"REM or 'IMGMOUNT D C:\\Temp\\MyCDImage.iso -t iso'\r\n";
-            this.GameAdditionalCommandsTextBox.Text += "REM or anything recognized by DOSBox.\r\n\r\n";
-            this.GameAdditionalCommandsTextBox.Text += this.GameInstance.PutEachAdditionnalCommandsOnANewLine();
-            this.AlternateDOSBoxLocationTextbox.Text = this.GameInstance.AlternateDOSBoxExePath;
-            this.NoConsoleCheckBox.Checked = this.GameInstance.NoConsole;
-            this.QuitOnExitCheckBox.Checked = this.GameInstance.QuitOnExit;
-            this.FullscreenCheckBox.Checked = this.GameInstance.InFullScreen;
-            this.GameSetupTextBox.Text = this.GameInstance.SetupEXEPath;
-            this.UseIOCTLRadioButton.Checked = this.GameInstance.UseIOCTL;
-            this.IsAFloppyDiskRadioButton.Checked = this.GameInstance.MountAsFloppy;
-            if (this.UseIOCTLRadioButton.Checked == false && this.IsAFloppyDiskRadioButton.Checked == false)
+            if (UserDataAccessor.UserData.GamesUseDOSBox)
             {
-                this.NoneRadioButton.Checked = true;
+                this.GameDirectoryTextbox.Text = this.GameInstance.Directory;
+                this.GameCustomConfigurationTextbox.Text = this.GameInstance.DBConfPath;
+                this.NoConfigCheckBox.Checked = this.GameInstance.NoConfig;
+                this.GameCDPathTextBox.Text = this.GameInstance.CDPath;
+                this.DiscLabelTextBox.Text = this.GameInstance.CDLabel;
+                this.GameAdditionalCommandsTextBox.Text = $"REM Put each command on a new line.\r\n";
+                this.GameAdditionalCommandsTextBox.Text += $"REM Examples of DOSBox commands: 'core=normal'\r\n";
+                this.GameAdditionalCommandsTextBox.Text += $"REM or 'IMGMOUNT D C:\\Temp\\MyCDImage.iso -t iso'\r\n";
+                this.GameAdditionalCommandsTextBox.Text += "REM or anything recognized by DOSBox.\r\n\r\n";
+                this.GameAdditionalCommandsTextBox.Text += this.GameInstance.PutEachAdditionnalCommandsOnANewLine();
+                this.AlternateDOSBoxLocationTextbox.Text = this.GameInstance.AlternateDOSBoxExePath;
+                this.NoConsoleCheckBox.Checked = this.GameInstance.NoConsole;
+                this.QuitOnExitCheckBox.Checked = this.GameInstance.QuitOnExit;
+                this.FullscreenCheckBox.Checked = this.GameInstance.InFullScreen;
+                this.UseIOCTLRadioButton.Checked = this.GameInstance.UseIOCTL;
+                this.IsAFloppyDiskRadioButton.Checked = this.GameInstance.MountAsFloppy;
+                if (this.UseIOCTLRadioButton.Checked == false && this.IsAFloppyDiskRadioButton.Checked == false)
+                {
+                    this.NoneRadioButton.Checked = true;
+                }
             }
-
-            this.GameLocationTextbox.Text = this.GameLocationTextbox.Text.Replace("AppPath", Application.StartupPath);
-            this.GameDirectoryTextbox.Text = this.GameDirectoryTextbox.Text.Replace("AppPath", Application.StartupPath);
-            this.GameCustomConfigurationTextbox.Text = this.GameCustomConfigurationTextbox.Text.Replace("AppPath", Application.StartupPath);
-            this.GameCDPathTextBox.Text = this.GameCDPathTextBox.Text.Replace("AppPath", Application.StartupPath);
-            this.GameAdditionalCommandsTextBox.Text = this.GameAdditionalCommandsTextBox.Text.Replace("AppPath", Application.StartupPath);
-            this.GameSetupTextBox.Text = this.GameSetupTextBox.Text.Replace("AppPath", Application.StartupPath);
-            this.AlternateDOSBoxLocationTextbox.Text = this.AlternateDOSBoxLocationTextbox.Text.Replace("AppPath", Application.StartupPath);
+            this.GameSetupTextBox.Text = this.GameInstance.SetupEXEPath;
             this.NotesRichTextBox.Text = this.GameInstance.Notes;
 
-            if (newGame)
+            if (newGame && UserDataAccessor.UserData.GamesUseDOSBox)
             {
                 this.NoConsoleCheckBox.Checked = UserDataAccessor.UserData.GamesNoConsole;
                 this.FullscreenCheckBox.Checked = UserDataAccessor.UserData.GamesInFullScreen;
                 this.QuitOnExitCheckBox.Checked = UserDataAccessor.UserData.GamesQuitOnExit;
             }
-            else
+            if (newGame == false)
             {
                 this.OK.Text = "&Save and apply";
                 this.OK.Width = 102;
@@ -93,6 +88,29 @@ namespace AmpShell.Views
                 this.OK.Image = Properties.Resources.saveHS;
                 this.Cancel.Text = "&Don't save";
             }
+            if (UserDataAccessor.UserData.GamesUseDOSBox == false)
+            {
+                this.GameDirectoryTextbox.Enabled = false;
+                this.GameDirectoryBrowseButton.Enabled = false;
+                this.GameCustomConfigurationTextbox.Enabled = false;
+                this.GameCustomConfigurationBrowseButton.Enabled = false;
+                this.NoConfigCheckBox.Enabled = false;
+                this.GameCDPathTextBox.Enabled = false;
+                this.GameCDDirBrowseButton.Enabled = false;
+                this.GameCDPathBrowseButton.Enabled = false;
+                this.MountingOptionsGroupBox.Enabled = false;
+                this.OtherOptionsGroupBox.Enabled = false;
+                this.AlternateDOSBoxLocationTextbox.Enabled = false;
+                this.AlternateDOSBoxLocationBrowseButton.Enabled = false;
+                this.GameAdditionalCommandsTextBox.Enabled = false;
+            }
+            this.GameCustomConfigurationTextbox.Text = this.GameCustomConfigurationTextbox.Text.Replace("AppPath", Application.StartupPath);
+            this.GameAdditionalCommandsTextBox.Text = this.GameAdditionalCommandsTextBox.Text.Replace("AppPath", Application.StartupPath);
+            this.GameCDPathTextBox.Text = this.GameCDPathTextBox.Text.Replace("AppPath", Application.StartupPath);
+            this.GameDirectoryTextbox.Text = this.GameDirectoryTextbox.Text.Replace("AppPath", Application.StartupPath);
+            this.GameLocationTextbox.Text = this.GameLocationTextbox.Text.Replace("AppPath", Application.StartupPath);
+            this.GameSetupTextBox.Text = this.GameSetupTextBox.Text.Replace("AppPath", Application.StartupPath);
+            this.AlternateDOSBoxLocationTextbox.Text = this.AlternateDOSBoxLocationTextbox.Text.Replace("AppPath", Application.StartupPath);
         }
 
         public Game GameInstance { get; private set; }
@@ -289,6 +307,11 @@ namespace AmpShell.Views
         /// </summary>
         private void GameLocationTextbox_TextChanged(object sender, EventArgs e)
         {
+            if (UserDataAccessor.UserData.GamesUseDOSBox == false)
+            {
+                return;
+            }
+
             //if a location for the game's executable has been entered
             if (StringExt.IsNullOrWhiteSpace(this.GameLocationTextbox.Text) == false)
             {
@@ -323,6 +346,11 @@ namespace AmpShell.Views
         /// </summary>
         private void GameDirectoryTextbox_TextChanged(object sender, EventArgs e)
         {
+            if (UserDataAccessor.UserData.GamesUseDOSBox == false)
+            {
+                return;
+            }
+
             //if the textBox is not empty
             if (StringExt.IsNullOrWhiteSpace(this.GameDirectoryTextbox.Text) == false)
             {

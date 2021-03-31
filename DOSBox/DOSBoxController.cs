@@ -15,6 +15,7 @@ namespace AmpShell.DOSBox
     using System.Diagnostics;
     using System.IO;
     using System.Text;
+    using System.Windows.Forms;
 
     using AmpShell.DAL;
     using AmpShell.Model;
@@ -58,13 +59,32 @@ namespace AmpShell.DOSBox
         /// Starts DOSBox with <see cref="Game"/> inside it.
         /// </summary>
         /// <returns>The DOSBox process.</returns>
-        public Process StartGame() => this.StartDOSBox(this.BuildArgs(false));
+        public Process StartGame() => this.StartGame(this.BuildArgs(false));
 
         /// <summary>
         /// Starts DOSBox with <see cref="Game"/>.<see cref="Game.SetupEXEPath"/> inside it.
         /// </summary>
         /// <returns>The DOSBox process.</returns>
-        public Process StartGameSetup() => this.StartDOSBox(this.BuildArgs(true));
+        public Process StartGameSetup() => this.StartGame(this.BuildArgs(true));
+
+        private static Process StartProcess(ProcessStartInfo psi)
+        {
+            try
+            {
+                Process process = Process.Start(psi);
+
+                if (process != null)
+                {
+                    process.EnableRaisingEvents = true;
+                }
+                return process;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show($"Start Process error: {e.GetBaseException().Message} {Environment.NewLine} Tried to start: {psi.FileName} in: {psi.WorkingDirectory}");
+            }
+            return null;
+        }
 
         /// <summary>
         /// Builds the argument line in order to start DOSBox.
@@ -118,10 +138,17 @@ namespace AmpShell.DOSBox
         /// Starts DOSBox, and returns its <see cref="Process" />.
         /// </summary>
         /// <returns>The DOSBox <see cref="Process" />.</returns>
-        private Process StartDOSBox(string args)
+        private Process StartGame(string args)
         {
+            if (UserDataAccessor.UserData.GamesUseDOSBox == false)
+            {
+                var nativeLaunchPsi = new ProcessStartInfo(this.gameInstance.DOSEXEPath);
+                nativeLaunchPsi.UseShellExecute = true;
+                nativeLaunchPsi.WorkingDirectory = Path.GetDirectoryName(Path.GetDirectoryName(this.gameInstance.DOSEXEPath));
+                return StartProcess(nativeLaunchPsi);
+            }
             var psi = new ProcessStartInfo(this.gameInstance.GetDOSBoxPath());
-
+            psi.UseShellExecute = true;
             if (StringExt.IsNullOrWhiteSpace(this.gameInstance.DBConfPath) == false)
             {
                 psi.WorkingDirectory = Path.GetDirectoryName(this.gameInstance.DBConfPath);
@@ -131,12 +158,7 @@ namespace AmpShell.DOSBox
             {
                 psi.Arguments = args;
             }
-            Process dosboxProcess = Process.Start(psi);
-            if (dosboxProcess != null)
-            {
-                dosboxProcess.EnableRaisingEvents = true;
-            }
-            return dosboxProcess;
+            return StartProcess(psi);
         }
 
         private string AddAdditionalCommands(bool forSetupExe, DOSBoxConfigFile configFile)

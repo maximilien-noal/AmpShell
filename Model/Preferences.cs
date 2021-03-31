@@ -65,6 +65,17 @@ namespace AmpShell.Model
             set { Set(ref rememberWindowSize, value); }
         }
 
+        private bool gamesUseDOSBox = true;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether we use DOSBox to play games or not.
+        /// </summary>
+        public bool GamesUseDOSBox
+        {
+            get => gamesUseDOSBox;
+            set { Set(ref gamesUseDOSBox, value); }
+        }
+
         private bool gameDeletePrompt = true;
 
         public bool GameDeletePrompt

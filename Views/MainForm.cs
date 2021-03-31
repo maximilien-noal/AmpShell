@@ -384,24 +384,27 @@ namespace AmpShell.Views
             //Only Enabled when a game is selected
             this.editGameMenuItem.Enabled = false;
             this.currentListViewContextMenuStrip.Items.Add(this.editGameMenuItem);
-            this.editGameConfigurationMenuItem.Image = this.GameEditConfigurationButton.Image;
-            this.editGameConfigurationMenuItem.Text = this.GameEditConfigurationButton.Text;
-            this.editGameConfigurationMenuItem.Click += new EventHandler(this.GameEditConfigurationButton_Click);
-            this.editGameConfigurationMenuItem.MouseLeave += new EventHandler(this.CurrentListView_ItemSelectionChanged);
-            this.editGameConfigurationMenuItem.MouseEnter += new EventHandler(this.GameEditConfigurationButton_MouseEnter);
+            if (UserDataAccessor.UserData.GamesUseDOSBox)
+            {
+                this.editGameConfigurationMenuItem.Image = this.GameEditConfigurationButton.Image;
+                this.editGameConfigurationMenuItem.Text = this.GameEditConfigurationButton.Text;
+                this.editGameConfigurationMenuItem.Click += new EventHandler(this.GameEditConfigurationButton_Click);
+                this.editGameConfigurationMenuItem.MouseLeave += new EventHandler(this.CurrentListView_ItemSelectionChanged);
+                this.editGameConfigurationMenuItem.MouseEnter += new EventHandler(this.GameEditConfigurationButton_MouseEnter);
 
-            //Only Enabled when a game is selected
-            this.editGameConfigurationMenuItem.Enabled = false;
-            this.currentListViewContextMenuStrip.Items.Add(this.editGameConfigurationMenuItem);
-            this.makeGameConfigurationMenuItem.Image = this.MakeConfigButton.Image;
-            this.makeGameConfigurationMenuItem.Text = this.MakeConfigButton.Text;
-            this.makeGameConfigurationMenuItem.Click += new EventHandler(this.MakeConfigButton_Click);
-            this.makeGameConfigurationMenuItem.MouseLeave += new EventHandler(this.CurrentListView_ItemSelectionChanged);
-            this.makeGameConfigurationMenuItem.MouseEnter += new EventHandler(this.MakeConfigurationFileToolStripMenuItem_MouseEnter);
+                //Only Enabled when a game is selected
+                this.editGameConfigurationMenuItem.Enabled = false;
+                this.currentListViewContextMenuStrip.Items.Add(this.editGameConfigurationMenuItem);
+                this.makeGameConfigurationMenuItem.Image = this.MakeConfigButton.Image;
+                this.makeGameConfigurationMenuItem.Text = this.MakeConfigButton.Text;
+                this.makeGameConfigurationMenuItem.Click += new EventHandler(this.MakeConfigButton_Click);
+                this.makeGameConfigurationMenuItem.MouseLeave += new EventHandler(this.CurrentListView_ItemSelectionChanged);
+                this.makeGameConfigurationMenuItem.MouseEnter += new EventHandler(this.MakeConfigurationFileToolStripMenuItem_MouseEnter);
 
-            //Only Enabled when a game is selected
-            this.makeGameConfigurationMenuItem.Enabled = false;
-            this.currentListViewContextMenuStrip.Items.Add(this.makeGameConfigurationMenuItem);
+                //Only Enabled when a game is selected
+                this.makeGameConfigurationMenuItem.Enabled = false;
+                this.currentListViewContextMenuStrip.Items.Add(this.makeGameConfigurationMenuItem);
+            }
             ToolStripSeparator ltview_ContextMenuStripSeparator = new ToolStripSeparator();
             this.currentListViewContextMenuStrip.Items.Add(ltview_ContextMenuStripSeparator);
 
@@ -521,7 +524,7 @@ namespace AmpShell.Views
             this.NotesLabel.Text = string.Empty;
 
             //several games can be selected at once, but it is only meant for drag&drop between categories
-            //Besides, running more than one game (one DOSBox instance) at once can be CPU intensive...
+            //Besides, running more than one game (or DOSBox instance) at once can be CPU intensive...
             //if 1 game has been selected
             if (this.SelectedListView.SelectedItems.Count == 1)
             {
@@ -1483,11 +1486,11 @@ namespace AmpShell.Views
                 this.NewGameToolStripMenuItem.Enabled = true;
                 this.addGameMenuItem.Enabled = true;
                 this.GameAddButton.Enabled = true;
-                if (StringExt.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBPath) == false)
+                this.OpenGameFolderButton.Enabled = true;
+                this.openGameFolderMenuItem.Enabled = true;
+                this.OpenGameFolderToolStripMenuItem.Enabled = true;
+                if (StringExt.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBPath) == false && UserDataAccessor.UserData.GamesUseDOSBox)
                 {
-                    this.OpenGameFolderButton.Enabled = true;
-                    this.openGameFolderMenuItem.Enabled = true;
-                    this.OpenGameFolderToolStripMenuItem.Enabled = true;
                     this.RunGameButton.Enabled = true;
                     this.runGameMenuItem.Enabled = true;
                     this.RunGameToolStripMenuItem.Enabled = true;
@@ -1496,6 +1499,15 @@ namespace AmpShell.Views
                     this.runGameSetupMenuItem.Enabled = true;
                     this.RunDOSBoxButton.Enabled = true;
                     this.RunDOSBoxToolStripMenuItem.Enabled = true;
+                }
+                else if (UserDataAccessor.UserData.GamesUseDOSBox == false)
+                {
+                    this.RunGameButton.Enabled = true;
+                    this.runGameMenuItem.Enabled = true;
+                    this.RunGameToolStripMenuItem.Enabled = true;
+                    this.RunGameSetupButton.Enabled = true;
+                    this.RunGameSetupToolStripMenuItem.Enabled = true;
+                    this.runGameSetupMenuItem.Enabled = true;
                 }
                 this.CategoryEditButton.Enabled = true;
                 this.editCategoryMenuMenuItem.Enabled = true;
@@ -1509,7 +1521,7 @@ namespace AmpShell.Views
                     this.RunConfigurationEditorButton.Enabled = true;
                     this.RunConfigurationEditorToolStripMenuItem.Enabled = true;
                 }
-                if (StringExt.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBDefaultConfFilePath) == false)
+                if (StringExt.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBDefaultConfFilePath) == false && UserDataAccessor.UserData.GamesUseDOSBox)
                 {
                     this.EditDefaultConfigurationToolStripMenuItem.Enabled = true;
                     this.EditDefaultConfigurationButton.Enabled = true;

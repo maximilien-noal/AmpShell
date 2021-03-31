@@ -72,6 +72,7 @@ namespace AmpShell.Views
                 }
             }
             UserDataAccessor.UserData.GamesAdditionalCommands = this.GameAdditionalCommandsTextBox.Text;
+            UserDataAccessor.UserData.GamesUseDOSBox = this.UseDOSBoxToLaunchGamesCheckBox.Checked;
             UserDataAccessor.UserData.GamesNoConsole = this.NoConsoleCheckBox.Checked;
             UserDataAccessor.UserData.GamesInFullScreen = this.FullscreenCheckBox.Checked;
             UserDataAccessor.UserData.GamesQuitOnExit = this.QuitOnExitCheckBox.Checked;
@@ -159,6 +160,7 @@ namespace AmpShell.Views
         private void Main_Prefs_Load(object sender, EventArgs e)
         {
             this.CheckForPortableModeAvailabilityAndUpdateUI();
+            this.UseDOSBoxToLaunchGamesCheckBox.Checked = UserDataAccessor.UserData.GamesUseDOSBox;
             this.LargeViewModeSizeComboBox.Text = this.LargeViewModeSizeComboBox.Items[Preferences.LargeViewModeSizes.IndexOf(UserDataAccessor.UserData.LargeViewModeSize)].ToString();
             this.CategoyDeletePromptCheckBox.Checked = UserDataAccessor.UserData.CategoryDeletePrompt;
             this.GameDeletePromptCheckBox.Checked = UserDataAccessor.UserData.GameDeletePrompt;
@@ -449,7 +451,7 @@ namespace AmpShell.Views
                 this.BrowseCDImageDirButton.Enabled = false;
                 this.EditorBinaryPathTextBox.Enabled = false;
                 this.BrowseForEditorButton.Enabled = false;
-                if (File.Exists(Path.Combine(Application.StartupPath, "dosbox.exe")))
+                if (File.Exists(Path.Combine(Application.StartupPath, "dosbox.exe")) && UserDataAccessor.UserData.GamesUseDOSBox)
                 {
                     this.DOSBoxPathTextBox.Text = Path.Combine(Application.StartupPath, "dosbox.exe");
                 }
@@ -458,7 +460,7 @@ namespace AmpShell.Views
                     this.DOSBoxPathTextBox.Text = "dosbox.exe isn't is the same directory as AmpShell.exe!";
                 }
 
-                if (Directory.GetFiles(Application.StartupPath, "*.conf").Length > 0)
+                if (Directory.GetFiles(Application.StartupPath, "*.conf").Length > 0 && UserDataAccessor.UserData.GamesUseDOSBox)
                 {
                     this.DOSBoxConfFileTextBox.Text = Directory.GetFiles(Application.StartupPath, "*.conf")[0];
                 }
@@ -467,7 +469,7 @@ namespace AmpShell.Views
                     this.DOSBoxConfFileTextBox.Text = "No configuration file (*.conf) found in AmpShell's directory.";
                 }
 
-                if (Directory.GetFiles(Application.StartupPath, "*.lng").Length > 0)
+                if (Directory.GetFiles(Application.StartupPath, "*.lng").Length > 0 && UserDataAccessor.UserData.GamesUseDOSBox)
                 {
                     this.DOSBoxLangFileTextBox.Text = Directory.GetFiles(Application.StartupPath, "*.lng")[0];
                 }

@@ -58,7 +58,7 @@
             </param>
             <returns>The list of command line arguments to pass to DOSBox.</returns>
         </member>
-        <member name="M:AmpShell.DOSBox.DOSBoxController.StartDOSBox(System.String)">
+        <member name="M:AmpShell.DOSBox.DOSBoxController.StartGame(System.String)">
             <summary>
             Starts DOSBox, and returns its <see cref="T:System.Diagnostics.Process" />.
             </summary>
@@ -146,6 +146,11 @@
         <member name="F:AmpShell.Model.ModelWithChildren.children">
             <summary>
             List that will build up the tree of categories and games through the AddChild and RemoveChild and ListChildren methods.
+            </summary>
+        </member>
+        <member name="P:AmpShell.Model.Preferences.GamesUseDOSBox">
+            <summary>
+            Gets or sets a value indicating whether we use DOSBox to play games or not.
             </summary>
         </member>
         <member name="M:AmpShell.Notification.PropertyChangedNotifier.Set``1(``0@,``0,System.String)">
