@@ -754,6 +754,10 @@ namespace AmpShell.Views
                     }
                     this.SelectedListView.Items.Remove(selectedItem);
                 }
+                else
+                {
+                    break;
+                }
             }
         }
 
