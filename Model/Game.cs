@@ -105,29 +105,18 @@ namespace AmpShell.Model
                 return string.Empty;
             }
             var commands = new System.Text.StringBuilder();
-            string[] array = this.AdditionalCommands.Split('-');
+            var lines = this.AdditionalCommands.Replace("-c", "\r");
+            var array = lines.Split('\r');
             for (int i = 0; i < array.Length; i++)
             {
-                string line = (string)array[i];
+                var line = array[i];
                 if (StringExt.IsNullOrWhiteSpace(line) == false)
                 {
-                    if (line.StartsWith("c "))
-                    {
-                        line = line.TrimStart('c');
-                    }
-                    line = line.Trim();
-                    if (line.StartsWith("\""))
-                    {
-                        line = line.TrimStart('\"');
-                        if (line.EndsWith("\""))
-                        {
-                            line = line.TrimEnd('\"');
-                        }
-                    }
-                    line = line.Trim();
-                    commands.AppendLine(line);
+                    var trimmedLine = line.Trim().TrimStart('"').TrimEnd('"');
+                    commands.AppendLine(trimmedLine);
                 }
             }
+
             return commands.ToString();
         }
 
