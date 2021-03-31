@@ -1,16 +1,13 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFrameworks>net40;netcoreapp3.1</TargetFrameworks>
+    <UseWPF>true</UseWPF>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-    <Nullable>enable</Nullable>
-    <StartupObject>AmpShell.Modern.Program</StartupObject>
   </PropertyGroup>
+
   <ItemGroup>
-    <AvaloniaResource Include="Assets\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="AdonisUI.ClassicTheme" Version="1.17.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="5.0.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -19,14 +16,10 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="AdonisUI" Version="1.17.0" />
-    <PackageReference Include="Avalonia" Version="0.10.0" />
-    <PackageReference Include="Avalonia.Desktop" Version="0.10.0" />
-    <PackageReference Include="Avalonia.Diagnostics" Version="0.10.0" />
-    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.0" />
   </ItemGroup>
+
   <ItemGroup>
-    <ProjectReference Include="..\AmpShell.Core\AmpShell.Core.csproj" />
     <ProjectReference Include="..\AmpShell.Shared\AmpShell.Shared.csproj" />
+    <ProjectReference Include="..\AmpShell.Windows\AmpShell.Windows.csproj" />
   </ItemGroup>
 </Project>
