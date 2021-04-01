@@ -1,4 +1,7 @@
 Changelog---------
+1.3.3 (01 April 2021)
+* Tools menu -> "Import Games and Categories" does what it says from an existing AmpShell.xml file.
+
 1.3.2 (31 March 2021)
 * BugFix: game delete loop when 'no' is selected
 * Feature: Launch games without DOSBox (For Windows 98 users, obviously !)
@@ -74,7 +77,7 @@ Have fun !
 
 1.1.3.6 (June 9 2019 - 22h00)
 - Now supports AUTOEXEC sections with relative paths (eg. "imgmount d cd.iso -t iso")
- 
+
 1.1.3.5 (not released)
 - Fixed CD/Floppy image mounts
 
@@ -189,7 +192,7 @@ GUI :
 Features :
 - The size of the columns are now remembered for the detailed view of each category.
 - Tools menu -> Edit default configuration button
-- Way more portability : 
+- Way more portability :
 -- DOSBox's executable, a defaut configuration file, and a default DOSBox language file are always searched for in AmpShell's directory. Was only done in v1.1.0.0 if they was no AmpShell.xml file already in the user's 'Application Data' directory.
 -- Games' files locations (_if they are in the same directory as AmpShell, eventually in a subdirectory_) are now independant of the portable media (ie. USB key, portable HDD, ...) mount point.
 -- A 'Portable Mode' in the Preferences makes the research of games' files, ISOs, and DOSBox' files in the same directory as AmpShell.
@@ -204,7 +207,7 @@ They are searched for when the Portable Mode has been activated, or when the use
 
 -> The user data file 'AmpShell.xml' will be created in the same directory as AmpShell if it isn't in Program Files (otherwise it is, as always, in Documents and Settings\<UserAccount>\Application Data\AmpShell).
 
--> If there's already data about games on the computer in the 'Application Data' directory, it will be copied in the same folder as AmpShell (if there isn't already AmpShell.xml alongside AmpShell.exe). 
+-> If there's already data about games on the computer in the 'Application Data' directory, it will be copied in the same folder as AmpShell (if there isn't already AmpShell.xml alongside AmpShell.exe).
 
 - Feature : Added all the others columns to the 'details' view. Besides the games' names, there is now : Executable Path, Directory mounted as C:, Setup Executable Path, Custom Configuration Path, Drive or image file mounted as D: (or A: for a floppy disk image), Mounting Options, Additionnal Commands, No Console, Fullscreen, Quit on exit
 
@@ -212,7 +215,7 @@ They are searched for when the Portable Mode has been activated, or when the use
 
 1.1.0.9 (December 14 18h00)
 - Minor bugfix : a new game or category was still created even if it's name was missing (minor because it could be edited, and it didn't broke anything)
-- Cosmetics : Normalized the error message box wich is displayed when an user tries to add a new category with no name. 
+- Cosmetics : Normalized the error message box wich is displayed when an user tries to add a new category with no name.
 
 1.1.0.8 (December 14 10h30)
 - Fixed : Drag & Drop is now working perfectly (at last!). Contains too bugfixes:
@@ -312,7 +315,7 @@ Future Plans (v1.1.1.x) :
 - Bugfix : All child forms (About,Game,Category,Preferences) are now :
 -unresizable (was not true only for Preferences)
 -FixedStyle
--centered on their parent form (AmpShell's main window) when displayed (was not true only for Preferences) 
+-centered on their parent form (AmpShell's main window) when displayed (was not true only for Preferences)
 
 1.0.2.9 (August 8 18h00)
 - Bugfix : The selected category's unique number was given instead of it's name in the prompt about deleting it.
@@ -345,10 +348,10 @@ method of the class Category, but a lot nicer (and shorter) code in Main.cs : an
 - Bugfix : If a game with an executable was edited, both the game executable location and the game directory mounted as 'C:' (textboxs and browse buttons) were not enabled
 
 1.0.2.2 (July 12 2009 23h35)
-- Bugfix : game executable versus game directory : When a game directory to be mounted as C: is chosen, the textbox and Browse buttons to choose the game's executable are disabled. 
+- Bugfix : game executable versus game directory : When a game directory to be mounted as C: is chosen, the textbox and Browse buttons to choose the game's executable are disabled.
 If the textbox of the game directory is emptied, they become enabled.
 Same mechanic was already implemented for the other way around.
- 
+
 1.0.2.1 (July 12 2009 12h15)
 - Cosmetics : Game window to add/edit games updated to say that the "No config at all" option may not work with DOSBox 0.73 or newer
 
@@ -362,18 +365,18 @@ Same mechanic was already implemented for the other way around.
 - Cosmetics : Run DOSBox button added in the toolbar
 
 1.0.1.8 (July 08 2009 - 12h35)
-- Bugfix : AmpShell games and categories were not saved if DOSBox's executable location was not known. 
+- Bugfix : AmpShell games and categories were not saved if DOSBox's executable location was not known.
 - Bugfix : Error message ("Path cannot be empty or all whitespaces") when running a copy of AmpShell wich was trying to find the location of the user's default DOSBox configuration file by assuming that DOSBox's executable location was known
 
 1.0.1.7 (July 08 2009 - 12h15)
 - Bugfix : Often, the prompt for DOSBox's location (when it could not be found) was not shown to the user on first run
- 
+
 1.0.1.6 (July 07 2009 - 19h00)
 - Bugfix : drag&drop was broken (moved games were not copied properly, making them unavailable)
 
 1.0.1.5 (July 07 2009 - 18h45)
 - Bugfix : the same MD5Hash as the selected category was generated for new games, making the front-end do a forever loop.
-New games can be added safely now. 
+New games can be added safely now.
 
 1.0.1.4 (July 07 2009 - 18h00)
 - Bugfix : the same buttons mentionned in the changes v1.0.1.3 weren't disabled when all categories were deleted

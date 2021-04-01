@@ -44,6 +44,7 @@ namespace AmpShell.Views
             this.NewGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RunGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RunGameSetupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.OpenGameFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.QuitterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.EditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -59,6 +60,7 @@ namespace AmpShell.Views
             this.RunDOSBoxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RunConfigurationEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.EditDefaultConfigurationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ImportGamesAndCategoriesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.LargeIconToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SmallIconToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -102,7 +104,6 @@ namespace AmpShell.Views
             this.AdditionalCommandsLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.NotesLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.TabControl = new System.Windows.Forms.TabControl();
-            this.OpenGameFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
@@ -193,6 +194,20 @@ namespace AmpShell.Views
             this.RunGameSetupToolStripMenuItem.Click += new System.EventHandler(this.RunGameSetupButton_Click);
             this.RunGameSetupToolStripMenuItem.MouseEnter += new System.EventHandler(this.RunGameSetupButton_MouseEnter);
             this.RunGameSetupToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
+            // 
+            // OpenGameFolderToolStripMenuItem
+            // 
+            this.OpenGameFolderToolStripMenuItem.Enabled = false;
+            this.OpenGameFolderToolStripMenuItem.Image = global::AmpShell.Properties.Resources.Folder_Open;
+            this.OpenGameFolderToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.White;
+            this.OpenGameFolderToolStripMenuItem.Name = "OpenGameFolderToolStripMenuItem";
+            this.OpenGameFolderToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.W)));
+            this.OpenGameFolderToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
+            this.OpenGameFolderToolStripMenuItem.Text = "Open game &folder";
+            this.OpenGameFolderToolStripMenuItem.ToolTipText = "Open the game\'s folder in Windows Explorer";
+            this.OpenGameFolderToolStripMenuItem.Click += new System.EventHandler(this.OpenGameFolderToolStripMenuItem_Click);
+            this.OpenGameFolderToolStripMenuItem.MouseEnter += new System.EventHandler(this.OpenGameFolderToolStripMenuItem_MouseEnter);
+            this.OpenGameFolderToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
             // 
             // toolStripSeparator1
             // 
@@ -337,7 +352,8 @@ namespace AmpShell.Views
             this.ToolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.RunDOSBoxToolStripMenuItem,
             this.RunConfigurationEditorToolStripMenuItem,
-            this.EditDefaultConfigurationToolStripMenuItem});
+            this.EditDefaultConfigurationToolStripMenuItem,
+            this.ImportGamesAndCategoriesToolStripMenuItem});
             this.ToolsToolStripMenuItem.Name = "ToolsToolStripMenuItem";
             this.ToolsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
             this.ToolsToolStripMenuItem.Text = "&Tools";
@@ -350,7 +366,7 @@ namespace AmpShell.Views
             this.RunDOSBoxToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("RunDOSBoxToolStripMenuItem.Image")));
             this.RunDOSBoxToolStripMenuItem.Name = "RunDOSBoxToolStripMenuItem";
             this.RunDOSBoxToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
-            this.RunDOSBoxToolStripMenuItem.Size = new System.Drawing.Size(247, 22);
+            this.RunDOSBoxToolStripMenuItem.Size = new System.Drawing.Size(274, 22);
             this.RunDOSBoxToolStripMenuItem.Text = "&Run DOSBox";
             this.RunDOSBoxToolStripMenuItem.ToolTipText = "Run DOSBox with the default configuration and language files";
             this.RunDOSBoxToolStripMenuItem.Click += new System.EventHandler(this.RunDOSBox_Click);
@@ -363,7 +379,7 @@ namespace AmpShell.Views
             this.RunConfigurationEditorToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.RunConfigurationEditorToolStripMenuItem.Name = "RunConfigurationEditorToolStripMenuItem";
             this.RunConfigurationEditorToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
-            this.RunConfigurationEditorToolStripMenuItem.Size = new System.Drawing.Size(247, 22);
+            this.RunConfigurationEditorToolStripMenuItem.Size = new System.Drawing.Size(274, 22);
             this.RunConfigurationEditorToolStripMenuItem.Text = "Run configuration &editor";
             this.RunConfigurationEditorToolStripMenuItem.ToolTipText = "Run your text editor";
             this.RunConfigurationEditorToolStripMenuItem.Click += new System.EventHandler(this.RunConfigurationEditorButton_Click);
@@ -376,12 +392,24 @@ namespace AmpShell.Views
             this.EditDefaultConfigurationToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("EditDefaultConfigurationToolStripMenuItem.Image")));
             this.EditDefaultConfigurationToolStripMenuItem.Name = "EditDefaultConfigurationToolStripMenuItem";
             this.EditDefaultConfigurationToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D)));
-            this.EditDefaultConfigurationToolStripMenuItem.Size = new System.Drawing.Size(247, 22);
+            this.EditDefaultConfigurationToolStripMenuItem.Size = new System.Drawing.Size(274, 22);
             this.EditDefaultConfigurationToolStripMenuItem.Text = "Edit default configuration";
             this.EditDefaultConfigurationToolStripMenuItem.ToolTipText = "Open the default configuration in your text editor";
             this.EditDefaultConfigurationToolStripMenuItem.Click += new System.EventHandler(this.EditDefaultConfigurationToolStripMenuItem_Click);
             this.EditDefaultConfigurationToolStripMenuItem.MouseEnter += new System.EventHandler(this.EditDefaultConfigurationToolStripMenuItem_MouseEnter);
             this.EditDefaultConfigurationToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
+            // 
+            // ImportGamesAndCategoriesToolStripMenuItem
+            // 
+            this.ImportGamesAndCategoriesToolStripMenuItem.Image = global::AmpShell.Properties.Resources.game;
+            this.ImportGamesAndCategoriesToolStripMenuItem.Name = "ImportGamesAndCategoriesToolStripMenuItem";
+            this.ImportGamesAndCategoriesToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.I)));
+            this.ImportGamesAndCategoriesToolStripMenuItem.Size = new System.Drawing.Size(274, 22);
+            this.ImportGamesAndCategoriesToolStripMenuItem.Text = "&Import games and categories...";
+            this.ImportGamesAndCategoriesToolStripMenuItem.ToolTipText = "Copy games and categories from an previous AmpShell.xml file...";
+            this.ImportGamesAndCategoriesToolStripMenuItem.Click += new System.EventHandler(this.ImportGamesToolStripMenuItem_Click);
+            this.ImportGamesAndCategoriesToolStripMenuItem.MouseEnter += new System.EventHandler(this.ImportGamesAndCategoriesToolStripMenuItem_MouseEnter);
+            this.ImportGamesAndCategoriesToolStripMenuItem.MouseLeave += new System.EventHandler(this.ImportGamesAndCategoriesToolStripMenuItem_MouseLeave);
             // 
             // ViewToolStripMenuItem
             // 
@@ -480,7 +508,7 @@ namespace AmpShell.Views
             this.AboutToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.White;
             this.AboutToolStripMenuItem.Name = "AboutToolStripMenuItem";
             this.AboutToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F1;
-            this.AboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.AboutToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.AboutToolStripMenuItem.Text = "&About...";
             this.AboutToolStripMenuItem.ToolTipText = "Display the about dialog";
             this.AboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
@@ -873,20 +901,6 @@ namespace AmpShell.Views
             this.TabControl.Size = new System.Drawing.Size(624, 290);
             this.TabControl.TabIndex = 1;
             // 
-            // OpenGameFolderToolStripMenuItem
-            // 
-            this.OpenGameFolderToolStripMenuItem.Enabled = false;
-            this.OpenGameFolderToolStripMenuItem.Image = global::AmpShell.Properties.Resources.Folder_Open;
-            this.OpenGameFolderToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.White;
-            this.OpenGameFolderToolStripMenuItem.Name = "OpenGameFolderToolStripMenuItem";
-            this.OpenGameFolderToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.W)));
-            this.OpenGameFolderToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
-            this.OpenGameFolderToolStripMenuItem.Text = "Open game &folder";
-            this.OpenGameFolderToolStripMenuItem.ToolTipText = "Open the game\'s folder in Windows Explorer";
-            this.OpenGameFolderToolStripMenuItem.Click += new System.EventHandler(this.OpenGameFolderToolStripMenuItem_Click);
-            this.OpenGameFolderToolStripMenuItem.MouseEnter += new System.EventHandler(this.OpenGameFolderToolStripMenuItem_MouseEnter);
-            this.OpenGameFolderToolStripMenuItem.MouseLeave += new System.EventHandler(this.CurrentListView_ItemSelectionChanged);
-            // 
             // MainForm
             // 
             this.AllowDrop = true;
@@ -985,6 +999,7 @@ namespace AmpShell.Views
         private System.Windows.Forms.ToolStripMenuItem MakeConfigurationFileToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton OpenGameFolderButton;
         private System.Windows.Forms.ToolStripMenuItem OpenGameFolderToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ImportGamesAndCategoriesToolStripMenuItem;
     }
 }
 

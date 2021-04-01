@@ -31,7 +31,7 @@ namespace AmpShell.DAL
         /// </summary>
         public static Preferences UserData { get; private set; }
 
-        public static string GetAUniqueSignature()
+        public static string GetAnUniqueSignature()
         {
             string newSignature;
             do
@@ -241,6 +241,27 @@ namespace AmpShell.DAL
                 UserData.ConfigEditorAdditionalParameters = UserData.ConfigEditorAdditionalParameters.Replace(PathFinder.GetStartupPath(), "AppPath");
                 ObjectSerializer.Serialize(Path.Combine(PathFinder.GetStartupPath(), "AmpShell.xml"), UserData);
             }
+        }
+
+        internal static bool ImportGamesAndCategories(string fileName)
+        {
+            if (File.Exists(fileName) == false)
+            {
+                throw new FileNotFoundException(fileName);
+            }
+            var dataImported = false;
+            var importData = ObjectSerializer.Deserialize<Preferences>(fileName);
+            foreach (var category in importData.ListChildren.Cast<Category>())
+            {
+                category.Signature = GetAnUniqueSignature();
+                foreach (var game in category.ListChildren.Cast<Game>())
+                {
+                    game.Signature = GetAnUniqueSignature();
+                }
+                dataImported = true;
+                UserData.AddChild(category);
+            }
+            return dataImported;
         }
     }
 }

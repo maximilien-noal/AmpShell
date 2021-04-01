@@ -23,6 +23,7 @@ namespace AmpShell.Views
     using AmpShell.DAL;
     using AmpShell.DOSBox;
     using AmpShell.Model;
+    using AmpShell.Serialization;
     using AmpShell.Views.UserControls;
     using AmpShell.WinShell;
 
@@ -1061,7 +1062,7 @@ namespace AmpShell.Views
                 }
             }
 
-            newGame.Signature = UserDataAccessor.GetAUniqueSignature();
+            newGame.Signature = UserDataAccessor.GetAnUniqueSignature();
 
             using (var newGameForm = new GameForm(newGame, true))
             {
@@ -1546,5 +1547,35 @@ namespace AmpShell.Views
         private void OpenGameFolderToolStripMenuItem_MouseEnter(object sender, EventArgs e) => this.DisplayHelpMessage(this.OpenGameFolderToolStripMenuItem.ToolTipText);
 
         private void OpenGameFolderToolStripMenuItem_Click(object sender, EventArgs e) => this.GetSelectedGame().OpenGameFolder();
+
+        private void ImportGamesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var ofd = new OpenFileDialog() { Multiselect = false, Title = "Importing an existing AmpShell.xml file...", CheckFileExists = true, DefaultExt = ".xml" };
+            var result = ofd.ShowDialog(this);
+            if (result == DialogResult.OK)
+            {
+                if (StringExt.IsNullOrWhiteSpace(ofd.FileName) == false && ofd.FileName.ToUpperInvariant() == UserDataAccessor.GetDataFilePath().ToUpperInvariant())
+                {
+                    MessageBox.Show(this, "This is the currently in-use file. Nothing to import.");
+                    return;
+                }
+                try
+                {
+                    if (UserDataAccessor.ImportGamesAndCategories(ofd.FileName))
+                    {
+                        this.RedrawAllUserData();
+                        this.DisplayHelpMessage("Import successful.");
+                    }
+                }
+                catch (FileNotFoundException)
+                {
+                    MessageBox.Show(this, $"File not found: {ofd.FileName}");
+                }
+            }
+        }
+
+        private void ImportGamesAndCategoriesToolStripMenuItem_MouseEnter(object sender, EventArgs e) => this.DisplayHelpMessage(this.ImportGamesAndCategoriesToolStripMenuItem.ToolTipText);
+
+        private void ImportGamesAndCategoriesToolStripMenuItem_MouseLeave(object sender, EventArgs e) => this.CurrentListView_ItemSelectionChanged(sender, e);
     }
 }

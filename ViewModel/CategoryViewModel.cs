@@ -42,7 +42,7 @@ namespace AmpShell.ViewModel
         {
             if (StringExt.IsNullOrWhiteSpace(this.editedCategorySignature))
             {
-                var category = new Category(this.Name, UserDataAccessor.GetAUniqueSignature());
+                var category = new Category(this.Name, UserDataAccessor.GetAnUniqueSignature());
                 UserDataAccessor.UserData.AddChild(category);
             }
             else
