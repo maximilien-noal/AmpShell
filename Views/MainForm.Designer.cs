@@ -406,7 +406,7 @@ namespace AmpShell.Views
             this.ImportGamesAndCategoriesToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.I)));
             this.ImportGamesAndCategoriesToolStripMenuItem.Size = new System.Drawing.Size(274, 22);
             this.ImportGamesAndCategoriesToolStripMenuItem.Text = "&Import games and categories...";
-            this.ImportGamesAndCategoriesToolStripMenuItem.ToolTipText = "Copy games and categories from an previous AmpShell.xml file...";
+            this.ImportGamesAndCategoriesToolStripMenuItem.ToolTipText = "Copy games and categories from a previous AmpShell.xml file...";
             this.ImportGamesAndCategoriesToolStripMenuItem.Click += new System.EventHandler(this.ImportGamesToolStripMenuItem_Click);
             this.ImportGamesAndCategoriesToolStripMenuItem.MouseEnter += new System.EventHandler(this.ImportGamesAndCategoriesToolStripMenuItem_MouseEnter);
             this.ImportGamesAndCategoriesToolStripMenuItem.MouseLeave += new System.EventHandler(this.ImportGamesAndCategoriesToolStripMenuItem_MouseLeave);
