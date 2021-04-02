@@ -23,7 +23,6 @@ namespace AmpShell.Views
     using AmpShell.DAL;
     using AmpShell.DOSBox;
     using AmpShell.Model;
-    using AmpShell.Serialization;
     using AmpShell.Views.UserControls;
     using AmpShell.WinShell;
 
@@ -1333,9 +1332,9 @@ namespace AmpShell.Views
                     dosboxProcess.Exited += this.OnDOSBoxExit;
                 }
             }
-            catch (FileNotFoundException ex)
+            catch (Exception ex)
             {
-                MessageBox.Show($"Game cannot be run. Was it deleted ? \r\n Missing file: {ex.FileName}", "Game Launch", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Game cannot be run. Was it deleted ? \r\n Missing file: {(ex is FileNotFoundException fn ? fn.FileName : "none")} \r\n Base message: {ex.GetBaseException().Message} \r\n Exception type: {ex.GetBaseException().GetType()}", "Game Launch", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

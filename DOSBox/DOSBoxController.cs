@@ -11,7 +11,6 @@
 namespace AmpShell.DOSBox
 {
     using System;
-    using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
     using System.Text;
@@ -95,6 +94,10 @@ namespace AmpShell.DOSBox
         /// <returns>The list of command line arguments to pass to DOSBox.</returns>
         private string BuildArgs(bool forSetupExe)
         {
+            if (UserDataAccessor.UserData.GamesUseDOSBox == false)
+            {
+                return string.Empty;
+            }
             var configFile = new DOSBoxConfigFile(this.gameInstance.DBConfPath);
 
             var dosboxArgs = new StringBuilder();
@@ -140,11 +143,16 @@ namespace AmpShell.DOSBox
         /// <returns>The DOSBox <see cref="Process" />.</returns>
         private Process StartGame(string args)
         {
+            if (StringExt.IsNullOrWhiteSpace(this.gameInstance.DOSEXEPath))
+            {
+                throw new ArgumentNullException(nameof(this.gameInstance.DOSEXEPath));
+            }
             if (UserDataAccessor.UserData.GamesUseDOSBox == false)
             {
-                var nativeLaunchPsi = new ProcessStartInfo(this.gameInstance.DOSEXEPath);
+                var targetAndArguments = this.SplitTargetAndArguments();
+                var nativeLaunchPsi = new ProcessStartInfo(targetAndArguments[0], targetAndArguments[1]);
                 nativeLaunchPsi.UseShellExecute = true;
-                nativeLaunchPsi.WorkingDirectory = Path.GetDirectoryName(Path.GetDirectoryName(this.gameInstance.DOSEXEPath));
+                nativeLaunchPsi.WorkingDirectory = Path.GetDirectoryName(this.gameInstance.DOSEXEPath);
                 return StartProcess(nativeLaunchPsi);
             }
             var psi = new ProcessStartInfo(this.gameInstance.GetDOSBoxPath());
@@ -159,6 +167,25 @@ namespace AmpShell.DOSBox
                 psi.Arguments = args;
             }
             return StartProcess(psi);
+        }
+
+        private string[] SplitTargetAndArguments()
+        {
+            var target = this.gameInstance.DOSEXEPath;
+            var arguments = string.Empty;
+            if (File.Exists(target) == false)
+            {
+                var directory = Path.GetDirectoryName(target);
+                var fileWithArguments = Path.GetFileName(this.gameInstance.DOSEXEPath);
+                if (StringExt.IsNullOrWhiteSpace(fileWithArguments) == false && fileWithArguments.Split(' ').Length > 1)
+                {
+                    var fileAndArguments = fileWithArguments.Split(' ');
+                    var fileName = fileAndArguments[0];
+                    target = Path.Combine(directory, fileName);
+                    arguments = fileWithArguments.Remove(0, fileName.Length);
+                }
+            }
+            return new string[] { target, arguments };
         }
 
         private string AddAdditionalCommands(bool forSetupExe, DOSBoxConfigFile configFile)

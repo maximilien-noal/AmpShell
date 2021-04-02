@@ -71,6 +71,10 @@ namespace AmpShell.Views
                     this.NoneRadioButton.Checked = true;
                 }
             }
+            else
+            {
+                this.GameLocationLabel.Text = "      Target:";
+            }
             this.GameSetupTextBox.Text = this.GameInstance.SetupEXEPath;
             this.NotesRichTextBox.Text = this.GameInstance.Notes;
 
