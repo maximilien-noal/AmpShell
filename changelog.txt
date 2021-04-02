@@ -1,4 +1,12 @@
 Changelog---------
+1.3.4 (02 April 2021)
+* BugFix: Games without DOSBox usage launch even if DOSBox path is not known.
+* Feature: Games without DOSBox usage can use in-line argument in the Target
+field.
+* GameForm: Display a reduced version if it's not a DOSBox game.
+* GameForm: Per game DOSBox usage on/off preference.
+* Startup: Don't ask for DOSBox on Windows 98.
+
 1.3.3 (01 April 2021)
 * Tools menu -> "Import Games and Categories" does what it says from an existing AmpShell.xml file.
 
