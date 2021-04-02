@@ -38,6 +38,14 @@ namespace AmpShell.Model
 
         private string name = string.Empty;
 
+        private bool usesDOSBox = true;
+
+        public bool UsesDOSBox
+        {
+            get => usesDOSBox;
+            set { Set(ref usesDOSBox, value); }
+        }
+
         public string Name
         {
             get => name;
@@ -128,6 +136,8 @@ namespace AmpShell.Model
             get => dbConfPath;
             set { Set(ref dbConfPath, value); }
         }
+
+        internal bool IsDOSBoxUsed() => UserDataAccessor.UserData.GamesUseDOSBox == true && this.UsesDOSBox == true;
 
         private string additionalCommands = string.Empty;
 

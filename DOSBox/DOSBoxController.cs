@@ -94,7 +94,7 @@ namespace AmpShell.DOSBox
         /// <returns>The list of command line arguments to pass to DOSBox.</returns>
         private string BuildArgs(bool forSetupExe)
         {
-            if (UserDataAccessor.UserData.GamesUseDOSBox == false)
+            if (this.gameInstance.IsDOSBoxUsed() == false)
             {
                 return string.Empty;
             }
@@ -147,7 +147,7 @@ namespace AmpShell.DOSBox
             {
                 throw new ArgumentNullException(nameof(this.gameInstance.DOSEXEPath));
             }
-            if (UserDataAccessor.UserData.GamesUseDOSBox == false)
+            if (this.gameInstance.IsDOSBoxUsed() == false)
             {
                 var targetAndArguments = this.SplitTargetAndArguments();
                 var nativeLaunchPsi = new ProcessStartInfo(targetAndArguments[0], targetAndArguments[1]);

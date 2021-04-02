@@ -74,6 +74,8 @@ namespace AmpShell.Views
             this.GameLocationLabel = new System.Windows.Forms.Label();
             this.GameLocationTextbox = new System.Windows.Forms.TextBox();
             this.AdvancedTabPage = new System.Windows.Forms.TabPage();
+            this.GameAdditionalCommandsLabel = new System.Windows.Forms.Label();
+            this.GameAdditionalCommandsTextBox = new System.Windows.Forms.TextBox();
             this.AlternateDOSBoxLocationBrowseButton = new System.Windows.Forms.Button();
             this.AlternateDOSBoxLocationTextbox = new System.Windows.Forms.TextBox();
             this.AlternateDOSBoxLocationLabel = new System.Windows.Forms.Label();
@@ -81,8 +83,7 @@ namespace AmpShell.Views
             this.NotesRichTextBox = new System.Windows.Forms.RichTextBox();
             this.OK = new System.Windows.Forms.Button();
             this.Cancel = new System.Windows.Forms.Button();
-            this.GameAdditionalCommandsLabel = new System.Windows.Forms.Label();
-            this.GameAdditionalCommandsTextBox = new System.Windows.Forms.TextBox();
+            this.DontUseDOSBoxCheckBox = new System.Windows.Forms.CheckBox();
             this.ConfigTabControl.SuspendLayout();
             this.BasicTabPage.SuspendLayout();
             this.MountingOptionsGroupBox.SuspendLayout();
@@ -502,6 +503,7 @@ namespace AmpShell.Views
             // 
             // AdvancedTabPage
             // 
+            this.AdvancedTabPage.Controls.Add(this.DontUseDOSBoxCheckBox);
             this.AdvancedTabPage.Controls.Add(this.GameAdditionalCommandsLabel);
             this.AdvancedTabPage.Controls.Add(this.GameAdditionalCommandsTextBox);
             this.AdvancedTabPage.Controls.Add(this.AlternateDOSBoxLocationBrowseButton);
@@ -515,12 +517,32 @@ namespace AmpShell.Views
             this.AdvancedTabPage.Text = "Advanced Configuration";
             this.AdvancedTabPage.UseVisualStyleBackColor = true;
             // 
-            // AlternateDOSBoxLocationBrowsSearchButton
+            // GameAdditionalCommandsLabel
+            // 
+            this.GameAdditionalCommandsLabel.AutoSize = true;
+            this.GameAdditionalCommandsLabel.Image = global::AmpShell.Properties.Resources.cmd;
+            this.GameAdditionalCommandsLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.GameAdditionalCommandsLabel.Location = new System.Drawing.Point(6, 105);
+            this.GameAdditionalCommandsLabel.Name = "GameAdditionalCommandsLabel";
+            this.GameAdditionalCommandsLabel.Size = new System.Drawing.Size(221, 13);
+            this.GameAdditionalCommandsLabel.TabIndex = 54;
+            this.GameAdditionalCommandsLabel.Text = "      Additional DOSBox commands (optional) :";
+            this.GameAdditionalCommandsLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // GameAdditionalCommandsTextBox
+            // 
+            this.GameAdditionalCommandsTextBox.Location = new System.Drawing.Point(10, 121);
+            this.GameAdditionalCommandsTextBox.Multiline = true;
+            this.GameAdditionalCommandsTextBox.Name = "GameAdditionalCommandsTextBox";
+            this.GameAdditionalCommandsTextBox.Size = new System.Drawing.Size(433, 423);
+            this.GameAdditionalCommandsTextBox.TabIndex = 55;
+            // 
+            // AlternateDOSBoxLocationBrowseButton
             // 
             this.AlternateDOSBoxLocationBrowseButton.Image = global::AmpShell.Properties.Resources.search;
             this.AlternateDOSBoxLocationBrowseButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.AlternateDOSBoxLocationBrowseButton.Location = new System.Drawing.Point(424, 44);
-            this.AlternateDOSBoxLocationBrowseButton.Name = "AlternateDOSBoxLocationBrowsSearchButton";
+            this.AlternateDOSBoxLocationBrowseButton.Name = "AlternateDOSBoxLocationBrowseButton";
             this.AlternateDOSBoxLocationBrowseButton.Size = new System.Drawing.Size(24, 23);
             this.AlternateDOSBoxLocationBrowseButton.TabIndex = 37;
             this.AlternateDOSBoxLocationBrowseButton.Text = "...";
@@ -594,25 +616,15 @@ namespace AmpShell.Views
             this.Cancel.UseVisualStyleBackColor = true;
             this.Cancel.Click += new System.EventHandler(this.Cancel_Click);
             // 
-            // GameAdditionalCommandsLabel
+            // DontUseDOSBoxCheckBox
             // 
-            this.GameAdditionalCommandsLabel.AutoSize = true;
-            this.GameAdditionalCommandsLabel.Image = global::AmpShell.Properties.Resources.cmd;
-            this.GameAdditionalCommandsLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.GameAdditionalCommandsLabel.Location = new System.Drawing.Point(8, 68);
-            this.GameAdditionalCommandsLabel.Name = "GameAdditionalCommandsLabel";
-            this.GameAdditionalCommandsLabel.Size = new System.Drawing.Size(221, 13);
-            this.GameAdditionalCommandsLabel.TabIndex = 54;
-            this.GameAdditionalCommandsLabel.Text = "      Additional DOSBox commands (optional) :";
-            this.GameAdditionalCommandsLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // GameAdditionalCommandsTextBox
-            // 
-            this.GameAdditionalCommandsTextBox.Location = new System.Drawing.Point(10, 87);
-            this.GameAdditionalCommandsTextBox.Multiline = true;
-            this.GameAdditionalCommandsTextBox.Name = "GameAdditionalCommandsTextBox";
-            this.GameAdditionalCommandsTextBox.Size = new System.Drawing.Size(433, 457);
-            this.GameAdditionalCommandsTextBox.TabIndex = 55;
+            this.DontUseDOSBoxCheckBox.AutoSize = true;
+            this.DontUseDOSBoxCheckBox.Location = new System.Drawing.Point(11, 71);
+            this.DontUseDOSBoxCheckBox.Name = "DontUseDOSBoxCheckBox";
+            this.DontUseDOSBoxCheckBox.Size = new System.Drawing.Size(239, 17);
+            this.DontUseDOSBoxCheckBox.TabIndex = 56;
+            this.DontUseDOSBoxCheckBox.Text = "Don\'t use DOSBox for this game. Run it as is.";
+            this.DontUseDOSBoxCheckBox.UseVisualStyleBackColor = true;
             // 
             // GameForm
             // 
@@ -692,5 +704,6 @@ namespace AmpShell.Views
         private System.Windows.Forms.RichTextBox NotesRichTextBox;
         private System.Windows.Forms.Label GameAdditionalCommandsLabel;
         private System.Windows.Forms.TextBox GameAdditionalCommandsTextBox;
+        private System.Windows.Forms.CheckBox DontUseDOSBoxCheckBox;
     }
 }

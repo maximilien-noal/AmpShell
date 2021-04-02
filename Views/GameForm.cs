@@ -48,7 +48,8 @@ namespace AmpShell.Views
             this.GameNameTextbox.Text = this.GameInstance.Name;
             this.GameReleaseDatePicker.Value = this.GameInstance.ReleaseDate;
             this.GameLocationTextbox.Text = this.GameInstance.DOSEXEPath;
-            if (UserDataAccessor.UserData.GamesUseDOSBox)
+            this.DontUseDOSBoxCheckBox.Checked = !this.GameInstance.UsesDOSBox;
+            if (this.GameInstance.IsDOSBoxUsed())
             {
                 this.GameDirectoryTextbox.Text = this.GameInstance.Directory;
                 this.GameCustomConfigurationTextbox.Text = this.GameInstance.DBConfPath;
@@ -78,7 +79,7 @@ namespace AmpShell.Views
             this.GameSetupTextBox.Text = this.GameInstance.SetupEXEPath;
             this.NotesRichTextBox.Text = this.GameInstance.Notes;
 
-            if (newGame && UserDataAccessor.UserData.GamesUseDOSBox)
+            if (newGame && this.GameInstance.IsDOSBoxUsed())
             {
                 this.NoConsoleCheckBox.Checked = UserDataAccessor.UserData.GamesNoConsole;
                 this.FullscreenCheckBox.Checked = UserDataAccessor.UserData.GamesInFullScreen;
@@ -92,7 +93,7 @@ namespace AmpShell.Views
                 this.OK.Image = Properties.Resources.saveHS;
                 this.Cancel.Text = "&Don't save";
             }
-            if (UserDataAccessor.UserData.GamesUseDOSBox == false)
+            if (this.GameInstance.IsDOSBoxUsed() == false)
             {
                 this.GameDirectoryTextbox.Enabled = false;
                 this.GameDirectoryBrowseButton.Enabled = false;
@@ -179,6 +180,7 @@ namespace AmpShell.Views
                 }
             }
             this.GameInstance.Notes = this.NotesRichTextBox.Text;
+            this.GameInstance.UsesDOSBox = !this.DontUseDOSBoxCheckBox.Checked;
         }
 
         private string GetAdditionnalCommandsInASingleLine()
@@ -222,7 +224,7 @@ namespace AmpShell.Views
                 }
 
                 gameExeFileDialog.Title = this.GameLocationLabel.Text;
-                gameExeFileDialog.Filter = "DOS executable files (*.bat;*.cmd;*.com;*.exe)|*.bat;*.cmd;*.com;*.exe;*.BAT;*.CMD;*.COM;*.EXE";
+                gameExeFileDialog.Filter = "Executable file (*.bat;*.cmd;*.com;*.exe)|*.bat;*.cmd;*.com;*.exe;*.BAT;*.CMD;*.COM;*.EXE";
                 if (gameExeFileDialog.ShowDialog(this) == DialogResult.OK)
                 {
                     this.GameLocationTextbox.Text = gameExeFileDialog.FileName;
@@ -311,7 +313,7 @@ namespace AmpShell.Views
         /// </summary>
         private void GameLocationTextbox_TextChanged(object sender, EventArgs e)
         {
-            if (UserDataAccessor.UserData.GamesUseDOSBox == false)
+            if (this.GameInstance.IsDOSBoxUsed() == false)
             {
                 return;
             }
@@ -350,7 +352,7 @@ namespace AmpShell.Views
         /// </summary>
         private void GameDirectoryTextbox_TextChanged(object sender, EventArgs e)
         {
-            if (UserDataAccessor.UserData.GamesUseDOSBox == false)
+            if (this.GameInstance.IsDOSBoxUsed() == false)
             {
                 return;
             }

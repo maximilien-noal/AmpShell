@@ -1493,7 +1493,7 @@ namespace AmpShell.Views
                 this.OpenGameFolderButton.Enabled = true;
                 this.openGameFolderMenuItem.Enabled = true;
                 this.OpenGameFolderToolStripMenuItem.Enabled = true;
-                if (StringExt.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBPath) == false && UserDataAccessor.UserData.GamesUseDOSBox)
+                if (StringExt.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBPath) == false && this.GetSelectedGame().IsDOSBoxUsed())
                 {
                     this.RunGameButton.Enabled = true;
                     this.runGameMenuItem.Enabled = true;
@@ -1504,7 +1504,7 @@ namespace AmpShell.Views
                     this.RunDOSBoxButton.Enabled = true;
                     this.RunDOSBoxToolStripMenuItem.Enabled = true;
                 }
-                else if (UserDataAccessor.UserData.GamesUseDOSBox == false)
+                else if (this.GetSelectedGame().IsDOSBoxUsed() == false)
                 {
                     this.RunGameButton.Enabled = true;
                     this.runGameMenuItem.Enabled = true;
@@ -1525,7 +1525,7 @@ namespace AmpShell.Views
                     this.RunConfigurationEditorButton.Enabled = true;
                     this.RunConfigurationEditorToolStripMenuItem.Enabled = true;
                 }
-                if (StringExt.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBDefaultConfFilePath) == false && UserDataAccessor.UserData.GamesUseDOSBox)
+                if (StringExt.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBDefaultConfFilePath) == false && this.GetSelectedGame().IsDOSBoxUsed())
                 {
                     this.EditDefaultConfigurationToolStripMenuItem.Enabled = true;
                     this.EditDefaultConfigurationButton.Enabled = true;
