@@ -1333,9 +1333,9 @@ namespace AmpShell.Views
                     dosboxProcess.Exited += this.OnDOSBoxExit;
                 }
             }
-            catch (FileNotFoundException)
+            catch (FileNotFoundException ex)
             {
-                MessageBox.Show("DOSBox cannot be run (was it deleted ?) !", "Game Launch", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Game cannot be run. Was it deleted ? \r\n Missing file: {ex.FileName}", "Game Launch", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
