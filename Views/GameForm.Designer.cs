@@ -74,6 +74,7 @@ namespace AmpShell.Views
             this.GameLocationLabel = new System.Windows.Forms.Label();
             this.GameLocationTextbox = new System.Windows.Forms.TextBox();
             this.AdvancedTabPage = new System.Windows.Forms.TabPage();
+            this.DontUseDOSBoxCheckBox = new System.Windows.Forms.CheckBox();
             this.GameAdditionalCommandsLabel = new System.Windows.Forms.Label();
             this.GameAdditionalCommandsTextBox = new System.Windows.Forms.TextBox();
             this.AlternateDOSBoxLocationBrowseButton = new System.Windows.Forms.Button();
@@ -83,7 +84,6 @@ namespace AmpShell.Views
             this.NotesRichTextBox = new System.Windows.Forms.RichTextBox();
             this.OK = new System.Windows.Forms.Button();
             this.Cancel = new System.Windows.Forms.Button();
-            this.DontUseDOSBoxCheckBox = new System.Windows.Forms.CheckBox();
             this.ConfigTabControl.SuspendLayout();
             this.BasicTabPage.SuspendLayout();
             this.MountingOptionsGroupBox.SuspendLayout();
@@ -517,6 +517,17 @@ namespace AmpShell.Views
             this.AdvancedTabPage.Text = "Advanced Configuration";
             this.AdvancedTabPage.UseVisualStyleBackColor = true;
             // 
+            // DontUseDOSBoxCheckBox
+            // 
+            this.DontUseDOSBoxCheckBox.AutoSize = true;
+            this.DontUseDOSBoxCheckBox.Location = new System.Drawing.Point(11, 71);
+            this.DontUseDOSBoxCheckBox.Name = "DontUseDOSBoxCheckBox";
+            this.DontUseDOSBoxCheckBox.Size = new System.Drawing.Size(239, 17);
+            this.DontUseDOSBoxCheckBox.TabIndex = 56;
+            this.DontUseDOSBoxCheckBox.Text = "Don\'t use DOSBox for this game. Run it as is.";
+            this.DontUseDOSBoxCheckBox.UseVisualStyleBackColor = true;
+            this.DontUseDOSBoxCheckBox.CheckedChanged += new System.EventHandler(this.DontUseDOSBoxCheckBox_CheckedChanged);
+            // 
             // GameAdditionalCommandsLabel
             // 
             this.GameAdditionalCommandsLabel.AutoSize = true;
@@ -616,16 +627,6 @@ namespace AmpShell.Views
             this.Cancel.UseVisualStyleBackColor = true;
             this.Cancel.Click += new System.EventHandler(this.Cancel_Click);
             // 
-            // DontUseDOSBoxCheckBox
-            // 
-            this.DontUseDOSBoxCheckBox.AutoSize = true;
-            this.DontUseDOSBoxCheckBox.Location = new System.Drawing.Point(11, 71);
-            this.DontUseDOSBoxCheckBox.Name = "DontUseDOSBoxCheckBox";
-            this.DontUseDOSBoxCheckBox.Size = new System.Drawing.Size(239, 17);
-            this.DontUseDOSBoxCheckBox.TabIndex = 56;
-            this.DontUseDOSBoxCheckBox.Text = "Don\'t use DOSBox for this game. Run it as is.";
-            this.DontUseDOSBoxCheckBox.UseVisualStyleBackColor = true;
-            // 
             // GameForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -637,6 +638,7 @@ namespace AmpShell.Views
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(480, 230);
             this.Name = "GameForm";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

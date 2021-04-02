@@ -49,6 +49,12 @@ namespace AmpShell.Views
             this.GameReleaseDatePicker.Value = this.GameInstance.ReleaseDate;
             this.GameLocationTextbox.Text = this.GameInstance.DOSEXEPath;
             this.DontUseDOSBoxCheckBox.Checked = !this.GameInstance.UsesDOSBox;
+            if (UserDataAccessor.UserData.GamesUseDOSBox == false)
+            {
+                this.DontUseDOSBoxCheckBox.Visible = false;
+                this.ConfigTabControl.TabPages.RemoveAt(1);
+                this.BasicTabPage.Text = "Configuration";
+            }
             if (this.GameInstance.IsDOSBoxUsed())
             {
                 this.GameDirectoryTextbox.Text = this.GameInstance.Directory;
@@ -95,19 +101,7 @@ namespace AmpShell.Views
             }
             if (this.GameInstance.IsDOSBoxUsed() == false)
             {
-                this.GameDirectoryTextbox.Enabled = false;
-                this.GameDirectoryBrowseButton.Enabled = false;
-                this.GameCustomConfigurationTextbox.Enabled = false;
-                this.GameCustomConfigurationBrowseButton.Enabled = false;
-                this.NoConfigCheckBox.Enabled = false;
-                this.GameCDPathTextBox.Enabled = false;
-                this.GameCDDirBrowseButton.Enabled = false;
-                this.GameCDPathBrowseButton.Enabled = false;
-                this.MountingOptionsGroupBox.Enabled = false;
-                this.OtherOptionsGroupBox.Enabled = false;
-                this.AlternateDOSBoxLocationTextbox.Enabled = false;
-                this.AlternateDOSBoxLocationBrowseButton.Enabled = false;
-                this.GameAdditionalCommandsTextBox.Enabled = false;
+                this.MakeDOSBoxOptionsNotVisible();
             }
             this.GameCustomConfigurationTextbox.Text = this.GameCustomConfigurationTextbox.Text.Replace("AppPath", Application.StartupPath);
             this.GameAdditionalCommandsTextBox.Text = this.GameAdditionalCommandsTextBox.Text.Replace("AppPath", Application.StartupPath);
@@ -119,6 +113,66 @@ namespace AmpShell.Views
         }
 
         public Game GameInstance { get; private set; }
+
+        private void MakeDOSBoxOptionsNotVisible()
+        {
+            this.GameLocationLabel.Text = "      Target:";
+            this.GameDirectoryTextbox.Visible = false;
+            this.GameDirectoryBrowseButton.Visible = false;
+            this.GameCustomConfigurationTextbox.Visible = false;
+            this.GameCustomConfigurationBrowseButton.Visible = false;
+            this.NoConfigCheckBox.Visible = false;
+            this.GameCDPathTextBox.Visible = false;
+            this.GameCDDirBrowseButton.Visible = false;
+            this.GameCDPathBrowseButton.Visible = false;
+            this.MountingOptionsGroupBox.Visible = false;
+            this.OtherOptionsGroupBox.Visible = false;
+            this.AlternateDOSBoxLocationTextbox.Visible = false;
+            this.AlternateDOSBoxLocationBrowseButton.Visible = false;
+            this.GameAdditionalCommandsTextBox.Visible = false;
+            this.GameCustomConfigurationLabel.Visible = false;
+            this.GameCDPathLabel.Visible = false;
+            this.AlternateDOSBoxLocationLabel.Visible = false;
+            this.GameAdditionalCommandsLabel.Visible = false;
+            this.GameDirectoryLabel.Visible = false;
+            this.GameSetupBrowseButton.Top = 146;
+            this.GameSetupTextBox.Top = 146;
+            this.GameSetupLabel.Top = 130;
+            this.Height = 280;
+            this.ConfigTabControl.Height = 212;
+            this.OK.Top = 218;
+            this.Cancel.Top = 218;
+        }
+
+        private void MakeDOSBoxOptionsVisible()
+        {
+            this.GameLocationLabel.Text = "      Game executable location (optional) :";
+            this.GameDirectoryTextbox.Visible = true;
+            this.GameDirectoryBrowseButton.Visible = true;
+            this.GameCustomConfigurationTextbox.Visible = true;
+            this.GameCustomConfigurationBrowseButton.Visible = true;
+            this.NoConfigCheckBox.Visible = true;
+            this.GameCDPathTextBox.Visible = true;
+            this.GameCDDirBrowseButton.Visible = true;
+            this.GameCDPathBrowseButton.Visible = true;
+            this.MountingOptionsGroupBox.Visible = true;
+            this.OtherOptionsGroupBox.Visible = true;
+            this.AlternateDOSBoxLocationTextbox.Visible = true;
+            this.AlternateDOSBoxLocationBrowseButton.Visible = true;
+            this.GameAdditionalCommandsTextBox.Visible = true;
+            this.GameCustomConfigurationLabel.Visible = true;
+            this.GameCDPathLabel.Visible = true;
+            this.AlternateDOSBoxLocationLabel.Visible = true;
+            this.GameAdditionalCommandsLabel.Visible = true;
+            this.GameDirectoryLabel.Visible = true;
+            this.GameSetupBrowseButton.Top = 196;
+            this.GameSetupTextBox.Top = 196;
+            this.GameSetupLabel.Top = 180;
+            this.Height = 650;
+            this.ConfigTabControl.Height = 576;
+            this.OK.Top = 582;
+            this.Cancel.Top = 582;
+        }
 
         private void Cancel_Click(object sender, EventArgs e) => this.Close();
 
@@ -620,5 +674,17 @@ namespace AmpShell.Views
         }
 
         private void GameForm_Shown(object sender, EventArgs e) => this.GameNameTextbox.Focus();
+
+        private void DontUseDOSBoxCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (this.DontUseDOSBoxCheckBox.Checked)
+            {
+                this.MakeDOSBoxOptionsNotVisible();
+            }
+            else
+            {
+                this.MakeDOSBoxOptionsVisible();
+            }
+        }
     }
 }
