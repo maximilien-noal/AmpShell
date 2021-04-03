@@ -206,7 +206,7 @@ namespace AmpShell.Core.Model
             set { Set(ref dbConfPath, value); }
         }
 
-        internal bool IsDOSBoxUsed() => UserDataAccessor.UserData.GamesUseDOSBox == true && this.UsesDOSBox == true;
+        public bool IsDOSBoxUsed() => UserDataAccessor.UserData.GamesUseDOSBox == true && this.UsesDOSBox == true;
 
         private string additionalCommands = string.Empty;
 

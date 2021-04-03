@@ -10,15 +10,13 @@
 
 namespace AmpShell.Core.Games
 {
+    using AmpShell.Core.DAL;
+    using AmpShell.Core.Model;
+
     using System;
     using System.Diagnostics;
     using System.IO;
     using System.Text;
-    using System.Windows.Forms;
-
-    using AmpShell.Core.DAL;
-    using AmpShell.Core.DOSBox;
-    using AmpShell.Core.Model;
 
     /// <summary>
     /// Used to start DOSBox with a game in it, or to run the game directly.
@@ -79,9 +77,8 @@ namespace AmpShell.Core.Games
                 }
                 return process;
             }
-            catch (Exception e)
+            catch
             {
-                MessageBox.Show($"Start Process error: {e.GetBaseException().Message} {Environment.NewLine} Tried to start: {psi.FileName} in: {psi.WorkingDirectory}");
             }
             return null;
         }

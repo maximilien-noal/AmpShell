@@ -240,7 +240,7 @@ namespace AmpShell.Core.DAL
             }
         }
 
-        internal static bool ImportGamesAndCategories(string fileName)
+        public static bool ImportGamesAndCategories(string fileName)
         {
             if (File.Exists(fileName) == false)
             {

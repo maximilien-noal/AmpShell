@@ -198,7 +198,7 @@ namespace AmpShell.Legacy.Views
             // OpenGameFolderToolStripMenuItem
             //
             this.OpenGameFolderToolStripMenuItem.Enabled = false;
-            this.OpenGameFolderToolStripMenuItem.Image = global::AmpShell.Properties.Resources.Folder_Open;
+            this.OpenGameFolderToolStripMenuItem.Image = global::AmpShell.Legacy.Properties.Resources.Folder_Open;
             this.OpenGameFolderToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.White;
             this.OpenGameFolderToolStripMenuItem.Name = "OpenGameFolderToolStripMenuItem";
             this.OpenGameFolderToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.W)));
@@ -401,7 +401,7 @@ namespace AmpShell.Legacy.Views
             //
             // ImportGamesAndCategoriesToolStripMenuItem
             //
-            this.ImportGamesAndCategoriesToolStripMenuItem.Image = global::AmpShell.Properties.Resources.game;
+            this.ImportGamesAndCategoriesToolStripMenuItem.Image = global::AmpShell.Legacy.Properties.Resources.game;
             this.ImportGamesAndCategoriesToolStripMenuItem.Name = "ImportGamesAndCategoriesToolStripMenuItem";
             this.ImportGamesAndCategoriesToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.I)));
             this.ImportGamesAndCategoriesToolStripMenuItem.Size = new System.Drawing.Size(274, 22);
