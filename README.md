@@ -4,7 +4,7 @@ The purpose of AmpShell is to make you run games in DOSBox with a simple double 
 
 ## Requirements
 
-At least Windows 98 with .NET 2.0.
+At least Windows 98 with .NET 2.0, or XP with .NET 4.0.
 
 Starting with Windows 7 SP1, .NET 4 is provided with Windows, so you don't have to install it.
 
