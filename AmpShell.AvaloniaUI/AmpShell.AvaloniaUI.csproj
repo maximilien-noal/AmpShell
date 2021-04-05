@@ -1,11 +1,10 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
-
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFrameworks>net461;netcoreapp3.1</TargetFrameworks>
-    <UseWPF>true</UseWPF>
-    <UseWindowsForms>True</UseWindowsForms>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+    <Nullable>enable</Nullable>
+    <StartupObject>AmpShell.AvaloniaUI.Program</StartupObject>
     <ApplicationIcon>AmpShell.ico</ApplicationIcon>
     <Version>1.3.4.0</Version>
     <Authors>Maximilien Noal</Authors>
@@ -16,10 +15,13 @@
     <NeutralLanguage></NeutralLanguage>
     <AssemblyVersion>1.3.4.0</AssemblyVersion>
   </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="AdonisUI" Version="1.17.0" />
-    <PackageReference Include="AdonisUI.ClassicTheme" Version="1.17.0" />
+    <AvaloniaResource Include="Assets\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Assets\AmpShell.ico" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="5.0.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -28,19 +30,12 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="OSVersionHelper" Version="1.1.24" />
-    <PackageReference Include="System.Management" Version="5.0.0" />
+    <PackageReference Include="Avalonia" Version="0.10.0" />
+    <PackageReference Include="Avalonia.Desktop" Version="0.10.0" />
+    <PackageReference Include="Avalonia.Diagnostics" Version="0.10.0" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.0" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\AmpShell.Core\AmpShell.Core.csproj" />
-    <ProjectReference Include="..\AmpShell.ViewModels\AmpShell.ViewModels.csproj" />
-    <ProjectReference Include="..\AmpShell.Windows\AmpShell.Windows.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="Resources\AmpShell.bmp" />
-    <Resource Include="AmpShell.ico" />
-    <Resource Include="Resources\splashscreen.png" />
   </ItemGroup>
 </Project>

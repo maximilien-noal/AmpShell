@@ -1,0 +1,91 @@
+﻿<Window x:Class="AmpShell.WPF.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AmpShell.WPF"
+        xmlns:vm="clr-namespace:AmpShell.ViewModels;assembly=AmpShell.ViewModels"
+        mc:Ignorable="d"
+        Title="AmpShell" Height="400" Width="800" ResizeMode="CanResizeWithGrip" WindowStartupLocation="CenterScreen" Icon="/AmpShell.ico"
+        DataContext="{x:Static local:ViewModelLocator.MainViewModel}">
+    <Window.Style>
+        <Style TargetType="Window" BasedOn="{StaticResource {x:Type Window}}" />
+    </Window.Style>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Menu Grid.Row="0">
+            <MenuItem Header="_File">
+                <MenuItem Header="New category..." />
+                <MenuItem Header="New game..." />
+                <MenuItem Header="Run selected game" />
+                <MenuItem Header="New Category" />
+                <MenuItem Header="Run game setup" />
+                <MenuItem Header="Open game folder" />
+                <Separator />
+                <MenuItem Header="Quit" />
+            </MenuItem>
+            <MenuItem Header="_Edit">
+                <MenuItem Header="Edit selected game..." />
+                <MenuItem Header="Edit game configuration file..." />
+                <MenuItem Header="Make configuration file..." />
+                <MenuItem Header="Edit selected category..." />
+                <MenuItem Header="Delete selected game..." />
+                <MenuItem Header="Delete selected category..." />
+                <Separator />
+                <MenuItem Name="PreferencesMenuItem" Header="Preferences..." Click="PreferencesMenuItem_Click" />
+            </MenuItem>
+            <MenuItem Header="_Tools">
+                <MenuItem Header="Run DOSBox" Command="{Binding RunDOSBox}" />
+                <MenuItem Header="Run configuration editor" />
+                <MenuItem Header="Edit default configuration" />
+                <MenuItem Header="Import games and categories..." />
+            </MenuItem>
+            <MenuItem Header="_View">
+                <MenuItem Header="Large icons" />
+                <MenuItem Header="Small icons" />
+                <MenuItem Header="Tiles" />
+                <MenuItem Header="List" />
+                <MenuItem Header="Details" />
+            </MenuItem>
+            <MenuItem Header="_Help">
+                <MenuItem Header="About" Click="MenuItemAbout_Click" />
+            </MenuItem>
+        </Menu>
+        <ToolBarTray Grid.Row="1">
+            <ToolBar>
+                <Button />
+                <Button />
+                <Button />
+                <Button />
+                <Button />
+                <Button />
+                <Button />
+                <Button />
+                <Button />
+                <Button />
+                <Button />
+                <Button />
+                <Button />
+                <Button />
+                <Button />
+                <Button />
+                <Button />
+                <Button />
+                <Button />
+                <Button />
+            </ToolBar>
+        </ToolBarTray>
+        <TabControl Grid.Row="2">
+        </TabControl>
+        <StatusBar Grid.Row="3">
+            <StatusBarItem>
+                <TextBlock Text="{Binding HelpMessage}" />
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
+</Window>

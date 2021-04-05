@@ -5,15 +5,15 @@ VisualStudioVersion = 16.0.29311.281
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AmpShell.Core", "AmpShell.Core\AmpShell.Core.csproj", "{32FBA9A9-C5F9-4BEA-887F-AED65EDF377B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AmpShell.Legacy", "AmpShell.Legacy\AmpShell.Legacy.csproj", "{67EE93A1-2F75-4ABC-A38A-608ACD5B4B12}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AmpShell.WinForms", "AmpShell.WinForms\AmpShell.WinForms.csproj", "{67EE93A1-2F75-4ABC-A38A-608ACD5B4B12}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AmpShell.Windows", "AmpShell.Windows\AmpShell.Windows.csproj", "{11A6780A-FCB4-499C-8574-DB1F9AC61FD7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AmpShell.Modern", "AmpShell.Modern\AmpShell.Modern.csproj", "{304785E8-155F-41C4-8E49-7822A9A1AA89}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AmpShell.AvaloniaUI", "AmpShell.AvaloniaUI\AmpShell.AvaloniaUI.csproj", "{304785E8-155F-41C4-8E49-7822A9A1AA89}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AmpShell.WPF", "AmpShell.WPF\AmpShell.WPF.csproj", "{64962181-6B07-4F9A-8EF1-EA360D6A9704}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AmpShell.WPF", "AmpShell.WPF\AmpShell.WPF.csproj", "{64962181-6B07-4F9A-8EF1-EA360D6A9704}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AmpShell.Shared", "AmpShell.Shared\AmpShell.Shared.csproj", "{087E4BA0-95AC-40A2-A208-9F48DC35EF46}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AmpShell.ViewModels", "AmpShell.ViewModels\AmpShell.ViewModels.csproj", "{8FF584EC-A87F-49F2-AB38-96A605A6F489}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,10 +41,10 @@ Global
 		{64962181-6B07-4F9A-8EF1-EA360D6A9704}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64962181-6B07-4F9A-8EF1-EA360D6A9704}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{64962181-6B07-4F9A-8EF1-EA360D6A9704}.Release|Any CPU.Build.0 = Release|Any CPU
-		{087E4BA0-95AC-40A2-A208-9F48DC35EF46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{087E4BA0-95AC-40A2-A208-9F48DC35EF46}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{087E4BA0-95AC-40A2-A208-9F48DC35EF46}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{087E4BA0-95AC-40A2-A208-9F48DC35EF46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FF584EC-A87F-49F2-AB38-96A605A6F489}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FF584EC-A87F-49F2-AB38-96A605A6F489}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FF584EC-A87F-49F2-AB38-96A605A6F489}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FF584EC-A87F-49F2-AB38-96A605A6F489}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
