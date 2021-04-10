@@ -233,7 +233,7 @@ namespace AmpShell.DOSBox
                 }
                 else
                 {
-                    var addedMountOptions = false;
+                    bool addedMountOptions;
                     if (this.gameInstance.UseIOCTL == true)
                     {
                         addedMountOptions = true;
@@ -253,7 +253,7 @@ namespace AmpShell.DOSBox
                     {
                         commands.Append($" -label '{this.gameInstance.CDLabel}'");
                     }
-                    commands.Append("\"");
+                    commands.Append('"');
                 }
             }
 
