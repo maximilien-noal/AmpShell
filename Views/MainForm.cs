@@ -21,7 +21,7 @@ namespace AmpShell.Views
     using System.Windows.Forms;
 
     using AmpShell.DAL;
-    using AmpShell.DOSBox;
+    using AmpShell.Games;
     using AmpShell.Model;
     using AmpShell.Views.UserControls;
     using AmpShell.WinShell;
@@ -1282,7 +1282,7 @@ namespace AmpShell.Views
         /// </summary>
         private void RunDOSBox_Click(object sender, EventArgs e)
         {
-            var dosboxProcess = DOSBoxController.RunOnlyDOSBox();
+            var dosboxProcess = GameProcessController.RunOnlyDOSBox();
 
             if (dosboxProcess != null)
             {

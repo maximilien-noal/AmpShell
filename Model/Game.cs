@@ -20,7 +20,7 @@ namespace AmpShell.Model
     using System.Xml.Serialization;
 
     using AmpShell.DAL;
-    using AmpShell.DOSBox;
+    using AmpShell.Games;
     using AmpShell.Notification;
 
     public class Game : PropertyChangedNotifier
@@ -260,9 +260,9 @@ namespace AmpShell.Model
 
         public string GetDOSBoxPath() => StringExt.IsNullOrWhiteSpace(AlternateDOSBoxExePath) ? UserDataAccessor.UserData.DBPath : AlternateDOSBoxExePath;
 
-        public Process Run() => new DOSBoxController(this).StartGame();
+        public Process Run() => new GameProcessController(this).StartGame();
 
-        public Process RunSetup() => new DOSBoxController(this).StartGameSetup();
+        public Process RunSetup() => new GameProcessController(this).StartGameSetup();
 
         internal void OpenGameFolder()
         {
