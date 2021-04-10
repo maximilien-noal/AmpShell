@@ -15,6 +15,8 @@
     using System.Windows.Navigation;
     using System.Windows.Shapes;
 
+    using AmpShell.ViewModels;
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -23,6 +25,7 @@
         public MainWindow()
         {
             InitializeComponent();
+            this.DataContext = new MainViewModel();
         }
 
         private void MenuItemAbout_Click(object sender, RoutedEventArgs e) => new AboutWindow(this).ShowDialog();

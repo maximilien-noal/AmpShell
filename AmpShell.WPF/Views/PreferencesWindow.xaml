@@ -3,11 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:AmpShell.WPF"
+        xmlns:viewmodels="clr-namespace:AmpShell.ViewModels;assembly=AmpShell.ViewModels"
         mc:Ignorable="d"
         Title="Preferences"
         SizeToContent="WidthAndHeight" MinWidth="500" MinHeight="300"
-        ResizeMode="CanResizeWithGrip" WindowStartupLocation="CenterOwner" WindowStyle="ToolWindow">
+        ResizeMode="CanResizeWithGrip" WindowStartupLocation="CenterOwner" WindowStyle="ToolWindow"
+        d:DataContext="{d:DesignInstance Type=viewmodels:PreferencesViewModel}">
     <Window.Style>
         <Style TargetType="Window" BasedOn="{StaticResource {x:Type Window}}" />
     </Window.Style>
@@ -33,7 +34,7 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Label Grid.Row="0" Grid.Column="0" Content="DOSBox executable path:"></Label>
-                    <TextBox Grid.Row="1" Grid.Column="0" Margin="5"></TextBox>
+                    <TextBox Grid.Row="1" Grid.Column="0" Margin="5" Text="{Binding UserData.DBPath}"></TextBox>
                     <Button Margin="5" Grid.Row="1" Grid.Column="1" Content="..."></Button>
                     <Label Grid.Row="2" Grid.Column="0" Content="Default DOSBox configuration file (optional but recommended):"></Label>
                     <TextBox Grid.Row="3" Grid.Column="0" Margin="5"></TextBox>

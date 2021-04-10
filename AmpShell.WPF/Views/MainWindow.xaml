@@ -6,8 +6,7 @@
         xmlns:local="clr-namespace:AmpShell.WPF"
         xmlns:vm="clr-namespace:AmpShell.ViewModels;assembly=AmpShell.ViewModels"
         mc:Ignorable="d"
-        Title="AmpShell" Height="400" Width="800" ResizeMode="CanResizeWithGrip" WindowStartupLocation="CenterScreen" Icon="/AmpShell.ico"
-        DataContext="{x:Static local:ViewModelLocator.MainViewModel}">
+        Title="AmpShell" Height="400" Width="800" ResizeMode="CanResizeWithGrip" WindowStartupLocation="CenterScreen" Icon="/AmpShell.ico">
     <Window.Style>
         <Style TargetType="Window" BasedOn="{StaticResource {x:Type Window}}" />
     </Window.Style>

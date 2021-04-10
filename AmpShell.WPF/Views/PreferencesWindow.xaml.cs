@@ -13,6 +13,8 @@
     using System.Windows.Media.Imaging;
     using System.Windows.Shapes;
 
+    using AmpShell.ViewModels;
+
     /// <summary>
     /// Interaction logic for PreferencesWindow.xaml
     /// </summary>
@@ -21,12 +23,14 @@
         public PreferencesWindow()
         {
             InitializeComponent();
+            this.DataContext = new PreferencesViewModel();
         }
 
         public PreferencesWindow(MainWindow mainWindow)
         {
             InitializeComponent();
             this.Owner = mainWindow;
+            this.DataContext = new PreferencesViewModel();
         }
 
         private void ButtonCancel_Click(object sender, RoutedEventArgs e) => this.Close();

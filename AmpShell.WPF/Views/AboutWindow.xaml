@@ -25,7 +25,9 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Image Grid.RowSpan="7" Grid.Column="0" Source="/Resources/AmpShell.bmp" Margin="0,0,5,0" />
+        <Border Grid.RowSpan="7" Grid.Column="0" BorderBrush="Black" BorderThickness="1" Margin="0,0,5,0">
+            <Image  Source="/Resources/AmpShell.bmp" />
+        </Border>
         <TextBlock Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="0" Text="{x:Static vm:AboutBoxViewModel.AssemblyProduct}" />
         <TextBlock Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" Text="{x:Static vm:AboutBoxViewModel.AssemblyVersion}" />
         <TextBlock Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="2" Text="{x:Static vm:AboutBoxViewModel.AssemblyCopyright}" />
