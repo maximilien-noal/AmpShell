@@ -143,20 +143,20 @@ namespace AmpShell.DOSBox
         /// <returns>The DOSBox <see cref="Process" />.</returns>
         private Process StartGame(string args)
         {
-            if (StringExt.IsNullOrWhiteSpace(this.gameInstance.DOSEXEPath))
-            {
-                throw new ArgumentNullException(nameof(this.gameInstance.DOSEXEPath));
-            }
             if (this.gameInstance.IsDOSBoxUsed() == false)
             {
                 var targetAndArguments = this.SplitTargetAndArguments();
-                var nativeLaunchPsi = new ProcessStartInfo(targetAndArguments[0], targetAndArguments[1]);
-                nativeLaunchPsi.UseShellExecute = true;
-                nativeLaunchPsi.WorkingDirectory = Path.GetDirectoryName(this.gameInstance.DOSEXEPath);
+                var nativeLaunchPsi = new ProcessStartInfo(targetAndArguments[0], targetAndArguments[1])
+                {
+                    UseShellExecute = true,
+                    WorkingDirectory = Path.GetDirectoryName(this.gameInstance.DOSEXEPath)
+                };
                 return StartProcess(nativeLaunchPsi);
             }
-            var psi = new ProcessStartInfo(this.gameInstance.GetDOSBoxPath());
-            psi.UseShellExecute = true;
+            var psi = new ProcessStartInfo(this.gameInstance.GetDOSBoxPath())
+            {
+                UseShellExecute = true
+            };
             if (StringExt.IsNullOrWhiteSpace(this.gameInstance.DBConfPath) == false)
             {
                 psi.WorkingDirectory = Path.GetDirectoryName(this.gameInstance.DBConfPath);
