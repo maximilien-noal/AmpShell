@@ -127,6 +127,15 @@ namespace AmpShell.Views
             }
         }
 
+        private static void AwaitBackgroundWorker(BackgroundWorker worker)
+        {
+            worker.RunWorkerAsync();
+            while (worker.IsBusy)
+            {
+                Application.DoEvents();
+            }
+        }
+
         /// <summary>
         /// EventHandler for the ? -&gt; About button.
         /// </summary>
@@ -225,11 +234,7 @@ namespace AmpShell.Views
                         }
                     }));
                 };
-                worker.RunWorkerAsync();
-                while (worker.IsBusy)
-                {
-                    Application.DoEvents();
-                }
+                AwaitBackgroundWorker(worker);
             }
         }
 
@@ -1598,18 +1603,28 @@ namespace AmpShell.Views
                     MessageBox.Show(this, "This is the currently in-use file. Nothing to import.");
                     return;
                 }
-                try
+                var worker = new BackgroundWorker();
+                var needToRedrawTabs = false;
+                worker.DoWork += (s, eventargs) =>
                 {
-                    if (UserDataAccessor.ImportGamesAndCategories(ofd.FileName))
+                    try
+                    {
+                        needToRedrawTabs = UserDataAccessor.ImportGamesAndCategories(ofd.FileName);
+                    }
+                    catch (FileNotFoundException)
+                    {
+                        MessageBox.Show(this, $"File not found: {ofd.FileName}");
+                    }
+                };
+                worker.RunWorkerCompleted += (sndr, eventarg) =>
+                {
+                    if (needToRedrawTabs)
                     {
                         this.RedrawAllUserData();
                         this.DisplayHelpMessage("Import successful.");
                     }
-                }
-                catch (FileNotFoundException)
-                {
-                    MessageBox.Show(this, $"File not found: {ofd.FileName}");
-                }
+                };
+                AwaitBackgroundWorker(worker);
             }
         }
 
