@@ -21,10 +21,7 @@ namespace AmpShell.DAL
 
     public static class UserDataAccessor
     {
-        static UserDataAccessor()
-        {
-            UserData = new Preferences();
-        }
+        static UserDataAccessor() => UserData = new Preferences();
 
         /// <summary>
         /// Gets object to load and save user data through XML (de)serialization.
