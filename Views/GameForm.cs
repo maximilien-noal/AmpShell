@@ -179,17 +179,10 @@ namespace AmpShell.Views
         /// </summary>
         private void OK_Click(object sender, EventArgs e)
         {
-            //if the game has a name but no executable nor directory mounted as C: specified...
             if (StringExt.IsNullOrWhiteSpace(this.GameNameTextbox.Text) == true)
             {
                 MessageBox.Show(this, "You must enter the game's name.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-
-            //else : the game has a name and a directory mounted has C:
-            else
-            {
-                this.DialogResult = DialogResult.OK;
-                this.Close();
+                return;
             }
 
             this.GameInstance.DOSEXEPath = this.GameLocationTextbox.Text;
@@ -233,6 +226,9 @@ namespace AmpShell.Views
             }
             this.GameInstance.Notes = this.NotesRichTextBox.Text;
             this.GameInstance.UsesDOSBox = !this.DontUseDOSBoxCheckBox.Checked;
+
+            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
 
         private string GetAdditionnalCommandsInASingleLine()
