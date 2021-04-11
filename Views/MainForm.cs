@@ -80,6 +80,8 @@ namespace AmpShell.Views
 
         private ToolStripMenuItem openGameFolderMenuItem;
 
+        private ToolStripMenuItem gamePropertiesMenuItem;
+
         private ToolStripMenuItem runGameSetupMenuItem;
 
         private ToolStripMenuItem statusBarMenuItem;
@@ -316,6 +318,7 @@ namespace AmpShell.Views
             this.makeGameConfigurationMenuItem = new ToolStripMenuItem();
             this.runGameMenuItem = new ToolStripMenuItem();
             this.openGameFolderMenuItem = new ToolStripMenuItem();
+            this.gamePropertiesMenuItem = new ToolStripMenuItem();
             this.runGameSetupMenuItem = new ToolStripMenuItem();
             this.menuBarMenuItem = new ToolStripMenuItem("Menu bar");
             this.toolBarMenuItem = new ToolStripMenuItem("Tool bar");
@@ -405,8 +408,7 @@ namespace AmpShell.Views
                 this.makeGameConfigurationMenuItem.Enabled = false;
                 this.currentListViewContextMenuStrip.Items.Add(this.makeGameConfigurationMenuItem);
             }
-            ToolStripSeparator ltview_ContextMenuStripSeparator = new ToolStripSeparator();
-            this.currentListViewContextMenuStrip.Items.Add(ltview_ContextMenuStripSeparator);
+            this.currentListViewContextMenuStrip.Items.Add(new ToolStripSeparator());
 
             //The Categories are the tabs inside the this.TabControl. Each tab has only one ListView.
             this.addCategoryMenuMenuItem.Image = this.CategoryAddButton.Image;
@@ -445,6 +447,18 @@ namespace AmpShell.Views
             this.deleteCategoryMenuItem.MouseLeave += new EventHandler(this.CurrentListView_ItemSelectionChanged);
             this.deleteCategoryMenuItem.MouseEnter += new EventHandler(this.CategoryDeleteButton_MouseEnter);
             this.currentListViewContextMenuStrip.Items.Add(this.deleteCategoryMenuMenuItem);
+
+            this.currentListViewContextMenuStrip.Items.Add(new ToolStripSeparator());
+
+            this.gamePropertiesMenuItem.Text = "Properties";
+            this.gamePropertiesMenuItem.Click += (s, e) => this.ViewGameProperties_Click(s, e);
+            this.gamePropertiesMenuItem.MouseLeave += (s, e) => this.CurrentListView_ItemSelectionChanged(s, e);
+            this.gamePropertiesMenuItem.MouseEnter += (s, e) => this.DisplayHelpMessage("View the target file's properties");
+
+            //Only Enabled when a game is selected
+            this.gamePropertiesMenuItem.Enabled = false;
+            this.currentListViewContextMenuStrip.Items.Add(this.gamePropertiesMenuItem);
+
             this.tabContextMenuStrip.Items.Add(this.deleteCategoryMenuItem);
             this.TabControl.ContextMenuStrip = this.tabContextMenuStrip;
         }
@@ -563,10 +577,12 @@ namespace AmpShell.Views
                 if (StringExt.IsNullOrWhiteSpace(selectedGame.DOSEXEPath) == false)
                 {
                     this.ExecutablePathLabel.Text = $"Executable: {selectedGame.DOSEXEPath}";
+                    this.gamePropertiesMenuItem.Enabled = true;
                 }
                 else
                 {
                     this.ExecutablePathLabel.Text = "Executable: none";
+                    this.gamePropertiesMenuItem.Enabled = false;
                 }
 
                 if (StringExt.IsNullOrWhiteSpace(selectedGame.Directory) == false)
@@ -1538,6 +1554,23 @@ namespace AmpShell.Views
         }
 
         private void ViewToolStripMenuItem_MouseEnter(object sender, EventArgs e) => this.DisplayHelpMessage(this.ViewToolStripMenuItem.ToolTipText);
+
+        private void ViewGameProperties_Click(object sender, EventArgs e)
+        {
+            var game = this.GetSelectedGame();
+            if (StringExt.IsNullOrWhiteSpace(game.DOSEXEPath) || File.Exists(game.DOSEXEPath) == false)
+            {
+                return;
+            }
+            try
+            {
+                NativeMethods.ShowFileProperties(game.DOSEXEPath);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.GetBaseException().StackTrace, ex.GetBaseException().Message);
+            }
+        }
 
         private void OpenGameFolderButton_Click(object sender, EventArgs e) => this.GetSelectedGame().OpenGameFolder();
 
