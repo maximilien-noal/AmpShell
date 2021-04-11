@@ -23,33 +23,33 @@
             <param name="signatureToTest">A Category's or Game's signature..</param>
             <returns>Whether the signature equals none of the other ones, or not..</returns>
         </member>
-        <member name="T:AmpShell.DOSBox.DOSBoxConfigFile">
+        <member name="T:AmpShell.Games.DOSBoxConfigFile">
             <summary> Represents a DOSBox Config File. </summary>
         </member>
-        <member name="T:AmpShell.DOSBox.DOSBoxController">
+        <member name="T:AmpShell.Games.GameProcessController">
             <summary>
-            Used to start DOSBox with a game in it.
+            Used to start DOSBox with a game in it, or to run the game directly.
             </summary>
         </member>
-        <member name="M:AmpShell.DOSBox.DOSBoxController.RunOnlyDOSBox">
+        <member name="M:AmpShell.Games.GameProcessController.RunOnlyDOSBox">
             <summary>
             Run DOSBox itself, without any game.
             </summary>
             <returns>The DOSBox process if it started successfully, null otherwise.</returns>
         </member>
-        <member name="M:AmpShell.DOSBox.DOSBoxController.StartGame">
+        <member name="M:AmpShell.Games.GameProcessController.StartGame">
             <summary>
             Starts DOSBox with <see cref="T:AmpShell.Model.Game"/> inside it.
             </summary>
             <returns>The DOSBox process.</returns>
         </member>
-        <member name="M:AmpShell.DOSBox.DOSBoxController.StartGameSetup">
+        <member name="M:AmpShell.Games.GameProcessController.StartGameSetup">
             <summary>
             Starts DOSBox with <see cref="T:AmpShell.Model.Game"/>.<see cref="P:AmpShell.Model.Game.SetupEXEPath"/> inside it.
             </summary>
             <returns>The DOSBox process.</returns>
         </member>
-        <member name="M:AmpShell.DOSBox.DOSBoxController.BuildArgs(System.Boolean)">
+        <member name="M:AmpShell.Games.GameProcessController.BuildArgs(System.Boolean)">
             <summary>
             Builds the argument line in order to start DOSBox.
             </summary>
@@ -58,7 +58,7 @@
             </param>
             <returns>The list of command line arguments to pass to DOSBox.</returns>
         </member>
-        <member name="M:AmpShell.DOSBox.DOSBoxController.StartGame(System.String)">
+        <member name="M:AmpShell.Games.GameProcessController.StartGame(System.String)">
             <summary>
             Starts DOSBox, and returns its <see cref="T:System.Diagnostics.Process" />.
             </summary>

@@ -35,14 +35,12 @@ namespace AmpShell.Views
 
             //fill the form with the Game's data.
             this.Text = $"Editing {this.GameInstance.Name} ...";
-            if (StringExt.IsNullOrWhiteSpace(this.GameInstance.Icon) == false && this.GameInstance.Icon != null)
+            if (StringExt.IsNullOrWhiteSpace(this.GameInstance.Icon) == false && File.Exists(this.GameInstance.Icon))
             {
-                string realLocation;
-                realLocation = this.GameInstance.Icon.Replace("AppPath", Application.StartupPath);
-                if (File.Exists(realLocation))
+                var icon = WinShell.FileIconLoader.GetIconFromGame(this.GameInstance);
+                if (!(icon is null))
                 {
-                    this.GameIconPictureBox.Image = Image.FromFile(realLocation).GetThumbnailImage(64, 64, null, IntPtr.Zero);
-                    this.GameIconPictureBox.ImageLocation = realLocation;
+                    this.GameIconPictureBox.Image = icon.GetThumbnailImage(64, 64, null, IntPtr.Zero);
                 }
             }
             this.GameNameTextbox.Text = this.GameInstance.Name;
@@ -215,9 +213,9 @@ namespace AmpShell.Views
             {
                 this.GameInstance.Icon = this.GameIconPictureBox.ImageLocation;
             }
-            else
+            else if (WinShell.FileIconLoader.GetIconFromFile(this.GameInstance.DOSEXEPath) != null)
             {
-                this.GameInstance.Icon = string.Empty;
+                this.GameInstance.Icon = this.GameInstance.DOSEXEPath;
             }
 
             this.GameInstance.UseIOCTL = this.UseIOCTLRadioButton.Checked;
@@ -282,6 +280,15 @@ namespace AmpShell.Views
                 if (gameExeFileDialog.ShowDialog(this) == DialogResult.OK)
                 {
                     this.GameLocationTextbox.Text = gameExeFileDialog.FileName;
+                }
+                if (StringExt.IsNullOrWhiteSpace(this.GameInstance.Icon))
+                {
+                    var bitmapIcon = WinShell.FileIconLoader.GetIconFromFile(this.GameLocationTextbox.Text);
+                    if (!(bitmapIcon is null))
+                    {
+                        this.GameIconPictureBox.Image = bitmapIcon;
+                        this.GameIconPictureBox.Tag = this.GameLocationTextbox.Text;
+                    }
                 }
             }
         }
@@ -552,7 +559,7 @@ namespace AmpShell.Views
             {
                 using (var iconFileDialog = new OpenFileDialog())
                 {
-                    iconFileDialog.Filter = "Image files (*.bmp;*.exif;*.gif;*.ico;*.jp*;*.png;*.tif*)|*.bmp;*.BMP;*.exif;*.EXIF;*.gif;*.GIF;*.ico;*.ICO;*.jp*;*.JP*;*.png;*.PNG;*.tif*;*.TIF*";
+                    iconFileDialog.Filter = "Icon files (*.exe;*.bmp;*.exif;*.gif;*.ico;*.jp*;*.png;*.tif*)|*.exe;*.EXE;*.bmp;*.BMP;*.exif;*.EXIF;*.gif;*.GIF;*.ico;*.ICO;*.jp*;*.JP*;*.png;*.PNG;*.tif*;*.TIF*";
                     if (UserDataAccessor.UserData.PortableMode == true)
                     {
                         iconFileDialog.InitialDirectory = Application.StartupPath;
@@ -568,8 +575,11 @@ namespace AmpShell.Views
 
                     if (iconFileDialog.ShowDialog(this) == DialogResult.OK)
                     {
-                        this.GameIconPictureBox.Image = Image.FromFile(iconFileDialog.FileName).GetThumbnailImage(64, 64, null, IntPtr.Zero);
-                        this.GameIconPictureBox.ImageLocation = iconFileDialog.FileName;
+                        this.GameIconPictureBox.Image = WinShell.FileIconLoader.GetIconFromFile(iconFileDialog.FileName)?.GetThumbnailImage(64, 64, null, IntPtr.Zero);
+                        if (WinShell.FileIconLoader.FileExtensionIsExe(iconFileDialog.FileName) == false)
+                        {
+                            this.GameIconPictureBox.ImageLocation = iconFileDialog.FileName;
+                        }
                     }
                 }
             }

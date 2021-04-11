@@ -875,9 +875,9 @@ namespace AmpShell.Views
                     this.gamesSmallImageList.Images.Add("DefaultIcon", Properties.Resources.Generic_Application1.GetThumbnailImage(16, 16, null, IntPtr.Zero));
                     if (StringExt.IsNullOrWhiteSpace(gameToDisplay.Icon) == false && File.Exists(gameToDisplay.Icon))
                     {
-                        this.gamesLargeImageList.Images.Add(gameToDisplay.Signature, Image.FromFile(gameToDisplay.Icon, true).GetThumbnailImage(userData.LargeViewModeSize, userData.LargeViewModeSize, null, IntPtr.Zero));
-                        this.gamesMediumImageList.Images.Add(gameToDisplay.Signature, Image.FromFile(gameToDisplay.Icon, true).GetThumbnailImage(32, 32, null, IntPtr.Zero));
-                        this.gamesSmallImageList.Images.Add(gameToDisplay.Signature, Image.FromFile(gameToDisplay.Icon, true).GetThumbnailImage(16, 16, null, IntPtr.Zero));
+                        this.gamesLargeImageList.Images.Add(gameToDisplay.Signature, FileIconLoader.GetIconFromGame(gameToDisplay).GetThumbnailImage(userData.LargeViewModeSize, userData.LargeViewModeSize, null, IntPtr.Zero));
+                        this.gamesMediumImageList.Images.Add(gameToDisplay.Signature, FileIconLoader.GetIconFromGame(gameToDisplay).GetThumbnailImage(32, 32, null, IntPtr.Zero));
+                        this.gamesSmallImageList.Images.Add(gameToDisplay.Signature, FileIconLoader.GetIconFromGame(gameToDisplay).GetThumbnailImage(16, 16, null, IntPtr.Zero));
                         gameforlt.ImageKey = gameToDisplay.Signature;
                     }
                     else
