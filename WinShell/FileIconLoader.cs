@@ -16,10 +16,6 @@
                 return Properties.Resources.Generic_Application1;
             }
             var iconRealLocation = game.Icon.Replace("AppPath", PathFinder.GetStartupPath());
-            if (FileExtensionIsExe(iconRealLocation) == false)
-            {
-                return Properties.Resources.Generic_Application1;
-            }
             var bitmap = GetIconFromFile(iconRealLocation);
             if (!(bitmap is null))
             {
