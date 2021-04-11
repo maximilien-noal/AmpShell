@@ -6,7 +6,7 @@
 
     public static class NativeMethods
     {
-        private const int MAX_PATH = 260;
+        public const int MAX_PATH = 260;
         private const uint STGM_READ = 0;
         private const int SW_SHOW = 5;
         private const uint SEE_MASK_INVOKEIDLIST = 12;

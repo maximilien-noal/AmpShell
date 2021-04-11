@@ -1064,13 +1064,20 @@ namespace AmpShell.Views
                 var firstFile = files.FirstOrDefault();
                 if (StringExt.IsNullOrWhiteSpace(firstFile) == false)
                 {
-                    if (Path.GetExtension(firstFile).ToUpper(CultureInfo.InvariantCulture) == ".LNK")
+                    if (Path.GetExtension(firstFile).ToUpperInvariant() == ".LNK")
                     {
                         firstFile = NativeMethods.ResolveShortcut(firstFile);
+                        newGame.Name = Path.GetDirectoryName(firstFile);
+                        newGame.Directory = Path.GetDirectoryName(firstFile);
                     }
-                    newGame.Name = Path.GetDirectoryName(firstFile);
-                    newGame.Directory = Path.GetDirectoryName(firstFile);
-                    if (File.Exists(firstFile) && (Path.GetExtension(firstFile).ToUpper(CultureInfo.InvariantCulture) == ".COM" || Path.GetExtension(firstFile).ToUpper(CultureInfo.InvariantCulture) == ".EXE" || Path.GetExtension(firstFile).ToUpper(CultureInfo.InvariantCulture) == ".BAT"))
+                    if (Path.GetExtension(firstFile).ToUpperInvariant() == ".PIF")
+                    {
+                        var pifFileParser = new PifFileParser(firstFile);
+                        firstFile = pifFileParser.GetTargetFilePath();
+                        newGame.Directory = pifFileParser.GetWorkingDirectory();
+                        newGame.Name = pifFileParser.GetGameName();
+                    }
+                    if (Path.GetExtension(firstFile).ToUpperInvariant() == ".COM" || Path.GetExtension(firstFile).ToUpperInvariant() == ".EXE" || Path.GetExtension(firstFile).ToUpperInvariant() == ".BAT")
                     {
                         newGame.DOSEXEPath = firstFile;
                     }
