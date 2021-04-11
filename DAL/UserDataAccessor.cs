@@ -253,13 +253,16 @@ namespace AmpShell.DAL
             var importData = ObjectSerializer.Deserialize<Preferences>(fileName);
             foreach (var category in importData.ListChildren.Cast<Category>())
             {
-                category.Signature = GetAnUniqueSignature();
+                UserData.AddChild(category);
+            }
+            foreach (var category in UserData.ListChildren.Cast<Category>())
+            {
                 foreach (var game in category.ListChildren.Cast<Game>())
                 {
                     game.Signature = GetAnUniqueSignature();
                 }
+                category.Signature = GetAnUniqueSignature();
                 dataImported = true;
-                UserData.AddChild(category);
             }
             return dataImported;
         }
