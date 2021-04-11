@@ -43,10 +43,7 @@ namespace AmpShell.DAL
             return newSignature;
         }
 
-        public static Category GetCategoryWithSignature(string signature)
-        {
-            return UserData.ListChildren.Cast<Category>().FirstOrDefault(x => x.Signature == signature);
-        }
+        public static Category GetCategoryWithSignature(string signature) => UserData.ListChildren.Cast<Category>().FirstOrDefault(x => x.Signature == signature);
 
         /// <summary>
         /// Returns the path to the user data file (AmpShell.xml).
