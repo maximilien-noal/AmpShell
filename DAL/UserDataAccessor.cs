@@ -39,7 +39,7 @@ namespace AmpShell.DAL
                 Random randNumber = new Random();
                 newSignature = randNumber.Next(1048576).ToString(CultureInfo.InvariantCulture);
             }
-            while (IsItAUniqueSignature(newSignature) == false);
+            while (IsItAnUniqueSignature(newSignature) == false);
             return newSignature;
         }
 
@@ -121,7 +121,7 @@ namespace AmpShell.DAL
         /// </summary>
         /// <param name="signatureToTest">A Category's or Game's signature..</param>
         /// <returns>Whether the signature equals none of the other ones, or not..</returns>
-        public static bool IsItAUniqueSignature(string signatureToTest)
+        public static bool IsItAnUniqueSignature(string signatureToTest)
         {
             foreach (Category otherCat in UserData.ListChildren)
             {
