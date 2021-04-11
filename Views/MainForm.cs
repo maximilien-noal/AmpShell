@@ -1038,7 +1038,7 @@ namespace AmpShell.Views
         {
             if (StringExt.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBDefaultConfFilePath) == false && File.Exists(UserDataAccessor.UserData.DBDefaultConfFilePath) && StringExt.IsNullOrWhiteSpace(UserDataAccessor.UserData.ConfigEditorPath) == false && UserDataAccessor.UserData.ConfigEditorPath != "No text editor (Notepad in Windows' directory, or TextEditor.exe in AmpShell's directory) found." && File.Exists(UserDataAccessor.UserData.ConfigEditorPath))
             {
-                Process.Start(UserDataAccessor.UserData.ConfigEditorPath, UserDataAccessor.UserData.DBDefaultConfFilePath);
+                Process.Start(UserDataAccessor.GetConfigEditorPath(), UserDataAccessor.UserData.DBDefaultConfFilePath);
             }
             else
             {
@@ -1128,7 +1128,7 @@ namespace AmpShell.Views
             if (StringExt.IsNullOrWhiteSpace(UserDataAccessor.UserData.ConfigEditorPath) == false)
             {
                 Game selectedGame = this.GetSelectedGame();
-                Process.Start(UserDataAccessor.UserData.ConfigEditorPath, $"{selectedGame.DBConfPath} {UserDataAccessor.UserData.ConfigEditorAdditionalParameters}");
+                Process.Start(UserDataAccessor.GetConfigEditorPath(), $"{selectedGame.DBConfPath} {UserDataAccessor.UserData.ConfigEditorAdditionalParameters}");
             }
         }
 
@@ -1288,7 +1288,7 @@ namespace AmpShell.Views
             {
                 if (File.Exists(UserDataAccessor.UserData.ConfigEditorPath))
                 {
-                    Process.Start(UserDataAccessor.UserData.ConfigEditorPath);
+                    Process.Start(UserDataAccessor.GetConfigEditorPath());
                 }
                 else
                 {

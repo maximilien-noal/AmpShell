@@ -263,5 +263,14 @@ namespace AmpShell.DAL
             }
             return dataImported;
         }
+
+        internal static string GetConfigEditorPath()
+        {
+            if (StringExt.IsNullOrWhiteSpace(UserData.ConfigEditorPath) == false && Path.Combine(Path.GetDirectoryName(Environment.GetFolderPath(Environment.SpecialFolder.System)), "NOTEPAD.EXE").ToUpperInvariant() == UserData.ConfigEditorPath.ToUpperInvariant())
+            {
+                return Path.GetFileName(UserData.ConfigEditorPath).ToLowerInvariant();
+            }
+            return UserData.ConfigEditorPath;
+        }
     }
 }
