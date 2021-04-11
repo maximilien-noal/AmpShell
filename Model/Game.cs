@@ -274,5 +274,34 @@ namespace AmpShell.Model
             {
             }
         }
+
+        internal string GetFileDialogInitialDirectory()
+        {
+            if (StringExt.IsNullOrWhiteSpace(this.DOSEXEPath) == false && System.IO.Directory.Exists(Path.GetDirectoryName(this.DOSEXEPath)))
+            {
+                return Path.GetDirectoryName(this.DOSEXEPath);
+            }
+            else if (StringExt.IsNullOrWhiteSpace(this.Directory) == false && System.IO.Directory.Exists(this.Directory))
+            {
+                return this.Directory;
+            }
+            else if (StringExt.IsNullOrWhiteSpace(this.SetupEXEPath) == false && System.IO.Directory.Exists(Path.GetDirectoryName(this.SetupEXEPath)))
+            {
+                return Path.GetDirectoryName(this.SetupEXEPath);
+            }
+            else if (StringExt.IsNullOrWhiteSpace(this.Icon) == false && File.Exists(this.Icon))
+            {
+                return Path.GetDirectoryName(this.Icon);
+            }
+            else if (StringExt.IsNullOrWhiteSpace(this.DBConfPath) == false && System.IO.Directory.Exists(Path.GetDirectoryName(this.DBConfPath)))
+            {
+                return Path.GetDirectoryName(this.DBConfPath);
+            }
+            else if (StringExt.IsNullOrWhiteSpace(UserDataAccessor.UserData.GamesDefaultDir) == false && System.IO.Directory.Exists(UserDataAccessor.UserData.GamesDefaultDir))
+            {
+                return UserDataAccessor.UserData.GamesDefaultDir;
+            }
+            return string.Empty;
+        }
     }
 }

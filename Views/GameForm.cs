@@ -272,7 +272,7 @@ namespace AmpShell.Views
                 }
                 else
                 {
-                    gameExeFileDialog.InitialDirectory = this.SearchFolderDialogStartDirectory();
+                    gameExeFileDialog.InitialDirectory = this.GetFileDialogStartDirectory();
                 }
 
                 gameExeFileDialog.Title = this.GameLocationLabel.Text;
@@ -310,7 +310,7 @@ namespace AmpShell.Views
                 }
                 else
                 {
-                    customConfigFileDialog.InitialDirectory = this.SearchFolderDialogStartDirectory();
+                    customConfigFileDialog.InitialDirectory = this.GetFileDialogStartDirectory();
                 }
 
                 customConfigFileDialog.Title = this.GameCustomConfigurationLabel.Text;
@@ -358,7 +358,7 @@ namespace AmpShell.Views
                 }
                 else
                 {
-                    cdImageFileDialog.InitialDirectory = this.SearchFolderDialogStartDirectory();
+                    cdImageFileDialog.InitialDirectory = this.GetFileDialogStartDirectory();
                 }
 
                 if (cdImageFileDialog.ShowDialog(this) == DialogResult.OK)
@@ -520,7 +520,7 @@ namespace AmpShell.Views
                 }
                 else
                 {
-                    setupExeFileDialog.InitialDirectory = this.SearchFolderDialogStartDirectory();
+                    setupExeFileDialog.InitialDirectory = this.GetFileDialogStartDirectory();
                 }
 
                 if (setupExeFileDialog.ShowDialog(this) == DialogResult.OK)
@@ -570,7 +570,7 @@ namespace AmpShell.Views
                     }
                     else
                     {
-                        iconFileDialog.InitialDirectory = this.SearchFolderDialogStartDirectory();
+                        iconFileDialog.InitialDirectory = this.GetFileDialogStartDirectory();
                     }
 
                     if (iconFileDialog.ShowDialog(this) == DialogResult.OK)
@@ -621,7 +621,7 @@ namespace AmpShell.Views
                 }
                 else
                 {
-                    alternateDOSBoxExeFileDialog.InitialDirectory = this.SearchFolderDialogStartDirectory();
+                    alternateDOSBoxExeFileDialog.InitialDirectory = this.GetFileDialogStartDirectory();
                 }
 
                 alternateDOSBoxExeFileDialog.Title = this.AlternateDOSBoxLocationLabel.Text;
@@ -633,33 +633,9 @@ namespace AmpShell.Views
             }
         }
 
-        private string SearchFolderDialogStartDirectory()
+        private string GetFileDialogStartDirectory()
         {
-            string initialDirectory = string.Empty;
-            if (StringExt.IsNullOrWhiteSpace(this.GameInstance.DOSEXEPath) == false && Directory.Exists(Path.GetDirectoryName(this.GameInstance.DOSEXEPath)))
-            {
-                initialDirectory = Path.GetDirectoryName(this.GameInstance.DOSEXEPath);
-            }
-            else if (StringExt.IsNullOrWhiteSpace(this.GameInstance.Directory) == false && Directory.Exists(this.GameInstance.Directory))
-            {
-                initialDirectory = this.GameInstance.Directory;
-            }
-            else if (StringExt.IsNullOrWhiteSpace(this.GameInstance.SetupEXEPath) == false && Directory.Exists(Path.GetDirectoryName(this.GameInstance.SetupEXEPath)))
-            {
-                initialDirectory = Path.GetDirectoryName(this.GameInstance.SetupEXEPath);
-            }
-            else if (StringExt.IsNullOrWhiteSpace(this.GameInstance.Icon) == false && File.Exists(this.GameInstance.Icon))
-            {
-                initialDirectory = Path.GetDirectoryName(this.GameInstance.Icon);
-            }
-            else if (StringExt.IsNullOrWhiteSpace(this.GameInstance.DBConfPath) == false && Directory.Exists(Path.GetDirectoryName(this.GameInstance.DBConfPath)))
-            {
-                initialDirectory = Path.GetDirectoryName(this.GameInstance.DBConfPath);
-            }
-            else if (StringExt.IsNullOrWhiteSpace(UserDataAccessor.UserData.GamesDefaultDir) == false && Directory.Exists(UserDataAccessor.UserData.GamesDefaultDir))
-            {
-                initialDirectory = UserDataAccessor.UserData.GamesDefaultDir;
-            }
+            string initialDirectory = this.GameInstance.GetFileDialogInitialDirectory();
 
             if (StringExt.IsNullOrWhiteSpace(initialDirectory))
             {
