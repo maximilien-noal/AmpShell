@@ -22,25 +22,18 @@
             }
 
             this.configFileContent = File.ReadAllLines(configFilePath).Select(x => x.ToUpperInvariant()).ToList();
-        }
 
-        private string AutoExecSection
-        {
-            get
+            int index = this.configFileContent.LastIndexOf("[AUTOEXEC]");
+            if (index != -1)
             {
-                int index = this.configFileContent.LastIndexOf("[AUTOEXEC]");
-                if (index != -1)
-                {
-                    var rangeStart = index + 1;
-                    var rangeEnd = Math.Abs(index - (this.configFileContent.Count - 1));
-                    var section = this.configFileContent.GetRange(rangeStart, rangeEnd);
-                    section.RemoveAll(x => StringExt.IsNullOrWhiteSpace(x) || x.ToUpperInvariant().Trim().StartsWith("REM"));
-                    return string.Join(string.Empty, section.ToArray());
-                }
-                return string.Empty;
+                var rangeStart = index + 1;
+                var rangeEnd = Math.Abs(index - (this.configFileContent.Count - 1));
+                var section = this.configFileContent.GetRange(rangeStart, rangeEnd);
+                section.RemoveAll(x => StringExt.IsNullOrWhiteSpace(x) || x.ToUpperInvariant().Trim().StartsWith("REM"));
+                this.autoExecSection = string.Join(string.Empty, section.ToArray());
             }
         }
 
-        public bool IsAutoExecSectionUsed() => StringExt.IsNullOrWhiteSpace(this.AutoExecSection) == false && Regex.Split(this.autoExecSection, "\r\n|\r|\n").Any(x => StringExt.IsNullOrWhiteSpace(x) == false);
+        public bool IsAutoExecSectionUsed() => StringExt.IsNullOrWhiteSpace(this.autoExecSection) == false && Regex.Split(this.autoExecSection, "\r\n|\r|\n").Any(x => StringExt.IsNullOrWhiteSpace(x) == false);
     }
 }
