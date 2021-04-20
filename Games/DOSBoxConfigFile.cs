@@ -21,7 +21,7 @@
                 return;
             }
 
-            this.configFileContent = File.ReadAllLines(configFilePath).Select(x => x.ToUpper(CultureInfo.CurrentCulture)).ToList();
+            this.configFileContent = File.ReadAllLines(configFilePath).Select(x => x.ToUpperInvariant()).ToList();
         }
 
         private string AutoExecSection
@@ -34,16 +34,13 @@
                     var rangeStart = index + 1;
                     var rangeEnd = Math.Abs(index - (this.configFileContent.Count - 1));
                     var section = this.configFileContent.GetRange(rangeStart, rangeEnd);
-                    section.RemoveAll(x => StringExt.IsNullOrWhiteSpace(x) || x.ToUpper().Trim().StartsWith("REM"));
+                    section.RemoveAll(x => StringExt.IsNullOrWhiteSpace(x) || x.ToUpperInvariant().Trim().StartsWith("REM"));
                     return string.Join(string.Empty, section.ToArray());
                 }
                 return string.Empty;
             }
         }
 
-        public bool IsAutoExecSectionUsed()
-        {
-            return StringExt.IsNullOrWhiteSpace(this.AutoExecSection) == false && Regex.Split(this.autoExecSection, "\r\n|\r|\n").Any(x => StringExt.IsNullOrWhiteSpace(x) == false && x.ToUpper().Trim().StartsWith("REM") == false);
-        }
+        public bool IsAutoExecSectionUsed() => StringExt.IsNullOrWhiteSpace(this.AutoExecSection) == false && Regex.Split(this.autoExecSection, "\r\n|\r|\n").Any(x => StringExt.IsNullOrWhiteSpace(x) == false);
     }
 }
