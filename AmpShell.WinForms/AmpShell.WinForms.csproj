@@ -27,12 +27,8 @@
     <NoWarn>1701;1702;1591</NoWarn>
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net20|AnyCPU'">
-    <WarningLevel>5</WarningLevel>
-    <OutputPath></OutputPath>
-  </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="LINQlone" Version="1.1.0" />
+    <PackageReference Condition="'$(TargetFramework)' == 'net20'" Include="LINQlone" Version="1.1.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="5.0.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

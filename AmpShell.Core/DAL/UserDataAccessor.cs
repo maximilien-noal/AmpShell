@@ -264,7 +264,7 @@ namespace AmpShell.Core.DAL
             return dataImported;
         }
 
-        internal static string GetConfigEditorPath()
+        public static string GetConfigEditorPath()
         {
             if (StringExt.IsNullOrWhiteSpace(UserData.ConfigEditorPath) == false && Path.Combine(Path.GetDirectoryName(Environment.GetFolderPath(Environment.SpecialFolder.System)), "NOTEPAD.EXE").ToUpperInvariant() == UserData.ConfigEditorPath.ToUpperInvariant())
             {

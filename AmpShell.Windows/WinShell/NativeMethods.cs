@@ -1,4 +1,7 @@
-﻿namespace AmpShell.WinShell
+﻿[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("AmpShell.WinForms")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("AmpShell.WPF")]
+
+namespace AmpShell.WinShell
 {
     using System;
     using System.Runtime.InteropServices;
@@ -32,13 +35,13 @@
         }
 
         [DllImport("kernel32.dll")]
-        public static extern bool AllocConsole();
+        internal static extern bool AllocConsole();
 
         [DllImport("kernel32.dll")]
-        public static extern bool AttachConsole(int pid);
+        internal static extern bool AttachConsole(int pid);
 
         [DllImport("kernel32.dll", SetLastError = true)]
-        public static extern bool FreeConsole();
+        internal static extern bool FreeConsole();
 
         [DllImport("shfolder.dll", CharSet = CharSet.Unicode)]
         private static extern int SHGetFolderPath(IntPtr hwndOwner, int nFolder, IntPtr hToken, int dwFlags, StringBuilder lpszPath);

@@ -8,9 +8,6 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
 
-#pragma warning disable SA1201 // Elements should appear in the correct order
-#pragma warning disable SA1101 // Prefix local calls with this
-
 namespace AmpShell.Core.Model
 {
     using System;
@@ -344,7 +341,7 @@ namespace AmpShell.Core.Model
             }
         }
 
-        internal string GetFileDialogInitialDirectoryFromModel()
+        public string GetFileDialogInitialDirectoryFromModel()
         {
             if (StringExt.IsNullOrWhiteSpace(this.DOSEXEPath) == false && System.IO.Directory.Exists(Path.GetDirectoryName(this.DOSEXEPath)))
             {
