@@ -140,6 +140,10 @@ namespace AmpShell.Views
             this.ConfigTabControl.Height = 212;
             this.OK.Top = 218;
             this.Cancel.Top = 218;
+            this.GameLocationTextbox.Enabled = true;
+            this.GameLocationBrowseButton.Enabled = true;
+            this.GameSetupTextBox.Enabled = true;
+            this.GameSetupBrowseButton.Enabled = true;
         }
 
         private void MakeDOSBoxOptionsVisible()
@@ -370,7 +374,7 @@ namespace AmpShell.Views
         /// </summary>
         private void GameLocationTextbox_TextChanged(object sender, EventArgs e)
         {
-            if (this.GameInstance.IsDOSBoxUsed() == false)
+            if (this.GameInstance.IsDOSBoxUsed() == false || this.DontUseDOSBoxCheckBox.Checked)
             {
                 return;
             }
@@ -409,7 +413,7 @@ namespace AmpShell.Views
         /// </summary>
         private void GameDirectoryTextbox_TextChanged(object sender, EventArgs e)
         {
-            if (this.GameInstance.IsDOSBoxUsed() == false)
+            if (this.GameInstance.IsDOSBoxUsed() == false || this.DontUseDOSBoxCheckBox.Checked)
             {
                 return;
             }
