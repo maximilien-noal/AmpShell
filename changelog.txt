@@ -1,4 +1,9 @@
 Changelog---------
+1.3.5 (22 April 2021)
+* BugFix: Games with only an AUTOEXEC section would not start unless an
+executable was specified.
+* Minor GameForm improvements.
+
 1.3.4 (02 April 2021)
 * BugFix: Games without DOSBox usage launch even if DOSBox path is not known.
 * Feature: Games without DOSBox usage can use in-line argument in the Target
