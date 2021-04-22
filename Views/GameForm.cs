@@ -631,27 +631,35 @@ namespace AmpShell.Views
 
         private string GetFileDialogStartDirectory()
         {
-            string initialDirectory = this.GameInstance.GetFileDialogInitialDirectory();
-
+            var initialDirectory = this.GetInitialDirectoryFromView();
             if (StringExt.IsNullOrWhiteSpace(initialDirectory))
             {
-                if (StringExt.IsNullOrWhiteSpace(this.GameLocationTextbox.Text) == false && Directory.Exists(Path.GetDirectoryName(this.GameLocationTextbox.Text)))
-                {
-                    initialDirectory = Path.GetDirectoryName(this.GameLocationTextbox.Text);
-                }
-                else if (StringExt.IsNullOrWhiteSpace(this.GameSetupTextBox.Text) == false && Directory.Exists(Path.GetDirectoryName(this.GameSetupTextBox.Text)))
-                {
-                    initialDirectory = Path.GetDirectoryName(this.GameSetupTextBox.Text);
-                }
-                else if (StringExt.IsNullOrWhiteSpace(this.GameCustomConfigurationTextbox.Text) == false && Directory.Exists(Path.GetDirectoryName(this.GameCustomConfigurationTextbox.Text)))
-                {
-                    initialDirectory = Path.GetDirectoryName(this.GameCustomConfigurationTextbox.Text);
-                }
-                else if (StringExt.IsNullOrWhiteSpace(this.GameIconPictureBox.ImageLocation) == false && Directory.Exists(Path.GetDirectoryName(this.GameIconPictureBox.ImageLocation)))
-                {
-                    initialDirectory = Path.GetDirectoryName(this.GameIconPictureBox.ImageLocation);
-                }
+                initialDirectory = this.GameInstance.GetFileDialogInitialDirectoryFromModel();
             }
+
+            return initialDirectory;
+        }
+
+        private string GetInitialDirectoryFromView()
+        {
+            string initialDirectory = string.Empty;
+            if (StringExt.IsNullOrWhiteSpace(this.GameLocationTextbox.Text) == false && Directory.Exists(Path.GetDirectoryName(this.GameLocationTextbox.Text)))
+            {
+                initialDirectory = Path.GetDirectoryName(this.GameLocationTextbox.Text);
+            }
+            else if (StringExt.IsNullOrWhiteSpace(this.GameSetupTextBox.Text) == false && Directory.Exists(Path.GetDirectoryName(this.GameSetupTextBox.Text)))
+            {
+                initialDirectory = Path.GetDirectoryName(this.GameSetupTextBox.Text);
+            }
+            else if (StringExt.IsNullOrWhiteSpace(this.GameCustomConfigurationTextbox.Text) == false && Directory.Exists(Path.GetDirectoryName(this.GameCustomConfigurationTextbox.Text)))
+            {
+                initialDirectory = Path.GetDirectoryName(this.GameCustomConfigurationTextbox.Text);
+            }
+            else if (StringExt.IsNullOrWhiteSpace(this.GameIconPictureBox.ImageLocation) == false && Directory.Exists(Path.GetDirectoryName(this.GameIconPictureBox.ImageLocation)))
+            {
+                initialDirectory = Path.GetDirectoryName(this.GameIconPictureBox.ImageLocation);
+            }
+
             return initialDirectory;
         }
 

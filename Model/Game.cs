@@ -275,7 +275,7 @@ namespace AmpShell.Model
             }
         }
 
-        internal string GetFileDialogInitialDirectory()
+        internal string GetFileDialogInitialDirectoryFromModel()
         {
             if (StringExt.IsNullOrWhiteSpace(this.DOSEXEPath) == false && System.IO.Directory.Exists(Path.GetDirectoryName(this.DOSEXEPath)))
             {
