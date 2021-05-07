@@ -8,9 +8,6 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
 
-#pragma warning disable SA1201 // Elements should appear in the correct order
-#pragma warning disable SA1101 // Prefix local calls with this
-
 namespace AmpShell.Core.Model
 {
     using System.Collections.Generic;
@@ -21,27 +18,57 @@ namespace AmpShell.Core.Model
     {
         public static readonly List<int> LargeViewModeSizes = new List<int> { 48, 64, 80, 96, 112, 128, 144, 160, 176, 192, 208, 224, 240, 256 };
 
-        private bool portableMode = false;
+        private View categoriesDefaultViewMode = View.LargeIcon;
 
-        public bool PortableMode
-        {
-            get => portableMode;
-            set { Set(ref portableMode, value); }
-        }
+        private bool categoryDeletePrompt = true;
+
+        private string cdsDefaultDir = string.Empty;
+
+        private string configEditorAdditionalParameters = string.Empty;
+
+        private string configEditorPath = string.Empty;
+
+        private string dbDefaultConfFilePath = string.Empty;
+
+        private string dbDefaultLangFilePath = string.Empty;
+
+        private string dbPath = string.Empty;
 
         private bool defaultIconViewOverride = false;
 
-        public bool DefaultIconViewOverride
-        {
-            get => defaultIconViewOverride;
-            set { Set(ref defaultIconViewOverride, value); }
-        }
+        private bool fullScreen;
 
-        public int X { get; set; }
+        private bool gameDeletePrompt = true;
 
-        public int Y { get; set; }
+        private string gamesAdditionalCommands;
 
-        private View categoriesDefaultViewMode = View.LargeIcon;
+        private string gamesDefaultDir = string.Empty;
+
+        private bool gamesInFullScreen = true;
+
+        private bool gamesNoConsole = true;
+
+        private bool gamesQuitOnExit = true;
+
+        private bool gamesUseDOSBox = true;
+
+        private int height = 400;
+
+        private int largeViewModeSize = 48;
+
+        private bool menuBarVisible = true;
+
+        private bool portableMode = false;
+
+        private bool rememberWindowPosition = true;
+
+        private bool rememberWindowSize = true;
+
+        private bool statusBarVisible = true;
+
+        private bool toolBarVisible = true;
+
+        private int width = 640;
 
         public View CategoriesDefaultViewMode
         {
@@ -49,23 +76,95 @@ namespace AmpShell.Core.Model
             set { Set(ref categoriesDefaultViewMode, value); }
         }
 
-        private bool rememberWindowPosition = true;
-
-        public bool RememberWindowPosition
+        public bool CategoryDeletePrompt
         {
-            get => rememberWindowPosition;
-            set { Set(ref rememberWindowPosition, value); }
+            get => categoryDeletePrompt;
+            set { Set(ref categoryDeletePrompt, value); }
         }
 
-        private bool rememberWindowSize = true;
-
-        public bool RememberWindowSize
+        public string CDsDefaultDir
         {
-            get => rememberWindowSize;
-            set { Set(ref rememberWindowSize, value); }
+            get => cdsDefaultDir;
+            set { Set(ref cdsDefaultDir, value); }
         }
 
-        private bool gamesUseDOSBox = true;
+        public string ConfigEditorAdditionalParameters
+        {
+            get => configEditorAdditionalParameters;
+            set { Set(ref configEditorAdditionalParameters, value); }
+        }
+
+        public string ConfigEditorPath
+        {
+            get => configEditorPath;
+            set { Set(ref configEditorPath, value); }
+        }
+
+        public string DBDefaultConfFilePath
+        {
+            get => dbDefaultConfFilePath;
+            set { Set(ref dbDefaultConfFilePath, value); }
+        }
+
+        public string DBDefaultLangFilePath
+        {
+            get => dbDefaultLangFilePath;
+            set { Set(ref dbDefaultLangFilePath, value); }
+        }
+
+        public string DBPath
+        {
+            get => dbPath;
+            set { Set(ref dbPath, value); }
+        }
+
+        public bool DefaultIconViewOverride
+        {
+            get => defaultIconViewOverride;
+            set { Set(ref defaultIconViewOverride, value); }
+        }
+
+        public bool Fullscreen
+        {
+            get => fullScreen;
+            set { Set(ref fullScreen, value); }
+        }
+
+        public bool GameDeletePrompt
+        {
+            get => gameDeletePrompt;
+            set { Set(ref gameDeletePrompt, value); }
+        }
+
+        public string GamesAdditionalCommands
+        {
+            get => gamesAdditionalCommands;
+            set { Set(ref gamesAdditionalCommands, value); }
+        }
+
+        public string GamesDefaultDir
+        {
+            get => gamesDefaultDir;
+            set { Set(ref gamesDefaultDir, value); }
+        }
+
+        public bool GamesInFullScreen
+        {
+            get => gamesInFullScreen;
+            set { Set(ref gamesInFullScreen, value); }
+        }
+
+        public bool GamesNoConsole
+        {
+            get => gamesNoConsole;
+            set { Set(ref gamesNoConsole, value); }
+        }
+
+        public bool GamesQuitOnExit
+        {
+            get => gamesQuitOnExit;
+            set { Set(ref gamesQuitOnExit, value); }
+        }
 
         /// <summary>
         /// Gets or sets a value indicating whether we use DOSBox to play games or not.
@@ -76,95 +175,17 @@ namespace AmpShell.Core.Model
             set { Set(ref gamesUseDOSBox, value); }
         }
 
-        private bool gameDeletePrompt = true;
-
-        public bool GameDeletePrompt
+        public int Height
         {
-            get => gameDeletePrompt;
-            set { Set(ref gameDeletePrompt, value); }
+            get => height;
+            set { Set(ref height, value); }
         }
 
-        private bool categoryDeletePrompt = true;
-
-        public bool CategoryDeletePrompt
+        public int LargeViewModeSize
         {
-            get => categoryDeletePrompt;
-            set { Set(ref categoryDeletePrompt, value); }
+            get => largeViewModeSize;
+            set { Set(ref largeViewModeSize, value); }
         }
-
-        private bool gamesNoConsole = true;
-
-        public bool GamesNoConsole
-        {
-            get => gamesNoConsole;
-            set { Set(ref gamesNoConsole, value); }
-        }
-
-        private bool gamesInFullScreen = true;
-
-        public bool GamesInFullScreen
-        {
-            get => gamesInFullScreen;
-            set { Set(ref gamesInFullScreen, value); }
-        }
-
-        private bool gamesQuitOnExit = true;
-
-        public bool GamesQuitOnExit
-        {
-            get => gamesQuitOnExit;
-            set { Set(ref gamesQuitOnExit, value); }
-        }
-
-        private string gamesAdditionalCommands;
-
-        public string GamesAdditionalCommands
-        {
-            get => gamesAdditionalCommands;
-            set { Set(ref gamesAdditionalCommands, value); }
-        }
-
-        private string gamesDefaultDir = string.Empty;
-
-        public string GamesDefaultDir
-        {
-            get => gamesDefaultDir;
-            set { Set(ref gamesDefaultDir, value); }
-        }
-
-        private string cdsDefaultDir = string.Empty;
-
-        public string CDsDefaultDir
-        {
-            get => cdsDefaultDir;
-            set { Set(ref cdsDefaultDir, value); }
-        }
-
-        private string configEditorPath = string.Empty;
-
-        public string ConfigEditorPath
-        {
-            get => configEditorPath;
-            set { Set(ref configEditorPath, value); }
-        }
-
-        private string configEditorAdditionalParameters = string.Empty;
-
-        public string ConfigEditorAdditionalParameters
-        {
-            get => configEditorAdditionalParameters;
-            set { Set(ref configEditorAdditionalParameters, value); }
-        }
-
-        private bool fullScreen;
-
-        public bool Fullscreen
-        {
-            get => fullScreen;
-            set { Set(ref fullScreen, value); }
-        }
-
-        private bool menuBarVisible = true;
 
         public bool MenuBarVisible
         {
@@ -172,15 +193,23 @@ namespace AmpShell.Core.Model
             set { Set(ref menuBarVisible, value); }
         }
 
-        private bool toolBarVisible = true;
-
-        public bool ToolBarVisible
+        public bool PortableMode
         {
-            get => toolBarVisible;
-            set { Set(ref toolBarVisible, value); }
+            get => portableMode;
+            set { Set(ref portableMode, value); }
         }
 
-        private bool statusBarVisible = true;
+        public bool RememberWindowPosition
+        {
+            get => rememberWindowPosition;
+            set { Set(ref rememberWindowPosition, value); }
+        }
+
+        public bool RememberWindowSize
+        {
+            get => rememberWindowSize;
+            set { Set(ref rememberWindowSize, value); }
+        }
 
         public bool StatusBarVisible
         {
@@ -188,31 +217,11 @@ namespace AmpShell.Core.Model
             set { Set(ref statusBarVisible, value); }
         }
 
-        private string dbPath = string.Empty;
-
-        public string DBPath
+        public bool ToolBarVisible
         {
-            get => dbPath;
-            set { Set(ref dbPath, value); }
+            get => toolBarVisible;
+            set { Set(ref toolBarVisible, value); }
         }
-
-        private string dbDefaultConfFilePath = string.Empty;
-
-        public string DBDefaultConfFilePath
-        {
-            get => dbDefaultConfFilePath;
-            set { Set(ref dbDefaultConfFilePath, value); }
-        }
-
-        private string dbDefaultLangFilePath = string.Empty;
-
-        public string DBDefaultLangFilePath
-        {
-            get => dbDefaultLangFilePath;
-            set { Set(ref dbDefaultLangFilePath, value); }
-        }
-
-        private int width = 640;
 
         public int Width
         {
@@ -220,20 +229,8 @@ namespace AmpShell.Core.Model
             set { Set(ref width, value); }
         }
 
-        private int height = 400;
+        public int X { get; set; }
 
-        public int Height
-        {
-            get => height;
-            set { Set(ref height, value); }
-        }
-
-        private int largeViewModeSize = 48;
-
-        public int LargeViewModeSize
-        {
-            get => largeViewModeSize;
-            set { Set(ref largeViewModeSize, value); }
-        }
+        public int Y { get; set; }
     }
 }

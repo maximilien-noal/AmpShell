@@ -5,24 +5,31 @@
 
     public static class AboutBoxViewModel
     {
-        public static string AssemblyTitle
+        public static string AssemblyCompany
         {
             get
             {
-                object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
-                if (attributes.Length > 0)
+                object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyCompanyAttribute), false);
+                if (attributes.Length == 0)
                 {
-                    AssemblyTitleAttribute titleAttribute = (AssemblyTitleAttribute)attributes[0];
-                    if (String.IsNullOrWhiteSpace(titleAttribute.Title) == false)
-                    {
-                        return titleAttribute.Title;
-                    }
+                    return string.Empty;
                 }
-                return System.IO.Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().CodeBase);
+                return ((AssemblyCompanyAttribute)attributes[0]).Company;
             }
         }
 
-        public static string AssemblyVersion => Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        public static string AssemblyCopyright
+        {
+            get
+            {
+                object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
+                if (attributes.Length == 0)
+                {
+                    return string.Empty;
+                }
+                return ((AssemblyCopyrightAttribute)attributes[0]).Copyright;
+            }
+        }
 
         public static string AssemblyDescription
         {
@@ -39,30 +46,23 @@
 
         public static string AssemblyProduct => "AmpShell";
 
-        public static string AssemblyCopyright
+        public static string? AssemblyTitle
         {
             get
             {
-                object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
-                if (attributes.Length == 0)
+                object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
+                if (attributes.Length > 0)
                 {
-                    return string.Empty;
+                    AssemblyTitleAttribute titleAttribute = (AssemblyTitleAttribute)attributes[0];
+                    if (String.IsNullOrWhiteSpace(titleAttribute.Title) == false)
+                    {
+                        return titleAttribute.Title;
+                    }
                 }
-                return ((AssemblyCopyrightAttribute)attributes[0]).Copyright;
+                return System.IO.Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().CodeBase);
             }
         }
 
-        public static string AssemblyCompany
-        {
-            get
-            {
-                object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyCompanyAttribute), false);
-                if (attributes.Length == 0)
-                {
-                    return string.Empty;
-                }
-                return ((AssemblyCompanyAttribute)attributes[0]).Company;
-            }
-        }
+        public static string? AssemblyVersion => Assembly.GetExecutingAssembly()?.GetName()?.Version?.ToString();
     }
 }

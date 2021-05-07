@@ -9,26 +9,14 @@
 
     public class FileIconLoader
     {
-        public static Image GetIconFromGame(Game game)
+        public static bool FileExtensionIsExe(string filePath)
         {
-            if (StringExt.IsNullOrWhiteSpace(game.Icon) || File.Exists(game.Icon) == false)
+            var extension = Path.GetExtension(filePath);
+            if (StringExt.IsNullOrWhiteSpace(extension))
             {
-                return Windows.Properties.Resources.Generic_Application1;
+                return false;
             }
-            var iconRealLocation = game.Icon.Replace("AppPath", PathFinder.GetStartupPath());
-            var bitmap = GetIconFromFile(iconRealLocation);
-            if (!(bitmap is null))
-            {
-                return bitmap;
-            }
-            try
-            {
-                return Image.FromFile(iconRealLocation, true);
-            }
-            catch
-            {
-            }
-            return Windows.Properties.Resources.Generic_Application1;
+            return extension.ToUpperInvariant() == ".EXE";
         }
 
         public static Image GetIconFromFile(string filePath)
@@ -57,14 +45,26 @@
             return null;
         }
 
-        public static bool FileExtensionIsExe(string filePath)
+        public static Image GetIconFromGame(Game game)
         {
-            var extension = Path.GetExtension(filePath);
-            if (StringExt.IsNullOrWhiteSpace(extension))
+            if (StringExt.IsNullOrWhiteSpace(game.Icon) || File.Exists(game.Icon) == false)
             {
-                return false;
+                return Windows.Properties.Resources.Generic_Application1;
             }
-            return extension.ToUpperInvariant() == ".EXE";
+            var iconRealLocation = game.Icon.Replace("AppPath", PathFinder.GetStartupPath());
+            var bitmap = GetIconFromFile(iconRealLocation);
+            if (!(bitmap is null))
+            {
+                return bitmap;
+            }
+            try
+            {
+                return Image.FromFile(iconRealLocation, true);
+            }
+            catch
+            {
+            }
+            return Windows.Properties.Resources.Generic_Application1;
         }
     }
 }

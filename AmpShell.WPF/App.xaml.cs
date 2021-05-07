@@ -11,16 +11,14 @@
     using System.Security.Principal;
     using System.Windows;
 
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
+    /// <summary> Interaction logic for App.xaml </summary>
     public partial class App : Application
     {
         private const string RegistryKeyPath = @"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize";
 
         private const string RegistryValueName = "AppsUseLightTheme";
 
-        private Uri _currentTheme;
+        private Uri? _currentTheme;
 
         public App() => Current.DispatcherUnhandledException += OnWpfUnhandledException;
 
@@ -101,11 +99,9 @@
                 RegistryKeyPath.Replace(@"\", @"\\"),
                 RegistryValueName);
 
-            using (var watcher = new ManagementEventWatcher(query))
-            {
-                watcher.EventArrived += Watcher_EventArrived;
-                watcher.Start();
-            }
+            using var watcher = new ManagementEventWatcher(query);
+            watcher.EventArrived += Watcher_EventArrived;
+            watcher.Start();
         }
 
         private static class ResourceLocator
@@ -116,9 +112,7 @@
 
             public static Uri ClassicTheme => new Uri("pack://application:,,,/AdonisUI.ClassicTheme;component/Resources.xaml", UriKind.Absolute);
 
-            /// <summary>
-            /// Adds any Adonis theme to the provided resource dictionary.
-            /// </summary>
+            /// <summary> Adds any Adonis theme to the provided resource dictionary. </summary>
             /// <param name="rootResourceDictionary">
             /// The resource dictionary containing AdonisUI's resources. Expected are the resource
             /// dictionaries of the app or window.
@@ -128,9 +122,7 @@
                 rootResourceDictionary.MergedDictionaries.Add(new ResourceDictionary { Source = ClassicTheme });
             }
 
-            /// <summary>
-            /// Removes all resources of AdonisUI from the provided resource dictionary.
-            /// </summary>
+            /// <summary> Removes all resources of AdonisUI from the provided resource dictionary. </summary>
             /// <param name="rootResourceDictionary">
             /// The resource dictionary containing AdonisUI's resources. Expected are the resource
             /// dictionaries of the app or window.
@@ -164,7 +156,7 @@
             /// <param name="currentColorSchemeResourceUri">
             /// Optional uri to an external color scheme that is not provided by AdonisUI.
             /// </param>
-            public static void SetColorScheme(ResourceDictionary rootResourceDictionary, Uri colorSchemeResourceUri, Uri currentColorSchemeResourceUri = null)
+            public static void SetColorScheme(ResourceDictionary rootResourceDictionary, Uri colorSchemeResourceUri, Uri? currentColorSchemeResourceUri = null)
             {
                 var knownColorSchemes = currentColorSchemeResourceUri != null ? new[] { currentColorSchemeResourceUri } : new[] { LightColorScheme, DarkColorScheme };
 
@@ -178,7 +170,7 @@
                 rootResourceDictionary.MergedDictionaries.Add(new ResourceDictionary { Source = colorSchemeResourceUri });
             }
 
-            private static ResourceDictionary FindFirstContainedResourceDictionaryByUri(ResourceDictionary resourceDictionary, Uri[] knownColorSchemes)
+            private static ResourceDictionary? FindFirstContainedResourceDictionaryByUri(ResourceDictionary resourceDictionary, Uri[] knownColorSchemes)
             {
                 if (knownColorSchemes.Any(scheme => resourceDictionary.Source != null && resourceDictionary.Source.IsAbsoluteUri && resourceDictionary.Source.AbsoluteUri.Equals(scheme.AbsoluteUri, StringComparison.InvariantCulture)))
                 {

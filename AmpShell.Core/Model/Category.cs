@@ -8,17 +8,42 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
 
-#pragma warning disable SA1201 // Elements should appear in the correct order
-#pragma warning disable SA1101 // Prefix local calls with this
-
 namespace AmpShell.Core.Model
 {
     using System.Xml.Serialization;
 
     public class Category : ModelWithChildren
     {
+        private int additionalCommandsColumnWidth = 150;
+
+        private int cMountColumnWidth = 150;
+
+        private int customConfigurationColumnWidth = 150;
+
+        private int dMountColumnWidth = 150;
+
+        private int executableColumnWith = 150;
+
+        private int fullscreenColumnWidth = 100;
+
+        private int mountingOptionsColumnWidth = 100;
+
+        private int nameColumnWidth = 150;
+
+        private int noConsoleColumnWidth = 100;
+
+        private int notesColumnWidth = 400;
+
+        private int quitOnExitColumnWidth = 100;
+
+        private int releaseDateColumnWidth = 150;
+
+        private int setupExecutableColumnWidth = 150;
+
+        private View viewMode = View.LargeIcon;
+
         public Category()
-            : base()
+                                                                                                                            : base()
         {
         }
 
@@ -28,37 +53,11 @@ namespace AmpShell.Core.Model
             this.Signature = categorySignature;
         }
 
-        [XmlAttribute("Title")]
-        public string Title { get; set; }
-
-        [XmlAttribute("Signature")]
-        public string Signature { get; set; }
-
-        private int nameColumnWidth = 150;
-
-        public int NameColumnWidth
+        public int AdditionnalCommandsColumnWidth
         {
-            get => nameColumnWidth;
-            set { Set(ref nameColumnWidth, value); }
+            get => additionalCommandsColumnWidth;
+            set { Set(ref additionalCommandsColumnWidth, value); }
         }
-
-        private int releaseDateColumnWidth = 150;
-
-        public int ReleaseDateColumnWidth
-        {
-            get => releaseDateColumnWidth;
-            set { Set(ref releaseDateColumnWidth, value); }
-        }
-
-        private int executableColumnWith = 150;
-
-        public int ExecutableColumnWidth
-        {
-            get => executableColumnWith;
-            set { Set(ref executableColumnWith, value); }
-        }
-
-        private int cMountColumnWidth = 150;
 
         public int CMountColumnWidth
         {
@@ -66,23 +65,11 @@ namespace AmpShell.Core.Model
             set { Set(ref cMountColumnWidth, value); }
         }
 
-        private int setupExecutableColumnWidth = 150;
-
-        public int SetupExecutableColumnWidth
-        {
-            get => setupExecutableColumnWidth;
-            set { Set(ref setupExecutableColumnWidth, value); }
-        }
-
-        private int customConfigurationColumnWidth = 150;
-
         public int CustomConfigurationColumnWidth
         {
             get => customConfigurationColumnWidth;
             set { Set(ref customConfigurationColumnWidth, value); }
         }
-
-        private int dMountColumnWidth = 150;
 
         public int DMountColumnWidth
         {
@@ -90,31 +77,11 @@ namespace AmpShell.Core.Model
             set { Set(ref dMountColumnWidth, value); }
         }
 
-        private int mountingOptionsColumnWidth = 100;
-
-        public int MountingOptionsColumnWidth
+        public int ExecutableColumnWidth
         {
-            get => mountingOptionsColumnWidth;
-            set { Set(ref mountingOptionsColumnWidth, value); }
+            get => executableColumnWith;
+            set { Set(ref executableColumnWith, value); }
         }
-
-        private int additionalCommandsColumnWidth = 150;
-
-        public int AdditionnalCommandsColumnWidth
-        {
-            get => additionalCommandsColumnWidth;
-            set { Set(ref additionalCommandsColumnWidth, value); }
-        }
-
-        private int noConsoleColumnWidth = 100;
-
-        public int NoConsoleColumnWidth
-        {
-            get => noConsoleColumnWidth;
-            set { Set(ref noConsoleColumnWidth, value); }
-        }
-
-        private int fullscreenColumnWidth = 100;
 
         public int FullscreenColumnWidth
         {
@@ -122,15 +89,23 @@ namespace AmpShell.Core.Model
             set { Set(ref fullscreenColumnWidth, value); }
         }
 
-        private int quitOnExitColumnWidth = 100;
-
-        public int QuitOnExitColumnWidth
+        public int MountingOptionsColumnWidth
         {
-            get => quitOnExitColumnWidth;
-            set { Set(ref quitOnExitColumnWidth, value); }
+            get => mountingOptionsColumnWidth;
+            set { Set(ref mountingOptionsColumnWidth, value); }
         }
 
-        private int notesColumnWidth = 400;
+        public int NameColumnWidth
+        {
+            get => nameColumnWidth;
+            set { Set(ref nameColumnWidth, value); }
+        }
+
+        public int NoConsoleColumnWidth
+        {
+            get => noConsoleColumnWidth;
+            set { Set(ref noConsoleColumnWidth, value); }
+        }
 
         public int NotesColumnWidth
         {
@@ -138,7 +113,29 @@ namespace AmpShell.Core.Model
             set { Set(ref notesColumnWidth, value); }
         }
 
-        private View viewMode = View.LargeIcon;
+        public int QuitOnExitColumnWidth
+        {
+            get => quitOnExitColumnWidth;
+            set { Set(ref quitOnExitColumnWidth, value); }
+        }
+
+        public int ReleaseDateColumnWidth
+        {
+            get => releaseDateColumnWidth;
+            set { Set(ref releaseDateColumnWidth, value); }
+        }
+
+        public int SetupExecutableColumnWidth
+        {
+            get => setupExecutableColumnWidth;
+            set { Set(ref setupExecutableColumnWidth, value); }
+        }
+
+        [XmlAttribute("Signature")]
+        public string Signature { get; set; }
+
+        [XmlAttribute("Title")]
+        public string Title { get; set; }
 
         public View ViewMode
         {
