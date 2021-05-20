@@ -120,14 +120,16 @@ namespace AmpShell.DAL
         /// <returns>Whether the signature equals none of the other ones, or not..</returns>
         public static bool IsItAnUniqueSignature(string signatureToTest)
         {
-            foreach (Category otherCat in UserData.ListChildren)
+            for (int i = 0; i < UserData.ListChildren.Count; i++)
             {
+                Category otherCat = (Category)UserData.ListChildren[i];
                 if (otherCat.Signature != signatureToTest)
                 {
                     if (otherCat.ListChildren.Count != 0)
                     {
-                        foreach (Game otherGame in otherCat.ListChildren)
+                        for (int j = 0; j < otherCat.ListChildren.Count; j++)
                         {
+                            Game otherGame = (Game)otherCat.ListChildren[j];
                             if (otherGame.Signature == signatureToTest)
                             {
                                 return false;
@@ -151,10 +153,12 @@ namespace AmpShell.DAL
             {
                 UserData = ObjectSerializer.Deserialize<Preferences>(dataFilePath);
             }
-            foreach (Category concernedCategory in UserData.ListChildren)
+            for (int i = 0; i < UserData.ListChildren.Count; i++)
             {
-                foreach (Game concernedGame in concernedCategory.ListChildren)
+                Category concernedCategory = (Category)UserData.ListChildren[i];
+                for (int j = 0; j < concernedCategory.ListChildren.Count; j++)
                 {
+                    Game concernedGame = (Game)concernedCategory.ListChildren[j];
                     concernedGame.DOSEXEPath = concernedGame.DOSEXEPath.Replace("AppPath", PathFinder.GetStartupPath());
                     concernedGame.DBConfPath = concernedGame.DBConfPath.Replace("AppPath", PathFinder.GetStartupPath());
                     concernedGame.AdditionalCommands = concernedGame.AdditionalCommands.Replace("AppPath", PathFinder.GetStartupPath());
@@ -215,10 +219,12 @@ namespace AmpShell.DAL
             }
             else
             {
-                foreach (Category category in UserData.ListChildren)
+                for (int i = 0; i < UserData.ListChildren.Count; i++)
                 {
-                    foreach (Game game in category.ListChildren)
+                    Category category = (Category)UserData.ListChildren[i];
+                    for (int j = 0; j < category.ListChildren.Count; j++)
                     {
+                        Game game = (Game)category.ListChildren[j];
                         game.DOSEXEPath = game.DOSEXEPath.Replace(PathFinder.GetStartupPath(), "AppPath");
                         game.DBConfPath = game.DBConfPath.Replace(PathFinder.GetStartupPath(), "AppPath");
                         game.AdditionalCommands = game.AdditionalCommands.Replace(PathFinder.GetStartupPath(), "AppPath");

@@ -146,8 +146,9 @@ namespace AmpShell.Views
 
             List<ListViewItem> tabs = this.CategoriesListView.Items.Cast<ListViewItem>().ToList();
 
-            foreach (Category category in UserDataAccessor.UserData.ListChildren)
+            for (int i = 0; i < UserDataAccessor.UserData.ListChildren.Count; i++)
             {
+                Category category = (Category)UserDataAccessor.UserData.ListChildren[i];
                 UserDataAccessor.UserData.MoveChildToPosition(category, tabs.IndexOf(tabs.FirstOrDefault(x => Convert.ToString(x.Tag, CultureInfo.InvariantCulture) == category.Signature)));
             }
         }
@@ -241,8 +242,9 @@ namespace AmpShell.Views
             this.CategoriesListView.Columns.Add("Name");
             this.CategoriesListView.Columns[0].Width = this.CategoriesListView.Width;
             this.CategoriesListView.Items.Clear();
-            foreach (Category categoryToDisplay in UserDataAccessor.UserData.ListChildren)
+            for (int i = 0; i < UserDataAccessor.UserData.ListChildren.Count; i++)
             {
+                Category categoryToDisplay = (Category)UserDataAccessor.UserData.ListChildren[i];
                 ListViewItem itemToAdd = new ListViewItem(categoryToDisplay.Title)
                 {
                     Tag = categoryToDisplay.Signature

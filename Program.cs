@@ -109,8 +109,10 @@ namespace AmpShell
 
         private static void OutputHelpText(Options options)
         {
-            foreach (var item in new List<CommandLineOption>() { options.Game, options.Setup, options.Verbose })
+            List<CommandLineOption> list = new List<CommandLineOption>() { options.Game, options.Setup, options.Verbose };
+            for (int i = 0; i < list.Count; i++)
             {
+                CommandLineOption item = list[i];
                 Console.WriteLine(item.HelpText);
             }
         }

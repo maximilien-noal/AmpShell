@@ -847,8 +847,9 @@ namespace AmpShell.Views
             this.toolBarMenuItem.Checked = userData.ToolBarVisible;
             this.statusStrip.Visible = userData.StatusBarVisible;
             this.statusBarMenuItem.Checked = userData.StatusBarVisible;
-            foreach (Category categoryToDisplay in userData.ListChildren)
+            for (int i = 0; i < userData.ListChildren.Count; i++)
             {
+                Category categoryToDisplay = (Category)userData.ListChildren[i];
                 ListView tabltview = new CustomListView
                 {
                     Sorting = SortOrder.Ascending,
@@ -874,8 +875,9 @@ namespace AmpShell.Views
                 tabltview.Columns.Add("NotesColumn", "Notes", categoryToDisplay.NotesColumnWidth);
 
                 //for each game, create a ListViewItem instance.
-                foreach (Game gameToDisplay in categoryToDisplay.ListChildren)
+                for (int i1 = 0; i1 < categoryToDisplay.ListChildren.Count; i1++)
                 {
+                    Game gameToDisplay = (Game)categoryToDisplay.ListChildren[i1];
                     ListViewItem gameforlt = new ListViewItem(gameToDisplay.Name)
                     {
                         Tag = gameToDisplay.Signature
@@ -1386,8 +1388,10 @@ namespace AmpShell.Views
         /// </summary>
         private void TabControl_DragDrop(object sender, DragEventArgs e)
         {
-            foreach (ListViewItem itemToMove in this.SelectedListView.SelectedItems)
+            System.Collections.IList list = this.SelectedListView.SelectedItems;
+            for (int i = 0; i < list.Count; i++)
             {
+                ListViewItem itemToMove = (ListViewItem)list[i];
                 this.SelectedListView.Items.Remove(itemToMove);
                 var droppedGame = UserDataAccessor.UserData.ListChildren.Cast<Category>().Select(x => x.ListChildren.Cast<Game>()).SelectMany(x => x).FirstOrDefault(x => x.Signature == (string)itemToMove.Tag);
                 this.GetSelectedCategory().RemoveChild(droppedGame);
