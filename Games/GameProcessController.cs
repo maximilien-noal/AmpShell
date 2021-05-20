@@ -257,9 +257,11 @@ namespace AmpShell.Games
                 }
             }
 
-            if (StringExt.IsNullOrWhiteSpace(this.gameInstance.AdditionalCommands) == false)
+            var gameAdditionnalCommands = this.gameInstance.GetAdditionnalCommandsInASingleLine();
+
+            if (StringExt.IsNullOrWhiteSpace(gameAdditionnalCommands) == false)
             {
-                commands.Append(this.gameInstance.AdditionalCommands);
+                commands.Append(gameAdditionnalCommands);
             }
 
             return commands.ToString();

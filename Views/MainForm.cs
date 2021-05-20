@@ -686,7 +686,7 @@ namespace AmpShell.Views
 
                 if (StringExt.IsNullOrWhiteSpace(selectedGame.AdditionalCommands) == false)
                 {
-                    this.AdditionalCommandsLabel.Text = $"Additional commands: {selectedGame.AdditionalCommands}";
+                    this.AdditionalCommandsLabel.Text = $"Additional commands: {selectedGame.GetAdditionnalCommandsInASingleLine()}";
                 }
                 else
                 {
@@ -963,7 +963,7 @@ namespace AmpShell.Views
                     gameforlt.SubItems.Add(gameMountingOptionsLVSubItem);
                     ListViewItem.ListViewSubItem gameAdditionalCommandsLVSubItem = new ListViewItem.ListViewSubItem
                     {
-                        Text = gameToDisplay.AdditionalCommands
+                        Text = gameToDisplay.GetAdditionnalCommandsInASingleLine()
                     };
                     gameforlt.SubItems.Add(gameAdditionalCommandsLVSubItem);
                     ListViewItem.ListViewSubItem gameNoConsoleLVSubItem = new ListViewItem.ListViewSubItem

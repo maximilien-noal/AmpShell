@@ -60,10 +60,13 @@ namespace AmpShell.Views
                 this.NoConfigCheckBox.Checked = this.GameInstance.NoConfig;
                 this.GameCDPathTextBox.Text = this.GameInstance.CDPath;
                 this.DiscLabelTextBox.Text = this.GameInstance.CDLabel;
-                this.GameAdditionalCommandsTextBox.Text = $"REM Put each command on a new line.\r\n";
-                this.GameAdditionalCommandsTextBox.Text += $"REM Examples of DOSBox commands: 'core=normal'\r\n";
-                this.GameAdditionalCommandsTextBox.Text += $"REM or 'IMGMOUNT D C:\\Temp\\MyCDImage.iso -t iso'\r\n";
-                this.GameAdditionalCommandsTextBox.Text += "REM or anything recognized by DOSBox.\r\n\r\n";
+                if (newGame || StringExt.IsNullOrWhiteSpace(this.GameInstance.AdditionalCommands))
+                {
+                    this.GameAdditionalCommandsTextBox.Text = $"REM Put each command on a new line.\r\n";
+                    this.GameAdditionalCommandsTextBox.Text += $"REM Examples of DOSBox commands: 'core=normal'\r\n";
+                    this.GameAdditionalCommandsTextBox.Text += $"REM or 'IMGMOUNT D C:\\Temp\\MyCDImage.iso -t iso'\r\n";
+                    this.GameAdditionalCommandsTextBox.Text += "REM or anything recognized by DOSBox.\r\n\r\n";
+                }
                 this.GameAdditionalCommandsTextBox.Text += this.GameInstance.PutEachAdditionnalCommandsOnANewLine();
                 this.AlternateDOSBoxLocationTextbox.Text = this.GameInstance.AlternateDOSBoxExePath;
                 this.NoConsoleCheckBox.Checked = this.GameInstance.NoConsole;
@@ -194,7 +197,7 @@ namespace AmpShell.Views
             this.GameInstance.NoConfig = this.NoConfigCheckBox.Checked;
             if (StringExt.IsNullOrWhiteSpace(this.GameAdditionalCommandsTextBox.Text) == false)
             {
-                this.GameInstance.AdditionalCommands = this.GetAdditionnalCommandsInASingleLine();
+                this.GameInstance.AdditionalCommands = this.GameAdditionalCommandsTextBox.Text;
             }
             this.GameInstance.NoConsole = this.NoConsoleCheckBox.Checked;
             this.GameInstance.InFullScreen = this.FullscreenCheckBox.Checked;
@@ -233,26 +236,6 @@ namespace AmpShell.Views
 
             this.DialogResult = DialogResult.OK;
             this.Close();
-        }
-
-        private string GetAdditionnalCommandsInASingleLine()
-        {
-            var commandLine = new StringBuilder();
-            string[] array = this.GameAdditionalCommandsTextBox.Text.Split('\r');
-            for (int i = 0; i < array.Length; i++)
-            {
-                string line = array[i];
-                line = line.Trim();
-                if (line.ToUpperInvariant().StartsWith("REM") == false && StringExt.IsNullOrWhiteSpace(line) == false)
-                {
-                    commandLine.Append($"-c \"{line}\"");
-                    if (i > 0)
-                    {
-                        commandLine.Append(' ');
-                    }
-                }
-            }
-            return commandLine.ToString();
         }
 
         /// <summary>

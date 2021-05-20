@@ -18,6 +18,7 @@ namespace AmpShell.Model
     using System.Globalization;
     using System.IO;
     using System.Linq;
+    using System.Text;
     using System.Xml.Serialization;
 
     using AmpShell.DAL;
@@ -127,6 +128,26 @@ namespace AmpShell.Model
             }
 
             return commands.ToString();
+        }
+
+        internal string GetAdditionnalCommandsInASingleLine()
+        {
+            var commandLine = new StringBuilder();
+            string[] array = this.AdditionalCommands.Split('\r');
+            for (int i = 0; i < array.Length; i++)
+            {
+                string line = array[i];
+                line = line.Trim();
+                if (line.ToUpperInvariant().StartsWith("REM") == false && StringExt.IsNullOrWhiteSpace(line) == false)
+                {
+                    commandLine.Append($"-c \"{line}\"");
+                    if (i > 0)
+                    {
+                        commandLine.Append(' ');
+                    }
+                }
+            }
+            return commandLine.ToString();
         }
 
         /// <summary>
