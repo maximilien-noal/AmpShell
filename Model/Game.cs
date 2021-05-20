@@ -17,6 +17,7 @@ namespace AmpShell.Model
     using System.Diagnostics;
     using System.Globalization;
     using System.IO;
+    using System.Linq;
     using System.Xml.Serialization;
 
     using AmpShell.DAL;
@@ -268,7 +269,7 @@ namespace AmpShell.Model
         {
             try
             {
-                Process.Start(new ProcessStartInfo() { FileName = Path.GetDirectoryName(this.DOSEXEPath), UseShellExecute = true });
+                Process.Start(new ProcessStartInfo() { FileName = GetGameFolder(), UseShellExecute = true });
             }
             catch (Exception)
             {
@@ -303,5 +304,7 @@ namespace AmpShell.Model
             }
             return string.Empty;
         }
+
+        private string GetGameFolder() => Path.GetDirectoryName(new string[] { this.DOSEXEPath, this.Directory, this.SetupEXEPath, this.DBConfPath, this.Icon, this.AlternateDOSBoxExePath, this.CDPath }.FirstOrDefault(x => StringExt.IsNullOrWhiteSpace(x) == false && (System.IO.Directory.Exists(x) || File.Exists(x))));
     }
 }
