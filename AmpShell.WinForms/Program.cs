@@ -32,6 +32,10 @@ namespace AmpShell.WinForms
         [STAThread]
         private static void Main(string[] args)
         {
+            if (IsWindows98() == false)
+            {
+                Application.EnableVisualStyles();
+            }
             Application.SetCompatibleTextRenderingDefault(false);
 
             //The thread exception handler has to be assigned before any control is presented on the screen.
