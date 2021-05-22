@@ -83,7 +83,7 @@
 
         private void OnWpfUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
-            MessageBox.Show(e.Exception.GetBaseException().GetType().ToString() + Environment.NewLine + e.Exception.GetBaseException().Message, "Une erreur est survenue. Opération annulée.");
+            MessageBox.Show($"{e.Exception.GetBaseException().GetType()}{Environment.NewLine}{e.Exception.GetBaseException().Message}", "Une erreur est survenue. Opération annulée.");
             e.Handled = true;
         }
 
