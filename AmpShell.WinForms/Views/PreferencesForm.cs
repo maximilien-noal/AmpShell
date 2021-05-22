@@ -19,6 +19,7 @@ namespace AmpShell.WinForms.Views
 
     using AmpShell.Core.AutoConfig;
     using AmpShell.Core.DAL;
+    using AmpShell.Core.Model;
 
     using View = System.Windows.Forms.View;
 

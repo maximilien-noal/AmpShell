@@ -9,6 +9,7 @@
  * If not, see <http://www.gnu.org/licenses/>.*/
 
 [assembly: System.Resources.NeutralResourcesLanguage("en-US")]
+
 namespace AmpShell.WinForms
 {
     using System;

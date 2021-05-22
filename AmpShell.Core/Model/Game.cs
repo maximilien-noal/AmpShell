@@ -154,7 +154,7 @@ namespace AmpShell.Core.Model
             return commands.ToString();
         }
 
-        internal string GetAdditionnalCommandsInASingleLine()
+        public string GetAdditionnalCommandsInASingleLine()
         {
             var commandLine = new StringBuilder();
             string[] array = this.AdditionalCommands.Split('\r');
