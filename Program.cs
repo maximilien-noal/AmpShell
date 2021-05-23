@@ -167,7 +167,10 @@ namespace AmpShell
 
         private static void RunMainForm()
         {
-            Application.EnableVisualStyles();
+            if (IsWindows98() == false)
+            {
+                Application.EnableVisualStyles();
+            }
             Application.SetCompatibleTextRenderingDefault(false);
             var mainForm = new MainForm();
             using (mainForm)
