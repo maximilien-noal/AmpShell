@@ -16,6 +16,7 @@ namespace AmpShell
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Threading;
     using System.Windows.Forms;
 
     using AmpShell.DAL;
@@ -79,6 +80,16 @@ namespace AmpShell
             }
             if (args is null || args.Any() == false)
             {
+                // Add the event handler for handling UI thread exceptions to the event.
+                Application.ThreadException += new ThreadExceptionEventHandler(UIThreadExceptionMethod);
+
+                // Set the unhandled exception mode to force all Windows Forms errors to go through
+                // our handler.
+                Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
+
+                // Add the event handler for handling non-UI thread exceptions to the event.
+                AppDomain.CurrentDomain.UnhandledException +=
+                    new UnhandledExceptionEventHandler(CurrentDomainUnhandledExceptionMethod);
                 RunMainForm();
             }
             else
@@ -104,6 +115,12 @@ namespace AmpShell
                 SendKeys.SendWait("{ENTER}");
             }
         }
+
+        private static void UIThreadExceptionMethod(object sender, ThreadExceptionEventArgs e) => ShowException(e.Exception.GetBaseException());
+
+        private static void ShowException(Exception baseException) => MessageBox.Show($"Please report this error to the author:{Environment.NewLine}{baseException.Message}{Environment.NewLine}{baseException.StackTrace}");
+
+        private static void CurrentDomainUnhandledExceptionMethod(object sender, UnhandledExceptionEventArgs e) => ShowException(((Exception)e.ExceptionObject).GetBaseException());
 
         private static bool IsWindows98() => Environment.OSVersion.Version.Minor == 10;
 
