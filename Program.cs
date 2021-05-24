@@ -32,6 +32,23 @@ namespace AmpShell
         [STAThread]
         private static void Main(string[] args)
         {
+            Application.SetCompatibleTextRenderingDefault(false);
+
+            //The thread exception handler has to be assigned before any control is presented on the screen.
+            if (args is null || args.Any() == false)
+            {
+                // Add the event handler for handling UI thread exceptions to the event.
+                Application.ThreadException += new ThreadExceptionEventHandler(UIThreadExceptionMethod);
+
+                // Set the unhandled exception mode to force all Windows Forms errors to go through
+                // our handler.
+                Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
+
+                // Add the event handler for handling non-UI thread exceptions to the event.
+                AppDomain.CurrentDomain.UnhandledException +=
+                    new UnhandledExceptionEventHandler(CurrentDomainUnhandledExceptionMethod);
+            }
+
             UserDataAccessor.LoadUserSettingsAndRunAutoConfig();
 
             if (UserDataAccessor.UserData.GamesUseDOSBox && StringExt.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBPath) && IsWindows98())
@@ -80,16 +97,6 @@ namespace AmpShell
             }
             if (args is null || args.Any() == false)
             {
-                // Add the event handler for handling UI thread exceptions to the event.
-                Application.ThreadException += new ThreadExceptionEventHandler(UIThreadExceptionMethod);
-
-                // Set the unhandled exception mode to force all Windows Forms errors to go through
-                // our handler.
-                Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
-
-                // Add the event handler for handling non-UI thread exceptions to the event.
-                AppDomain.CurrentDomain.UnhandledException +=
-                    new UnhandledExceptionEventHandler(CurrentDomainUnhandledExceptionMethod);
                 RunMainForm();
             }
             else
@@ -171,7 +178,7 @@ namespace AmpShell
             {
                 Application.EnableVisualStyles();
             }
-            Application.SetCompatibleTextRenderingDefault(false);
+
             var mainForm = new MainForm();
             using (mainForm)
             {
