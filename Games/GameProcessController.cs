@@ -157,10 +157,6 @@ namespace AmpShell.Games
             {
                 UseShellExecute = true
             };
-            if (StringExt.IsNullOrWhiteSpace(this.gameInstance.DBConfPath) == false)
-            {
-                psi.WorkingDirectory = Path.GetDirectoryName(this.gameInstance.DBConfPath);
-            }
 
             if (StringExt.IsNullOrWhiteSpace(args) == false)
             {
