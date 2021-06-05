@@ -195,10 +195,7 @@ namespace AmpShell.Views
             this.GameInstance.DOSEXEPath = this.GameLocationTextbox.Text;
             this.GameInstance.DBConfPath = this.GameCustomConfigurationTextbox.Text;
             this.GameInstance.NoConfig = this.NoConfigCheckBox.Checked;
-            if (StringExt.IsNullOrWhiteSpace(this.GameAdditionalCommandsTextBox.Text) == false)
-            {
-                this.GameInstance.AdditionalCommands = this.GameAdditionalCommandsTextBox.Text;
-            }
+            this.GameInstance.AdditionalCommands = this.GameAdditionalCommandsTextBox.Text;
             this.GameInstance.NoConsole = this.NoConsoleCheckBox.Checked;
             this.GameInstance.InFullScreen = this.FullscreenCheckBox.Checked;
             this.GameInstance.QuitOnExit = this.QuitOnExitCheckBox.Checked;
