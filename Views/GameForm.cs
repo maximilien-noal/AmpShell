@@ -64,13 +64,6 @@ namespace AmpShell.Views
                 this.NoConfigCheckBox.Checked = this.GameInstance.NoConfig;
                 this.GameCDPathTextBox.Text = this.GameInstance.CDPath;
                 this.DiscLabelTextBox.Text = this.GameInstance.CDLabel;
-                if (newGame || StringExt.IsNullOrWhiteSpace(this.GameInstance.AdditionalCommands))
-                {
-                    this.GameAdditionalCommandsTextBox.Text = $"REM Put each command on a new line.\r\n";
-                    this.GameAdditionalCommandsTextBox.Text += $"REM Examples of DOSBox commands: 'core=normal'\r\n";
-                    this.GameAdditionalCommandsTextBox.Text += $"REM or 'IMGMOUNT D C:\\Temp\\MyCDImage.iso -t iso'\r\n";
-                    this.GameAdditionalCommandsTextBox.Text += "REM or anything recognized by DOSBox.\r\n\r\n";
-                }
                 this.GameAdditionalCommandsTextBox.Text += this.GameInstance.PutEachAdditionnalCommandsOnANewLine();
                 this.AlternateDOSBoxLocationTextbox.Text = this.GameInstance.AlternateDOSBoxExePath;
                 this.NoConsoleCheckBox.Checked = this.GameInstance.NoConsole;
@@ -121,6 +114,7 @@ namespace AmpShell.Views
 
         private void MakeDOSBoxOptionsNotVisible()
         {
+            this.AdditionnalCommandsTipLabel.Visible = false;
             this.DOSBoxWorkingDirButton.Visible = false;
             this.DOSBoxWorkingDirLabel.Visible = false;
             this.DOSBoxWorkingDirTextBox.Visible = false;
@@ -158,6 +152,7 @@ namespace AmpShell.Views
 
         private void MakeDOSBoxOptionsVisible()
         {
+            this.AdditionnalCommandsTipLabel.Visible = true;
             this.DOSBoxWorkingDirButton.Visible = true;
             this.DOSBoxWorkingDirLabel.Visible = true;
             this.DOSBoxWorkingDirTextBox.Visible = true;

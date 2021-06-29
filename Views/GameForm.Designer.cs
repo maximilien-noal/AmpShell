@@ -87,6 +87,7 @@ namespace AmpShell.Views
             this.NotesRichTextBox = new System.Windows.Forms.RichTextBox();
             this.OK = new System.Windows.Forms.Button();
             this.Cancel = new System.Windows.Forms.Button();
+            this.AdditionnalCommandsTipLabel = new System.Windows.Forms.Label();
             this.ConfigTabControl.SuspendLayout();
             this.BasicTabPage.SuspendLayout();
             this.MountingOptionsGroupBox.SuspendLayout();
@@ -506,6 +507,7 @@ namespace AmpShell.Views
             // 
             // AdvancedTabPage
             // 
+            this.AdvancedTabPage.Controls.Add(this.AdditionnalCommandsTipLabel);
             this.AdvancedTabPage.Controls.Add(this.DOSBoxWorkingDirButton);
             this.AdvancedTabPage.Controls.Add(this.DOSBoxWorkingDirLabel);
             this.AdvancedTabPage.Controls.Add(this.DOSBoxWorkingDirTextBox);
@@ -580,10 +582,10 @@ namespace AmpShell.Views
             // 
             // GameAdditionalCommandsTextBox
             // 
-            this.GameAdditionalCommandsTextBox.Location = new System.Drawing.Point(10, 155);
+            this.GameAdditionalCommandsTextBox.Location = new System.Drawing.Point(8, 155);
             this.GameAdditionalCommandsTextBox.Multiline = true;
             this.GameAdditionalCommandsTextBox.Name = "GameAdditionalCommandsTextBox";
-            this.GameAdditionalCommandsTextBox.Size = new System.Drawing.Size(433, 389);
+            this.GameAdditionalCommandsTextBox.Size = new System.Drawing.Size(433, 341);
             this.GameAdditionalCommandsTextBox.TabIndex = 55;
             // 
             // AlternateDOSBoxLocationBrowseButton
@@ -665,6 +667,18 @@ namespace AmpShell.Views
             this.Cancel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.Cancel.UseVisualStyleBackColor = true;
             this.Cancel.Click += new System.EventHandler(this.Cancel_Click);
+            // 
+            // AdditionnalCommandsTipLabel
+            // 
+            this.AdditionnalCommandsTipLabel.AutoSize = true;
+            this.AdditionnalCommandsTipLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.AdditionnalCommandsTipLabel.Location = new System.Drawing.Point(86, 499);
+            this.AdditionnalCommandsTipLabel.Name = "AdditionnalCommandsTipLabel";
+            this.AdditionnalCommandsTipLabel.Size = new System.Drawing.Size(291, 39);
+            this.AdditionnalCommandsTipLabel.TabIndex = 60;
+            this.AdditionnalCommandsTipLabel.Text = "Put each command on a new line.\r\nFor example \'IMGMOUNT D C:\\Temp\\MyCDImage.iso -t" +
+    " iso\'\r\nor anything recognized by DOSBox.";
+            this.AdditionnalCommandsTipLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // GameForm
             // 
@@ -749,5 +763,6 @@ namespace AmpShell.Views
         private System.Windows.Forms.Button DOSBoxWorkingDirButton;
         private System.Windows.Forms.Label DOSBoxWorkingDirLabel;
         private System.Windows.Forms.TextBox DOSBoxWorkingDirTextBox;
+        private System.Windows.Forms.Label AdditionnalCommandsTipLabel;
     }
 }

@@ -147,7 +147,7 @@ namespace AmpShell.Model
             for (int i = 0; i < array.Length; i++)
             {
                 var line = array[i];
-                if (StringExt.IsNullOrWhiteSpace(line) == false)
+                if (StringExt.IsNullOrWhiteSpace(line) == false && (array.Length == 1 && line.StartsWith("REM Put each command on a new line")) == false)
                 {
                     var trimmedLine = line.Trim().TrimStart('"').TrimEnd('"');
                     commands.AppendLine(trimmedLine);
