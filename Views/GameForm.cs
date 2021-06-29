@@ -13,7 +13,6 @@ namespace AmpShell.Views
     using System;
     using System.Drawing;
     using System.IO;
-    using System.Text;
     using System.Windows.Forms;
 
     using AmpShell.DAL;
@@ -44,6 +43,11 @@ namespace AmpShell.Views
                 }
             }
             this.GameNameTextbox.Text = this.GameInstance.Name;
+            this.DOSBoxWorkingDirTextBox.Text = this.GameInstance.DOSBoxWorkingDirectory;
+            if (this.GameInstance.IsDOSBoxXUsed() && StringExt.IsNullOrWhiteSpace(this.DOSBoxWorkingDirTextBox.Text))
+            {
+                this.DOSBoxWorkingDirTextBox.Text = Path.GetDirectoryName(this.GameInstance.GetDOSBoxPath());
+            }
             this.GameReleaseDatePicker.Value = this.GameInstance.ReleaseDate;
             this.GameLocationTextbox.Text = this.GameInstance.DOSEXEPath;
             this.DontUseDOSBoxCheckBox.Checked = !this.GameInstance.UsesDOSBox;
@@ -117,6 +121,9 @@ namespace AmpShell.Views
 
         private void MakeDOSBoxOptionsNotVisible()
         {
+            this.DOSBoxWorkingDirButton.Visible = false;
+            this.DOSBoxWorkingDirLabel.Visible = false;
+            this.DOSBoxWorkingDirTextBox.Visible = false;
             this.GameLocationLabel.Text = "      Target:";
             this.GameDirectoryTextbox.Visible = false;
             this.GameDirectoryBrowseButton.Visible = false;
@@ -151,6 +158,9 @@ namespace AmpShell.Views
 
         private void MakeDOSBoxOptionsVisible()
         {
+            this.DOSBoxWorkingDirButton.Visible = true;
+            this.DOSBoxWorkingDirLabel.Visible = true;
+            this.DOSBoxWorkingDirTextBox.Visible = true;
             this.GameLocationLabel.Text = "      Game executable location (optional) :";
             this.GameDirectoryTextbox.Visible = true;
             this.GameDirectoryBrowseButton.Visible = true;
@@ -192,6 +202,7 @@ namespace AmpShell.Views
                 return;
             }
 
+            this.GameInstance.DOSBoxWorkingDirectory = this.DOSBoxWorkingDirTextBox.Text;
             this.GameInstance.DOSEXEPath = this.GameLocationTextbox.Text;
             this.GameInstance.DBConfPath = this.GameCustomConfigurationTextbox.Text;
             this.GameInstance.NoConfig = this.NoConfigCheckBox.Checked;
@@ -658,6 +669,19 @@ namespace AmpShell.Views
             else
             {
                 this.MakeDOSBoxOptionsVisible();
+            }
+        }
+
+        private void DOSBoxWorkingDirButton_Click(object sender, EventArgs e)
+        {
+            using (var dosboxWorkingDirDialog = new FolderBrowserDialog())
+            {
+                dosboxWorkingDirDialog.ShowNewFolderButton = true;
+                dosboxWorkingDirDialog.Description = this.DOSBoxWorkingDirLabel.Text;
+                if (dosboxWorkingDirDialog.ShowDialog(this) == DialogResult.OK)
+                {
+                    this.DOSBoxWorkingDirTextBox.Text = dosboxWorkingDirDialog.SelectedPath;
+                }
             }
         }
     }

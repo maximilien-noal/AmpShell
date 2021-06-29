@@ -35,10 +35,16 @@ namespace AmpShell.Model
             set { Set(ref notes, value); }
         }
 
+        private string dosboxWorkingDirectory = string.Empty;
+
+        public string DOSBoxWorkingDirectory
+        {
+            get => dosboxWorkingDirectory;
+            set { Set(ref dosboxWorkingDirectory, value); }
+        }
+
         [XmlAttribute("Signature")]
         public string Signature { get; set; }
-
-        private string name = string.Empty;
 
         private bool usesDOSBox = true;
 
@@ -47,6 +53,8 @@ namespace AmpShell.Model
             get => usesDOSBox;
             set { Set(ref usesDOSBox, value); }
         }
+
+        private string name = string.Empty;
 
         public string Name
         {
@@ -106,7 +114,26 @@ namespace AmpShell.Model
             set { Set(ref setupEXEPath, value); }
         }
 
-        private string dbConfPath = string.Empty;
+        internal string GetDOSBoxWorkingDirectory(string initialValue)
+        {
+            if (IsDOSBoxUsed() == false)
+            {
+                return initialValue;
+            }
+            if (StringExt.IsNullOrWhiteSpace(DOSBoxWorkingDirectory) == false)
+            {
+                return Path.GetDirectoryName(DOSBoxWorkingDirectory);
+            }
+            else if (IsDOSBoxXUsed())
+            {
+                return Path.GetDirectoryName(GetDOSBoxPath());
+            }
+            else if (StringExt.IsNullOrWhiteSpace(DBConfPath) == false)
+            {
+                return Path.GetDirectoryName(DBConfPath);
+            }
+            return initialValue;
+        }
 
         internal string PutEachAdditionnalCommandsOnANewLine()
         {
@@ -149,6 +176,26 @@ namespace AmpShell.Model
             }
             return commandLine.ToString();
         }
+
+        internal bool IsDOSBoxXUsed()
+        {
+            if (IsDOSBoxUsed() == false)
+            {
+                return false;
+            }
+            var dbPath = GetDOSBoxPath();
+            if (StringExt.IsNullOrWhiteSpace(dbPath) == true)
+            {
+                return false;
+            }
+            if (File.Exists(dbPath))
+            {
+                return false;
+            }
+            return Path.GetFileNameWithoutExtension(dbPath).ToUpperInvariant().Contains("DOSBOX-X");
+        }
+
+        private string dbConfPath = string.Empty;
 
         /// <summary>
         /// Gets or sets game's custom DOSBox .conf file path.

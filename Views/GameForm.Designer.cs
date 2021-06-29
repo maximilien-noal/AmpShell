@@ -74,6 +74,9 @@ namespace AmpShell.Views
             this.GameLocationLabel = new System.Windows.Forms.Label();
             this.GameLocationTextbox = new System.Windows.Forms.TextBox();
             this.AdvancedTabPage = new System.Windows.Forms.TabPage();
+            this.DOSBoxWorkingDirButton = new System.Windows.Forms.Button();
+            this.DOSBoxWorkingDirLabel = new System.Windows.Forms.Label();
+            this.DOSBoxWorkingDirTextBox = new System.Windows.Forms.TextBox();
             this.DontUseDOSBoxCheckBox = new System.Windows.Forms.CheckBox();
             this.GameAdditionalCommandsLabel = new System.Windows.Forms.Label();
             this.GameAdditionalCommandsTextBox = new System.Windows.Forms.TextBox();
@@ -503,6 +506,9 @@ namespace AmpShell.Views
             // 
             // AdvancedTabPage
             // 
+            this.AdvancedTabPage.Controls.Add(this.DOSBoxWorkingDirButton);
+            this.AdvancedTabPage.Controls.Add(this.DOSBoxWorkingDirLabel);
+            this.AdvancedTabPage.Controls.Add(this.DOSBoxWorkingDirTextBox);
             this.AdvancedTabPage.Controls.Add(this.DontUseDOSBoxCheckBox);
             this.AdvancedTabPage.Controls.Add(this.GameAdditionalCommandsLabel);
             this.AdvancedTabPage.Controls.Add(this.GameAdditionalCommandsTextBox);
@@ -517,10 +523,42 @@ namespace AmpShell.Views
             this.AdvancedTabPage.Text = "Advanced Configuration";
             this.AdvancedTabPage.UseVisualStyleBackColor = true;
             // 
+            // DOSBoxWorkingDirButton
+            // 
+            this.DOSBoxWorkingDirButton.Image = global::AmpShell.Properties.Resources.SearchFolderHS;
+            this.DOSBoxWorkingDirButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.DOSBoxWorkingDirButton.Location = new System.Drawing.Point(423, 84);
+            this.DOSBoxWorkingDirButton.Name = "DOSBoxWorkingDirButton";
+            this.DOSBoxWorkingDirButton.Size = new System.Drawing.Size(24, 23);
+            this.DOSBoxWorkingDirButton.TabIndex = 59;
+            this.DOSBoxWorkingDirButton.Text = "...";
+            this.DOSBoxWorkingDirButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.DOSBoxWorkingDirButton.UseVisualStyleBackColor = true;
+            this.DOSBoxWorkingDirButton.Click += new System.EventHandler(this.DOSBoxWorkingDirButton_Click);
+            // 
+            // DOSBoxWorkingDirLabel
+            // 
+            this.DOSBoxWorkingDirLabel.AutoSize = true;
+            this.DOSBoxWorkingDirLabel.Image = global::AmpShell.Properties.Resources.Folder_Open;
+            this.DOSBoxWorkingDirLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.DOSBoxWorkingDirLabel.Location = new System.Drawing.Point(8, 68);
+            this.DOSBoxWorkingDirLabel.Name = "DOSBoxWorkingDirLabel";
+            this.DOSBoxWorkingDirLabel.Size = new System.Drawing.Size(219, 13);
+            this.DOSBoxWorkingDirLabel.TabIndex = 58;
+            this.DOSBoxWorkingDirLabel.Text = "      Working directory for DOSBox (optional) :";
+            this.DOSBoxWorkingDirLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // DOSBoxWorkingDirTextBox
+            // 
+            this.DOSBoxWorkingDirTextBox.Location = new System.Drawing.Point(10, 84);
+            this.DOSBoxWorkingDirTextBox.Name = "DOSBoxWorkingDirTextBox";
+            this.DOSBoxWorkingDirTextBox.Size = new System.Drawing.Size(407, 20);
+            this.DOSBoxWorkingDirTextBox.TabIndex = 57;
+            // 
             // DontUseDOSBoxCheckBox
             // 
             this.DontUseDOSBoxCheckBox.AutoSize = true;
-            this.DontUseDOSBoxCheckBox.Location = new System.Drawing.Point(11, 71);
+            this.DontUseDOSBoxCheckBox.Location = new System.Drawing.Point(11, 110);
             this.DontUseDOSBoxCheckBox.Name = "DontUseDOSBoxCheckBox";
             this.DontUseDOSBoxCheckBox.Size = new System.Drawing.Size(239, 17);
             this.DontUseDOSBoxCheckBox.TabIndex = 56;
@@ -533,7 +571,7 @@ namespace AmpShell.Views
             this.GameAdditionalCommandsLabel.AutoSize = true;
             this.GameAdditionalCommandsLabel.Image = global::AmpShell.Properties.Resources.cmd;
             this.GameAdditionalCommandsLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.GameAdditionalCommandsLabel.Location = new System.Drawing.Point(6, 105);
+            this.GameAdditionalCommandsLabel.Location = new System.Drawing.Point(8, 139);
             this.GameAdditionalCommandsLabel.Name = "GameAdditionalCommandsLabel";
             this.GameAdditionalCommandsLabel.Size = new System.Drawing.Size(221, 13);
             this.GameAdditionalCommandsLabel.TabIndex = 54;
@@ -542,10 +580,10 @@ namespace AmpShell.Views
             // 
             // GameAdditionalCommandsTextBox
             // 
-            this.GameAdditionalCommandsTextBox.Location = new System.Drawing.Point(10, 121);
+            this.GameAdditionalCommandsTextBox.Location = new System.Drawing.Point(10, 155);
             this.GameAdditionalCommandsTextBox.Multiline = true;
             this.GameAdditionalCommandsTextBox.Name = "GameAdditionalCommandsTextBox";
-            this.GameAdditionalCommandsTextBox.Size = new System.Drawing.Size(433, 423);
+            this.GameAdditionalCommandsTextBox.Size = new System.Drawing.Size(433, 389);
             this.GameAdditionalCommandsTextBox.TabIndex = 55;
             // 
             // AlternateDOSBoxLocationBrowseButton
@@ -575,9 +613,10 @@ namespace AmpShell.Views
             this.AlternateDOSBoxLocationLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.AlternateDOSBoxLocationLabel.Location = new System.Drawing.Point(8, 3);
             this.AlternateDOSBoxLocationLabel.Name = "AlternateDOSBoxLocationLabel";
-            this.AlternateDOSBoxLocationLabel.Size = new System.Drawing.Size(364, 39);
+            this.AlternateDOSBoxLocationLabel.Size = new System.Drawing.Size(447, 39);
             this.AlternateDOSBoxLocationLabel.TabIndex = 34;
-            this.AlternateDOSBoxLocationLabel.Text = "\r\n           Use another DOSBox executable (DOSBox ECE, DOSBox SVN, ...) :\r\n\r\n";
+            this.AlternateDOSBoxLocationLabel.Text = "\r\n           Use another DOSBox executable, such as DOSBox ECE, DOSBox SVN, ... (" +
+    "optional) :\r\n\r\n";
             this.AlternateDOSBoxLocationLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // NotesTabPage
@@ -707,5 +746,8 @@ namespace AmpShell.Views
         private System.Windows.Forms.Label GameAdditionalCommandsLabel;
         private System.Windows.Forms.TextBox GameAdditionalCommandsTextBox;
         private System.Windows.Forms.CheckBox DontUseDOSBoxCheckBox;
+        private System.Windows.Forms.Button DOSBoxWorkingDirButton;
+        private System.Windows.Forms.Label DOSBoxWorkingDirLabel;
+        private System.Windows.Forms.TextBox DOSBoxWorkingDirTextBox;
     }
 }
