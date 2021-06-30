@@ -174,7 +174,7 @@ namespace AmpShell.Core.Model
             return commandLine.ToString();
         }
 
-        internal bool IsDOSBoxXUsed()
+        public bool IsDOSBoxXUsed()
         {
             if (IsDOSBoxUsed() == false)
             {

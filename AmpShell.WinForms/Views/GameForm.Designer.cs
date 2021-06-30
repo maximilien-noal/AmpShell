@@ -527,7 +527,7 @@ namespace AmpShell.WinForms.Views
             // 
             // DOSBoxWorkingDirButton
             // 
-            this.DOSBoxWorkingDirButton.Image = global::AmpShell.Properties.Resources.SearchFolderHS;
+            this.DOSBoxWorkingDirButton.Image = global::AmpShell.WinForms.Properties.Resources.SearchFolderHS;
             this.DOSBoxWorkingDirButton.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.DOSBoxWorkingDirButton.Location = new System.Drawing.Point(423, 84);
             this.DOSBoxWorkingDirButton.Name = "DOSBoxWorkingDirButton";
@@ -541,7 +541,7 @@ namespace AmpShell.WinForms.Views
             // DOSBoxWorkingDirLabel
             // 
             this.DOSBoxWorkingDirLabel.AutoSize = true;
-            this.DOSBoxWorkingDirLabel.Image = global::AmpShell.Properties.Resources.Folder_Open;
+            this.DOSBoxWorkingDirLabel.Image = global::AmpShell.WinForms.Properties.Resources.Folder_Open;
             this.DOSBoxWorkingDirLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.DOSBoxWorkingDirLabel.Location = new System.Drawing.Point(8, 68);
             this.DOSBoxWorkingDirLabel.Name = "DOSBoxWorkingDirLabel";
