@@ -42,8 +42,7 @@ namespace AmpShell.Core.Model
 
         private View viewMode = View.LargeIcon;
 
-        public Category()
-                                                                                                                            : base()
+        public Category() : base()
         {
         }
 

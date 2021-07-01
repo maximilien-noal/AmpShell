@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AmpShell.AvaloniaUI", "AmpS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AmpShell.WPF", "AmpShell.WPF\AmpShell.WPF.csproj", "{64962181-6B07-4F9A-8EF1-EA360D6A9704}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AmpShell.ViewModels", "AmpShell.ViewModels\AmpShell.ViewModels.csproj", "{8FF584EC-A87F-49F2-AB38-96A605A6F489}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AmpShell.ViewModels", "AmpShell.ViewModels\AmpShell.ViewModels.csproj", "{8FF584EC-A87F-49F2-AB38-96A605A6F489}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AmpShell.UnitTests", "AmpShell.UnitTests\AmpShell.UnitTests.csproj", "{414EEC3A-EA7F-4693-9E2A-59FF947A553A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{8FF584EC-A87F-49F2-AB38-96A605A6F489}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8FF584EC-A87F-49F2-AB38-96A605A6F489}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8FF584EC-A87F-49F2-AB38-96A605A6F489}.Release|Any CPU.Build.0 = Release|Any CPU
+		{414EEC3A-EA7F-4693-9E2A-59FF947A553A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{414EEC3A-EA7F-4693-9E2A-59FF947A553A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{414EEC3A-EA7F-4693-9E2A-59FF947A553A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{414EEC3A-EA7F-4693-9E2A-59FF947A553A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
