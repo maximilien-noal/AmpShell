@@ -12,11 +12,12 @@
 		<PackageProjectUrl>http://ampshell.tuxfamily.org</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/maximilien-noal/AmpShell</RepositoryUrl>
 		<NeutralLanguage></NeutralLanguage>
+		<EnableNETAnalyzers>true</EnableNETAnalyzers>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="DeepCopy" Version="1.0.3" />
-		<PackageReference Include="ReactiveUI" Version="13.3.2" />
+		<PackageReference Include="ReactiveUI" Version="14.1.1" />
 	</ItemGroup>
 
 	<ItemGroup>

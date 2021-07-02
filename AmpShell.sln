@@ -11,11 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AmpShell.Windows", "AmpShel
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AmpShell.AvaloniaUI", "AmpShell.AvaloniaUI\AmpShell.AvaloniaUI.csproj", "{304785E8-155F-41C4-8E49-7822A9A1AA89}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AmpShell.WPF", "AmpShell.WPF\AmpShell.WPF.csproj", "{64962181-6B07-4F9A-8EF1-EA360D6A9704}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AmpShell.ViewModels", "AmpShell.ViewModels\AmpShell.ViewModels.csproj", "{8FF584EC-A87F-49F2-AB38-96A605A6F489}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AmpShell.UnitTests", "AmpShell.UnitTests\AmpShell.UnitTests.csproj", "{414EEC3A-EA7F-4693-9E2A-59FF947A553A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AmpShell.UnitTests", "AmpShell.UnitTests\AmpShell.UnitTests.csproj", "{414EEC3A-EA7F-4693-9E2A-59FF947A553A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,10 +37,6 @@ Global
 		{304785E8-155F-41C4-8E49-7822A9A1AA89}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{304785E8-155F-41C4-8E49-7822A9A1AA89}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{304785E8-155F-41C4-8E49-7822A9A1AA89}.Release|Any CPU.Build.0 = Release|Any CPU
-		{64962181-6B07-4F9A-8EF1-EA360D6A9704}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{64962181-6B07-4F9A-8EF1-EA360D6A9704}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{64962181-6B07-4F9A-8EF1-EA360D6A9704}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{64962181-6B07-4F9A-8EF1-EA360D6A9704}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8FF584EC-A87F-49F2-AB38-96A605A6F489}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8FF584EC-A87F-49F2-AB38-96A605A6F489}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8FF584EC-A87F-49F2-AB38-96A605A6F489}.Release|Any CPU.ActiveCfg = Release|Any CPU
