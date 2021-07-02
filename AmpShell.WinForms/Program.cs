@@ -12,26 +12,29 @@
 
 namespace AmpShell.WinForms
 {
+    using AmpShell.Core.DAL;
+    using AmpShell.WinForms.Views;
     using System;
-    using System.Collections.Generic;
+    using System.Diagnostics;
     using System.IO;
     using System.Linq;
     using System.Threading;
     using System.Windows.Forms;
 
-    using AmpShell.Core.DAL;
-    using AmpShell.Core.Model;
-    using AmpShell.WinForms.Views;
-    using AmpShell.WinShell;
-
     internal static class Program
     {
-        /// <summary>
-        /// Application entry point.
-        /// </summary>
+        private static void CurrentDomainUnhandledExceptionMethod(object sender, UnhandledExceptionEventArgs e) => ShowException(((Exception)e.ExceptionObject).GetBaseException());
+
+        private static bool IsWindows98() => Environment.OSVersion.Version.Minor == 10;
+
         [STAThread]
         private static void Main(string[] args)
         {
+            if (args.Any())
+            {
+                Process.Start("AmpShell.Cli", string.Join(" ", args));
+                return;
+            }
             if (IsWindows98() == false)
             {
                 Application.EnableVisualStyles();
@@ -39,19 +42,15 @@ namespace AmpShell.WinForms
             Application.SetCompatibleTextRenderingDefault(false);
 
             //The thread exception handler has to be assigned before any control is presented on the screen.
-            if (args is null || args.Any() == false)
-            {
-                // Add the event handler for handling UI thread exceptions to the event.
-                Application.ThreadException += new ThreadExceptionEventHandler(UIThreadExceptionMethod);
+            // Add the event handler for handling UI thread exceptions to the event.
+            Application.ThreadException += new ThreadExceptionEventHandler(UIThreadExceptionMethod);
 
-                // Set the unhandled exception mode to force all Windows Forms errors to go through
-                // our handler.
-                Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
+            // Set the unhandled exception mode to force all Windows Forms errors to go through our handler.
+            Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
 
-                // Add the event handler for handling non-UI thread exceptions to the event.
-                AppDomain.CurrentDomain.UnhandledException +=
-                    new UnhandledExceptionEventHandler(CurrentDomainUnhandledExceptionMethod);
-            }
+            // Add the event handler for handling non-UI thread exceptions to the event.
+            AppDomain.CurrentDomain.UnhandledException +=
+                new UnhandledExceptionEventHandler(CurrentDomainUnhandledExceptionMethod);
 
             UserDataAccessor.LoadUserSettingsAndRunAutoConfig();
 
@@ -66,7 +65,8 @@ namespace AmpShell.WinForms
                 UserDataAccessor.UserData.DBPath = localDosbox;
             }
 
-            // if DOSBoxPath is still empty and we must use DOSBOx, say to the user that dosbox's executable cannot be found.
+            // if DOSBoxPath is still empty and we must use DOSBox, say to the user that DOSBox's
+            // executable cannot be found.
             else if (UserDataAccessor.UserData.GamesUseDOSBox && (StringExt.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBPath) || File.Exists(UserDataAccessor.UserData.DBPath) == false))
             {
                 switch (MessageBox.Show("AmpShell cannot find DOSBox, do you want to indicate DOSBox's executable location now ? Choose 'Cancel' to quit.", "Cannot find DOSBox", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question))
@@ -99,81 +99,7 @@ namespace AmpShell.WinForms
                         break;
                 }
             }
-            if (args is null || args.Any() == false)
-            {
-                RunMainForm();
-            }
-            else
-            {
-                // get console output
-                if (!NativeMethods.AttachConsole(-1))
-                {
-                    NativeMethods.AllocConsole();
-                }
-                if (args.Contains("-g"))
-                {
-                    RunCli(new Options(args));
-                }
-                else
-                {
-                    OutputHelpText(new Options());
-                }
-
-                // detach console
-                NativeMethods.FreeConsole();
-
-                // gives command prompt back to the user
-                SendKeys.SendWait("{ENTER}");
-            }
-        }
-
-        private static void UIThreadExceptionMethod(object sender, ThreadExceptionEventArgs e) => ShowException(e.Exception.GetBaseException());
-
-        private static void ShowException(Exception baseException) => MessageBox.Show($"Please report this error to the author:{Environment.NewLine}{baseException.Message}{Environment.NewLine}{baseException.StackTrace}");
-
-        private static void CurrentDomainUnhandledExceptionMethod(object sender, UnhandledExceptionEventArgs e) => ShowException(((Exception)e.ExceptionObject).GetBaseException());
-
-        private static bool IsWindows98() => Environment.OSVersion.Version.Minor == 10;
-
-        private static void OutputHelpText(Options options)
-        {
-            List<CommandLineOption> list = new List<CommandLineOption>() { options.Game, options.Setup, options.Verbose };
-            for (int i = 0; i < list.Count; i++)
-            {
-                CommandLineOption item = list[i];
-                Console.WriteLine(item.HelpText);
-            }
-        }
-
-        private static void RunCli(Options options)
-        {
-            if (StringExt.IsNullOrWhiteSpace(options.Game.Value))
-            {
-                Console.WriteLine($"Empty game specified. Exiting...");
-            }
-            Game game;
-            game = UserDataAccessor.GetFirstGameWithName(options.Game.Value);
-            if (StringExt.IsNullOrWhiteSpace(game.DOSEXEPath))
-            {
-                game = UserDataAccessor.GetGameWithMainExecutable(options.Game.Value);
-            }
-            if (options.Setup.IsProvided)
-            {
-                if (options.Verbose.IsProvided)
-                {
-                    Console.WriteLine($"Running '{game.Name}''s setup executable: {game.SetupEXEPath}...");
-                }
-                game.RunSetup();
-            }
-            else
-            {
-                if (options.Verbose.IsProvided)
-                {
-                    Console.WriteLine($"Running the game named '{game.Name}' via the main executable at {game.DOSEXEPath}...");
-                }
-
-                game.Run();
-            }
+            RunMainForm();
         }
 
         private static void RunMainForm()
@@ -189,5 +115,9 @@ namespace AmpShell.WinForms
                 Application.Run(mainForm);
             }
         }
+
+        private static void ShowException(Exception baseException) => MessageBox.Show($"Please report this error to the author:{Environment.NewLine}{baseException.Message}{Environment.NewLine}{baseException.StackTrace}");
+
+        private static void UIThreadExceptionMethod(object sender, ThreadExceptionEventArgs e) => ShowException(e.Exception.GetBaseException());
     }
 }

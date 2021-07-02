@@ -13,17 +13,20 @@ namespace AmpShell
     using System;
     using System.Linq;
 
-    public class Options
+    public class CliOptions
+
     {
         private readonly CommandLineOption game = new CommandLineOption() { ShortName = "-g", LongName = "--game", Required = true, Value = string.Empty, HelpText = "Game to launch silently. The game's name (ie. 'DOOM') or main executable path (ie. 'C:\\games\\Doom.exe') is required." };
-        private readonly CommandLineOption verbose = new CommandLineOption() { ShortName = "-v", LongName = "--verbose", Required = false, Value = string.Empty, HelpText = "Verbose mode. AmpShell will tell what it is doing on the standard output." };
+
         private readonly CommandLineOption setup = new CommandLineOption() { ShortName = "-s", LongName = "--setup", Required = false, Value = string.Empty, HelpText = "Run the game's setup executable." };
 
-        public Options()
+        private readonly CommandLineOption verbose = new CommandLineOption() { ShortName = "-v", LongName = "--verbose", Required = false, Value = string.Empty, HelpText = "Verbose mode. AmpShell will tell what it is doing on the standard output." };
+
+        public CliOptions()
         {
         }
 
-        public Options(string[] args)
+        public CliOptions(string[] args)
         {
             this.verbose.IsProvided = args.Contains(this.verbose.ShortName) || args.Contains(this.verbose.LongName);
             this.setup.IsProvided = args.Contains(this.setup.ShortName) || args.Contains(this.setup.LongName);
@@ -50,8 +53,8 @@ namespace AmpShell
 
         public CommandLineOption Game { get => this.game; }
 
-        public CommandLineOption Verbose { get => this.verbose; }
-
         public CommandLineOption Setup { get => this.setup; }
+
+        public CommandLineOption Verbose { get => this.verbose; }
     }
 }
