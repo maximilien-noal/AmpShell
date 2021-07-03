@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AmpShell.UnitTests", "AmpSh
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AmpShell.Cli", "AmpShell.Cli\AmpShell.Cli.csproj", "{004D063B-43DC-46A9-BDBF-EE1BDE0DC232}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AmpShell.WPF", "AmpShell.WPF\AmpShell.WPF.csproj", "{348FBA78-F530-474D-8FFE-23C5366C4F87}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{004D063B-43DC-46A9-BDBF-EE1BDE0DC232}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{004D063B-43DC-46A9-BDBF-EE1BDE0DC232}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{004D063B-43DC-46A9-BDBF-EE1BDE0DC232}.Release|Any CPU.Build.0 = Release|Any CPU
+		{348FBA78-F530-474D-8FFE-23C5366C4F87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{348FBA78-F530-474D-8FFE-23C5366C4F87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{348FBA78-F530-474D-8FFE-23C5366C4F87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{348FBA78-F530-474D-8FFE-23C5366C4F87}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

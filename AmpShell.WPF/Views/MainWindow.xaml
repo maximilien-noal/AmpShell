@@ -1,0 +1,140 @@
+﻿<Window x:Class="AmpShell.WPF.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AmpShell.WPF"
+        xmlns:vm="clr-namespace:AmpShell.ViewModels;assembly=AmpShell.ViewModels"
+        mc:Ignorable="d"
+        Name="AmpShellMainWindow"
+        Title="AmpShell" Height="400" Width="800" ResizeMode="CanResizeWithGrip" WindowStartupLocation="CenterScreen" Icon="/AmpShell.ico"
+        d:DataContext="{d:DesignInstance Type=vm:MainViewModel}"
+        DataContext="{Binding ViewModel, RelativeSource={RelativeSource Self}}">
+    <Window.Style>
+        <Style TargetType="Window" BasedOn="{StaticResource {x:Type Window}}" />
+    </Window.Style>
+    <Window.InputBindings>
+        <KeyBinding Key="C" Modifiers="Ctrl" Command="{Binding NewCategory}" />
+        <KeyBinding Key="N" Modifiers="Ctrl" Command="{Binding NewGame}" />
+        <KeyBinding Key="R" Modifiers="Ctrl" Command="{Binding RunSelectedGame}" />
+        <KeyBinding Key="S" Modifiers="Ctrl" Command="{Binding RunGameSetup}" />
+        <KeyBinding Key="W" Modifiers="Ctrl" Command="{Binding OpenGameFolder}" />
+        <KeyBinding Key="E" Modifiers="Alt" Command="{Binding EditSelectedGame}" />
+        <KeyBinding Key="F" Modifiers="Alt" Command="{Binding EditSelectedGameConfigFile}" />
+        <KeyBinding Key="M" Modifiers="Alt" Command="{Binding MakeConfigFileForSelectedGame}" />
+        <KeyBinding Key="C" Modifiers="Alt" Command="{Binding EditSelectedCategory}" />
+        <KeyBinding Key="Delete" Command="{Binding DeleteSelectedGame}" />
+        <KeyBinding Key="Delete" Modifiers="Shift" Command="{Binding DeleteSelectedCategory}" />
+        <KeyBinding Key="P" Modifiers="Alt" Command="{Binding ShowPreferences, ElementName=AmpShellMainWindow}" />
+        <KeyBinding Key="D" Modifiers="Ctrl" Command="{Binding RunDOSBox}" />
+        <KeyBinding Key="E" Modifiers="Ctrl" Command="{Binding RunConfigEditor}" />
+        <KeyBinding Key="D" Modifiers="Alt" Command="{Binding EditDefaultConfigFile}" />
+        <KeyBinding Key="I" Modifiers="Ctrl" Command="{Binding ImportAmpShellData}" />
+        <KeyBinding Key="L" Modifiers="Ctrl+Shift" Command="{Binding UseLargIcons}" />
+        <KeyBinding Key="S" Modifiers="Ctrl+Shift" Command="{Binding UseSmallIcons}" />
+        <KeyBinding Key="T" Modifiers="Ctrl+Shift" Command="{Binding UseTiles}" />
+        <KeyBinding Key="L" Modifiers="Ctrl" Command="{Binding UseList}" />
+        <KeyBinding Key="D" Modifiers="Ctrl+Shift" Command="{Binding UseDetails}" />
+        <KeyBinding Key="F1" Command="{Binding ShowAboutWindow, ElementName=AmpShellMainWindow}" />
+    </Window.InputBindings>
+    <Grid>
+        <Grid.ContextMenu>
+            <ContextMenu />
+        </Grid.ContextMenu>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Menu Grid.Row="0">
+            <MenuItem Header="_File">
+                <MenuItem Header="New category..." Command="{Binding NewCategory}" InputGestureText="Ctrl+C" />
+                <MenuItem Header="New game..." Command="{Binding NewGame}" InputGestureText="Ctrl+N" />
+                <MenuItem Header="Run selected game" Command="{Binding RunSelectedGame}" InputGestureText="Ctrl+R" />
+                <MenuItem Header="Run game setup" Command="{Binding RunGameSetup}" InputGestureText="Ctrl+S" />
+                <MenuItem Header="Open game folder" Command="{Binding OpenGameFolder}" InputGestureText="Ctrl+W" />
+                <Separator />
+                <MenuItem Header="Quit" Command="{Binding Quit}" InputGestureText="Alt+F4" />
+            </MenuItem>
+            <MenuItem Header="_Edit">
+                <MenuItem Header="Edit selected game..." Command="{Binding EditSelectedGame}" InputGestureText="Alt+E" />
+                <MenuItem Header="Edit game configuration file..." Command="{Binding EditSelectedGameConfigFile}" InputGestureText="Alt+F" />
+                <MenuItem Header="Make configuration file..." Command="{Binding MakeConfigFileForSelectedGame}" InputGestureText="Alt+M" />
+                <MenuItem Header="Edit selected category..." Command="{Binding EditSelectedCategory}" InputGestureText="Alt+C" />
+                <MenuItem Header="Delete selected game..." Command="{Binding DeleteSelectedGame}" InputGestureText="Delete" />
+                <MenuItem Header="Delete selected category..." Command="{Binding DeleteSelectedCategory}" InputGestureText="Shift+Delete" />
+                <Separator />
+                <MenuItem Name="PreferencesMenuItem" Header="Preferences..." Command="{Binding ShowPreferences, ElementName=AmpShellMainWindow}" InputGestureText="Alt+P" />
+            </MenuItem>
+            <MenuItem Header="_Tools">
+                <MenuItem Header="Run DOSBox" Command="{Binding RunDOSBox}" InputGestureText="Ctrl+D" />
+                <MenuItem Header="Run configuration editor" Command="{Binding RunConfigEditor}" InputGestureText="Ctrl+E" />
+                <MenuItem Header="Edit default configuration" Command="{Binding EditDefaultConfigFile}" InputGestureText="Alt+D" />
+                <MenuItem Header="Import games and categories..." Command="{Binding ImportAmpShellData}" InputGestureText="Ctrl+I" />
+            </MenuItem>
+            <MenuItem Header="_View">
+                <MenuItem Header="Large icons" Command="{Binding UseLargIcons}" InputGestureText="Ctrl+Shift+L" />
+                <MenuItem Header="Small icons" Command="{Binding UseSmallIcons}" InputGestureText="Ctrl+Shift+S" />
+                <MenuItem Header="Tiles" Command="{Binding UseTiles}" InputGestureText="Ctrl+Shift+T" />
+                <MenuItem Header="List" Command="{Binding UseList}" InputGestureText="Ctrl+L" />
+                <MenuItem Header="Details" Command="{Binding UseDetails}" InputGestureText="Ctrl+Shift+D" />
+                <MenuItem Header="Order by...">
+                    <MenuItem Header="Name" Command="{Binding OrderByName}" />
+                    <MenuItem Header="Name (reverse)" Command="{Binding OrderByNameReversed}" />
+                    <MenuItem Header="Release Date" Command="{Binding OrderByReleaseDate}" />
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="_Help">
+                <MenuItem Header="About" Command="{Binding ShowAboutWindow, ElementName=AmpShellMainWindow}" InputGestureText="F1" />
+            </MenuItem>
+        </Menu>
+        <ToolBarTray Grid.Row="1">
+            <ToolBar>
+                <Button Command="{Binding NewCategory}">
+                    <Image Source="/Resources/NewCategory.png" />
+                </Button>
+                <Button Command="{Binding NewGame}">
+                    <Image Source="/Resources/NewDocumentHS_button.png" />
+                </Button>
+                <Button Command="{Binding RunSelectedGame}">
+                    <Image Source="/Resources/GameRun.png" />
+                </Button>
+                <Button Command="{Binding RunGameSetup}">
+                    <Image Source="/Resources/Setup_Install.png" />
+                </Button>
+                <Button Command="{Binding OpenGameFolder}">
+                    <Image Source="/Resources/Folder_Open.png" />
+                </Button>
+                <Separator />
+                <Button />
+                <Button />
+                <Button />
+                <Button />
+                <Button />
+                <Button />
+                <Separator />
+                <Button />
+                <Button />
+                <Button />
+                <Separator />
+                <Button />
+                <Button />
+                <Button />
+                <Button />
+                <Button />
+                <Button />
+            </ToolBar>
+        </ToolBarTray>
+        <TabControl Grid.Row="2" ItemsSource="{Binding Categories}">
+            <TabControl.ContextMenu>
+                <ContextMenu />
+            </TabControl.ContextMenu>
+        </TabControl>
+        <StatusBar Grid.Row="3">
+            <StatusBarItem>
+                <TextBlock />
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
+</Window>

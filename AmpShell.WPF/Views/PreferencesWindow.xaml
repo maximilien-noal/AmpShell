@@ -1,0 +1,196 @@
+﻿<Window x:Class="AmpShell.WPF.Views.PreferencesWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewmodels="clr-namespace:AmpShell.ViewModels;assembly=AmpShell.ViewModels"
+        mc:Ignorable="d"
+        Title="Preferences"
+        SizeToContent="WidthAndHeight" MinWidth="500" MinHeight="300"
+        ResizeMode="CanResizeWithGrip" WindowStartupLocation="CenterOwner" WindowStyle="ToolWindow"
+        d:DataContext="{d:DesignInstance Type=viewmodels:PreferencesViewModel}">
+    <Window.Style>
+        <Style TargetType="Window" BasedOn="{StaticResource {x:Type Window}}" />
+    </Window.Style>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TabControl Grid.Row="0">
+            <TabItem Header="DOSBox">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Grid.Column="0" Content="DOSBox executable path:"></Label>
+                    <TextBox Grid.Row="1" Grid.Column="0" Margin="5" Text="{Binding UserData.DBPath}"></TextBox>
+                    <Button Margin="5" Grid.Row="1" Grid.Column="1" Content="..."></Button>
+                    <Label Grid.Row="2" Grid.Column="0" Content="Default DOSBox configuration file (optional but recommended):"></Label>
+                    <TextBox Grid.Row="3" Grid.Column="0" Margin="5"></TextBox>
+                    <Button Margin="5" Grid.Row="3" Grid.Column="1" Content="..."></Button>
+                    <Label Grid.Row="4" Grid.Column="0" Content="Default DOSBox language file:"></Label>
+                    <TextBox Grid.Row="5" Grid.Column="0" Margin="5"></TextBox>
+                    <Button Margin="5" Grid.Row="5" Grid.Column="1" Content="..."></Button>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Games">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Grid.Column="0" Content="Default directory to open when looking for games:"></Label>
+                    <TextBox Grid.Row="1" Grid.Column="0" Margin="5"></TextBox>
+                    <Button Margin="5" Grid.Row="1" Grid.Column="1" Content="..."></Button>
+                    <Label Grid.Row="2" Grid.Column="0" Content="Default directory to open when looking for image files (such as CD images files):"></Label>
+                    <TextBox Grid.Row="3" Grid.Column="0" Margin="5"></TextBox>
+                    <Button Margin="5" Grid.Row="3" Grid.Column="1" Content="..."></Button>
+                    <Label Grid.Row="4" Grid.Column="0" Content="Additional DOSBox commands for each new game (-c &quot;command&quot;:)"></Label>
+                    <TextBox Grid.Row="5" Grid.Column="0" Margin="5"></TextBox>
+                    <Button Margin="5" Grid.Row="5" Grid.Column="1" Content="..."></Button>
+                    <GroupBox Grid.Row="6" Header="Other options for each new game:">
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Content="no console" Margin="5" />
+                            <CheckBox Content="fullscreen" Margin="5" />
+                            <CheckBox Content="quit on exit" Margin="5" />
+                        </StackPanel>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Categories">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Content="Large icon size for all categories:"></Label>
+                    <ComboBox Grid.Row="1" Margin="5">
+                        <ComboBoxItem Content="48x48"></ComboBoxItem>
+                        <ComboBoxItem Content="64x64"></ComboBoxItem>
+                        <ComboBoxItem Content="80x80"></ComboBoxItem>
+                        <ComboBoxItem Content="96x96"></ComboBoxItem>
+                        <ComboBoxItem Content="112x112"></ComboBoxItem>
+                        <ComboBoxItem Content="128x128"></ComboBoxItem>
+                        <ComboBoxItem Content="144x144"></ComboBoxItem>
+                        <ComboBoxItem Content="160x160"></ComboBoxItem>
+                        <ComboBoxItem Content="176x176"></ComboBoxItem>
+                        <ComboBoxItem Content="192x192"></ComboBoxItem>
+                        <ComboBoxItem Content="208x208"></ComboBoxItem>
+                        <ComboBoxItem Content="224x224"></ComboBoxItem>
+                        <ComboBoxItem Content="240x240"></ComboBoxItem>
+                        <ComboBoxItem Content="256x256"></ComboBoxItem>
+                    </ComboBox>
+                    <Label Grid.Row="2" Content="Current categories:" />
+                    <ListView Grid.Row="3" ItemsSource="{Binding Categories}" />
+                    <Button Grid.Row="4" Margin="5" Content="Re-order them all by name" />
+                    <Label Grid.Row="5" Content="Default view mode for the selected category above:" />
+                    <Grid Grid.Row="6">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.Row="0" Orientation="Vertical">
+                            <RadioButton GroupName="ViewMode" Content="Large" />
+                            <RadioButton GroupName="ViewMode" Content="Small" />
+                            <RadioButton GroupName="ViewMode" Content="List" />
+                            <RadioButton GroupName="ViewMode" Content="Tiles" />
+                            <RadioButton GroupName="ViewMode" Content="Details" />
+                        </StackPanel>
+                        <CheckBox Margin="5,10,5,5" Grid.Row="1" Content="Set this as the view mode for all categories." />
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Config Editor">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Grid.Column="0" Content="Open DOSBox configuration files with the following editor (optional):"></Label>
+                    <TextBox Grid.Row="1" Grid.Column="0" Margin="5"></TextBox>
+                    <Button Margin="5" Grid.Row="1" Grid.Column="1" Content="..."></Button>
+                    <Label Grid.Row="2" Grid.Column="0" Content="Additional parameters to use with the editor (optional):"></Label>
+                    <TextBox Grid.Row="3" Grid.Column="0" Margin="5"></TextBox>
+                    <Button Margin="5" Grid.Row="3" Grid.Column="1" Content="..."></Button>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Behavior">
+                <UniformGrid>
+                    <GroupBox Header="Remember..." Margin="5">
+                        <StackPanel Orientation="Vertical">
+                            <CheckBox Content="Window Size" />
+                            <CheckBox Content="Window Position" />
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Header="Prompt before..." Margin="5">
+                        <StackPanel Orientation="Vertical">
+                            <CheckBox Content="Deleting a category" />
+                            <CheckBox Content="Deleting a game" />
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Header="Show..." Margin="5">
+                        <StackPanel Orientation="Vertical">
+                            <CheckBox Content="Menu bar" />
+                            <CheckBox Content="Tool bar" />
+                            <CheckBox Content="Details bar" />
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Header="Use..." Margin="5">
+                        <CheckBox Content="DOSBox to launch games" />
+                    </GroupBox>
+                </UniformGrid>
+            </TabItem>
+        </TabControl>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal" Grid.Column="0" HorizontalAlignment="Left">
+                <CheckBox Margin="5" Content="Portable Mode"></CheckBox>
+                <Button Margin="5" Content="Re-Scan AmpShell's directory"></Button>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Right" Grid.Column="1" Orientation="Horizontal">
+                <Button Margin="5" IsDefault="True" Content="OK"></Button>
+                <Button Name="Cancel" Margin="5" IsCancel="True" Content="Cancel" Click="ButtonCancel_Click"></Button>
+            </StackPanel>
+        </Grid>
+        <StatusBar Grid.Row="2">
+            <StatusBarItem Content="{Binding HelpMessage}"></StatusBarItem>
+        </StatusBar>
+    </Grid>
+</Window>

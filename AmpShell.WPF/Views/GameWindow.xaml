@@ -1,0 +1,145 @@
+﻿<Window x:Class="AmpShell.WPF.Views.GameWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AmpShell.WPF"
+        mc:Ignorable="d"
+        Title="Adding/Editing a game..."
+        SizeToContent="WidthAndHeight"
+        ResizeMode="CanResizeWithGrip" WindowStartupLocation="CenterOwner">
+    <Window.Style>
+        <Style TargetType="Window" BasedOn="{StaticResource {x:Type Window}}" />
+    </Window.Style>
+    <Grid MinHeight="300">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TabControl Grid.Row="0">
+            <TabItem Header="Basic Configuration">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" Grid.ColumnSpan="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Row="0" Orientation="Vertical">
+                            <Label Content="Game name:" />
+                            <TextBox Margin="5" />
+                            <Label Content="Release date (optional):" />
+                            <DatePicker />
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Orientation="Vertical">
+                            <Button MinHeight="64" MinWidth="64">
+                                <Image />
+                            </Button>
+                            <Button Margin="5" Content="Reset icon"></Button>
+                        </StackPanel>
+                    </Grid>
+                    <Label Grid.Row="1" Grid.Column="0" Content="Game executable location (optional):" />
+                    <TextBox Grid.Row="2" Grid.Column="0" Margin="5" />
+                    <Button Grid.Row="2" Grid.Column="1" Content="..." Margin="5" />
+                    <Expander Header="More options" Grid.Row="3" Grid.ColumnSpan="2">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Label Grid.Row="0" Grid.Column="0" Content="CD image file or directory mounted as D: (optional):" />
+                            <TextBox Grid.Row="1" Grid.Column="0" Margin="5" />
+                            <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="1">
+                                <Button  Content="File..." Margin="5" />
+                                <Button  Content="Folder..." Margin="5" />
+                            </StackPanel>
+                            <GroupBox Header="Mounting method" Grid.Row="3">
+                                <StackPanel Orientation="Vertical">
+                                    <RadioButton GroupName="MountingOptions" Content="Use IOCTL (for a CD/DVD drive)" />
+                                    <RadioButton GroupName="MountingOptions" Content="Is a floppy disk image (mounted as A:)" />
+                                    <RadioButton GroupName="MountingOptions" Content="None" />
+                                    <Label Content="Disc label (only if it is a directory) (optional):" Margin="0,5,0,0" />
+                                    <TextBox />
+                                </StackPanel>
+                            </GroupBox>
+                            <Label Grid.Row="4" Grid.Column="0" Content="Directory mounted as C: (optional):" />
+                            <TextBox Grid.Row="5" Grid.Column="0" Margin="5" />
+                            <Button Grid.Row="5" Grid.Column="1" Content="..." Margin="5" />
+                            <Label Grid.Row="6" Grid.Column="0" Content="Game setup executable location (optional):" />
+                            <TextBox Grid.Row="7" Grid.Column="0" Margin="5" />
+                            <Button Grid.Row="7" Grid.Column="1" Content="..." Margin="5" />
+                            <Label Grid.Row="8" Grid.Column="0" Content="Custom configuration location (optional):" />
+                            <TextBox Grid.Row="9" Grid.Column="0" Margin="5" />
+                            <Button Grid.Row="9" Grid.Column="1" Content="..." Margin="5" />
+                            <CheckBox Grid.Row="10" Grid.Column="0" Content="No config file at all (may not work with DOSBox 0.73 or newer)" Margin="5" />
+                        </Grid>
+                    </Expander>
+                    <GroupBox Header="Other options" Grid.Row="4">
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Content="no console" Margin="5" />
+                            <CheckBox Content="fullscreen" Margin="5" />
+                            <CheckBox Content="quit on exit" Margin="5" />
+                        </StackPanel>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Advanced Configuration">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Row="0" Grid.ColumnSpan="2" Content="Use another DOSBox executable (DOSBox ECE, DOSBox SVN, ...):" />
+                    <TextBox Grid.Row="1" Grid.Column="0" Margin="5" />
+                    <Button Grid.Row="1" Grid.Column="1" Margin="5" Content="..."></Button>
+                    <Label Grid.Row="2" Grid.ColumnSpan="2" Content="Working directory for DOSBox (optional):" />
+                    <TextBox Grid.Row="3" Grid.ColumnSpan="2" Margin="5" AcceptsReturn="True" Text="{Binding DOSBoxWorkingDirectory}" />
+                    <CheckBox Grid.Row="4" Grid.ColumnSpan="2" Content="Don't use DOSBox for this game. Run it as is." />
+                    <Label Grid.Row="5" Grid.ColumnSpan="2" Content="Additional DOSBox commands (optional):" />
+                    <TextBox Grid.Row="6" Grid.ColumnSpan="2" Margin="5" MinHeight="300" AcceptsReturn="True" Text="{Binding AdditionalCommands}" />
+                    <TextBlock Grid.Row="7" HorizontalAlignment="Center">Put each command on a new line.</TextBlock>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Notes">
+                <TextBox Text="{Binding Notes}" />
+            </TabItem>
+        </TabControl>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button IsDefault="True" Content="OK" Margin="5" />
+            <Button IsCancel="True" Content="Cancel" Margin="5" />
+        </StackPanel>
+    </Grid>
+</Window>
