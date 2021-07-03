@@ -34,7 +34,6 @@
             var splash = new SplashScreen(System.Reflection.Assembly.GetExecutingAssembly(), "Resources/splashscreen.png");
             splash.Show(true, true);
 #endif
-            UserDataAccessor.LoadUserSettingsAndRunAutoConfig();
 
             base.OnStartup(e);
             try

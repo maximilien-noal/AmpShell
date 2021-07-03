@@ -24,72 +24,74 @@ namespace AmpShell.Core.Model
 
     public class Game : PropertyChangedNotifier
     {
-        private string notes = string.Empty;
+        private string additionalCommands = string.Empty;
 
-        public string Notes
-        {
-            get => notes;
-            set { Set(ref notes, value); }
-        }
+        private string alternateDOSBoxExePath = string.Empty;
 
-        private string dosboxWorkingDirectory = string.Empty;
+        private bool cdIsAnImage;
 
-        public string DOSBoxWorkingDirectory
-        {
-            get => dosboxWorkingDirectory;
-            set { Set(ref dosboxWorkingDirectory, value); }
-        }
-
-        [XmlAttribute("Signature")]
-        public string Signature { get; set; }
-
-        private bool usesDOSBox = true;
-
-        public bool UsesDOSBox
-        {
-            get => usesDOSBox;
-            set { Set(ref usesDOSBox, value); }
-        }
-
-        private string name = string.Empty;
-
-        public string Name
-        {
-            get => name;
-            set { Set(ref name, value); }
-        }
-
-        private DateTime releaseDate = DateTime.Parse("01/01/1980", CultureInfo.InvariantCulture);
-
-        public DateTime ReleaseDate
-        {
-            get => releaseDate;
-            set { Set(ref releaseDate, value); }
-        }
-
-        private string directory = string.Empty;
-
-        /// <summary>
-        /// Gets or sets game's directory mounted as C:.
-        /// </summary>
-        public string Directory
-        {
-            get => directory;
-            set { Set(ref directory, value); }
-        }
+        private string cdLabel = string.Empty;
 
         private string cdPath = string.Empty;
 
-        /// <summary>
-        /// Gets or sets game's CD image / CD directory (like 'D:\') location.
-        /// </summary>
-        public string CDPath
+        private string dbConfPath = string.Empty;
+
+        private string directory = string.Empty;
+
+        private string dosboxWorkingDirectory = string.Empty;
+
+        private string dosExePath = string.Empty;
+
+        private string icon = string.Empty;
+
+        private bool inFullScreen;
+
+        private bool mountAsFloppy;
+
+        private string name = string.Empty;
+
+        private bool noConfig;
+
+        private bool noConsole;
+
+        private string notes = string.Empty;
+
+        private bool quitOnExit;
+
+        private DateTime releaseDate = DateTime.Parse("01/01/1980", CultureInfo.InvariantCulture);
+
+        private string setupEXEPath = string.Empty;
+
+        private bool useIOCTL;
+
+        private bool usesDOSBox = true;
+
+        /// <summary> Gets or sets game's additional commands for DOSBox. </summary>
+        public string AdditionalCommands
         {
-            get => cdPath;
-            set { Set(ref cdPath, value); }
+            get => additionalCommands;
+            set { Set(ref additionalCommands, value); }
         }
 
-        private string cdLabel = string.Empty;
+        /// <summary>
+        /// Gets or sets the path to DOSBox Daum, ECE, SVN, DOSBox-X, DOSBox Staging, or other fork
+        /// instead of the DOSBox version set in the global preferences.
+        /// </summary>
+        public string AlternateDOSBoxExePath
+        {
+            get => alternateDOSBoxExePath;
+            set { Set(ref alternateDOSBoxExePath, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether if GameCDPath points to a CD image file (false
+        /// if it points to a directory).
+        /// </summary>
+        public bool CDIsAnImage
+        {
+            get => cdIsAnImage;
+            set { Set(ref cdIsAnImage, value); }
+        }
 
         /// <summary>
         /// Gets or sets optional, user-specified CD LABEL (only when it is not an image).
@@ -100,36 +102,213 @@ namespace AmpShell.Core.Model
             set { Set(ref cdLabel, value); }
         }
 
-        private string setupEXEPath = string.Empty;
+        /// <summary> Gets or sets game's CD image / CD directory (like 'D:\') location. </summary>
+        public string CDPath
+        {
+            get => cdPath;
+            set { Set(ref cdPath, value); }
+        }
+
+        /// <summary> Gets or sets game's custom DOSBox .conf file path. </summary>
+        public string DBConfPath
+        {
+            get => dbConfPath;
+            set { Set(ref dbConfPath, value); }
+        }
+
+        /// <summary> Gets or sets game's directory mounted as C:. </summary>
+        public string Directory
+        {
+            get => directory;
+            set { Set(ref directory, value); }
+        }
+
+        public string DOSBoxWorkingDirectory
+        {
+            get => dosboxWorkingDirectory;
+            set { Set(ref dosboxWorkingDirectory, value); }
+        }
+
+        /// <summary> Gets or sets game's main executable location. </summary>
+        public string DOSEXEPath
+        {
+            get => dosExePath;
+            set { Set(ref dosExePath, value); }
+        }
+
+        public string Icon
+        {
+            get => icon;
+            set { Set(ref icon, value); }
+        }
+
+        public bool InFullScreen
+        {
+            get => inFullScreen;
+            set { Set(ref inFullScreen, value); }
+        }
 
         /// <summary>
-        /// Gets or sets game's setup executable location.
+        /// Gets or sets a value indicating whether option to use the image file as a floppy (A:).
         /// </summary>
+        public bool MountAsFloppy
+        {
+            get => mountAsFloppy;
+            set { Set(ref mountAsFloppy, value); }
+        }
+
+        public string Name
+        {
+            get => name;
+            set { Set(ref name, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether boolean if no config is used ("Don't use any
+        /// config file at all" checkbox in GameForm) Legacy 0.72 or older DOSBox option.
+        /// </summary>
+        public bool NoConfig
+        {
+            get => noConfig;
+            set { Set(ref noConfig, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether boolean for displaying DOSBox's console.
+        /// </summary>
+        public bool NoConsole
+        {
+            get => noConsole;
+            set { Set<bool>(ref noConsole, value); }
+        }
+
+        public string Notes
+        {
+            get => notes;
+            set { Set(ref notes, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether boolean for the -exit switch for DOSBox (if set
+        /// to true, DOSBox closes when the game exits).
+        /// </summary>
+        public bool QuitOnExit
+        {
+            get => quitOnExit;
+            set { Set(ref quitOnExit, value); }
+        }
+
+        public DateTime ReleaseDate
+        {
+            get => releaseDate;
+            set { Set(ref releaseDate, value); }
+        }
+
+        /// <summary> Gets or sets game's setup executable location. </summary>
         public string SetupEXEPath
         {
             get => setupEXEPath;
             set { Set(ref setupEXEPath, value); }
         }
 
-        internal string GetDOSBoxWorkingDirectory(string initialValue)
+        [XmlAttribute("Signature")]
+        public string Signature { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether option to use IOCTL (only available for optical drives).
+        /// </summary>
+        public bool UseIOCTL
         {
-            if (IsDOSBoxUsed() == false)
+            get => useIOCTL;
+            set { Set(ref useIOCTL, value); }
+        }
+
+        public bool UsesDOSBox
+        {
+            get => usesDOSBox;
+            set { Set(ref usesDOSBox, value); }
+        }
+
+        public string GetAdditionnalCommandsInASingleLine()
+        {
+            var commandLine = new StringBuilder();
+            string[] array = this.AdditionalCommands.Split('\r');
+            for (int i = 0; i < array.Length; i++)
             {
-                return initialValue;
+                string line = array[i];
+                line = line.Trim();
+                if (line.ToUpperInvariant().StartsWith("REM") == false && StringExt.IsNullOrWhiteSpace(line) == false)
+                {
+                    commandLine.Append($"-c \"{line}\"");
+                    if (i > 0)
+                    {
+                        commandLine.Append(' ');
+                    }
+                }
             }
-            if (StringExt.IsNullOrWhiteSpace(DOSBoxWorkingDirectory) == false)
+            return commandLine.ToString();
+        }
+
+        public string GetDOSBoxPath(Preferences userData) => StringExt.IsNullOrWhiteSpace(AlternateDOSBoxExePath) ? userData.DBPath : AlternateDOSBoxExePath;
+
+        public string GetFileDialogInitialDirectoryFromModel(Preferences userData)
+        {
+            if (StringExt.IsNullOrWhiteSpace(this.DOSEXEPath) == false && System.IO.Directory.Exists(Path.GetDirectoryName(this.DOSEXEPath)))
             {
-                return Path.GetDirectoryName(DOSBoxWorkingDirectory);
+                return Path.GetDirectoryName(this.DOSEXEPath);
             }
-            else if (IsDOSBoxXUsed())
+            else if (StringExt.IsNullOrWhiteSpace(this.Directory) == false && System.IO.Directory.Exists(this.Directory))
             {
-                return Path.GetDirectoryName(GetDOSBoxPath());
+                return this.Directory;
             }
-            else if (StringExt.IsNullOrWhiteSpace(DBConfPath) == false)
+            else if (StringExt.IsNullOrWhiteSpace(this.SetupEXEPath) == false && System.IO.Directory.Exists(Path.GetDirectoryName(this.SetupEXEPath)))
             {
-                return Path.GetDirectoryName(DBConfPath);
+                return Path.GetDirectoryName(this.SetupEXEPath);
             }
-            return initialValue;
+            else if (StringExt.IsNullOrWhiteSpace(this.Icon) == false && File.Exists(this.Icon))
+            {
+                return Path.GetDirectoryName(this.Icon);
+            }
+            else if (StringExt.IsNullOrWhiteSpace(this.DBConfPath) == false && System.IO.Directory.Exists(Path.GetDirectoryName(this.DBConfPath)))
+            {
+                return Path.GetDirectoryName(this.DBConfPath);
+            }
+            else if (StringExt.IsNullOrWhiteSpace(userData.GamesDefaultDir) == false && System.IO.Directory.Exists(userData.GamesDefaultDir))
+            {
+                return userData.GamesDefaultDir;
+            }
+            return string.Empty;
+        }
+
+        public bool IsDOSBoxUsed(Preferences userData) => userData.GamesUseDOSBox == true && this.UsesDOSBox == true;
+
+        public bool IsDOSBoxXUsed(Preferences userData)
+        {
+            if (IsDOSBoxUsed(userData) == false)
+            {
+                return false;
+            }
+            var dbPath = GetDOSBoxPath(userData);
+            if (StringExt.IsNullOrWhiteSpace(dbPath) == true)
+            {
+                return false;
+            }
+            if (File.Exists(dbPath))
+            {
+                return false;
+            }
+            return Path.GetFileNameWithoutExtension(dbPath).ToUpperInvariant().Contains("DOSBOX-X");
+        }
+
+        public void OpenGameFolder()
+        {
+            try
+            {
+                Process.Start(new ProcessStartInfo() { FileName = GetGameFolder(), UseShellExecute = true });
+            }
+            catch (Exception)
+            {
+            }
         }
 
         public string PutEachAdditionnalCommandsOnANewLine()
@@ -154,220 +333,29 @@ namespace AmpShell.Core.Model
             return commands.ToString();
         }
 
-        public string GetAdditionnalCommandsInASingleLine()
+        public Process Run(Preferences userData) => new GameProcessController(this, userData).StartGame();
+
+        public Process RunSetup(Preferences userData) => new GameProcessController(this, userData).StartGameSetup();
+
+        internal string GetDOSBoxWorkingDirectory(string initialValue, Preferences userData)
         {
-            var commandLine = new StringBuilder();
-            string[] array = this.AdditionalCommands.Split('\r');
-            for (int i = 0; i < array.Length; i++)
+            if (IsDOSBoxUsed(userData) == false)
             {
-                string line = array[i];
-                line = line.Trim();
-                if (line.ToUpperInvariant().StartsWith("REM") == false && StringExt.IsNullOrWhiteSpace(line) == false)
-                {
-                    commandLine.Append($"-c \"{line}\"");
-                    if (i > 0)
-                    {
-                        commandLine.Append(' ');
-                    }
-                }
+                return initialValue;
             }
-            return commandLine.ToString();
-        }
-
-        public bool IsDOSBoxXUsed()
-        {
-            if (IsDOSBoxUsed() == false)
+            if (StringExt.IsNullOrWhiteSpace(DOSBoxWorkingDirectory) == false)
             {
-                return false;
+                return Path.GetDirectoryName(DOSBoxWorkingDirectory);
             }
-            var dbPath = GetDOSBoxPath();
-            if (StringExt.IsNullOrWhiteSpace(dbPath) == true)
+            else if (IsDOSBoxXUsed(userData))
             {
-                return false;
+                return Path.GetDirectoryName(GetDOSBoxPath(userData));
             }
-            if (File.Exists(dbPath))
+            else if (StringExt.IsNullOrWhiteSpace(DBConfPath) == false)
             {
-                return false;
+                return Path.GetDirectoryName(DBConfPath);
             }
-            return Path.GetFileNameWithoutExtension(dbPath).ToUpperInvariant().Contains("DOSBOX-X");
-        }
-
-        private string dbConfPath = string.Empty;
-
-        /// <summary>
-        /// Gets or sets game's custom DOSBox .conf file path.
-        /// </summary>
-        public string DBConfPath
-        {
-            get => dbConfPath;
-            set { Set(ref dbConfPath, value); }
-        }
-
-        public bool IsDOSBoxUsed() => UserDataAccessor.UserData.GamesUseDOSBox == true && this.UsesDOSBox == true;
-
-        private string additionalCommands = string.Empty;
-
-        /// <summary>
-        /// Gets or sets game's additional commands for DOSBox.
-        /// </summary>
-        public string AdditionalCommands
-        {
-            get => additionalCommands;
-            set { Set(ref additionalCommands, value); }
-        }
-
-        private bool useIOCTL;
-
-        /// <summary>
-        /// Gets or sets a value indicating whether option to use IOCTL (only available for optical drives).
-        /// </summary>
-        public bool UseIOCTL
-        {
-            get => useIOCTL;
-            set { Set(ref useIOCTL, value); }
-        }
-
-        private bool mountAsFloppy;
-
-        /// <summary>
-        /// Gets or sets a value indicating whether option to use the image file as a floppy (A:).
-        /// </summary>
-        public bool MountAsFloppy
-        {
-            get => mountAsFloppy;
-            set { Set(ref mountAsFloppy, value); }
-        }
-
-        private bool noConfig;
-
-        /// <summary>
-        /// Gets or sets a value indicating whether boolean if no config is used ("Don't use any
-        /// config file at all" checkbox in GameForm) Legacy 0.72 or older DOSBox option.
-        /// </summary>
-        public bool NoConfig
-        {
-            get => noConfig;
-            set { Set(ref noConfig, value); }
-        }
-
-        private bool inFullScreen;
-
-        public bool InFullScreen
-        {
-            get => inFullScreen;
-            set { Set(ref inFullScreen, value); }
-        }
-
-        private bool noConsole;
-
-        /// <summary>
-        /// Gets or sets a value indicating whether boolean for displaying DOSBox's console.
-        /// </summary>
-        public bool NoConsole
-        {
-            get => noConsole;
-            set { Set<bool>(ref noConsole, value); }
-        }
-
-        private bool quitOnExit;
-
-        /// <summary>
-        /// Gets or sets a value indicating whether boolean for the -exit switch for DOSBox (if set
-        /// to true, DOSBox closes when the game exits).
-        /// </summary>
-        public bool QuitOnExit
-        {
-            get => quitOnExit;
-            set { Set(ref quitOnExit, value); }
-        }
-
-        private string dosExePath = string.Empty;
-
-        /// <summary>
-        /// Gets or sets game's main executable location.
-        /// </summary>
-        public string DOSEXEPath
-        {
-            get => dosExePath;
-            set { Set(ref dosExePath, value); }
-        }
-
-        private bool cdIsAnImage;
-
-        /// <summary>
-        /// Gets or sets a value indicating whether if GameCDPath points to a CD image file (false
-        /// if it points to a directory).
-        /// </summary>
-        public bool CDIsAnImage
-        {
-            get => cdIsAnImage;
-            set { Set(ref cdIsAnImage, value); }
-        }
-
-        private string icon = string.Empty;
-
-        public string Icon
-        {
-            get => icon;
-            set { Set(ref icon, value); }
-        }
-
-        private string alternateDOSBoxExePath = string.Empty;
-
-        /// <summary>
-        /// Gets or sets the path to DOSBox Daum, ECE, SVN, DOSBox-X, DOSBox Staging,
-        /// or other fork instead of the DOSBox version set in the global preferences.
-        /// </summary>
-        public string AlternateDOSBoxExePath
-        {
-            get => alternateDOSBoxExePath;
-            set { Set(ref alternateDOSBoxExePath, value); }
-        }
-
-        public string GetDOSBoxPath() => StringExt.IsNullOrWhiteSpace(AlternateDOSBoxExePath) ? UserDataAccessor.UserData.DBPath : AlternateDOSBoxExePath;
-
-        public Process Run() => new GameProcessController(this).StartGame();
-
-        public Process RunSetup() => new GameProcessController(this).StartGameSetup();
-
-        public void OpenGameFolder()
-        {
-            try
-            {
-                Process.Start(new ProcessStartInfo() { FileName = GetGameFolder(), UseShellExecute = true });
-            }
-            catch (Exception)
-            {
-            }
-        }
-
-        public string GetFileDialogInitialDirectoryFromModel()
-        {
-            if (StringExt.IsNullOrWhiteSpace(this.DOSEXEPath) == false && System.IO.Directory.Exists(Path.GetDirectoryName(this.DOSEXEPath)))
-            {
-                return Path.GetDirectoryName(this.DOSEXEPath);
-            }
-            else if (StringExt.IsNullOrWhiteSpace(this.Directory) == false && System.IO.Directory.Exists(this.Directory))
-            {
-                return this.Directory;
-            }
-            else if (StringExt.IsNullOrWhiteSpace(this.SetupEXEPath) == false && System.IO.Directory.Exists(Path.GetDirectoryName(this.SetupEXEPath)))
-            {
-                return Path.GetDirectoryName(this.SetupEXEPath);
-            }
-            else if (StringExt.IsNullOrWhiteSpace(this.Icon) == false && File.Exists(this.Icon))
-            {
-                return Path.GetDirectoryName(this.Icon);
-            }
-            else if (StringExt.IsNullOrWhiteSpace(this.DBConfPath) == false && System.IO.Directory.Exists(Path.GetDirectoryName(this.DBConfPath)))
-            {
-                return Path.GetDirectoryName(this.DBConfPath);
-            }
-            else if (StringExt.IsNullOrWhiteSpace(UserDataAccessor.UserData.GamesDefaultDir) == false && System.IO.Directory.Exists(UserDataAccessor.UserData.GamesDefaultDir))
-            {
-                return UserDataAccessor.UserData.GamesDefaultDir;
-            }
-            return string.Empty;
+            return initialValue;
         }
 
         private string GetGameFolder() => Path.GetDirectoryName(new string[] { this.DOSEXEPath, this.Directory, this.SetupEXEPath, this.DBConfPath, this.Icon, this.AlternateDOSBoxExePath, this.CDPath }.FirstOrDefault(x => StringExt.IsNullOrWhiteSpace(x) == false && (System.IO.Directory.Exists(x) || File.Exists(x))));

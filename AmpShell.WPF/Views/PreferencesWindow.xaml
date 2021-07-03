@@ -34,7 +34,7 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Label Grid.Row="0" Grid.Column="0" Content="DOSBox executable path:"></Label>
-                    <TextBox Grid.Row="1" Grid.Column="0" Margin="5" Text="{Binding UserData.DBPath}"></TextBox>
+                    <TextBox Grid.Row="1" Grid.Column="0" Margin="5" Text="{Binding UserData.DBPath, Mode=TwoWay}"></TextBox>
                     <Button Margin="5" Grid.Row="1" Grid.Column="1" Content="..."></Button>
                     <Label Grid.Row="2" Grid.Column="0" Content="Default DOSBox configuration file (optional but recommended):"></Label>
                     <TextBox Grid.Row="3" Grid.Column="0" Margin="5"></TextBox>
@@ -185,7 +185,7 @@
                 <Button Margin="5" Content="Re-Scan AmpShell's directory"></Button>
             </StackPanel>
             <StackPanel HorizontalAlignment="Right" Grid.Column="1" Orientation="Horizontal">
-                <Button Margin="5" IsDefault="True" Content="OK"></Button>
+                <Button Margin="5" IsDefault="True" Content="OK" Click="ButtonOk_Click" ></Button>
                 <Button Name="Cancel" Margin="5" IsCancel="True" Content="Cancel" Click="ButtonCancel_Click"></Button>
             </StackPanel>
         </Grid>

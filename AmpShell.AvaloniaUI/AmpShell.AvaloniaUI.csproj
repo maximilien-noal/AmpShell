@@ -34,7 +34,6 @@
 		<PackageReference Include="Avalonia" Version="0.10.6" />
 		<PackageReference Include="Avalonia.Desktop" Version="0.10.6" />
 		<PackageReference Include="Avalonia.Diagnostics" Version="0.10.6" />
-		<PackageReference Include="Avalonia.ReactiveUI" Version="0.10.6" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\AmpShell.Cli\AmpShell.Cli.csproj" />

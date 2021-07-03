@@ -28,9 +28,7 @@ namespace AmpShell.WinForms.Views
 
     using View = System.Windows.Forms.View;
 
-    /// <summary>
-    /// MainWindow content.
-    /// </summary>
+    /// <summary> MainWindow content. </summary>
     public partial class MainForm : Form
     {
         private const string ListViewName = "GamesListView";
@@ -45,9 +43,7 @@ namespace AmpShell.WinForms.Views
 
         private bool ampShellShown;
 
-        /// <summary>
-        /// Context Menu for the ListView.
-        /// </summary>
+        /// <summary> Context Menu for the ListView. </summary>
         private ContextMenuStrip currentListViewContextMenuStrip;
 
         private ToolStripMenuItem deleteCategoryMenuItem;
@@ -64,6 +60,8 @@ namespace AmpShell.WinForms.Views
 
         private ToolStripMenuItem editGameMenuItem;
 
+        private ToolStripMenuItem gamePropertiesMenuItem;
+
         private ImageList gamesLargeImageList;
 
         private ImageList gamesMediumImageList;
@@ -76,33 +74,25 @@ namespace AmpShell.WinForms.Views
 
         private ToolStripMenuItem menuBarMenuItem;
 
+        private ToolStripMenuItem openGameFolderMenuItem;
+
         private List<TabPage> redrawableTabs = new List<TabPage>();
 
         private ToolStripMenuItem runGameMenuItem;
-
-        private ToolStripMenuItem openGameFolderMenuItem;
-
-        private ToolStripMenuItem gamePropertiesMenuItem;
 
         private ToolStripMenuItem runGameSetupMenuItem;
 
         private ToolStripMenuItem statusBarMenuItem;
 
-        /// <summary>
-        /// Context Menu for the TabPages.
-        /// </summary>
+        /// <summary> Context Menu for the TabPages. </summary>
         private ContextMenuStrip tabContextMenuStrip;
 
         private ToolStripMenuItem toolBarMenuItem;
 
-        /// <summary>
-        /// Top-level context menu.
-        /// </summary>
+        /// <summary> Top-level context menu. </summary>
         private ContextMenuStrip windowContextMenuStrip;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MainForm" /> class.
-        /// </summary>
+        /// <summary> Initializes a new instance of the <see cref="MainForm" /> class. </summary>
         public MainForm()
         {
             this.InitializeComponent();
@@ -138,9 +128,7 @@ namespace AmpShell.WinForms.Views
             }
         }
 
-        /// <summary>
-        /// EventHandler for the ? -&gt; About button.
-        /// </summary>
+        /// <summary> EventHandler for the ? -&gt; About button. </summary>
         private void AboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using (var aboutBox = new AboutBox())
@@ -151,57 +139,47 @@ namespace AmpShell.WinForms.Views
 
         private void AboutToolStripMenuItem_MouseEnter(object sender, EventArgs e) => this.DisplayHelpMessage(this.AboutToolStripMenuItem.ToolTipText);
 
-        /// <summary>
-        /// EventHandler for when AmpShell is closed.
-        /// </summary>
-        private void AmpShell_FormClosing(object sender, FormClosingEventArgs e) => UserDataAccessor.SaveUserSettings();
+        /// <summary> EventHandler for when AmpShell is closed. </summary>
+        private void AmpShell_FormClosing(object sender, FormClosingEventArgs e) => Program.UserDataAccessorInstance.SaveUserSettings();
 
-        /// <summary>
-        /// EventHandler for when the window is moved.
-        /// </summary>
+        /// <summary> EventHandler for when the window is moved. </summary>
         private void AmpShell_LocationChanged(object sender, EventArgs e)
         {
-            if (this.ampShellShown && UserDataAccessor.UserData.RememberWindowPosition == true && this.WindowState != FormWindowState.Minimized)
+            if (this.ampShellShown && Program.UserDataAccessorInstance.WithUserData().RememberWindowPosition == true && this.WindowState != FormWindowState.Minimized)
             {
-                UserDataAccessor.UserData.X = this.Location.X;
-                UserDataAccessor.UserData.Y = this.Location.Y;
+                Program.UserDataAccessorInstance.WithUserData().X = this.Location.X;
+                Program.UserDataAccessorInstance.WithUserData().Y = this.Location.Y;
             }
         }
 
-        /// <summary>
-        /// EventHandler for when the window is (un)maximized.
-        /// </summary>
+        /// <summary> EventHandler for when the window is (un)maximized. </summary>
         private void AmpShell_Resize(object sender, EventArgs e)
         {
             if (this.ampShellShown == true)
             {
                 if (this.WindowState == FormWindowState.Maximized)
                 {
-                    UserDataAccessor.UserData.Fullscreen = true;
+                    Program.UserDataAccessorInstance.WithUserData().Fullscreen = true;
                 }
                 else
                 {
-                    UserDataAccessor.UserData.Fullscreen = false;
+                    Program.UserDataAccessorInstance.WithUserData().Fullscreen = false;
                 }
             }
         }
 
-        /// <summary>
-        /// EventHandler for when the user has finished resizing the window.
-        /// </summary>
+        /// <summary> EventHandler for when the user has finished resizing the window. </summary>
         private void AmpShell_Resized(object sender, EventArgs e)
         {
             //change the data about the Window's dimensions (restored on next session).
-            if (UserDataAccessor.UserData.RememberWindowSize == true)
+            if (Program.UserDataAccessorInstance.WithUserData().RememberWindowSize == true)
             {
-                UserDataAccessor.UserData.Height = this.Height;
-                UserDataAccessor.UserData.Width = this.Width;
+                Program.UserDataAccessorInstance.WithUserData().Height = this.Height;
+                Program.UserDataAccessorInstance.WithUserData().Width = this.Width;
             }
         }
 
-        /// <summary>
-        /// EventHandler for when AmpShell is shown (happens after AmpShell_Load).
-        /// </summary>
+        /// <summary> EventHandler for when AmpShell is shown (happens after AmpShell_Load). </summary>
         private void AmpShell_Shown(object sender, EventArgs e)
         {
             this.ampShellShown = true;
@@ -240,9 +218,7 @@ namespace AmpShell.WinForms.Views
             }
         }
 
-        /// <summary>
-        /// EventHandler when a Category (a TabPage) is added (created).
-        /// </summary>
+        /// <summary> EventHandler when a Category (a TabPage) is added (created). </summary>
         private void CategoryAddButton_Click(object sender, EventArgs e)
         {
             using (var newCategoryForm = new CategoryForm())
@@ -260,13 +236,11 @@ namespace AmpShell.WinForms.Views
 
         private void CategoryAddButton_MouseEnter(object sender, EventArgs e) => this.DisplayHelpMessage(this.CategoryAddButton.ToolTipText);
 
-        /// <summary>
-        /// EventHandler for when the Category delete button is clicked.
-        /// </summary>
+        /// <summary> EventHandler for when the Category delete button is clicked. </summary>
         private void CategoryDeleteButton_Click(object sender, EventArgs e)
         {
             Category selectedCategory = this.GetSelectedCategory();
-            if (UserDataAccessor.UserData.CategoryDeletePrompt != true ||
+            if (Program.UserDataAccessorInstance.WithUserData().CategoryDeletePrompt != true ||
                 MessageBox.Show(
                     this,
                     $"Do you really want to delete '{selectedCategory.Title}' and all the games inside it ?",
@@ -274,7 +248,7 @@ namespace AmpShell.WinForms.Views
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                UserDataAccessor.UserData.RemoveChild(selectedCategory);
+                Program.UserDataAccessorInstance.WithUserData().RemoveChild(selectedCategory);
                 this.TabControl.TabPages.Remove(this.TabControl.SelectedTab);
             }
             this.UpdateButtonsState();
@@ -394,7 +368,7 @@ namespace AmpShell.WinForms.Views
             //Only Enabled when a game is selected
             this.editGameMenuItem.Enabled = false;
             this.currentListViewContextMenuStrip.Items.Add(this.editGameMenuItem);
-            if (UserDataAccessor.UserData.GamesUseDOSBox)
+            if (Program.UserDataAccessorInstance.WithUserData().GamesUseDOSBox)
             {
                 this.editGameConfigurationMenuItem.Image = this.GameEditConfigurationButton.Image;
                 this.editGameConfigurationMenuItem.Text = this.GameEditConfigurationButton.Text;
@@ -517,9 +491,7 @@ namespace AmpShell.WinForms.Views
         /// </summary>
         private void CurrentListView_ItemActivate(object sender, EventArgs e) => this.StartDOSBox(false);
 
-        /// <summary>
-        /// EventHandler for when a drag &amp; drop is initiated (drag).
-        /// </summary>
+        /// <summary> EventHandler for when a drag &amp; drop is initiated (drag). </summary>
         private void CurrentListView_ItemDrag(object sender, EventArgs e)
         {
             if (this.SelectedListView.FocusedItem != null)
@@ -610,7 +582,7 @@ namespace AmpShell.WinForms.Views
                         this.GameEditConfigurationButton.Enabled = true;
                         this.EditConfigToolStripMenuItem.Enabled = true;
                     }
-                    else if (StringExt.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBDefaultConfFilePath) == false)
+                    else if (StringExt.IsNullOrWhiteSpace(Program.UserDataAccessorInstance.WithUserData().DBDefaultConfFilePath) == false)
                     {
                         this.CustomConfigurationLabel.Text = "Configuration: default";
                         this.editGameConfigurationMenuItem.Enabled = false;
@@ -768,7 +740,7 @@ namespace AmpShell.WinForms.Views
             while (this.SelectedListView.SelectedItems.Count > 0)
             {
                 var selectedItem = this.SelectedListView.SelectedItems[0];
-                var correspondingGame = UserDataAccessor.GetGameWithSignature((string)selectedItem.Tag);
+                var correspondingGame = Program.UserDataAccessorInstance.GetGameWithSignature((string)selectedItem.Tag);
                 if (MessageBox.Show(this, $"Do you really want to delete this game : {correspondingGame.Name} ?", this.GameDeleteButton.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     if (correspondingGame != null)
@@ -803,26 +775,24 @@ namespace AmpShell.WinForms.Views
             this.NotesLabel.Text = string.Empty;
         }
 
-        /// <summary>
-        /// Create the TabPages (categories) ListViews, and games inside the ListViews.
-        /// </summary>
+        /// <summary> Create the TabPages (categories) ListViews, and games inside the ListViews. </summary>
         private void DisplayUserData()
         {
-            var userData = UserDataAccessor.UserData;
+            var userData = Program.UserDataAccessorInstance.WithUserData();
             this.TabControl.TabPages.Clear();
-            if (StringExt.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBDefaultConfFilePath) == false && StringExt.IsNullOrWhiteSpace(UserDataAccessor.UserData.ConfigEditorPath) == false)
+            if (StringExt.IsNullOrWhiteSpace(Program.UserDataAccessorInstance.WithUserData().DBDefaultConfFilePath) == false && StringExt.IsNullOrWhiteSpace(Program.UserDataAccessorInstance.WithUserData().ConfigEditorPath) == false)
             {
                 this.EditDefaultConfigurationToolStripMenuItem.Enabled = true;
                 this.EditDefaultConfigurationButton.Enabled = true;
             }
 
-            if (StringExt.IsNullOrWhiteSpace(UserDataAccessor.UserData.ConfigEditorPath))
+            if (StringExt.IsNullOrWhiteSpace(Program.UserDataAccessorInstance.WithUserData().ConfigEditorPath))
             {
                 this.RunConfigurationEditorButton.Enabled = false;
                 this.RunConfigurationEditorToolStripMenuItem.Enabled = false;
             }
 
-            if (StringExt.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBPath) || File.Exists(UserDataAccessor.UserData.DBPath) == false)
+            if (StringExt.IsNullOrWhiteSpace(Program.UserDataAccessorInstance.WithUserData().DBPath) || File.Exists(Program.UserDataAccessorInstance.WithUserData().DBPath) == false)
             {
                 this.RunDOSBoxToolStripMenuItem.Enabled = false;
                 this.RunDOSBoxButton.Enabled = false;
@@ -838,7 +808,7 @@ namespace AmpShell.WinForms.Views
                     this.WindowState = FormWindowState.Maximized;
                 }
             }
-            if (userData.RememberWindowPosition != false && File.Exists(UserDataAccessor.GetDataFilePath()))
+            if (userData.RememberWindowPosition != false && File.Exists(Program.UserDataAccessorInstance.GetDataFilePath()))
             {
                 this.SetDesktopLocation(userData.X, userData.Y);
             }
@@ -1045,9 +1015,9 @@ namespace AmpShell.WinForms.Views
 
         private void EditDefaultConfigurationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (StringExt.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBDefaultConfFilePath) == false && File.Exists(UserDataAccessor.UserData.DBDefaultConfFilePath) && StringExt.IsNullOrWhiteSpace(UserDataAccessor.UserData.ConfigEditorPath) == false && UserDataAccessor.UserData.ConfigEditorPath != "No text editor (Notepad in Windows' directory, or TextEditor.exe in AmpShell's directory) found." && File.Exists(UserDataAccessor.UserData.ConfigEditorPath))
+            if (StringExt.IsNullOrWhiteSpace(Program.UserDataAccessorInstance.WithUserData().DBDefaultConfFilePath) == false && File.Exists(Program.UserDataAccessorInstance.WithUserData().DBDefaultConfFilePath) && StringExt.IsNullOrWhiteSpace(Program.UserDataAccessorInstance.WithUserData().ConfigEditorPath) == false && Program.UserDataAccessorInstance.WithUserData().ConfigEditorPath != "No text editor (Notepad in Windows' directory, or TextEditor.exe in AmpShell's directory) found." && File.Exists(Program.UserDataAccessorInstance.WithUserData().ConfigEditorPath))
             {
-                Process.Start(UserDataAccessor.GetConfigEditorPath(), UserDataAccessor.UserData.DBDefaultConfFilePath);
+                Process.Start(Program.UserDataAccessorInstance.GetConfigEditorPath(), Program.UserDataAccessorInstance.WithUserData().DBDefaultConfFilePath);
             }
             else
             {
@@ -1061,9 +1031,7 @@ namespace AmpShell.WinForms.Views
 
         private void FileToolStripMenuItem_MouseEnter(object sender, EventArgs e) => this.DisplayHelpMessage(this.FileToolStripMenuItem.ToolTipText);
 
-        /// <summary>
-        /// EventHandler for when the user has clicked on the GameAddButton.
-        /// </summary>
+        /// <summary> EventHandler for when the user has clicked on the GameAddButton. </summary>
         private void GameAddButton_Click(object sender, EventArgs e)
         {
             var newGame = new Game();
@@ -1093,7 +1061,7 @@ namespace AmpShell.WinForms.Views
                 }
             }
 
-            newGame.Signature = UserDataAccessor.GetAnUniqueSignature();
+            newGame.Signature = Program.UserDataAccessorInstance.GetAnUniqueSignature();
 
             using (var newGameForm = new GameForm(newGame, true))
             {
@@ -1108,16 +1076,12 @@ namespace AmpShell.WinForms.Views
 
         private void GameAddButton_MouseEnter(object sender, EventArgs e) => this.DisplayHelpMessage(this.GameAddButton.ToolTipText);
 
-        /// <summary>
-        /// EventHandler for when the delete button game is clicked.
-        /// </summary>
+        /// <summary> EventHandler for when the delete button game is clicked. </summary>
         private void GameDeleteButton_Click(object sender, EventArgs e) => this.CurrentListView_KeyDown(sender, new KeyEventArgs(Keys.Delete));
 
         private void GameDeleteButton_MouseEnter(object sender, EventArgs e) => this.DisplayHelpMessage(this.GameDeleteButton.ToolTipText);
 
-        /// <summary>
-        /// Called when the user wants to edit an existing game.
-        /// </summary>
+        /// <summary> Called when the user wants to edit an existing game. </summary>
         private void GameEditButton_Click(object sender, EventArgs e)
         {
             Game selectedGame = this.GetSelectedGame();
@@ -1134,10 +1098,10 @@ namespace AmpShell.WinForms.Views
 
         private void GameEditConfigurationButton_Click(object sender, EventArgs e)
         {
-            if (StringExt.IsNullOrWhiteSpace(UserDataAccessor.UserData.ConfigEditorPath) == false)
+            if (StringExt.IsNullOrWhiteSpace(Program.UserDataAccessorInstance.WithUserData().ConfigEditorPath) == false)
             {
                 Game selectedGame = this.GetSelectedGame();
-                Process.Start(UserDataAccessor.GetConfigEditorPath(), $"{selectedGame.DBConfPath} {UserDataAccessor.UserData.ConfigEditorAdditionalParameters}");
+                Process.Start(Program.UserDataAccessorInstance.GetConfigEditorPath(), $"{selectedGame.DBConfPath} {Program.UserDataAccessorInstance.WithUserData().ConfigEditorAdditionalParameters}");
             }
         }
 
@@ -1149,7 +1113,7 @@ namespace AmpShell.WinForms.Views
             {
                 return new Category();
             }
-            var selectedCategory = UserDataAccessor.GetCategoryWithSignature((string)this.TabControl.SelectedTab.Tag);
+            var selectedCategory = Program.UserDataAccessorInstance.GetCategoryWithSignature((string)this.TabControl.SelectedTab.Tag);
             if (selectedCategory == null)
             {
                 return new Category();
@@ -1159,7 +1123,7 @@ namespace AmpShell.WinForms.Views
 
         private Category GetSelectedCategory(int hoveredTabIndex)
         {
-            var selectedCategory = UserDataAccessor.GetCategoryWithSignature((string)this.TabControl.TabPages[hoveredTabIndex].Tag);
+            var selectedCategory = Program.UserDataAccessorInstance.GetCategoryWithSignature((string)this.TabControl.TabPages[hoveredTabIndex].Tag);
             if (selectedCategory == null)
             {
                 return new Category();
@@ -1173,7 +1137,7 @@ namespace AmpShell.WinForms.Views
             {
                 return new Game();
             }
-            var selectedGame = UserDataAccessor.GetGameWithSignature((string)this.SelectedListView.FocusedItem.Tag);
+            var selectedGame = Program.UserDataAccessorInstance.GetGameWithSignature((string)this.SelectedListView.FocusedItem.Tag);
             if (selectedGame == null)
             {
                 return new Game();
@@ -1182,6 +1146,46 @@ namespace AmpShell.WinForms.Views
         }
 
         private void HelpToolStripMenuItem_MouseEnter(object sender, EventArgs e) => this.DisplayHelpMessage(this.HelpToolStripMenuItem.ToolTipText);
+
+        private void ImportGamesAndCategoriesToolStripMenuItem_MouseEnter(object sender, EventArgs e) => this.DisplayHelpMessage(this.ImportGamesAndCategoriesToolStripMenuItem.ToolTipText);
+
+        private void ImportGamesAndCategoriesToolStripMenuItem_MouseLeave(object sender, EventArgs e) => this.CurrentListView_ItemSelectionChanged(sender, e);
+
+        private void ImportGamesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var ofd = new OpenFileDialog() { Multiselect = false, Title = "Importing an existing AmpShell.xml file...", CheckFileExists = true, DefaultExt = ".xml" };
+            var result = ofd.ShowDialog(this);
+            if (result == DialogResult.OK)
+            {
+                if (StringExt.IsNullOrWhiteSpace(ofd.FileName) == false && ofd.FileName.ToUpperInvariant() == Program.UserDataAccessorInstance.GetDataFilePath().ToUpperInvariant())
+                {
+                    MessageBox.Show(this, "This is the currently in-use file. Nothing to import.");
+                    return;
+                }
+                var worker = new BackgroundWorker();
+                var needToRedrawTabs = false;
+                worker.DoWork += (s, eventargs) =>
+                {
+                    try
+                    {
+                        needToRedrawTabs = Program.UserDataAccessorInstance.ImportGamesAndCategories(ofd.FileName);
+                    }
+                    catch (FileNotFoundException)
+                    {
+                        MessageBox.Show(this, $"File not found: {ofd.FileName}");
+                    }
+                };
+                worker.RunWorkerCompleted += (sndr, eventarg) =>
+                {
+                    if (needToRedrawTabs)
+                    {
+                        this.RedrawAllUserData();
+                        this.DisplayHelpMessage("Import successful.");
+                    }
+                };
+                AwaitBackgroundWorker(worker);
+            }
+        }
 
         private void LargeIconViewButton_Click(object sender, EventArgs e) => this.ChangeTabDisplayMode(View.LargeIcon);
 
@@ -1194,11 +1198,11 @@ namespace AmpShell.WinForms.Views
         private void MakeConfigButton_Click(object sender, EventArgs e)
         {
             var selectedGame = this.GetSelectedGame();
-            var configPath = Path.Combine(selectedGame.Directory, Path.GetFileName(UserDataAccessor.UserData.DBDefaultConfFilePath));
+            var configPath = Path.Combine(selectedGame.Directory, Path.GetFileName(Program.UserDataAccessorInstance.WithUserData().DBDefaultConfFilePath));
             if ((!File.Exists(configPath)) ||
                 (MessageBox.Show(this, $"{configPath} already exists, do you want to overwrite it ?", this.MakeConfigButton.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes))
             {
-                File.Copy(UserDataAccessor.UserData.DBDefaultConfFilePath, configPath, true);
+                File.Copy(Program.UserDataAccessorInstance.WithUserData().DBDefaultConfFilePath, configPath, true);
                 selectedGame.DBConfPath = configPath;
             }
         }
@@ -1217,10 +1221,18 @@ namespace AmpShell.WinForms.Views
                 this.menuBarMenuItem.Checked = true;
                 this.menuStrip.Visible = true;
             }
-            UserDataAccessor.UserData.MenuBarVisible = this.menuStrip.Visible;
+            Program.UserDataAccessorInstance.WithUserData().MenuBarVisible = this.menuStrip.Visible;
         }
 
         private void OnDOSBoxExit(object sender, EventArgs e) => this.Invoke((MethodInvoker)(() => { this.WindowState = FormWindowState.Normal; }));
+
+        private void OpenGameFolderButton_Click(object sender, EventArgs e) => this.GetSelectedGame().OpenGameFolder();
+
+        private void OpenGameFolderButton_MouseEnter(object sender, EventArgs e) => this.DisplayHelpMessage(this.OpenGameFolderButton.ToolTipText);
+
+        private void OpenGameFolderToolStripMenuItem_Click(object sender, EventArgs e) => this.GetSelectedGame().OpenGameFolder();
+
+        private void OpenGameFolderToolStripMenuItem_MouseEnter(object sender, EventArgs e) => this.DisplayHelpMessage(this.OpenGameFolderToolStripMenuItem.ToolTipText);
 
         private void PreferencesToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1230,14 +1242,14 @@ namespace AmpShell.WinForms.Views
                 {
                     if (this.gamesLargeImageList != null)
                     {
-                        this.gamesLargeImageList.ImageSize = new Size(UserDataAccessor.UserData.LargeViewModeSize, UserDataAccessor.UserData.LargeViewModeSize);
+                        this.gamesLargeImageList.ImageSize = new Size(Program.UserDataAccessorInstance.WithUserData().LargeViewModeSize, Program.UserDataAccessorInstance.WithUserData().LargeViewModeSize);
                     }
-                    this.menuStrip.Visible = UserDataAccessor.UserData.MenuBarVisible;
-                    this.menuBarMenuItem.Checked = UserDataAccessor.UserData.MenuBarVisible;
-                    this.toolStrip.Visible = UserDataAccessor.UserData.ToolBarVisible;
-                    this.toolBarMenuItem.Checked = UserDataAccessor.UserData.ToolBarVisible;
-                    this.statusStrip.Visible = UserDataAccessor.UserData.StatusBarVisible;
-                    this.statusBarMenuItem.Checked = UserDataAccessor.UserData.StatusBarVisible;
+                    this.menuStrip.Visible = Program.UserDataAccessorInstance.WithUserData().MenuBarVisible;
+                    this.menuBarMenuItem.Checked = Program.UserDataAccessorInstance.WithUserData().MenuBarVisible;
+                    this.toolStrip.Visible = Program.UserDataAccessorInstance.WithUserData().ToolBarVisible;
+                    this.toolBarMenuItem.Checked = Program.UserDataAccessorInstance.WithUserData().ToolBarVisible;
+                    this.statusStrip.Visible = Program.UserDataAccessorInstance.WithUserData().StatusBarVisible;
+                    this.statusBarMenuItem.Checked = Program.UserDataAccessorInstance.WithUserData().StatusBarVisible;
                     this.RedrawAllUserData();
                 }
             }
@@ -1248,9 +1260,7 @@ namespace AmpShell.WinForms.Views
 
         private void QuitterToolStripMenuItem_MouseEnter(object sender, EventArgs e) => this.DisplayHelpMessage(this.QuitterToolStripMenuItem.ToolTipText);
 
-        /// <summary>
-        /// EventHander for File -&gt; Quit.
-        /// </summary>
+        /// <summary> EventHander for File -&gt; Quit. </summary>
         private void QuitToolStripMenuItem_Click(object sender, EventArgs e) => Application.Exit();
 
         private void RedrawAllUserData()
@@ -1293,11 +1303,11 @@ namespace AmpShell.WinForms.Views
 
         private void RunConfigurationEditorButton_Click(object sender, EventArgs e)
         {
-            if (StringExt.IsNullOrWhiteSpace(UserDataAccessor.UserData.ConfigEditorPath) == false)
+            if (StringExt.IsNullOrWhiteSpace(Program.UserDataAccessorInstance.WithUserData().ConfigEditorPath) == false)
             {
-                if (File.Exists(UserDataAccessor.UserData.ConfigEditorPath))
+                if (File.Exists(Program.UserDataAccessorInstance.WithUserData().ConfigEditorPath))
                 {
-                    Process.Start(UserDataAccessor.GetConfigEditorPath());
+                    Process.Start(Program.UserDataAccessorInstance.GetConfigEditorPath());
                 }
                 else
                 {
@@ -1314,7 +1324,7 @@ namespace AmpShell.WinForms.Views
         /// </summary>
         private void RunDOSBox_Click(object sender, EventArgs e)
         {
-            var dosboxProcess = GameProcessController.RunOnlyDOSBox();
+            var dosboxProcess = GameProcessController.RunOnlyDOSBox(Program.UserDataAccessorInstance.GetUserData());
 
             if (dosboxProcess != null)
             {
@@ -1327,9 +1337,7 @@ namespace AmpShell.WinForms.Views
 
         private void RunGameButton_MouseEnter(object sender, EventArgs e) => this.DisplayHelpMessage(this.RunGameButton.ToolTipText);
 
-        /// <summary>
-        /// EventHandler for when the RunGameSetupButton is clicked.
-        /// </summary>
+        /// <summary> EventHandler for when the RunGameSetupButton is clicked. </summary>
         private void RunGameSetupButton_Click(object sender, EventArgs e) => this.StartDOSBox(true);
 
         private void RunGameSetupButton_MouseEnter(object sender, EventArgs e) => this.DisplayHelpMessage(this.RunGameSetupButton.ToolTipText);
@@ -1352,11 +1360,11 @@ namespace AmpShell.WinForms.Views
                 Process dosboxProcess;
                 if (runSetup)
                 {
-                    dosboxProcess = selectedGame.RunSetup();
+                    dosboxProcess = selectedGame.RunSetup(Program.UserDataAccessorInstance.GetUserData());
                 }
                 else
                 {
-                    dosboxProcess = selectedGame.Run();
+                    dosboxProcess = selectedGame.Run(Program.UserDataAccessorInstance.GetUserData());
                 }
                 if (dosboxProcess != null)
                 {
@@ -1382,12 +1390,10 @@ namespace AmpShell.WinForms.Views
                 this.statusBarMenuItem.Checked = true;
                 this.statusStrip.Visible = true;
             }
-            UserDataAccessor.UserData.StatusBarVisible = this.statusStrip.Visible;
+            Program.UserDataAccessorInstance.WithUserData().StatusBarVisible = this.statusStrip.Visible;
         }
 
-        /// <summary>
-        /// EventHandler for when a drop ends.
-        /// </summary>
+        /// <summary> EventHandler for when a drop ends. </summary>
         private void TabControl_DragDrop(object sender, DragEventArgs e)
         {
             System.Collections.IList list = this.SelectedListView.SelectedItems;
@@ -1395,7 +1401,7 @@ namespace AmpShell.WinForms.Views
             {
                 ListViewItem itemToMove = (ListViewItem)list[i];
                 this.SelectedListView.Items.Remove(itemToMove);
-                var droppedGame = UserDataAccessor.UserData.ListChildren.Cast<Category>().Select(x => x.ListChildren.Cast<Game>()).SelectMany(x => x).FirstOrDefault(x => x.Signature == (string)itemToMove.Tag);
+                var droppedGame = Program.UserDataAccessorInstance.WithUserData().ListChildren.Cast<Category>().Select(x => x.ListChildren.Cast<Game>()).SelectMany(x => x).FirstOrDefault(x => x.Signature == (string)itemToMove.Tag);
                 this.GetSelectedCategory().RemoveChild(droppedGame);
                 this.TabControl.SelectTab(this.hoveredTabIndex);
                 this.SelectedListView.Items.Add((ListViewItem)itemToMove.Clone());
@@ -1412,9 +1418,7 @@ namespace AmpShell.WinForms.Views
             }
         }
 
-        /// <summary>
-        /// EventHandler for when a drop begins.
-        /// </summary>
+        /// <summary> EventHandler for when a drop begins. </summary>
         private void TabControl_DragEnter(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.UnicodeText))
@@ -1427,9 +1431,7 @@ namespace AmpShell.WinForms.Views
             }
         }
 
-        /// <summary>
-        /// EventHandler for when items are dragged over a Tab.
-        /// </summary>
+        /// <summary> EventHandler for when items are dragged over a Tab. </summary>
         private void TabControl_DragOver(object sender, DragEventArgs e)
         {
             Point pos = this.TabControl.PointToClient(MousePosition);
@@ -1459,7 +1461,7 @@ namespace AmpShell.WinForms.Views
                 this.toolBarMenuItem.Checked = true;
                 this.toolStrip.Visible = true;
             }
-            UserDataAccessor.UserData.ToolBarVisible = this.toolStrip.Visible;
+            Program.UserDataAccessorInstance.WithUserData().ToolBarVisible = this.toolStrip.Visible;
         }
 
         private void ToolsToolStripMenuItem_MouseEnter(object sender, EventArgs e) => this.DisplayHelpMessage(this.ToolsToolStripMenuItem.ToolTipText);
@@ -1527,7 +1529,7 @@ namespace AmpShell.WinForms.Views
                 this.OpenGameFolderButton.Enabled = true;
                 this.openGameFolderMenuItem.Enabled = true;
                 this.OpenGameFolderToolStripMenuItem.Enabled = true;
-                if (StringExt.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBPath) == false && this.GetSelectedGame().IsDOSBoxUsed())
+                if (StringExt.IsNullOrWhiteSpace(Program.UserDataAccessorInstance.WithUserData().DBPath) == false && this.GetSelectedGame().IsDOSBoxUsed(Program.UserDataAccessorInstance.GetUserData()))
                 {
                     this.RunGameButton.Enabled = true;
                     this.runGameMenuItem.Enabled = true;
@@ -1538,7 +1540,7 @@ namespace AmpShell.WinForms.Views
                     this.RunDOSBoxButton.Enabled = true;
                     this.RunDOSBoxToolStripMenuItem.Enabled = true;
                 }
-                else if (this.GetSelectedGame().IsDOSBoxUsed() == false)
+                else if (this.GetSelectedGame().IsDOSBoxUsed(Program.UserDataAccessorInstance.GetUserData()) == false)
                 {
                     this.RunGameButton.Enabled = true;
                     this.runGameMenuItem.Enabled = true;
@@ -1554,12 +1556,12 @@ namespace AmpShell.WinForms.Views
                 this.DeleteSelectedCategoryToolStripMenuItem.Enabled = true;
                 this.deleteCategoryMenuMenuItem.Enabled = true;
                 this.GameEditButton.Enabled = true;
-                if (StringExt.IsNullOrWhiteSpace(UserDataAccessor.UserData.ConfigEditorPath) == false)
+                if (StringExt.IsNullOrWhiteSpace(Program.UserDataAccessorInstance.WithUserData().ConfigEditorPath) == false)
                 {
                     this.RunConfigurationEditorButton.Enabled = true;
                     this.RunConfigurationEditorToolStripMenuItem.Enabled = true;
                 }
-                if (StringExt.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBDefaultConfFilePath) == false && this.GetSelectedGame().IsDOSBoxUsed())
+                if (StringExt.IsNullOrWhiteSpace(Program.UserDataAccessorInstance.WithUserData().DBDefaultConfFilePath) == false && this.GetSelectedGame().IsDOSBoxUsed(Program.UserDataAccessorInstance.GetUserData()))
                 {
                     this.EditDefaultConfigurationToolStripMenuItem.Enabled = true;
                     this.EditDefaultConfigurationButton.Enabled = true;
@@ -1570,8 +1572,6 @@ namespace AmpShell.WinForms.Views
                 this.CurrentListView_ItemSelectionChanged(this, EventArgs.Empty);
             }
         }
-
-        private void ViewToolStripMenuItem_MouseEnter(object sender, EventArgs e) => this.DisplayHelpMessage(this.ViewToolStripMenuItem.ToolTipText);
 
         private void ViewGameProperties_Click(object sender, EventArgs e)
         {
@@ -1590,52 +1590,6 @@ namespace AmpShell.WinForms.Views
             }
         }
 
-        private void OpenGameFolderButton_Click(object sender, EventArgs e) => this.GetSelectedGame().OpenGameFolder();
-
-        private void OpenGameFolderButton_MouseEnter(object sender, EventArgs e) => this.DisplayHelpMessage(this.OpenGameFolderButton.ToolTipText);
-
-        private void OpenGameFolderToolStripMenuItem_MouseEnter(object sender, EventArgs e) => this.DisplayHelpMessage(this.OpenGameFolderToolStripMenuItem.ToolTipText);
-
-        private void OpenGameFolderToolStripMenuItem_Click(object sender, EventArgs e) => this.GetSelectedGame().OpenGameFolder();
-
-        private void ImportGamesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var ofd = new OpenFileDialog() { Multiselect = false, Title = "Importing an existing AmpShell.xml file...", CheckFileExists = true, DefaultExt = ".xml" };
-            var result = ofd.ShowDialog(this);
-            if (result == DialogResult.OK)
-            {
-                if (StringExt.IsNullOrWhiteSpace(ofd.FileName) == false && ofd.FileName.ToUpperInvariant() == UserDataAccessor.GetDataFilePath().ToUpperInvariant())
-                {
-                    MessageBox.Show(this, "This is the currently in-use file. Nothing to import.");
-                    return;
-                }
-                var worker = new BackgroundWorker();
-                var needToRedrawTabs = false;
-                worker.DoWork += (s, eventargs) =>
-                {
-                    try
-                    {
-                        needToRedrawTabs = UserDataAccessor.ImportGamesAndCategories(ofd.FileName);
-                    }
-                    catch (FileNotFoundException)
-                    {
-                        MessageBox.Show(this, $"File not found: {ofd.FileName}");
-                    }
-                };
-                worker.RunWorkerCompleted += (sndr, eventarg) =>
-                {
-                    if (needToRedrawTabs)
-                    {
-                        this.RedrawAllUserData();
-                        this.DisplayHelpMessage("Import successful.");
-                    }
-                };
-                AwaitBackgroundWorker(worker);
-            }
-        }
-
-        private void ImportGamesAndCategoriesToolStripMenuItem_MouseEnter(object sender, EventArgs e) => this.DisplayHelpMessage(this.ImportGamesAndCategoriesToolStripMenuItem.ToolTipText);
-
-        private void ImportGamesAndCategoriesToolStripMenuItem_MouseLeave(object sender, EventArgs e) => this.CurrentListView_ItemSelectionChanged(sender, e);
+        private void ViewToolStripMenuItem_MouseEnter(object sender, EventArgs e) => this.DisplayHelpMessage(this.ViewToolStripMenuItem.ToolTipText);
     }
 }

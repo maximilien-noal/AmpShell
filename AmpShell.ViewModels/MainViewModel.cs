@@ -1,26 +1,19 @@
 ﻿namespace AmpShell.ViewModels
 {
-    using AmpShell.Core.DAL;
-    using AmpShell.Core.DOSBox;
+    using AmpShell.Core.Games;
     using AmpShell.Core.Model;
+    using Prism.Commands;
 
-    using DeepCopy;
-
-    using ReactiveUI;
-
-    using System;
-    using System.Diagnostics;
-    using System.Reactive;
-
-    public class MainViewModel : ReactiveObject
+    public class MainViewModel : UserDataViewModel
     {
-        private readonly Preferences _userData = DeepCopier.Copy(UserDataAccessor.UserData);
+        public MainViewModel()
+        {
+            RunDOSBox = new DelegateCommand(
+                () => GameProcessController.RunOnlyDOSBox(_userData),
+                () => string.IsNullOrWhiteSpace(_userData.DBPath) == false);
+        }
 
-        private string _helpMessage = "";
-
-        public string HelpMessage { get => _helpMessage; private set { this.RaiseAndSetIfChanged(ref _helpMessage, value, nameof(HelpMessage)); } }
-
-        public ReactiveCommand<Unit, Process>? RunDOSBox { get; }
+        public DelegateCommand RunDOSBox { get; }
 
         public Preferences UserData { get => _userData; }
     }

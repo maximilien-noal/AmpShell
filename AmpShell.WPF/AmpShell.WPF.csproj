@@ -19,30 +19,34 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Remove="Resources\CategoryEdit.bmp" />
-	  <None Remove="Resources\Configuration.png" />
-	  <None Remove="Resources\DBConfEdit.png" />
-	  <None Remove="Resources\Details.png" />
-	  <None Remove="Resources\DOSBox.png" />
-	  <None Remove="Resources\Folder_Open.png" />
-	  <None Remove="Resources\GameConfigEdit.png" />
-	  <None Remove="Resources\GameEdit.bmp" />
-	  <None Remove="Resources\GameRun.bmp" />
-	  <None Remove="Resources\GameRun.png" />
-	  <None Remove="Resources\Generic_Application.png" />
-	  <None Remove="Resources\LargeIcons.png" />
-	  <None Remove="Resources\Lists.png" />
-	  <None Remove="Resources\MakeConfig.png" />
-	  <None Remove="Resources\NewCategory.png" />
-	  <None Remove="Resources\NewDocumentHS_button.png" />
-	  <None Remove="Resources\NewFolderHS.png" />
-	  <None Remove="Resources\PlayHS.png" />
-	  <None Remove="Resources\Setup_Install.png" />
-	  <None Remove="Resources\SmallIcons.png" />
-	  <None Remove="Resources\Tiles.png" />
+		<None Remove="Resources\CategoryDelete.png" />
+		<None Remove="Resources\CategoryEdit.png" />
+		<None Remove="Resources\Configuration.png" />
+		<None Remove="Resources\DBConfEdit.png" />
+		<None Remove="Resources\DeleteGame.png" />
+		<None Remove="Resources\Details.png" />
+		<None Remove="Resources\DOSBox.png" />
+		<None Remove="Resources\Folder_Open.png" />
+		<None Remove="Resources\GameConfigEdit.png" />
+		<None Remove="Resources\GameEdit.png" />
+		<None Remove="Resources\GameRun.bmp" />
+		<None Remove="Resources\GameRun.png" />
+		<None Remove="Resources\Generic_Application.png" />
+		<None Remove="Resources\LargeIcons.png" />
+		<None Remove="Resources\Lists.png" />
+		<None Remove="Resources\MakeConfig.png" />
+		<None Remove="Resources\NewCategory.png" />
+		<None Remove="Resources\NewDocumentHS_button.png" />
+		<None Remove="Resources\NewFolderHS.png" />
+		<None Remove="Resources\PlayHS.png" />
+		<None Remove="Resources\RunConfigEditor.png" />
+		<None Remove="Resources\Setup_Install.png" />
+		<None Remove="Resources\SmallIcons.png" />
+		<None Remove="Resources\Tiles.png" />
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Prism.Core" Version="8.1.97" />
 		<PackageReference Include="AdonisUI" Version="1.17.0" />
 		<PackageReference Include="AdonisUI.ClassicTheme" Version="1.17.0" />
 		<PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="5.0.3">
@@ -71,14 +75,16 @@
 	<ItemGroup>
 		<Resource Include="Resources\AmpShell.bmp" />
 		<Resource Include="AmpShell.ico" />
-		<Resource Include="Resources\CategoryEdit.bmp" />
+		<Resource Include="Resources\CategoryDelete.png" />
+		<Resource Include="Resources\CategoryEdit.png" />
 		<Resource Include="Resources\Configuration.png" />
 		<Resource Include="Resources\DBConfEdit.png" />
+		<Resource Include="Resources\DeleteGame.png" />
 		<Resource Include="Resources\Details.png" />
 		<Resource Include="Resources\DOSBox.png" />
 		<Resource Include="Resources\Folder_Open.png" />
 		<Resource Include="Resources\GameConfigEdit.png" />
-		<Resource Include="Resources\GameEdit.bmp" />
+		<Resource Include="Resources\GameEdit.png" />
 		<Resource Include="Resources\GameRun.png" />
 		<Resource Include="Resources\Generic_Application.png" />
 		<Resource Include="Resources\LargeIcons.png" />
@@ -87,6 +93,7 @@
 		<Resource Include="Resources\NewCategory.png" />
 		<Resource Include="Resources\NewDocumentHS_button.png" />
 		<Resource Include="Resources\PlayHS.png" />
+		<Resource Include="Resources\RunConfigEditor.png" />
 		<Resource Include="Resources\Setup_Install.png" />
 		<Resource Include="Resources\SmallIcons.png" />
 		<Resource Include="Resources\splashscreen.png" />

@@ -23,6 +23,8 @@ namespace AmpShell.WinForms
 
     internal static class Program
     {
+        internal static UserDataAccessor UserDataAccessorInstance = new UserDataAccessor();
+
         private static void CurrentDomainUnhandledExceptionMethod(object sender, UnhandledExceptionEventArgs e) => ShowException(((Exception)e.ExceptionObject).GetBaseException());
 
         private static bool IsWindows98() => Environment.OSVersion.Version.Minor == 10;
@@ -52,22 +54,20 @@ namespace AmpShell.WinForms
             AppDomain.CurrentDomain.UnhandledException +=
                 new UnhandledExceptionEventHandler(CurrentDomainUnhandledExceptionMethod);
 
-            UserDataAccessor.LoadUserSettingsAndRunAutoConfig();
-
-            if (UserDataAccessor.UserData.GamesUseDOSBox && StringExt.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBPath) && IsWindows98())
+            if (UserDataAccessorInstance.WithUserData().GamesUseDOSBox && StringExt.IsNullOrWhiteSpace(UserDataAccessorInstance.WithUserData().DBPath) && IsWindows98())
             {
-                UserDataAccessor.UserData.GamesUseDOSBox = false;
+                UserDataAccessorInstance.WithUserData().GamesUseDOSBox = false;
             }
 
             var localDosbox = Path.Combine(Application.StartupPath, "dosbox.exe");
-            if (UserDataAccessor.UserData.PortableMode && File.Exists(localDosbox))
+            if (UserDataAccessorInstance.WithUserData().PortableMode && File.Exists(localDosbox))
             {
-                UserDataAccessor.UserData.DBPath = localDosbox;
+                UserDataAccessorInstance.WithUserData().DBPath = localDosbox;
             }
 
             // if DOSBoxPath is still empty and we must use DOSBox, say to the user that DOSBox's
             // executable cannot be found.
-            else if (UserDataAccessor.UserData.GamesUseDOSBox && (StringExt.IsNullOrWhiteSpace(UserDataAccessor.UserData.DBPath) || File.Exists(UserDataAccessor.UserData.DBPath) == false))
+            else if (UserDataAccessorInstance.WithUserData().GamesUseDOSBox && (StringExt.IsNullOrWhiteSpace(UserDataAccessorInstance.WithUserData().DBPath) || File.Exists(UserDataAccessorInstance.WithUserData().DBPath) == false))
             {
                 switch (MessageBox.Show("AmpShell cannot find DOSBox, do you want to indicate DOSBox's executable location now ? Choose 'Cancel' to quit.", "Cannot find DOSBox", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question))
                 {
@@ -84,7 +84,7 @@ namespace AmpShell.WinForms
                                 dosboxExeFileDialog.Filter = "DOSBox executable (dosbox*)|dosbox*";
                                 if (dosboxExeFileDialog.ShowDialog() == DialogResult.OK)
                                 {
-                                    UserDataAccessor.UserData.DBPath = dosboxExeFileDialog.FileName;
+                                    UserDataAccessorInstance.WithUserData().DBPath = dosboxExeFileDialog.FileName;
                                 }
                                 else
                                 {
@@ -95,7 +95,7 @@ namespace AmpShell.WinForms
                         break;
 
                     case DialogResult.No:
-                        UserDataAccessor.UserData.DBPath = string.Empty;
+                        UserDataAccessorInstance.WithUserData().DBPath = string.Empty;
                         break;
                 }
             }

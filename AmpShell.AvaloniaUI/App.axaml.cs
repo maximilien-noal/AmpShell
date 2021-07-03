@@ -1,8 +1,7 @@
 namespace AmpShell.AvaloniaUI
 {
-    using AmpShell.AvaloniaUI.ViewModels;
     using AmpShell.AvaloniaUI.Views;
-
+    using AmpShell.ViewModels;
     using Avalonia;
     using Avalonia.Controls.ApplicationLifetimes;
     using Avalonia.Markup.Xaml;
@@ -20,7 +19,7 @@ namespace AmpShell.AvaloniaUI
             {
                 desktop.MainWindow = new MainWindow
                 {
-                    DataContext = new MainWindowViewModel(),
+                    DataContext = new MainViewModel(),
                 };
             }
 

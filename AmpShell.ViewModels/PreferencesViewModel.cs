@@ -1,26 +1,23 @@
 ﻿namespace AmpShell.ViewModels
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-
-    using AmpShell.Core.DAL;
-    using AmpShell.Core.DOSBox;
     using AmpShell.Core.Model;
+    using Prism.Commands;
 
-    using DeepCopy;
-
-    using ReactiveUI;
-
-    public class PreferencesViewModel : ReactiveObject
+    /// <summary> TODO: Invoke through a template, not the view. </summary>
+    public class PreferencesViewModel : UserDataViewModel
     {
-        private readonly Preferences _userData = DeepCopier.Copy(UserDataAccessor.UserData);
-        public Preferences UserData { get => _userData; }
-
         public PreferencesViewModel()
         {
+            Validate = new DelegateCommand(ValidateMethod);
+        }
+
+        public Preferences UserData { get => _userData; }
+
+        public DelegateCommand Validate { get; private set; }
+
+        private void ValidateMethod()
+        {
+            _userDataAccessor.UpdatePreferences(_userData);
         }
     }
 }

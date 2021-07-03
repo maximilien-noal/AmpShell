@@ -35,10 +35,13 @@
             {
                 Console.WriteLine($"Empty game specified. Exiting...");
             }
-            var game = UserDataAccessor.GetFirstGameWithName(options.Game.Value);
+
+            var userDataAccessor = new UserDataAccessor();
+
+            var game = userDataAccessor.GetFirstGameWithName(options.Game.Value);
             if (StringExt.IsNullOrWhiteSpace(game.DOSEXEPath))
             {
-                game = UserDataAccessor.GetGameWithMainExecutable(options.Game.Value);
+                game = userDataAccessor.GetGameWithMainExecutable(options.Game.Value);
             }
             if (options.Setup.IsProvided)
             {
@@ -46,7 +49,7 @@
                 {
                     Console.WriteLine($"Running '{game.Name}''s setup executable: {game.SetupEXEPath}...");
                 }
-                game.RunSetup();
+                game.RunSetup(userDataAccessor.GetUserData());
             }
             else
             {
@@ -55,7 +58,7 @@
                     Console.WriteLine($"Running the game named '{game.Name}' via the main executable at {game.DOSEXEPath}...");
                 }
 
-                game.Run();
+                game.Run(userDataAccessor.GetUserData());
             }
         }
     }

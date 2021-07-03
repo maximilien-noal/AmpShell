@@ -1,8 +1,7 @@
 ﻿namespace AmpShell.WPF.Views
 {
     using AmpShell.ViewModels;
-    using ReactiveUI;
-    using System.Reactive;
+    using Prism.Commands;
     using System.Windows;
 
     /// <summary> Interaction logic for MainWindow.xaml </summary>
@@ -10,15 +9,15 @@
     {
         public MainWindow()
         {
-            ShowAboutWindow = new SimpleViewCommand(() => new AboutWindow(this).ShowDialog());
-            ShowPreferences = new SimpleViewCommand(() => new PreferencesWindow(this).ShowDialog());
+            ShowAboutWindow = new DelegateCommand(() => new AboutWindow(this).ShowDialog());
+            ShowPreferences = new DelegateCommand(() => new PreferencesWindow(this).ShowDialog());
             ViewModel = new MainViewModel();
             InitializeComponent();
         }
 
-        public SimpleViewCommand ShowAboutWindow { get; }
+        public DelegateCommand ShowAboutWindow { get; }
 
-        public SimpleViewCommand ShowPreferences { get; }
+        public DelegateCommand ShowPreferences { get; }
 
         public MainViewModel ViewModel { get; }
     }

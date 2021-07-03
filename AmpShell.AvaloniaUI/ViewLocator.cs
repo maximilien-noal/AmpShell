@@ -1,7 +1,6 @@
 namespace AmpShell.AvaloniaUI
 {
-    using AmpShell.AvaloniaUI.ViewModels;
-
+    using AmpShell.Core.Notification;
     using Avalonia.Controls;
     using Avalonia.Controls.Templates;
 
@@ -28,7 +27,7 @@ namespace AmpShell.AvaloniaUI
 
         public bool Match(object data)
         {
-            return data is ViewModelBase;
+            return data is PropertyChangedNotifier;
         }
     }
 }

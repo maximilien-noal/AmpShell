@@ -107,23 +107,50 @@
                     <Image Source="/Resources/Folder_Open.png" />
                 </Button>
                 <Separator />
-                <Button />
-                <Button />
-                <Button />
-                <Button />
-                <Button />
-                <Button />
+                <Button Command="{Binding EditSelectedGame}">
+                    <Image Source="/Resources/GameEdit.png" />
+                </Button>
+                <Button Command="{Binding EditSelectedGameConfigFile}">
+                    <Image Source="/Resources/GameConfigEdit.png" />
+                </Button>
+                <Button Command="{Binding MakeConfigFileForSelectedGame}" ToolTip="Make a new game configuration file">
+                    <Image Source="/Resources/MakeConfig.png" />
+                </Button>
+                <Button Command="{Binding EditSelectedCategory}">
+                    <Image Source="/Resources/CategoryEdit.png" />
+                </Button>
+                <Button Command="{Binding DeleteSelectedGame}">
+                    <Image Source="/Resources/DeleteGame.png" />
+                </Button>
+                <Button  Command="{Binding DeleteSelectedCategory}">
+                    <Image Source="/Resources/CategoryDelete.png" />
+                </Button>
                 <Separator />
-                <Button />
-                <Button />
-                <Button />
+                <Button Command="{Binding RunDOSBox}">
+                    <Image Source="/Resources/DOSBox.png" />
+                </Button>
+                <Button Command="{Binding RunConfigEditor}">
+                    <Image Source="/Resources/RunConfigEditor.png" />
+                </Button>
+                <Button Command="{Binding EditDefaultConfigFile}">
+                    <Image Source="/Resources/DBConfEdit.png" />
+                </Button>
                 <Separator />
-                <Button />
-                <Button />
-                <Button />
-                <Button />
-                <Button />
-                <Button />
+                <Button Command="{Binding UseLargIcons}">
+                    <Image Source="/Resources/LargeIcons.png" />
+                </Button>
+                <Button Command="{Binding UseSmallIcons}">
+                    <Image Source="/Resources/SmallIcons.png" />
+                </Button>
+                <Button Command="{Binding UseTiles}">
+                    <Image Source="/Resources/Tiles.png" />
+                </Button>
+                <Button Command="{Binding UseList}">
+                    <Image Source="/Resources/Lists.png" />
+                </Button>
+                <Button Command="{Binding UseDetails}">
+                    <Image Source="/Resources/Details.png" />
+                </Button>
             </ToolBar>
         </ToolBarTray>
         <TabControl Grid.Row="2" ItemsSource="{Binding Categories}">

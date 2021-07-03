@@ -112,6 +112,7 @@ namespace AmpShell.Core.Model
             set { Set(ref dbDefaultLangFilePath, value); }
         }
 
+        /// <summary> Main DOSBox executable path </summary>
         public string DBPath
         {
             get => dbPath;

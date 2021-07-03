@@ -965,7 +965,7 @@ namespace AmpShell.UnitTests
                 game.AlternateDOSBoxExePath = "/usr/bin/dosbox";
             }
             game.DOSEXEPath = GetTempExePath();
-            var proc = game.Run();
+            var proc = game.Run(new Preferences());
             proc.Should().NotBeNull();
             proc.Kill();
         }
