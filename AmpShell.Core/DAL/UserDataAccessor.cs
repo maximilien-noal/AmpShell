@@ -217,6 +217,7 @@ namespace AmpShell.Core.DAL
             _userData.DBPath = userData.DBPath;
         }
 
+        [Obsolete("To be replaced with a more limited access")]
         internal ref Preferences WithUserData() => ref _userData;
 
         private void LoaduserSettings()
