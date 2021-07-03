@@ -1,4 +1,4 @@
-# AmpShell - Lean and fast DOSBox frontend, for Windows
+# AmpShell - Lean and fast DOSBox frontend, for Windows (Linux and Mac coming soon !)
 
 The purpose of AmpShell is to make you run games in DOSBox with a simple double click. It saves the time and trouble you can have with DOS commands.
 
