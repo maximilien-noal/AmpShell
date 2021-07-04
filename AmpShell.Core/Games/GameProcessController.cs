@@ -26,7 +26,7 @@ namespace AmpShell.Core.Games
 
         private readonly Preferences _userData;
 
-        public GameProcessController(Game game, Preferences userData)
+        internal GameProcessController(Game game, Preferences userData)
         {
             this._game = game;
             this._userData = userData;
@@ -55,13 +55,13 @@ namespace AmpShell.Core.Games
 
         /// <summary> Starts DOSBox with <see cref="Game" /> inside it. </summary>
         /// <returns> The DOSBox process. </returns>
-        public Process StartGame() => this.StartGame(this.BuildArgs(false));
+        internal Process StartGame() => this.StartGame(this.BuildArgs(false));
 
         /// <summary>
         /// Starts DOSBox with <see cref="Game" />. <see cref="Game.SetupEXEPath" /> inside it.
         /// </summary>
         /// <returns> The DOSBox process. </returns>
-        public Process StartGameSetup() => this.StartGame(this.BuildArgs(true));
+        internal Process StartGameSetup() => this.StartGame(this.BuildArgs(true));
 
         private static Process StartProcess(ProcessStartInfo psi)
         {

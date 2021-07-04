@@ -16,7 +16,7 @@ namespace AmpShell.Core.Serialization
     using System.Xml;
     using System.Xml.Serialization;
 
-    public static class ObjectSerializer
+    internal static class ObjectSerializer
     {
         public static T Deserialize<T>(string xmlPath)
             where T : new()

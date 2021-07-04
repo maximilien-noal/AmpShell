@@ -59,15 +59,8 @@ namespace AmpShell.WinForms
                 UserDataAccessorInstance.DisableDOSBoxUsage();
             }
 
-            // TODO: Move it to Core.
-            var localDosbox = Path.Combine(Application.StartupPath, "dosbox.exe");
-            if (UserDataAccessorInstance.GetUserData().PortableMode && File.Exists(localDosbox))
-            {
-                UserDataAccessorInstance.UpdateDOSBoxPath(localDosbox);
-            }
-
-            // if DOSBoxPath is still empty and we must use DOSBox, say to the user that DOSBox's
-            // executable cannot be found.
+            // AutoConfig is run when UserDataAccessor is instantiated above. If DBPath is still
+            // empty and we must use DOSBox, say to the user that DOSBox's executable cannot be found.
             else if (UserDataAccessorInstance.GetUserData().GamesUseDOSBox && (StringExt.IsNullOrWhiteSpace(UserDataAccessorInstance.GetUserData().DBPath) || File.Exists(UserDataAccessorInstance.GetUserData().DBPath) == false))
             {
                 switch (MessageBox.Show("AmpShell cannot find DOSBox, do you want to indicate DOSBox's executable location now ? Choose 'Cancel' to quit.", "Cannot find DOSBox", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question))

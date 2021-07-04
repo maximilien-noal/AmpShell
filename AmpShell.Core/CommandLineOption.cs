@@ -10,20 +10,18 @@
 
 namespace AmpShell
 {
-    using System;
-
     public class CommandLineOption
     {
-        public string ShortName { get; set; }
+        public string HelpText { get; set; }
+
+        public bool IsProvided { get; set; }
 
         public string LongName { get; set; }
 
-        public string HelpText { get; set; }
-
         public bool Required { get; set; }
 
-        public string Value { get; set; }
+        public string ShortName { get; set; }
 
-        public bool IsProvided { get; set; }
+        public string Value { get; set; }
     }
 }

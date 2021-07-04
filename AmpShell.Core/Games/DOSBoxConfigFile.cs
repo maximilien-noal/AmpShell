@@ -7,11 +7,11 @@
     using System.Text.RegularExpressions;
 
     /// <summary> Represents a DOSBox Config File. </summary>
-    public class DOSBoxConfigFile
+    internal class DOSBoxConfigFile
     {
-        private readonly List<string> configFileContent = new List<string>();
-
         private readonly string autoExecSection = string.Empty;
+
+        private readonly List<string> configFileContent = new List<string>();
 
         public DOSBoxConfigFile(string configFilePath)
         {
