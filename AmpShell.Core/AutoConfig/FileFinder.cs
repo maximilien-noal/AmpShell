@@ -38,10 +38,6 @@ namespace AmpShell.Core.AutoConfig
             }
         }
 
-        public static string SearchDOSBoxConf(string userConfigDataPath, string dosboxExecutablePath) => SearchFileWithExtension(userConfigDataPath, dosboxExecutablePath, "*.conf");
-
-        public static string SearchDOSBoxLanguageFile(string userConfigDataPath, string dosboxExecutablePath) => SearchFileWithExtension(userConfigDataPath, dosboxExecutablePath, "*.lng");
-
         internal static string SearchCommonTextEditor()
         {
             string notepadPath = Path.Combine(Path.GetDirectoryName(Environment.GetFolderPath(Environment.SpecialFolder.System)), "notepad.exe");
@@ -90,6 +86,10 @@ namespace AmpShell.Core.AutoConfig
             }
             return string.Empty;
         }
+
+        internal static string SearchDOSBoxConf(string userConfigDataPath, string dosboxExecutablePath) => SearchFileWithExtension(userConfigDataPath, dosboxExecutablePath, "*.conf");
+
+        internal static string SearchDOSBoxLanguageFile(string userConfigDataPath, string dosboxExecutablePath) => SearchFileWithExtension(userConfigDataPath, dosboxExecutablePath, "*.lng");
 
         private static string SearchFileWithExtension(string userConfigDataPath, string dosboxExecutablePath, string extension)
         {
