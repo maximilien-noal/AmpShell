@@ -17,7 +17,7 @@
 
         private void ValidateMethod()
         {
-            _userDataAccessor.UpdatePreferences(_userData);
+            _userDataAccessor.UpdateGlobalUserPreferences(_userData);
         }
     }
 }

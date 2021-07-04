@@ -49,7 +49,7 @@ namespace AmpShell.WinForms.Views
             this.GameReleaseDatePicker.Value = this.GameInstance.ReleaseDate;
             this.GameLocationTextbox.Text = this.GameInstance.DOSEXEPath;
             this.DontUseDOSBoxCheckBox.Checked = !this.GameInstance.UsesDOSBox;
-            if (Program.UserDataAccessorInstance.WithUserData().GamesUseDOSBox == false)
+            if (Program.UserDataAccessorInstance.GetUserData().GamesUseDOSBox == false)
             {
                 this.DontUseDOSBoxCheckBox.Visible = false;
                 this.ConfigTabControl.TabPages.RemoveAt(1);
@@ -83,9 +83,9 @@ namespace AmpShell.WinForms.Views
 
             if (newGame && this.GameInstance.IsDOSBoxUsed(Program.UserDataAccessorInstance.GetUserData()))
             {
-                this.NoConsoleCheckBox.Checked = Program.UserDataAccessorInstance.WithUserData().GamesNoConsole;
-                this.FullscreenCheckBox.Checked = Program.UserDataAccessorInstance.WithUserData().GamesInFullScreen;
-                this.QuitOnExitCheckBox.Checked = Program.UserDataAccessorInstance.WithUserData().GamesQuitOnExit;
+                this.NoConsoleCheckBox.Checked = Program.UserDataAccessorInstance.GetUserData().GamesNoConsole;
+                this.FullscreenCheckBox.Checked = Program.UserDataAccessorInstance.GetUserData().GamesInFullScreen;
+                this.QuitOnExitCheckBox.Checked = Program.UserDataAccessorInstance.GetUserData().GamesQuitOnExit;
             }
             if (newGame == false)
             {
@@ -114,7 +114,7 @@ namespace AmpShell.WinForms.Views
         {
             using (var alternateDOSBoxExeFileDialog = new OpenFileDialog())
             {
-                if (Program.UserDataAccessorInstance.WithUserData().PortableMode == true)
+                if (Program.UserDataAccessorInstance.GetUserData().PortableMode == true)
                 {
                     alternateDOSBoxExeFileDialog.InitialDirectory = Application.StartupPath;
                 }
@@ -122,9 +122,9 @@ namespace AmpShell.WinForms.Views
                 {
                     alternateDOSBoxExeFileDialog.InitialDirectory = Path.GetDirectoryName(this.AlternateDOSBoxLocationTextbox.Text);
                 }
-                else if (StringExt.IsNullOrWhiteSpace(Program.UserDataAccessorInstance.WithUserData().DBPath) == false && Directory.Exists(Path.GetDirectoryName(Program.UserDataAccessorInstance.WithUserData().DBPath)))
+                else if (StringExt.IsNullOrWhiteSpace(Program.UserDataAccessorInstance.GetUserData().DBPath) == false && Directory.Exists(Path.GetDirectoryName(Program.UserDataAccessorInstance.GetUserData().DBPath)))
                 {
-                    alternateDOSBoxExeFileDialog.InitialDirectory = Program.UserDataAccessorInstance.WithUserData().DBPath;
+                    alternateDOSBoxExeFileDialog.InitialDirectory = Program.UserDataAccessorInstance.GetUserData().DBPath;
                 }
                 else
                 {
@@ -189,13 +189,13 @@ namespace AmpShell.WinForms.Views
             {
                 cdImageFileDialog.Title = this.GameCDPathLabel.Text;
                 cdImageFileDialog.Filter = "DOSBox compatible CD or Floppy image files (*.bin;*.cue;*.iso;*.img;*.ima)|*.bin;*.cue;*.iso;*.img;*.ima;*.BIN;*.CUE;*.ISO;*.IMG;*.IMA";
-                if (Program.UserDataAccessorInstance.WithUserData().PortableMode == true)
+                if (Program.UserDataAccessorInstance.GetUserData().PortableMode == true)
                 {
                     cdImageFileDialog.InitialDirectory = Application.StartupPath;
                 }
-                else if (StringExt.IsNullOrWhiteSpace(Program.UserDataAccessorInstance.WithUserData().CDsDefaultDir) == false && Directory.Exists(Program.UserDataAccessorInstance.WithUserData().CDsDefaultDir))
+                else if (StringExt.IsNullOrWhiteSpace(Program.UserDataAccessorInstance.GetUserData().CDsDefaultDir) == false && Directory.Exists(Program.UserDataAccessorInstance.GetUserData().CDsDefaultDir))
                 {
-                    cdImageFileDialog.InitialDirectory = Program.UserDataAccessorInstance.WithUserData().CDsDefaultDir;
+                    cdImageFileDialog.InitialDirectory = Program.UserDataAccessorInstance.GetUserData().CDsDefaultDir;
                 }
                 else
                 {
@@ -239,7 +239,7 @@ namespace AmpShell.WinForms.Views
         {
             using (var customConfigFileDialog = new OpenFileDialog())
             {
-                if (Program.UserDataAccessorInstance.WithUserData().PortableMode == true)
+                if (Program.UserDataAccessorInstance.GetUserData().PortableMode == true)
                 {
                     customConfigFileDialog.InitialDirectory = Application.StartupPath;
                 }
@@ -336,7 +336,7 @@ namespace AmpShell.WinForms.Views
                 using (var iconFileDialog = new OpenFileDialog())
                 {
                     iconFileDialog.Filter = "Icon files (*.exe;*.bmp;*.exif;*.gif;*.ico;*.jp*;*.png;*.tif*)|*.exe;*.EXE;*.bmp;*.BMP;*.exif;*.EXIF;*.gif;*.GIF;*.ico;*.ICO;*.jp*;*.JP*;*.png;*.PNG;*.tif*;*.TIF*";
-                    if (Program.UserDataAccessorInstance.WithUserData().PortableMode == true)
+                    if (Program.UserDataAccessorInstance.GetUserData().PortableMode == true)
                     {
                         iconFileDialog.InitialDirectory = Application.StartupPath;
                     }
@@ -378,7 +378,7 @@ namespace AmpShell.WinForms.Views
         {
             using (var gameExeFileDialog = new OpenFileDialog())
             {
-                if (Program.UserDataAccessorInstance.WithUserData().PortableMode == true)
+                if (Program.UserDataAccessorInstance.GetUserData().PortableMode == true)
                 {
                     gameExeFileDialog.InitialDirectory = Application.StartupPath;
                 }
@@ -456,7 +456,7 @@ namespace AmpShell.WinForms.Views
             {
                 setupExeFileDialog.Title = this.GameSetupLabel.Text;
                 setupExeFileDialog.Filter = "DOS executable files (*.bat;*.com;*.exe)|*.bat;*.com;*.exe;*.BAT;*.COM;*.EXE";
-                if (Program.UserDataAccessorInstance.WithUserData().PortableMode == true)
+                if (Program.UserDataAccessorInstance.GetUserData().PortableMode == true)
                 {
                     setupExeFileDialog.InitialDirectory = Application.StartupPath;
                 }

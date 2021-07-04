@@ -54,20 +54,21 @@ namespace AmpShell.WinForms
             AppDomain.CurrentDomain.UnhandledException +=
                 new UnhandledExceptionEventHandler(CurrentDomainUnhandledExceptionMethod);
 
-            if (UserDataAccessorInstance.WithUserData().GamesUseDOSBox && StringExt.IsNullOrWhiteSpace(UserDataAccessorInstance.WithUserData().DBPath) && IsWindows98())
+            if (UserDataAccessorInstance.GetUserData().GamesUseDOSBox && StringExt.IsNullOrWhiteSpace(UserDataAccessorInstance.GetUserData().DBPath) && IsWindows98())
             {
-                UserDataAccessorInstance.WithUserData().GamesUseDOSBox = false;
+                UserDataAccessorInstance.DisableDOSBoxUsage();
             }
 
+            // TODO: Move it to Core.
             var localDosbox = Path.Combine(Application.StartupPath, "dosbox.exe");
-            if (UserDataAccessorInstance.WithUserData().PortableMode && File.Exists(localDosbox))
+            if (UserDataAccessorInstance.GetUserData().PortableMode && File.Exists(localDosbox))
             {
-                UserDataAccessorInstance.WithUserData().DBPath = localDosbox;
+                UserDataAccessorInstance.UpdateDOSBoxPath(localDosbox);
             }
 
             // if DOSBoxPath is still empty and we must use DOSBox, say to the user that DOSBox's
             // executable cannot be found.
-            else if (UserDataAccessorInstance.WithUserData().GamesUseDOSBox && (StringExt.IsNullOrWhiteSpace(UserDataAccessorInstance.WithUserData().DBPath) || File.Exists(UserDataAccessorInstance.WithUserData().DBPath) == false))
+            else if (UserDataAccessorInstance.GetUserData().GamesUseDOSBox && (StringExt.IsNullOrWhiteSpace(UserDataAccessorInstance.GetUserData().DBPath) || File.Exists(UserDataAccessorInstance.GetUserData().DBPath) == false))
             {
                 switch (MessageBox.Show("AmpShell cannot find DOSBox, do you want to indicate DOSBox's executable location now ? Choose 'Cancel' to quit.", "Cannot find DOSBox", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question))
                 {
@@ -84,7 +85,7 @@ namespace AmpShell.WinForms
                                 dosboxExeFileDialog.Filter = "DOSBox executable (dosbox*)|dosbox*";
                                 if (dosboxExeFileDialog.ShowDialog() == DialogResult.OK)
                                 {
-                                    UserDataAccessorInstance.WithUserData().DBPath = dosboxExeFileDialog.FileName;
+                                    UserDataAccessorInstance.UpdateDOSBoxPath(dosboxExeFileDialog.FileName);
                                 }
                                 else
                                 {
@@ -95,7 +96,7 @@ namespace AmpShell.WinForms
                         break;
 
                     case DialogResult.No:
-                        UserDataAccessorInstance.WithUserData().DBPath = string.Empty;
+                        UserDataAccessorInstance.UpdateDOSBoxPath(string.Empty);
                         break;
                 }
             }

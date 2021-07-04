@@ -41,8 +41,6 @@ namespace AmpShell.WinForms.Views
 
         private ToolStripMenuItem addGameMenuItem;
 
-        private bool ampShellShown;
-
         /// <summary> Context Menu for the ListView. </summary>
         private ContextMenuStrip currentListViewContextMenuStrip;
 
@@ -69,6 +67,8 @@ namespace AmpShell.WinForms.Views
         private ImageList gamesSmallImageList;
 
         private int hoveredTabIndex;
+
+        private bool mainWindowInitialized;
 
         private ToolStripMenuItem makeGameConfigurationMenuItem;
 
@@ -140,49 +140,34 @@ namespace AmpShell.WinForms.Views
         private void AboutToolStripMenuItem_MouseEnter(object sender, EventArgs e) => this.DisplayHelpMessage(this.AboutToolStripMenuItem.ToolTipText);
 
         /// <summary> EventHandler for when AmpShell is closed. </summary>
-        private void AmpShell_FormClosing(object sender, FormClosingEventArgs e) => Program.UserDataAccessorInstance.SaveUserSettings();
+        private void AmpShell_FormClosing(object sender, FormClosingEventArgs e) => Program.UserDataAccessorInstance.SaveUserData();
 
         /// <summary> EventHandler for when the window is moved. </summary>
         private void AmpShell_LocationChanged(object sender, EventArgs e)
         {
-            if (this.ampShellShown && Program.UserDataAccessorInstance.WithUserData().RememberWindowPosition == true && this.WindowState != FormWindowState.Minimized)
+            if (this.mainWindowInitialized && this.WindowState != FormWindowState.Minimized)
             {
-                Program.UserDataAccessorInstance.WithUserData().X = this.Location.X;
-                Program.UserDataAccessorInstance.WithUserData().Y = this.Location.Y;
+                Program.UserDataAccessorInstance.UpdateWindowLocation(this.Location);
             }
         }
 
         /// <summary> EventHandler for when the window is (un)maximized. </summary>
         private void AmpShell_Resize(object sender, EventArgs e)
         {
-            if (this.ampShellShown == true)
+            if (this.mainWindowInitialized == false)
             {
-                if (this.WindowState == FormWindowState.Maximized)
-                {
-                    Program.UserDataAccessorInstance.WithUserData().Fullscreen = true;
-                }
-                else
-                {
-                    Program.UserDataAccessorInstance.WithUserData().Fullscreen = false;
-                }
+                return;
             }
+            Program.UserDataAccessorInstance.UpdateIsWindowFullscreen(this.WindowState == FormWindowState.Maximized);
         }
 
         /// <summary> EventHandler for when the user has finished resizing the window. </summary>
-        private void AmpShell_Resized(object sender, EventArgs e)
-        {
-            //change the data about the Window's dimensions (restored on next session).
-            if (Program.UserDataAccessorInstance.WithUserData().RememberWindowSize == true)
-            {
-                Program.UserDataAccessorInstance.WithUserData().Height = this.Height;
-                Program.UserDataAccessorInstance.WithUserData().Width = this.Width;
-            }
-        }
+        private void AmpShell_Resized(object sender, EventArgs e) => Program.UserDataAccessorInstance.UpdateWindowSize(this.Width, this.Height);
 
         /// <summary> EventHandler for when AmpShell is shown (happens after AmpShell_Load). </summary>
         private void AmpShell_Shown(object sender, EventArgs e)
         {
-            this.ampShellShown = true;
+            this.mainWindowInitialized = true;
             using (var worker = new BackgroundWorker())
             {
                 worker.DoWork += (s, d) => this.CreateAndPopulateContextMenus();
@@ -240,7 +225,7 @@ namespace AmpShell.WinForms.Views
         private void CategoryDeleteButton_Click(object sender, EventArgs e)
         {
             Category selectedCategory = this.GetSelectedCategory();
-            if (Program.UserDataAccessorInstance.WithUserData().CategoryDeletePrompt != true ||
+            if (Program.UserDataAccessorInstance.GetUserData().CategoryDeletePrompt != true ||
                 MessageBox.Show(
                     this,
                     $"Do you really want to delete '{selectedCategory.Title}' and all the games inside it ?",
@@ -248,7 +233,7 @@ namespace AmpShell.WinForms.Views
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                Program.UserDataAccessorInstance.WithUserData().RemoveChild(selectedCategory);
+                Program.UserDataAccessorInstance.DeleteCategory(selectedCategory);
                 this.TabControl.TabPages.Remove(this.TabControl.SelectedTab);
             }
             this.UpdateButtonsState();
@@ -368,7 +353,7 @@ namespace AmpShell.WinForms.Views
             //Only Enabled when a game is selected
             this.editGameMenuItem.Enabled = false;
             this.currentListViewContextMenuStrip.Items.Add(this.editGameMenuItem);
-            if (Program.UserDataAccessorInstance.WithUserData().GamesUseDOSBox)
+            if (Program.UserDataAccessorInstance.GetUserData().GamesUseDOSBox)
             {
                 this.editGameConfigurationMenuItem.Image = this.GameEditConfigurationButton.Image;
                 this.editGameConfigurationMenuItem.Text = this.GameEditConfigurationButton.Text;
@@ -582,7 +567,7 @@ namespace AmpShell.WinForms.Views
                         this.GameEditConfigurationButton.Enabled = true;
                         this.EditConfigToolStripMenuItem.Enabled = true;
                     }
-                    else if (StringExt.IsNullOrWhiteSpace(Program.UserDataAccessorInstance.WithUserData().DBDefaultConfFilePath) == false)
+                    else if (StringExt.IsNullOrWhiteSpace(Program.UserDataAccessorInstance.GetUserData().DBDefaultConfFilePath) == false)
                     {
                         this.CustomConfigurationLabel.Text = "Configuration: default";
                         this.editGameConfigurationMenuItem.Enabled = false;
@@ -778,21 +763,21 @@ namespace AmpShell.WinForms.Views
         /// <summary> Create the TabPages (categories) ListViews, and games inside the ListViews. </summary>
         private void DisplayUserData()
         {
-            var userData = Program.UserDataAccessorInstance.WithUserData();
+            var userData = Program.UserDataAccessorInstance.GetUserData();
             this.TabControl.TabPages.Clear();
-            if (StringExt.IsNullOrWhiteSpace(Program.UserDataAccessorInstance.WithUserData().DBDefaultConfFilePath) == false && StringExt.IsNullOrWhiteSpace(Program.UserDataAccessorInstance.WithUserData().ConfigEditorPath) == false)
+            if (StringExt.IsNullOrWhiteSpace(userData.DBDefaultConfFilePath) == false && StringExt.IsNullOrWhiteSpace(Program.UserDataAccessorInstance.GetUserData().ConfigEditorPath) == false)
             {
                 this.EditDefaultConfigurationToolStripMenuItem.Enabled = true;
                 this.EditDefaultConfigurationButton.Enabled = true;
             }
 
-            if (StringExt.IsNullOrWhiteSpace(Program.UserDataAccessorInstance.WithUserData().ConfigEditorPath))
+            if (StringExt.IsNullOrWhiteSpace(userData.ConfigEditorPath))
             {
                 this.RunConfigurationEditorButton.Enabled = false;
                 this.RunConfigurationEditorToolStripMenuItem.Enabled = false;
             }
 
-            if (StringExt.IsNullOrWhiteSpace(Program.UserDataAccessorInstance.WithUserData().DBPath) || File.Exists(Program.UserDataAccessorInstance.WithUserData().DBPath) == false)
+            if (StringExt.IsNullOrWhiteSpace(userData.DBPath) || File.Exists(userData.DBPath) == false)
             {
                 this.RunDOSBoxToolStripMenuItem.Enabled = false;
                 this.RunDOSBoxButton.Enabled = false;
@@ -808,7 +793,7 @@ namespace AmpShell.WinForms.Views
                     this.WindowState = FormWindowState.Maximized;
                 }
             }
-            if (userData.RememberWindowPosition != false && File.Exists(Program.UserDataAccessorInstance.GetDataFilePath()))
+            if (userData.RememberWindowPosition != false && Program.UserDataAccessorInstance.IsThisTheFirstRun() == false)
             {
                 this.SetDesktopLocation(userData.X, userData.Y);
             }
@@ -1015,9 +1000,9 @@ namespace AmpShell.WinForms.Views
 
         private void EditDefaultConfigurationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (StringExt.IsNullOrWhiteSpace(Program.UserDataAccessorInstance.WithUserData().DBDefaultConfFilePath) == false && File.Exists(Program.UserDataAccessorInstance.WithUserData().DBDefaultConfFilePath) && StringExt.IsNullOrWhiteSpace(Program.UserDataAccessorInstance.WithUserData().ConfigEditorPath) == false && Program.UserDataAccessorInstance.WithUserData().ConfigEditorPath != "No text editor (Notepad in Windows' directory, or TextEditor.exe in AmpShell's directory) found." && File.Exists(Program.UserDataAccessorInstance.WithUserData().ConfigEditorPath))
+            if (StringExt.IsNullOrWhiteSpace(Program.UserDataAccessorInstance.GetUserData().DBDefaultConfFilePath) == false && File.Exists(Program.UserDataAccessorInstance.GetUserData().DBDefaultConfFilePath) && StringExt.IsNullOrWhiteSpace(Program.UserDataAccessorInstance.GetUserData().ConfigEditorPath) == false && Program.UserDataAccessorInstance.GetUserData().ConfigEditorPath != "No text editor (Notepad in Windows' directory, or TextEditor.exe in AmpShell's directory) found." && File.Exists(Program.UserDataAccessorInstance.GetUserData().ConfigEditorPath))
             {
-                Process.Start(Program.UserDataAccessorInstance.GetConfigEditorPath(), Program.UserDataAccessorInstance.WithUserData().DBDefaultConfFilePath);
+                Process.Start(Program.UserDataAccessorInstance.GetConfigEditorPath(), Program.UserDataAccessorInstance.GetUserData().DBDefaultConfFilePath);
             }
             else
             {
@@ -1098,10 +1083,10 @@ namespace AmpShell.WinForms.Views
 
         private void GameEditConfigurationButton_Click(object sender, EventArgs e)
         {
-            if (StringExt.IsNullOrWhiteSpace(Program.UserDataAccessorInstance.WithUserData().ConfigEditorPath) == false)
+            if (StringExt.IsNullOrWhiteSpace(Program.UserDataAccessorInstance.GetUserData().ConfigEditorPath) == false)
             {
                 Game selectedGame = this.GetSelectedGame();
-                Process.Start(Program.UserDataAccessorInstance.GetConfigEditorPath(), $"{selectedGame.DBConfPath} {Program.UserDataAccessorInstance.WithUserData().ConfigEditorAdditionalParameters}");
+                Process.Start(Program.UserDataAccessorInstance.GetConfigEditorPath(), $"{selectedGame.DBConfPath} {Program.UserDataAccessorInstance.GetUserData().ConfigEditorAdditionalParameters}");
             }
         }
 
@@ -1157,11 +1142,6 @@ namespace AmpShell.WinForms.Views
             var result = ofd.ShowDialog(this);
             if (result == DialogResult.OK)
             {
-                if (StringExt.IsNullOrWhiteSpace(ofd.FileName) == false && ofd.FileName.ToUpperInvariant() == Program.UserDataAccessorInstance.GetDataFilePath().ToUpperInvariant())
-                {
-                    MessageBox.Show(this, "This is the currently in-use file. Nothing to import.");
-                    return;
-                }
                 var worker = new BackgroundWorker();
                 var needToRedrawTabs = false;
                 worker.DoWork += (s, eventargs) =>
@@ -1173,6 +1153,10 @@ namespace AmpShell.WinForms.Views
                     catch (FileNotFoundException)
                     {
                         MessageBox.Show(this, $"File not found: {ofd.FileName}");
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        MessageBox.Show(this, "This is the currently in-use file. Nothing to import.");
                     }
                 };
                 worker.RunWorkerCompleted += (sndr, eventarg) =>
@@ -1198,11 +1182,11 @@ namespace AmpShell.WinForms.Views
         private void MakeConfigButton_Click(object sender, EventArgs e)
         {
             var selectedGame = this.GetSelectedGame();
-            var configPath = Path.Combine(selectedGame.Directory, Path.GetFileName(Program.UserDataAccessorInstance.WithUserData().DBDefaultConfFilePath));
+            var configPath = Path.Combine(selectedGame.Directory, Path.GetFileName(Program.UserDataAccessorInstance.GetUserData().DBDefaultConfFilePath));
             if ((!File.Exists(configPath)) ||
                 (MessageBox.Show(this, $"{configPath} already exists, do you want to overwrite it ?", this.MakeConfigButton.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes))
             {
-                File.Copy(Program.UserDataAccessorInstance.WithUserData().DBDefaultConfFilePath, configPath, true);
+                File.Copy(Program.UserDataAccessorInstance.GetUserData().DBDefaultConfFilePath, configPath, true);
                 selectedGame.DBConfPath = configPath;
             }
         }
@@ -1221,7 +1205,7 @@ namespace AmpShell.WinForms.Views
                 this.menuBarMenuItem.Checked = true;
                 this.menuStrip.Visible = true;
             }
-            Program.UserDataAccessorInstance.WithUserData().MenuBarVisible = this.menuStrip.Visible;
+            Program.UserDataAccessorInstance.UpdateIsMenuBarVisible(this.menuStrip.Visible);
         }
 
         private void OnDOSBoxExit(object sender, EventArgs e) => this.Invoke((MethodInvoker)(() => { this.WindowState = FormWindowState.Normal; }));
@@ -1242,14 +1226,14 @@ namespace AmpShell.WinForms.Views
                 {
                     if (this.gamesLargeImageList != null)
                     {
-                        this.gamesLargeImageList.ImageSize = new Size(Program.UserDataAccessorInstance.WithUserData().LargeViewModeSize, Program.UserDataAccessorInstance.WithUserData().LargeViewModeSize);
+                        this.gamesLargeImageList.ImageSize = new Size(Program.UserDataAccessorInstance.GetUserData().LargeViewModeSize, Program.UserDataAccessorInstance.GetUserData().LargeViewModeSize);
                     }
-                    this.menuStrip.Visible = Program.UserDataAccessorInstance.WithUserData().MenuBarVisible;
-                    this.menuBarMenuItem.Checked = Program.UserDataAccessorInstance.WithUserData().MenuBarVisible;
-                    this.toolStrip.Visible = Program.UserDataAccessorInstance.WithUserData().ToolBarVisible;
-                    this.toolBarMenuItem.Checked = Program.UserDataAccessorInstance.WithUserData().ToolBarVisible;
-                    this.statusStrip.Visible = Program.UserDataAccessorInstance.WithUserData().StatusBarVisible;
-                    this.statusBarMenuItem.Checked = Program.UserDataAccessorInstance.WithUserData().StatusBarVisible;
+                    this.menuStrip.Visible = Program.UserDataAccessorInstance.GetUserData().MenuBarVisible;
+                    this.menuBarMenuItem.Checked = Program.UserDataAccessorInstance.GetUserData().MenuBarVisible;
+                    this.toolStrip.Visible = Program.UserDataAccessorInstance.GetUserData().ToolBarVisible;
+                    this.toolBarMenuItem.Checked = Program.UserDataAccessorInstance.GetUserData().ToolBarVisible;
+                    this.statusStrip.Visible = Program.UserDataAccessorInstance.GetUserData().StatusBarVisible;
+                    this.statusBarMenuItem.Checked = Program.UserDataAccessorInstance.GetUserData().StatusBarVisible;
                     this.RedrawAllUserData();
                 }
             }
@@ -1303,16 +1287,13 @@ namespace AmpShell.WinForms.Views
 
         private void RunConfigurationEditorButton_Click(object sender, EventArgs e)
         {
-            if (StringExt.IsNullOrWhiteSpace(Program.UserDataAccessorInstance.WithUserData().ConfigEditorPath) == false)
+            try
             {
-                if (File.Exists(Program.UserDataAccessorInstance.WithUserData().ConfigEditorPath))
-                {
-                    Process.Start(Program.UserDataAccessorInstance.GetConfigEditorPath());
-                }
-                else
-                {
-                    MessageBox.Show("The configuration editor cannot be run (was it deleted ?). Please set it in the preferences.", this.RunConfigurationEditorButton.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                Process.Start(Program.UserDataAccessorInstance.GetConfigEditorPath());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"The configuration editor cannot be run (was it deleted ?). Please set it in the preferences. Here is the error:{Environment.NewLine} {ex.GetBaseException().Message}", "Editor Launch", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -1390,7 +1371,7 @@ namespace AmpShell.WinForms.Views
                 this.statusBarMenuItem.Checked = true;
                 this.statusStrip.Visible = true;
             }
-            Program.UserDataAccessorInstance.WithUserData().StatusBarVisible = this.statusStrip.Visible;
+            Program.UserDataAccessorInstance.UpdateStatusBarVisibility(this.statusStrip.Visible);
         }
 
         /// <summary> EventHandler for when a drop ends. </summary>
@@ -1401,7 +1382,7 @@ namespace AmpShell.WinForms.Views
             {
                 ListViewItem itemToMove = (ListViewItem)list[i];
                 this.SelectedListView.Items.Remove(itemToMove);
-                var droppedGame = Program.UserDataAccessorInstance.WithUserData().ListChildren.Cast<Category>().Select(x => x.ListChildren.Cast<Game>()).SelectMany(x => x).FirstOrDefault(x => x.Signature == (string)itemToMove.Tag);
+                var droppedGame = Program.UserDataAccessorInstance.GetUserData().ListChildren.Cast<Category>().Select(x => x.ListChildren.Cast<Game>()).SelectMany(x => x).FirstOrDefault(x => x.Signature == (string)itemToMove.Tag);
                 this.GetSelectedCategory().RemoveChild(droppedGame);
                 this.TabControl.SelectTab(this.hoveredTabIndex);
                 this.SelectedListView.Items.Add((ListViewItem)itemToMove.Clone());
@@ -1461,7 +1442,7 @@ namespace AmpShell.WinForms.Views
                 this.toolBarMenuItem.Checked = true;
                 this.toolStrip.Visible = true;
             }
-            Program.UserDataAccessorInstance.WithUserData().ToolBarVisible = this.toolStrip.Visible;
+            Program.UserDataAccessorInstance.UpdateToolBarVisibility(this.toolStrip.Visible);
         }
 
         private void ToolsToolStripMenuItem_MouseEnter(object sender, EventArgs e) => this.DisplayHelpMessage(this.ToolsToolStripMenuItem.ToolTipText);
@@ -1529,7 +1510,7 @@ namespace AmpShell.WinForms.Views
                 this.OpenGameFolderButton.Enabled = true;
                 this.openGameFolderMenuItem.Enabled = true;
                 this.OpenGameFolderToolStripMenuItem.Enabled = true;
-                if (StringExt.IsNullOrWhiteSpace(Program.UserDataAccessorInstance.WithUserData().DBPath) == false && this.GetSelectedGame().IsDOSBoxUsed(Program.UserDataAccessorInstance.GetUserData()))
+                if (StringExt.IsNullOrWhiteSpace(Program.UserDataAccessorInstance.GetUserData().DBPath) == false && this.GetSelectedGame().IsDOSBoxUsed(Program.UserDataAccessorInstance.GetUserData()))
                 {
                     this.RunGameButton.Enabled = true;
                     this.runGameMenuItem.Enabled = true;
@@ -1556,12 +1537,12 @@ namespace AmpShell.WinForms.Views
                 this.DeleteSelectedCategoryToolStripMenuItem.Enabled = true;
                 this.deleteCategoryMenuMenuItem.Enabled = true;
                 this.GameEditButton.Enabled = true;
-                if (StringExt.IsNullOrWhiteSpace(Program.UserDataAccessorInstance.WithUserData().ConfigEditorPath) == false)
+                if (StringExt.IsNullOrWhiteSpace(Program.UserDataAccessorInstance.GetUserData().ConfigEditorPath) == false)
                 {
                     this.RunConfigurationEditorButton.Enabled = true;
                     this.RunConfigurationEditorToolStripMenuItem.Enabled = true;
                 }
-                if (StringExt.IsNullOrWhiteSpace(Program.UserDataAccessorInstance.WithUserData().DBDefaultConfFilePath) == false && this.GetSelectedGame().IsDOSBoxUsed(Program.UserDataAccessorInstance.GetUserData()))
+                if (StringExt.IsNullOrWhiteSpace(Program.UserDataAccessorInstance.GetUserData().DBDefaultConfFilePath) == false && this.GetSelectedGame().IsDOSBoxUsed(Program.UserDataAccessorInstance.GetUserData()))
                 {
                     this.EditDefaultConfigurationToolStripMenuItem.Enabled = true;
                     this.EditDefaultConfigurationButton.Enabled = true;

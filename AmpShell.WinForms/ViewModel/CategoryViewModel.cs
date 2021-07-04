@@ -43,7 +43,7 @@ namespace AmpShell.WinForms.ViewModel
             if (StringExt.IsNullOrWhiteSpace(this.editedCategorySignature))
             {
                 var category = new Category(this.Name, Program.UserDataAccessorInstance.GetAnUniqueSignature());
-                Program.UserDataAccessorInstance.WithUserData().AddChild(category);
+                Program.UserDataAccessorInstance.AddCategory(category);
             }
             else
             {

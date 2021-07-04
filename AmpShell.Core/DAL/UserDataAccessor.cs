@@ -8,11 +8,10 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.*/
 
-[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("AmpShell.WinForms")]
-
 namespace AmpShell.Core.DAL
 {
     using System;
+    using System.Drawing;
     using System.Globalization;
     using System.IO;
     using System.Linq;
@@ -29,8 +28,14 @@ namespace AmpShell.Core.DAL
         public UserDataAccessor()
         {
             _userData = new Preferences();
-            LoaduserSettings();
+            DeserializeUserData();
         }
+
+        public void AddCategory(Category category) => _userData.AddChild(category);
+
+        public void DeleteCategory(Category category) => _userData.RemoveChild(category);
+
+        public void DisableDOSBoxUsage() => _userData.GamesUseDOSBox = false;
 
         public string GetAnUniqueSignature()
         {
@@ -53,38 +58,6 @@ namespace AmpShell.Core.DAL
                 return Path.GetFileName(_userData.ConfigEditorPath).ToLowerInvariant();
             }
             return _userData.ConfigEditorPath;
-        }
-
-        /// <summary> Returns the path to the user data file (AmpShell.xml). </summary>
-        /// <returns> The absolute path to the user data file. </returns>
-        public string GetDataFilePath()
-        {
-            var appDataFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "AmpShell\\AmpShell.xml");
-            if (StringExt.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("AmpShellDebug")) == false)
-            {
-                return appDataFile;
-            }
-            if (FileFinder.HasWriteAccessToAssemblyLocationFolder() == false)
-            {
-                var appDataDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "AmpShell");
-                if (Directory.Exists(appDataDir) == false)
-                {
-                    Directory.CreateDirectory(appDataDir);
-                }
-                return appDataFile;
-            }
-            else
-            {
-                var portableAppDataFile = Path.Combine(PathFinder.GetStartupPath(), "AmpShell.xml");
-                if (File.Exists(portableAppDataFile))
-                {
-                    return portableAppDataFile;
-                }
-                else
-                {
-                    return appDataFile;
-                }
-            }
         }
 
         public Game GetFirstGameWithName(string name)
@@ -128,6 +101,10 @@ namespace AmpShell.Core.DAL
             {
                 throw new FileNotFoundException(fileName);
             }
+            if (fileName.ToUpperInvariant().Trim() == GetDataFilePath().ToUpper().Trim())
+            {
+                throw new InvalidOperationException("Can't import data from the current in-use file. Nothing to import.");
+            }
             var dataImported = false;
             var importData = ObjectSerializer.Deserialize<Preferences>(fileName);
             foreach (var category in importData.ListChildren.Cast<Category>())
@@ -146,42 +123,10 @@ namespace AmpShell.Core.DAL
             return dataImported;
         }
 
-        /// <summary>
-        /// Used when a new Category or Game is created : its signature must be unique so AmpShell
-        /// can recognize it instantly.
-        /// </summary>
-        /// <param name="signatureToTest"> A Category's or Game's signature.. </param>
-        /// <returns> Whether the signature equals none of the other ones, or not.. </returns>
-        public bool IsItAnUniqueSignature(string signatureToTest)
-        {
-            for (int i = 0; i < _userData.ListChildren.Count; i++)
-            {
-                Category otherCat = (Category)_userData.ListChildren[i];
-                if (otherCat.Signature != signatureToTest)
-                {
-                    if (otherCat.ListChildren.Count != 0)
-                    {
-                        for (int j = 0; j < otherCat.ListChildren.Count; j++)
-                        {
-                            Game otherGame = (Game)otherCat.ListChildren[j];
-                            if (otherGame.Signature == signatureToTest)
-                            {
-                                return false;
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
+        public bool IsThisTheFirstRun() => File.Exists(GetDataFilePath());
 
-        public void SaveUserSettings()
+        public void SaveUserData()
         {
-            //saves the data inside Amp by serializing it in AmpShell.xml
             if (!_userData.PortableMode)
             {
                 ObjectSerializer.Serialize(GetDataFilePath(), _userData);
@@ -212,15 +157,98 @@ namespace AmpShell.Core.DAL
             }
         }
 
-        public void UpdatePreferences(Preferences userData)
+        public void UpdateDOSBoxPath(string dosboxPath) => _userData.DBPath = dosboxPath;
+
+        public void UpdateGlobalUserPreferences(Preferences userData)
         {
-            _userData.DBPath = userData.DBPath;
+            UpdateDOSBoxPath(userData.DBPath);
+            _userData.ListChildren = userData.ListChildren;
+            _userData.GamesUseDOSBox = userData.GamesUseDOSBox;
+            _userData.CategoriesDefaultViewMode = _userData.CategoriesDefaultViewMode;
+            _userData.PortableMode = userData.PortableMode;
+            _userData.DBDefaultConfFilePath = userData.DBDefaultConfFilePath;
+            _userData.DBDefaultLangFilePath = userData.DBDefaultLangFilePath;
+            _userData.CategoryDeletePrompt = userData.CategoryDeletePrompt;
+            _userData.CDsDefaultDir = userData.CDsDefaultDir;
+            _userData.ConfigEditorAdditionalParameters = _userData.ConfigEditorAdditionalParameters;
+            _userData.ConfigEditorPath = userData.ConfigEditorPath;
+            _userData.DefaultIconViewOverride = userData.DefaultIconViewOverride;
+            _userData.GameDeletePrompt = userData.GameDeletePrompt;
+            _userData.GamesUseDOSBox = userData.GamesUseDOSBox;
+            _userData.GamesDefaultDir = userData.GamesDefaultDir;
+            _userData.GamesAdditionalCommands = userData.GamesAdditionalCommands;
+            _userData.GamesInFullScreen = userData.GamesInFullScreen;
+            _userData.GamesNoConsole = userData.GamesNoConsole;
+            _userData.GamesQuitOnExit = userData.GamesQuitOnExit;
+            _userData.RememberWindowPosition = userData.RememberWindowPosition;
+            _userData.RememberWindowSize = userData.RememberWindowSize;
+            _userData.CategoryDeletePrompt = userData.CategoryDeletePrompt;
+            _userData.MenuBarVisible = userData.MenuBarVisible;
+            _userData.ToolBarVisible = userData.ToolBarVisible;
+            _userData.StatusBarVisible = userData.StatusBarVisible;
         }
 
-        [Obsolete("To be replaced with a more limited access")]
-        internal ref Preferences WithUserData() => ref _userData;
+        public void UpdateIsMenuBarVisible(bool isVisible) => _userData.MenuBarVisible = isVisible;
 
-        private void LoaduserSettings()
+        public void UpdateIsWindowFullscreen(bool isFullscreen) => _userData.Fullscreen = isFullscreen;
+
+        public void UpdateStatusBarVisibility(bool isVisible) => _userData.StatusBarVisible = isVisible;
+
+        public void UpdateToolBarVisibility(bool isVisible) => _userData.ToolBarVisible = isVisible;
+
+        public void UpdateWindowLocation(Point location)
+        {
+            if (_userData.RememberWindowPosition == false)
+            {
+                return;
+            }
+            _userData.X = location.X;
+            _userData.Y = location.Y;
+        }
+
+        public void UpdateWindowSize(int width, int height)
+        {
+            if (_userData.RememberWindowSize == false)
+            {
+                return;
+            }
+            _userData.Width = width;
+            _userData.Height = height;
+        }
+
+        /// <summary> Returns the absolute the path to the user data file (AmpShell.xml). </summary>
+        /// <returns> The absolute path to the user data file. </returns>
+        internal string GetDataFilePath()
+        {
+            var appDataFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "AmpShell\\AmpShell.xml");
+            if (StringExt.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("AmpShellDebug")) == false)
+            {
+                return appDataFile;
+            }
+            if (FileFinder.HasWriteAccessToAssemblyLocationFolder() == false)
+            {
+                var appDataDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "AmpShell");
+                if (Directory.Exists(appDataDir) == false)
+                {
+                    Directory.CreateDirectory(appDataDir);
+                }
+                return appDataFile;
+            }
+            else
+            {
+                var portableAppDataFile = Path.Combine(PathFinder.GetStartupPath(), "AmpShell.xml");
+                if (File.Exists(portableAppDataFile))
+                {
+                    return portableAppDataFile;
+                }
+                else
+                {
+                    return appDataFile;
+                }
+            }
+        }
+
+        private void DeserializeUserData()
         {
             _userData = new Preferences();
             string dataFilePath = GetDataFilePath();
@@ -283,6 +311,39 @@ namespace AmpShell.Core.DAL
             {
                 _userData.DBDefaultLangFilePath = FileFinder.SearchDOSBoxLanguageFile(dataFilePath, _userData.DBPath);
             }
+        }
+
+        /// <summary>
+        /// Used when a new Category or Game is created : its signature must be unique so AmpShell
+        /// can recognize it instantly.
+        /// </summary>
+        /// <param name="signatureToTest"> A Category's or Game's signature.. </param>
+        /// <returns> Whether the signature equals none of the other ones, or not.. </returns>
+        private bool IsItAnUniqueSignature(string signatureToTest)
+        {
+            for (int i = 0; i < _userData.ListChildren.Count; i++)
+            {
+                Category otherCat = (Category)_userData.ListChildren[i];
+                if (otherCat.Signature != signatureToTest)
+                {
+                    if (otherCat.ListChildren.Count != 0)
+                    {
+                        for (int j = 0; j < otherCat.ListChildren.Count; j++)
+                        {
+                            Game otherGame = (Game)otherCat.ListChildren[j];
+                            if (otherGame.Signature == signatureToTest)
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }
