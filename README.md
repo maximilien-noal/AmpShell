@@ -4,7 +4,7 @@ The purpose of AmpShell is to make you run games in DOSBox with a simple double 
 
 ## Requirements
 
-None, as .NET Core is used. The application is shipped as a single executable.
+None, as .NET Core 3.1 is used. The application is shipped as a single executable.
 
 For legacy Windows users, .NET 2.0 is used and required.
 
@@ -16,7 +16,7 @@ I hate having to wait for something, that's why AmpShell is simple and stupid - 
 
 ### No Install
 
-AmpShell has no dependency apart from .NET 4 (which is provided with Windows anyway), and therefore no installer.
+AmpShell has no dependency, and therefore no installer.
 
 Just download it, and you are ready to go.
 
