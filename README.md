@@ -4,7 +4,7 @@ The purpose of AmpShell is to make you run games in DOSBox with a simple double 
 
 ## Requirements
 
-None, as .NET Core 3.1 is used. The application is shipped as a single executable.
+None, as .NET 5 is used. The application is shipped as a single executable.
 
 For legacy Windows users, .NET 2.0 is used and required.
 
