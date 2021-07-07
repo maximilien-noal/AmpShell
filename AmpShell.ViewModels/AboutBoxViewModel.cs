@@ -59,7 +59,12 @@
                         return titleAttribute.Title;
                     }
                 }
+                #if NET20
                 return System.IO.Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().CodeBase);
+                #endif
+                #if NET5_0_OR_GREATER
+                return System.IO.Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().Location);
+                #endif
             }
         }
 

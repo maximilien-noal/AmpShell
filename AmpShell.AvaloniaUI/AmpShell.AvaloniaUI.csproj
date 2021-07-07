@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
-		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<TargetFramework>net5.0</TargetFramework>
 		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
 		<Nullable>enable</Nullable>
 		<StartupObject>AmpShell.AvaloniaUI.Program</StartupObject>
@@ -14,7 +14,6 @@
 		<RepositoryUrl>https://github.com/maximilien-noal/AmpShell</RepositoryUrl>
 		<NeutralLanguage></NeutralLanguage>
 		<AssemblyVersion>1.4.0.0</AssemblyVersion>
-		<EnableNETAnalyzers>true</EnableNETAnalyzers>
 	</PropertyGroup>
 	<ItemGroup>
 		<AvaloniaResource Include="Assets\**" />
@@ -23,14 +22,6 @@
 		<None Remove="Assets\AmpShell.ico" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="5.0.3">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-		<PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="16.10.56">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
 		<PackageReference Include="Avalonia" Version="0.10.6" />
 		<PackageReference Include="Avalonia.Desktop" Version="0.10.6" />
 		<PackageReference Include="Avalonia.Diagnostics" Version="0.10.6" />
@@ -39,6 +30,5 @@
 		<ProjectReference Include="..\AmpShell.Cli\AmpShell.Cli.csproj" />
 		<ProjectReference Include="..\AmpShell.Core\AmpShell.Core.csproj" />
 		<ProjectReference Include="..\AmpShell.ViewModels\AmpShell.ViewModels.csproj" />
-		<ProjectReference Include="..\AmpShell.Windows\AmpShell.Windows.csproj" />
 	</ItemGroup>
 </Project>
