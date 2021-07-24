@@ -40,7 +40,13 @@ namespace AmpShell.Core.AutoConfig
 
         internal static string SearchCommonTextEditor()
         {
-            string notepadPath = Path.Combine(Path.GetDirectoryName(Environment.GetFolderPath(Environment.SpecialFolder.System)), "notepad.exe");
+            var sysDir = Environment.GetFolderPath(Environment.SpecialFolder.System);
+            //TODO : Use $EDITOR or Xorg desktop standards defaults for nix systems.
+            if(StringExt.IsNullOrWhiteSpace(sysDir))
+            {
+                return "";
+            }
+            string notepadPath = Path.Combine(Path.GetDirectoryName(sysDir), "notepad.exe");
             if (File.Exists(notepadPath))
             {
                 return notepadPath;
@@ -51,6 +57,19 @@ namespace AmpShell.Core.AutoConfig
         internal static string SearchDOSBox(string userConfigDataPath, bool portableMode)
         {
             var windrive = Path.GetPathRoot(Environment.SystemDirectory);
+            if(StringExt.IsNullOrWhiteSpace(windrive))
+            {
+                var unixLocalDosbox = Path.Combine(PathFinder.GetStartupPath(), "dosbox");
+                var unixSystemDosbox = "/usr/bin/dosbox";
+                if(File.Exists(unixLocalDosbox) && portableMode)
+                {
+                    return unixLocalDosbox;
+                }
+                else if(File.Exists(unixSystemDosbox))
+                {
+                    return unixLocalDosbox;
+                }
+            }
             var programFilesX86Path = Path.Combine(windrive, "Program Files (x86)");
             if (userConfigDataPath == Path.Combine(PathFinder.GetStartupPath(), "AmpShell.xml") && portableMode)
             {
