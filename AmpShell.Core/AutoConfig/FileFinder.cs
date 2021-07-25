@@ -45,6 +45,10 @@ namespace AmpShell.Core.AutoConfig
 
         internal static string SearchCommonTextEditor()
         {
+            if (Platform.PlatformDetector.IsMacOs())
+            {
+                return "open";
+            }
             if (Platform.PlatformDetector.IsNix())
             {
                 return "xdg-open";

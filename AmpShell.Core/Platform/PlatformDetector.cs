@@ -10,5 +10,7 @@ namespace AmpShell.Core.Platform
         public static bool IsNix() => Directory.Exists("/");
 
         public static bool IsWindows() => Directory.Exists(Path.GetDirectoryName(Environment.GetFolderPath(Environment.SpecialFolder.System)));
+
+        internal static bool IsMacOs() => Directory.Exists("/System/Library");
     }
 }
