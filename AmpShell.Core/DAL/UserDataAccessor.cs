@@ -272,37 +272,21 @@ namespace AmpShell.Core.DAL
             }
 
             var fileFinder = new FileFinder(_userData);
-            if (StringExt.IsNullOrWhiteSpace(_userData.DBPath))
+            if (StringExt.IsNullOrWhiteSpace(_userData.DBPath) || File.Exists(_userData.DBPath) == false)
             {
                 _userData.DBPath = fileFinder.SearchDOSBox(dataFilePath);
             }
-            else if (File.Exists(_userData.DBPath) == false)
-            {
-                _userData.DBPath = fileFinder.SearchDOSBox(dataFilePath);
-            }
-            if (StringExt.IsNullOrWhiteSpace(_userData.ConfigEditorPath))
-            {
-                _userData.ConfigEditorPath = FileFinder.SearchCommonTextEditor();
-            }
-            else if (File.Exists(_userData.ConfigEditorPath) == false)
+            if (StringExt.IsNullOrWhiteSpace(_userData.ConfigEditorPath) || File.Exists(_userData.ConfigEditorPath) == false)
             {
                 _userData.ConfigEditorPath = FileFinder.SearchCommonTextEditor();
             }
 
-            if (StringExt.IsNullOrWhiteSpace(_userData.DBDefaultConfFilePath))
-            {
-                _userData.DBDefaultConfFilePath = FileFinder.SearchDOSBoxConf(dataFilePath, _userData.DBPath);
-            }
-            else if (File.Exists(_userData.DBDefaultConfFilePath) == false)
+            if (StringExt.IsNullOrWhiteSpace(_userData.DBDefaultConfFilePath) || File.Exists(_userData.DBDefaultConfFilePath) == false)
             {
                 _userData.DBDefaultConfFilePath = FileFinder.SearchDOSBoxConf(dataFilePath, _userData.DBPath);
             }
 
-            if (StringExt.IsNullOrWhiteSpace(_userData.DBDefaultLangFilePath) == false)
-            {
-                _userData.DBDefaultLangFilePath = FileFinder.SearchDOSBoxLanguageFile(dataFilePath, _userData.DBPath);
-            }
-            else if (File.Exists(_userData.DBDefaultLangFilePath) == false)
+            if (StringExt.IsNullOrWhiteSpace(_userData.DBDefaultLangFilePath) || File.Exists(_userData.DBDefaultLangFilePath) == false)
             {
                 _userData.DBDefaultLangFilePath = FileFinder.SearchDOSBoxLanguageFile(dataFilePath, _userData.DBPath);
             }
