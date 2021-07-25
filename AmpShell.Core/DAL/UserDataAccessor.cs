@@ -18,6 +18,7 @@ namespace AmpShell.Core.DAL
 
     using AmpShell.Core.AutoConfig;
     using AmpShell.Core.Model;
+    using AmpShell.Core.Platform;
     using AmpShell.Core.Serialization;
 
     public class UserDataAccessor
@@ -45,7 +46,7 @@ namespace AmpShell.Core.DAL
 
         public string GetConfigEditorPath()
         {
-            if (StringExt.IsNullOrWhiteSpace(_userData.ConfigEditorPath) == false && Path.Combine(Path.GetDirectoryName(Environment.GetFolderPath(Environment.SpecialFolder.System)), "NOTEPAD.EXE").ToUpperInvariant() == _userData.ConfigEditorPath.ToUpperInvariant())
+            if (PlatformDetector.IsWindows() && StringExt.IsNullOrWhiteSpace(_userData.ConfigEditorPath) == false && Path.Combine(Path.GetDirectoryName(Environment.GetFolderPath(Environment.SpecialFolder.System)), "NOTEPAD.EXE").ToUpperInvariant() == _userData.ConfigEditorPath.ToUpperInvariant())
             {
                 return Path.GetFileName(_userData.ConfigEditorPath).ToLowerInvariant();
             }
