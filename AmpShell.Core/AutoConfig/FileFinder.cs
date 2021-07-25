@@ -47,7 +47,7 @@ namespace AmpShell.Core.AutoConfig
         {
             if (Platform.PlatformDetector.IsNix())
             {
-                return "";
+                return "xdg-open";
             }
 
             var sysDir = Environment.GetFolderPath(Environment.SpecialFolder.System);
