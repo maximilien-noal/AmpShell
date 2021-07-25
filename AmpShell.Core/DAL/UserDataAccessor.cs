@@ -120,34 +120,32 @@ namespace AmpShell.Core.DAL
 
         public void SaveUserData()
         {
-            if (!_userData.PortableMode)
+            if (_userData.PortableMode)
             {
                 ObjectSerializer.Serialize(GetDataFilePath(), _userData);
+                return;
             }
-            else
+            for (int i = 0; i < _userData.ListChildren.Count; i++)
             {
-                for (int i = 0; i < _userData.ListChildren.Count; i++)
+                Category category = (Category)_userData.ListChildren[i];
+                for (int j = 0; j < category.ListChildren.Count; j++)
                 {
-                    Category category = (Category)_userData.ListChildren[i];
-                    for (int j = 0; j < category.ListChildren.Count; j++)
-                    {
-                        Game game = (Game)category.ListChildren[j];
-                        game.DOSEXEPath = game.DOSEXEPath.Replace(PathFinder.GetStartupPath(), AppPathPlaceHolder);
-                        game.DBConfPath = game.DBConfPath.Replace(PathFinder.GetStartupPath(), AppPathPlaceHolder);
-                        game.AdditionalCommands = game.AdditionalCommands.Replace(PathFinder.GetStartupPath(), AppPathPlaceHolder);
-                        game.Directory = game.Directory.Replace(PathFinder.GetStartupPath(), AppPathPlaceHolder);
-                        game.CDPath = game.CDPath.Replace(PathFinder.GetStartupPath(), AppPathPlaceHolder);
-                        game.SetupEXEPath = game.SetupEXEPath.Replace(PathFinder.GetStartupPath(), AppPathPlaceHolder);
-                        game.Icon = game.Icon.Replace(PathFinder.GetStartupPath(), AppPathPlaceHolder);
-                    }
+                    Game game = (Game)category.ListChildren[j];
+                    game.DOSEXEPath = game.DOSEXEPath.Replace(PathFinder.GetStartupPath(), AppPathPlaceHolder);
+                    game.DBConfPath = game.DBConfPath.Replace(PathFinder.GetStartupPath(), AppPathPlaceHolder);
+                    game.AdditionalCommands = game.AdditionalCommands.Replace(PathFinder.GetStartupPath(), AppPathPlaceHolder);
+                    game.Directory = game.Directory.Replace(PathFinder.GetStartupPath(), AppPathPlaceHolder);
+                    game.CDPath = game.CDPath.Replace(PathFinder.GetStartupPath(), AppPathPlaceHolder);
+                    game.SetupEXEPath = game.SetupEXEPath.Replace(PathFinder.GetStartupPath(), AppPathPlaceHolder);
+                    game.Icon = game.Icon.Replace(PathFinder.GetStartupPath(), AppPathPlaceHolder);
                 }
-                _userData.DBDefaultConfFilePath = _userData.DBDefaultConfFilePath.Replace(PathFinder.GetStartupPath(), AppPathPlaceHolder);
-                _userData.DBDefaultLangFilePath = _userData.DBDefaultLangFilePath.Replace(PathFinder.GetStartupPath(), AppPathPlaceHolder);
-                _userData.DBPath = _userData.DBPath.Replace(PathFinder.GetStartupPath(), AppPathPlaceHolder);
-                _userData.ConfigEditorPath = _userData.ConfigEditorPath.Replace(PathFinder.GetStartupPath(), AppPathPlaceHolder);
-                _userData.ConfigEditorAdditionalParameters = _userData.ConfigEditorAdditionalParameters.Replace(PathFinder.GetStartupPath(), AppPathPlaceHolder);
-                ObjectSerializer.Serialize(Path.Combine(PathFinder.GetStartupPath(), "AmpShell.xml"), _userData);
             }
+            _userData.DBDefaultConfFilePath = _userData.DBDefaultConfFilePath.Replace(PathFinder.GetStartupPath(), AppPathPlaceHolder);
+            _userData.DBDefaultLangFilePath = _userData.DBDefaultLangFilePath.Replace(PathFinder.GetStartupPath(), AppPathPlaceHolder);
+            _userData.DBPath = _userData.DBPath.Replace(PathFinder.GetStartupPath(), AppPathPlaceHolder);
+            _userData.ConfigEditorPath = _userData.ConfigEditorPath.Replace(PathFinder.GetStartupPath(), AppPathPlaceHolder);
+            _userData.ConfigEditorAdditionalParameters = _userData.ConfigEditorAdditionalParameters.Replace(PathFinder.GetStartupPath(), AppPathPlaceHolder);
+            ObjectSerializer.Serialize(Path.Combine(PathFinder.GetStartupPath(), "AmpShell.xml"), _userData);
         }
 
         public void UpdateDOSBoxPath(string dosboxPath) => _userData.DBPath = dosboxPath;
@@ -249,7 +247,7 @@ namespace AmpShell.Core.DAL
             {
                 _userData = ObjectSerializer.Deserialize<Preferences>(dataFilePath);
             }
-            if(_userData.PortableMode)
+            if (_userData.PortableMode)
             {
                 for (int i = 0; i < _userData.ListChildren.Count; i++)
                 {
