@@ -39,17 +39,7 @@ namespace AmpShell.Core.DAL
 
         public void DisableDOSBoxUsage() => _userData.GamesUseDOSBox = false;
 
-        public string GetAnUniqueSignature()
-        {
-            string newSignature;
-            do
-            {
-                Random randNumber = new Random();
-                newSignature = randNumber.Next(1048576).ToString(CultureInfo.InvariantCulture);
-            }
-            while (IsItAnUniqueSignature(newSignature) == false);
-            return newSignature;
-        }
+        public string GetAnUniqueSignature() => Guid.NewGuid().ToString();
 
         public Category GetCategoryWithSignature(string signature) => _userData.ListChildren.Cast<Category>().FirstOrDefault(x => x.Signature == signature);
 
@@ -317,39 +307,6 @@ namespace AmpShell.Core.DAL
             {
                 _userData.DBDefaultLangFilePath = FileFinder.SearchDOSBoxLanguageFile(dataFilePath, _userData.DBPath);
             }
-        }
-
-        /// <summary>
-        /// Used when a new Category or Game is created : its signature must be unique so AmpShell
-        /// can recognize it instantly.
-        /// </summary>
-        /// <param name="signatureToTest"> A Category's or Game's signature.. </param>
-        /// <returns> Whether the signature equals none of the other ones, or not.. </returns>
-        private bool IsItAnUniqueSignature(string signatureToTest)
-        {
-            for (int i = 0; i < _userData.ListChildren.Count; i++)
-            {
-                Category otherCat = (Category)_userData.ListChildren[i];
-                if (otherCat.Signature != signatureToTest)
-                {
-                    if (otherCat.ListChildren.Count != 0)
-                    {
-                        for (int j = 0; j < otherCat.ListChildren.Count; j++)
-                        {
-                            Game otherGame = (Game)otherCat.ListChildren[j];
-                            if (otherGame.Signature == signatureToTest)
-                            {
-                                return false;
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            return true;
         }
     }
 }
