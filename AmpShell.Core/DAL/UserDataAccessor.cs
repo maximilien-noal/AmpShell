@@ -277,13 +277,14 @@ namespace AmpShell.Core.DAL
             _userData.ConfigEditorPath = _userData.ConfigEditorPath.Replace("AppPath", PathFinder.GetStartupPath());
             _userData.ConfigEditorAdditionalParameters = _userData.ConfigEditorAdditionalParameters.Replace("AppPath", PathFinder.GetStartupPath());
 
+            var fileFinder = new FileFinder(_userData);
             if (StringExt.IsNullOrWhiteSpace(_userData.DBPath))
             {
-                _userData.DBPath = FileFinder.SearchDOSBox(dataFilePath, _userData.PortableMode);
+                _userData.DBPath = fileFinder.SearchDOSBox(dataFilePath);
             }
             else if (File.Exists(_userData.DBPath) == false)
             {
-                _userData.DBPath = FileFinder.SearchDOSBox(dataFilePath, _userData.PortableMode);
+                _userData.DBPath = fileFinder.SearchDOSBox(dataFilePath);
             }
             if (StringExt.IsNullOrWhiteSpace(_userData.ConfigEditorPath))
             {

@@ -10,12 +10,17 @@
 
 namespace AmpShell.Core.AutoConfig
 {
+    using AmpShell.Core.Model;
     using System;
     using System.IO;
     using System.Linq;
 
-    public static class FileFinder
+    public class FileFinder
     {
+        private Preferences _preferences;
+
+        public FileFinder(Preferences preferences) => _preferences = preferences;
+
         public static bool HasWriteAccessToAssemblyLocationFolder()
         {
             try
@@ -54,14 +59,14 @@ namespace AmpShell.Core.AutoConfig
             return string.Empty;
         }
 
-        internal static string SearchDOSBox(string userConfigDataPath, bool portableMode)
+        internal string SearchDOSBox(string userConfigDataPath)
         {
             var windrive = Path.GetPathRoot(Environment.SystemDirectory);
             if(StringExt.IsNullOrWhiteSpace(windrive))
             {
                 var unixLocalDosbox = Path.Combine(PathFinder.GetStartupPath(), "dosbox");
                 var unixSystemDosbox = "/usr/bin/dosbox";
-                if(File.Exists(unixLocalDosbox) && portableMode)
+                if(File.Exists(unixLocalDosbox) && _preferences.PortableMode)
                 {
                     return unixLocalDosbox;
                 }
@@ -71,7 +76,7 @@ namespace AmpShell.Core.AutoConfig
                 }
             }
             var programFilesX86Path = Path.Combine(windrive, "Program Files (x86)");
-            if (userConfigDataPath == Path.Combine(PathFinder.GetStartupPath(), "AmpShell.xml") && portableMode)
+            if (userConfigDataPath == Path.Combine(PathFinder.GetStartupPath(), "AmpShell.xml") && _preferences.PortableMode)
             {
                 var localDOSBox = Path.Combine(PathFinder.GetStartupPath(), "dosbox.exe");
                 if (File.Exists(localDOSBox))
