@@ -45,9 +45,14 @@ namespace AmpShell.Core.AutoConfig
 
         internal static string SearchCommonTextEditor()
         {
+            if (Platform.PlatformDetector.IsNix())
+            {
+                return "";
+            }
+
             var sysDir = Environment.GetFolderPath(Environment.SpecialFolder.System);
-            //TODO : Use $EDITOR or Xorg desktop standards defaults for nix systems.
-            if(StringExt.IsNullOrWhiteSpace(sysDir))
+
+            if (StringExt.IsNullOrWhiteSpace(sysDir))
             {
                 return "";
             }
@@ -59,21 +64,29 @@ namespace AmpShell.Core.AutoConfig
             return string.Empty;
         }
 
+        internal static string SearchDOSBoxConf(string userConfigDataPath, string dosboxExecutablePath) => SearchFileWithExtension(userConfigDataPath, dosboxExecutablePath, "*.conf");
+
+        internal static string SearchDOSBoxLanguageFile(string userConfigDataPath, string dosboxExecutablePath) => SearchFileWithExtension(userConfigDataPath, dosboxExecutablePath, "*.lng");
+
         internal string SearchDOSBox(string userConfigDataPath)
         {
-            var windrive = Path.GetPathRoot(Environment.SystemDirectory);
-            if(StringExt.IsNullOrWhiteSpace(windrive))
+            if (Platform.PlatformDetector.IsNix())
             {
-                var unixLocalDosbox = Path.Combine(PathFinder.GetStartupPath(), "dosbox");
+                var localDosbox = Path.Combine(PathFinder.GetStartupPath(), "dosbox");
                 var unixSystemDosbox = "/usr/bin/dosbox";
-                if(File.Exists(unixLocalDosbox) && _preferences.PortableMode)
+                if (File.Exists(localDosbox) && _preferences.PortableMode)
                 {
-                    return unixLocalDosbox;
+                    return localDosbox;
                 }
-                else if(File.Exists(unixSystemDosbox))
+                else if (File.Exists(unixSystemDosbox))
                 {
-                    return unixLocalDosbox;
+                    return localDosbox;
                 }
+            }
+            var windrive = Path.GetPathRoot(Environment.SystemDirectory);
+            if (StringExt.IsNullOrWhiteSpace(windrive))
+            {
+                return string.Empty;
             }
             var programFilesX86Path = Path.Combine(windrive, "Program Files (x86)");
             if (userConfigDataPath == Path.Combine(PathFinder.GetStartupPath(), "AmpShell.xml") && _preferences.PortableMode)
@@ -110,10 +123,6 @@ namespace AmpShell.Core.AutoConfig
             }
             return string.Empty;
         }
-
-        internal static string SearchDOSBoxConf(string userConfigDataPath, string dosboxExecutablePath) => SearchFileWithExtension(userConfigDataPath, dosboxExecutablePath, "*.conf");
-
-        internal static string SearchDOSBoxLanguageFile(string userConfigDataPath, string dosboxExecutablePath) => SearchFileWithExtension(userConfigDataPath, dosboxExecutablePath, "*.lng");
 
         private static string SearchFileWithExtension(string userConfigDataPath, string dosboxExecutablePath, string extension)
         {
