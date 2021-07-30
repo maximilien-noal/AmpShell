@@ -1,6 +1,5 @@
 ﻿namespace AmpShell.WPF
 {
-    using AmpShell.Core.DAL;
 
     using Microsoft.Win32;
 
@@ -38,11 +37,8 @@
             base.OnStartup(e);
             try
             {
-                if (OSVersionHelper.WindowsVersionHelper.Windows10Release >= OSVersionHelper.Windows10Release.May2019)
-                {
-                    WatchTheme();
-                    CHangeThemeIfWindowsChangedIt();
-                }
+                WatchTheme();
+                CHangeThemeIfWindowsChangedIt();
             }
             catch
             {

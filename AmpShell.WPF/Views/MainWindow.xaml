@@ -5,6 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AmpShell.WPF"
         xmlns:vm="clr-namespace:AmpShell.ViewModels;assembly=AmpShell.ViewModels"
+        xmlns:models="clr-namespace:AmpShell.Core.Model;assembly=AmpShell.Core"
+        xmlns:converters="clr-namespace:AmpShell.WPF.Converters"
         mc:Ignorable="d"
         Name="AmpShellMainWindow"
         Title="AmpShell" Height="400" Width="800" ResizeMode="CanResizeWithGrip" WindowStartupLocation="CenterScreen" Icon="/AmpShell.ico"
@@ -13,6 +15,10 @@
     <Window.Style>
         <Style TargetType="Window" BasedOn="{StaticResource {x:Type Window}}" />
     </Window.Style>
+    <Window.Resources>
+        <converters:ChildrenToCategoriesConverter x:Key="ChildrenToCategoriesConverter" />
+        <converters:ChildrenToGamesConverter x:Key="ChildrenToGamesConverter" />
+    </Window.Resources>
     <Window.InputBindings>
         <KeyBinding Key="C" Modifiers="Ctrl" Command="{Binding NewCategory}" />
         <KeyBinding Key="N" Modifiers="Ctrl" Command="{Binding NewGame}" />
@@ -153,7 +159,20 @@
                 </Button>
             </ToolBar>
         </ToolBarTray>
-        <TabControl Grid.Row="2" ItemsSource="{Binding Categories}">
+        <TabControl Grid.Row="2" ItemsSource="{Binding UserData.ListChildren, Converter={StaticResource ChildrenToCategoriesConverter}}">
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <TabItem Header="{Binding Title}">
+                        <ListView ItemsSource="{Binding ListChildren, Converter={StaticResource ChildrenToGamesConverter}}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate DataType="{x:Type models:Game}">
+                                    <TextBlock Text="{Binding Name}" />
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </TabItem>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
             <TabControl.ContextMenu>
                 <ContextMenu />
             </TabControl.ContextMenu>

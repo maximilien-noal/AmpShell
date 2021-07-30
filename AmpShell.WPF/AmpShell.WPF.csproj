@@ -49,7 +49,6 @@
 		<PackageReference Include="Prism.Core" Version="8.1.97" />
 		<PackageReference Include="AdonisUI" Version="1.17.0" />
 		<PackageReference Include="AdonisUI.ClassicTheme" Version="1.17.0" />
-		<PackageReference Include="OSVersionHelper" Version="1.1.24" />
 		<PackageReference Include="System.Management" Version="5.0.0" />
 		<PackageReference Include="WpfAnalyzers" Version="3.5.4">
 			<PrivateAssets>all</PrivateAssets>

@@ -10,15 +10,15 @@
 
 namespace AmpShell.Core.DAL
 {
-    using System;
-    using System.Drawing;
-    using System.IO;
-    using System.Linq;
-
     using AmpShell.Core.AutoConfig;
     using AmpShell.Core.Model;
     using AmpShell.Core.Platform;
     using AmpShell.Core.Serialization;
+
+    using System;
+    using System.Drawing;
+    using System.IO;
+    using System.Linq;
 
     public class UserDataAccessor
     {

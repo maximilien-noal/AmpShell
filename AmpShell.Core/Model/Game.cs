@@ -10,6 +10,9 @@
 
 namespace AmpShell.Core.Model
 {
+    using AmpShell.Core.Games;
+    using AmpShell.Core.Notification;
+
     using System;
     using System.Diagnostics;
     using System.Globalization;
@@ -17,10 +20,6 @@ namespace AmpShell.Core.Model
     using System.Linq;
     using System.Text;
     using System.Xml.Serialization;
-
-    using AmpShell.Core.DAL;
-    using AmpShell.Core.Games;
-    using AmpShell.Core.Notification;
 
     public class Game : PropertyChangedNotifier
     {
