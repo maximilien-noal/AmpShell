@@ -1,23 +1,21 @@
 ﻿namespace AmpShell.ViewModels
 {
     using AmpShell.Core.Model;
+    using AmpShell.Core.Notification;
     using Prism.Commands;
 
     /// <summary> TODO: Invoke through a template, not the view. </summary>
-    public class PreferencesViewModel : UserDataViewModel
+    public class PreferencesViewModel : PropertyChangedNotifier
     {
         public PreferencesViewModel()
         {
-            Validate = new DelegateCommand(ValidateMethod);
+            OK = new DelegateCommand(OkMethod);
         }
 
-        public Preferences UserData { get => _userData; }
+        public DelegateCommand OK { get; private set; }
 
-        public DelegateCommand Validate { get; private set; }
-
-        private void ValidateMethod()
+        private void OkMethod()
         {
-            _userDataAccessor.UpdateGlobalUserPreferences(_userData);
         }
     }
 }

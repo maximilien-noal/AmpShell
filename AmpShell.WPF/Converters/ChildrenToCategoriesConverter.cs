@@ -15,7 +15,7 @@
         {
             if(value is List<object> children)
             {
-                return children.Where(x => x is Category).Cast<Category>();
+                return children.Cast<Category>();
             }
             return new List<Category>();
         }

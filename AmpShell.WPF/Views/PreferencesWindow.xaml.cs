@@ -23,7 +23,7 @@
 
         private void ButtonOk_Click(object sender, RoutedEventArgs e)
         {
-            ((PreferencesViewModel)this.DataContext).Validate.Execute();
+            ((PreferencesViewModel)this.DataContext).OK.Execute();
             this.Close();
         }
     }

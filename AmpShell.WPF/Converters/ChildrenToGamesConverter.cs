@@ -15,7 +15,7 @@
         {
             if (value is List<object> children)
             {
-                return children.Where(x => x is Game).Cast<Game>();
+                return children.Cast<Game>();
             }
             return new List<Game>();
         }
