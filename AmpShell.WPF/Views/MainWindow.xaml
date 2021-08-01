@@ -197,6 +197,9 @@
                                 <i:InvokeCommandAction Command="{Binding DataContext.RunSelectedGame, ElementName=TabView}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
+                        <ListView.ContextMenu>
+                            <ContextMenu />
+                        </ListView.ContextMenu>
                     </ListView>
                 </DataTemplate>
             </TabControl.ContentTemplate>
