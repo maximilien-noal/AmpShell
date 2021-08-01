@@ -5,7 +5,7 @@
     using AmpShell.Core.Model;
     using AmpShell.Core.Notification;
     using Prism.Commands;
-    using System;
+    using System.Diagnostics;
 
     public class MainViewModel : PropertyChangedNotifier
     {
@@ -21,18 +21,17 @@
             RunDOSBox = new DelegateCommand(
                 () => GameProcessController.RunOnlyDOSBox(UserData),
                 () => string.IsNullOrWhiteSpace(UserData.DBPath) == false);
-            RunSelectedGame = new DelegateCommand(RunSelectedGameMethod, () => SelectedGame != null);
         }
 
         public DelegateCommand RunDOSBox { get; }
-
-        public DelegateCommand RunSelectedGame { get; }
 
         public Category? SelectedCategory { get => _selectedCategory; set { Set(ref _selectedCategory, value); } }
 
         public Game? SelectedGame { get => _selectedGame; set { Set(ref _selectedGame, value); } }
 
         public Preferences UserData { get; private set; }
+
+        public Process? RunSelectedGame() => SelectedGame?.Run(UserData);
 
         public void SaveUserData() => _dal.SaveUserData();
 

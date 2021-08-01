@@ -23,8 +23,8 @@
     <Window.InputBindings>
         <KeyBinding Key="C" Modifiers="Ctrl" Command="{Binding NewCategory}" />
         <KeyBinding Key="N" Modifiers="Ctrl" Command="{Binding NewGame}" />
-        <KeyBinding Key="R" Modifiers="Ctrl" Command="{Binding RunSelectedGame}" />
-        <KeyBinding Key="S" Modifiers="Ctrl" Command="{Binding RunGameSetup}" />
+        <KeyBinding Key="R" Modifiers="Ctrl" Command="{Binding RunSelectedGame, ElementName=AmpShellMainWindow}" />
+        <KeyBinding Key="S" Modifiers="Ctrl" Command="{Binding RunGameSetup, ElementName=AmpShellMainWindow}" />
         <KeyBinding Key="W" Modifiers="Ctrl" Command="{Binding OpenGameFolder}" />
         <KeyBinding Key="E" Modifiers="Alt" Command="{Binding EditSelectedGame}" />
         <KeyBinding Key="F" Modifiers="Alt" Command="{Binding EditSelectedGameConfigFile}" />
@@ -58,8 +58,8 @@
             <MenuItem Header="_File">
                 <MenuItem Header="New category..." Command="{Binding NewCategory}" InputGestureText="Ctrl+C" />
                 <MenuItem Header="New game..." Command="{Binding NewGame}" InputGestureText="Ctrl+N" />
-                <MenuItem Header="Run selected game" Command="{Binding RunSelectedGame}" InputGestureText="Ctrl+R" />
-                <MenuItem Header="Run game setup" Command="{Binding RunGameSetup}" InputGestureText="Ctrl+S" />
+                <MenuItem Header="Run selected game" Command="{Binding RunSelectedGame, ElementName=AmpShellMainWindow}" InputGestureText="Ctrl+R" />
+                <MenuItem Header="Run game setup" Command="{Binding RunGameSetup, ElementName=AmpShellMainWindow}" InputGestureText="Ctrl+S" />
                 <MenuItem Header="Open game folder" Command="{Binding OpenGameFolder}" InputGestureText="Ctrl+W" />
                 <Separator />
                 <MenuItem Header="Quit" Command="{Binding Quit, ElementName=AmpShellMainWindow}" InputGestureText="Alt+F4" />
@@ -104,10 +104,10 @@
                 <Button Command="{Binding NewGame}">
                     <Image Source="/Resources/NewDocumentHS_button.png" />
                 </Button>
-                <Button Command="{Binding RunSelectedGame}">
+                <Button Command="{Binding RunSelectedGame, ElementName=AmpShellMainWindow}">
                     <Image Source="/Resources/GameRun.png" />
                 </Button>
-                <Button Command="{Binding RunGameSetup}">
+                <Button Command="{Binding RunGameSetup, ElementName=AmpShellMainWindow}">
                     <Image Source="/Resources/Setup_Install.png" />
                 </Button>
                 <Button Command="{Binding OpenGameFolder}">
@@ -190,11 +190,11 @@
                             </GridView>
                         </ListView.View>
                         <ListView.InputBindings>
-                            <KeyBinding Key="Return" Command="{Binding DataContext.RunSelectedGame, ElementName=TabView}" />
+                            <KeyBinding Key="Return" Command="{Binding RunSelectedGame, ElementName=AmpShellMainWindow}" />
                         </ListView.InputBindings>
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="MouseDoubleClick">
-                                <i:InvokeCommandAction Command="{Binding DataContext.RunSelectedGame, ElementName=TabView}" />
+                                <i:InvokeCommandAction Command="{Binding RunSelectedGame, ElementName=AmpShellMainWindow}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                         <ListView.ContextMenu>
