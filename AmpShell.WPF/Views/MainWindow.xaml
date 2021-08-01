@@ -62,7 +62,7 @@
                 <MenuItem Header="Run game setup" Command="{Binding RunGameSetup}" InputGestureText="Ctrl+S" />
                 <MenuItem Header="Open game folder" Command="{Binding OpenGameFolder}" InputGestureText="Ctrl+W" />
                 <Separator />
-                <MenuItem Header="Quit" Command="{Binding Quit}" InputGestureText="Alt+F4" />
+                <MenuItem Header="Quit" Command="{Binding Quit, ElementName=AmpShellMainWindow}" InputGestureText="Alt+F4" />
             </MenuItem>
             <MenuItem Header="_Edit">
                 <MenuItem Header="Edit selected game..." Command="{Binding EditSelectedGame}" InputGestureText="Alt+E" />

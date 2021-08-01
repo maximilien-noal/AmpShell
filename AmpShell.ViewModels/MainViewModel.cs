@@ -5,6 +5,7 @@
     using AmpShell.Core.Model;
     using AmpShell.Core.Notification;
     using Prism.Commands;
+    using System;
 
     public class MainViewModel : PropertyChangedNotifier
     {
@@ -32,6 +33,8 @@
         public Game? SelectedGame { get => _selectedGame; set { Set(ref _selectedGame, value); } }
 
         public Preferences UserData { get; private set; }
+
+        public void SaveUserData() => _dal.SaveUserData();
 
         private void RunSelectedGameMethod() => SelectedGame?.Run(_dal.GetUserData());
     }
