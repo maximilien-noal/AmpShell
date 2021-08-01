@@ -34,7 +34,7 @@ namespace AmpShell.WinForms.Views
             this.Text = $"Editing {this.GameInstance.Name} ...";
             if (StringExt.IsNullOrWhiteSpace(this.GameInstance.Icon) == false && File.Exists(this.GameInstance.Icon))
             {
-                var icon = WinShell.FileIconLoader.GetIconFromGame(this.GameInstance);
+                var icon = WinShell.FileIconLoader.GetGameIconAsImage(this.GameInstance);
                 if (!(icon is null))
                 {
                     this.GameIconPictureBox.Image = icon.GetThumbnailImage(64, 64, null, IntPtr.Zero);
@@ -351,7 +351,7 @@ namespace AmpShell.WinForms.Views
 
                     if (iconFileDialog.ShowDialog(this) == DialogResult.OK)
                     {
-                        this.GameIconPictureBox.Image = WinShell.FileIconLoader.GetIconFromFile(iconFileDialog.FileName)?.GetThumbnailImage(64, 64, null, IntPtr.Zero);
+                        this.GameIconPictureBox.Image = WinShell.FileIconLoader.GetImageFromFile(iconFileDialog.FileName)?.GetThumbnailImage(64, 64, null, IntPtr.Zero);
                         if (WinShell.FileIconLoader.FileExtensionIsExe(iconFileDialog.FileName) == false)
                         {
                             this.GameIconPictureBox.ImageLocation = iconFileDialog.FileName;
@@ -399,7 +399,7 @@ namespace AmpShell.WinForms.Views
                 }
                 if (StringExt.IsNullOrWhiteSpace(this.GameInstance.Icon))
                 {
-                    var bitmapIcon = WinShell.FileIconLoader.GetIconFromFile(this.GameLocationTextbox.Text);
+                    var bitmapIcon = WinShell.FileIconLoader.GetImageFromFile(this.GameLocationTextbox.Text);
                     if (!(bitmapIcon is null))
                     {
                         this.GameIconPictureBox.Image = bitmapIcon;
@@ -623,7 +623,7 @@ namespace AmpShell.WinForms.Views
             {
                 this.GameInstance.Icon = this.GameIconPictureBox.ImageLocation;
             }
-            else if (WinShell.FileIconLoader.GetIconFromFile(this.GameInstance.DOSEXEPath) != null)
+            else if (WinShell.FileIconLoader.GetImageFromFile(this.GameInstance.DOSEXEPath) != null)
             {
                 this.GameInstance.Icon = this.GameInstance.DOSEXEPath;
             }
