@@ -4,7 +4,6 @@
     using AmpShell.Core.Notification;
     using Prism.Commands;
 
-    /// <summary> TODO: Invoke through a template, not the view. </summary>
     public class PreferencesViewModel : PropertyChangedNotifier
     {
         public PreferencesViewModel()

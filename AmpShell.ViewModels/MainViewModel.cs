@@ -5,7 +5,6 @@
     using AmpShell.Core.Model;
     using AmpShell.Core.Notification;
     using Prism.Commands;
-    using System;
 
     public class MainViewModel : PropertyChangedNotifier
     {
