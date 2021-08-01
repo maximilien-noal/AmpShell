@@ -1,12 +1,11 @@
 ﻿<Window x:Class="AmpShell.WPF.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:AmpShell.WPF"
-        xmlns:vm="clr-namespace:AmpShell.ViewModels;assembly=AmpShell.ViewModels"
         xmlns:models="clr-namespace:AmpShell.Core.Model;assembly=AmpShell.Core"
+        xmlns:vm="clr-namespace:AmpShell.ViewModels;assembly=AmpShell.ViewModels"
         xmlns:converters="clr-namespace:AmpShell.WPF.Converters"
         mc:Ignorable="d"
         Name="AmpShellMainWindow"
@@ -19,6 +18,7 @@
     <Window.Resources>
         <converters:ChildrenToCategoriesConverter x:Key="ChildrenToCategoriesConverter" />
         <converters:ChildrenToGamesConverter x:Key="ChildrenToGamesConverter" />
+        <converters:GameToBitmapSourceConverter x:Key="GameToBitmapSourceConverter" />
     </Window.Resources>
     <Window.InputBindings>
         <KeyBinding Key="C" Modifiers="Ctrl" Command="{Binding NewCategory}" />
@@ -171,7 +171,22 @@
                     <ListView SelectedItem="{Binding DataContext.SelectedGame, ElementName=TabView}" ItemsSource="{Binding ListChildren, Converter={StaticResource ChildrenToGamesConverter}}">
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Header="Name" Width="120" DisplayMemberBinding="{Binding Name}" />
+                                <GridViewColumn Header="Name" Width="120">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Image MaxWidth="16" MaxHeight="16" Margin="0,0,3,0" Source="{Binding Converter={StaticResource GameToBitmapSourceConverter}}" />
+                                                <Label Content="{Binding Name}" HorizontalAlignment="Center" />
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="Release Date" Width="120" DisplayMemberBinding="{Binding ReleaseDate, StringFormat=dd/MM/yyyy}" />
+                                <GridViewColumn Header="Executable" Width="120" DisplayMemberBinding="{Binding DOSEXEPath}" />
+                                <GridViewColumn Header="C Mount" Width="120" DisplayMemberBinding="{Binding Directory}" />
+                                <GridViewColumn Header="Setup executable" Width="120" DisplayMemberBinding="{Binding SetupEXEPath}" />
+                                <GridViewColumn Header="Custom config file" Width="120" DisplayMemberBinding="{Binding DBConfPath}" />
+                                <GridViewColumn Header="D Mount" Width="120" DisplayMemberBinding="{Binding CDPath}" />
                             </GridView>
                         </ListView.View>
                         <ListView.InputBindings>
