@@ -888,14 +888,7 @@ namespace AmpShell.WinForms.Views
                     {
                         Name = "GameCustomConfiguration"
                     };
-                    if (gameToDisplay.NoConfig == true)
-                    {
-                        gameCustomConfigurationLVSubItem.Text = "None at all";
-                    }
-                    else
-                    {
-                        gameCustomConfigurationLVSubItem.Text = gameToDisplay.DBConfPath;
-                    }
+                    gameCustomConfigurationLVSubItem.Text = gameToDisplay.GetCustomConfigDescription();
 
                     gameforlt.SubItems.Add(gameCustomConfigurationLVSubItem);
                     ListViewItem.ListViewSubItem gameDMountLVSubItem = new ListViewItem.ListViewSubItem
@@ -904,19 +897,7 @@ namespace AmpShell.WinForms.Views
                     };
                     gameforlt.SubItems.Add(gameDMountLVSubItem);
                     ListViewItem.ListViewSubItem gameMountingOptionsLVSubItem = new ListViewItem.ListViewSubItem();
-                    if (gameToDisplay.UseIOCTL == true)
-                    {
-                        gameMountingOptionsLVSubItem.Text = "Use IOCTL";
-                    }
-                    else if (gameToDisplay.MountAsFloppy == true)
-                    {
-                        gameMountingOptionsLVSubItem.Text = "Mount as a floppy disk (A:)";
-                    }
-                    else
-                    {
-                        gameMountingOptionsLVSubItem.Text = "None";
-                    }
-
+                    gameMountingOptionsLVSubItem.Text = gameToDisplay.GetMountingOptionsDescription();
                     gameforlt.SubItems.Add(gameMountingOptionsLVSubItem);
                     ListViewItem.ListViewSubItem gameAdditionalCommandsLVSubItem = new ListViewItem.ListViewSubItem
                     {

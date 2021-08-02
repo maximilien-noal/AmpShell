@@ -358,5 +358,30 @@ namespace AmpShell.Core.Model
         }
 
         private string GetGameFolder() => Path.GetDirectoryName(new string[] { this.DOSEXEPath, this.Directory, this.SetupEXEPath, this.DBConfPath, this.Icon, this.AlternateDOSBoxExePath, this.CDPath }.FirstOrDefault(x => StringExt.IsNullOrWhiteSpace(x) == false && (System.IO.Directory.Exists(x) || File.Exists(x))));
+
+        public string GetMountingOptionsDescription()
+        {
+            if (UseIOCTL)
+            {
+                return "Uses IOCTL";
+            }
+            else if (MountAsFloppy)
+            {
+                return "Mount as a floppy disk (A:)";
+            }
+            else
+            {
+                return "None";
+            }
+        }
+
+        public string GetCustomConfigDescription()
+        {
+            if(StringExt.IsNullOrWhiteSpace(this.DBConfPath))
+            {
+                return "None at all";
+            }
+            return this.DBConfPath;
+        }
     }
 }

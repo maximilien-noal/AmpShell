@@ -19,6 +19,8 @@
         <converters:ChildrenToCategoriesConverter x:Key="ChildrenToCategoriesConverter" />
         <converters:ChildrenToGamesConverter x:Key="ChildrenToGamesConverter" />
         <converters:GameToBitmapSourceConverter x:Key="GameToBitmapSourceConverter" />
+        <converters:GameToCustomConfigDescriptionConverter x:Key="GameToCustomConfigDescriptionConverter" />
+        <converters:GameToMountingOptionsDescriptionConverter x:Key="GameToMountingOptionsDescriptionConverter" />
     </Window.Resources>
     <Window.InputBindings>
         <KeyBinding Key="C" Modifiers="Ctrl" Command="{Binding NewCategory}" />
@@ -185,8 +187,14 @@
                                 <GridViewColumn Header="Executable" Width="120" DisplayMemberBinding="{Binding DOSEXEPath}" />
                                 <GridViewColumn Header="C Mount" Width="120" DisplayMemberBinding="{Binding Directory}" />
                                 <GridViewColumn Header="Setup executable" Width="120" DisplayMemberBinding="{Binding SetupEXEPath}" />
-                                <GridViewColumn Header="Custom config file" Width="120" DisplayMemberBinding="{Binding DBConfPath}" />
+                                <GridViewColumn Header="Custom config file" Width="120" DisplayMemberBinding="{Binding Converter={StaticResource GameToCustomConfigDescriptionConverter}}" />
                                 <GridViewColumn Header="D Mount" Width="120" DisplayMemberBinding="{Binding CDPath}" />
+                                <GridViewColumn Header="Mounting options" Width="120" DisplayMemberBinding="{Binding Converter={StaticResource GameToMountingOptionsDescriptionConverter}}" />
+                                <GridViewColumn Header="Additionnal Commands" Width="120" DisplayMemberBinding="{Binding AdditionalCommands}" />
+                                <GridViewColumn Header="No console" Width="120" DisplayMemberBinding="{Binding NoConsole}" />
+                                <GridViewColumn Header="Fullscreen" Width="120" DisplayMemberBinding="{Binding InFullScreen}" />
+                                <GridViewColumn Header="Quit on exit" Width="120" DisplayMemberBinding="{Binding QuitOnExit}" />
+                                <GridViewColumn Header="Notes" Width="120" DisplayMemberBinding="{Binding Notes}" />
                             </GridView>
                         </ListView.View>
                         <ListView.InputBindings>
