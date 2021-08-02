@@ -7,6 +7,7 @@
         xmlns:models="clr-namespace:AmpShell.Core.Model;assembly=AmpShell.Core"
         xmlns:vm="clr-namespace:AmpShell.ViewModels;assembly=AmpShell.ViewModels"
         xmlns:converters="clr-namespace:AmpShell.WPF.Converters"
+        xmlns:viewBases="clr-namespace:AmpShell.WPF.ViewBases"
         mc:Ignorable="d"
         Name="AmpShellMainWindow"
         Title="AmpShell" Height="400" Width="800" ResizeMode="CanResizeWithGrip" WindowStartupLocation="CenterScreen" Icon="/AmpShell.ico"
@@ -21,6 +22,85 @@
         <converters:GameToBitmapSourceConverter x:Key="GameToBitmapSourceConverter" />
         <converters:GameToCustomConfigDescriptionConverter x:Key="GameToCustomConfigDescriptionConverter" />
         <converters:GameToMountingOptionsDescriptionConverter x:Key="GameToMountingOptionsDescriptionConverter" />
+        <converters:CategoryToViewConverter x:Key="CategoryToViewConverter" />
+        <DataTemplate x:Key="LargeIconTemplate" DataType="{x:Type models:Game}">
+            <DockPanel>
+                <Image
+                    Height="{Binding DataContext.SelectedCategory.LargeViewModeSize, ElementName=AmpShellMainWindow}"
+                    Width="{Binding DataContext.SelectedCategory.LargeViewModeSize, ElementName=AmpShellMainWindow}"
+                    DockPanel.Dock="Top" Source="{Binding Converter={StaticResource GameToBitmapSourceConverter}}" Margin="2" />
+                <Label  DockPanel.Dock="Bottom" Content="{Binding Name}"
+                    HorizontalAlignment="Center" />
+            </DockPanel>
+        </DataTemplate>
+        <viewBases:PlainView x:Key="LargeIcon"
+                   ItemTemplate="{StaticResource LargeIconTemplate}" />
+
+        <DataTemplate x:Key="SmallIconTemplate" DataType="{x:Type models:Game}">
+            <DockPanel>
+                <Image
+                    Height="16"
+                    Width="16"
+                    DockPanel.Dock="Top" Source="{Binding Converter={StaticResource GameToBitmapSourceConverter}}" Margin="2" />
+                <Label  DockPanel.Dock="Bottom" Content="{Binding Name}"
+                    HorizontalAlignment="Center" />
+            </DockPanel>
+        </DataTemplate>
+        <viewBases:PlainView x:Key="SmallIcon"
+                   ItemTemplate="{StaticResource SmallIconTemplate}" />
+
+        <DataTemplate x:Key="TileTemplate" DataType="{x:Type models:Game}">
+            <StackPanel Height="100" Width="90">
+                <Grid Width="70" Height="70" HorizontalAlignment="Center">
+                    <Image Source="{Binding  Converter={StaticResource GameToBitmapSourceConverter}}" Margin="6,6,6,9" />
+                </Grid>
+                <Label Content="{Binding Name}" FontSize="13"
+                     HorizontalAlignment="Center" Margin="0,0,0,1" />
+                <TextBlock Text="{Binding XPath=@Type}" FontSize="9"
+                     HorizontalAlignment="Center" Margin="0,0,0,1" />
+            </StackPanel>
+        </DataTemplate>
+        <viewBases:PlainView x:Key="Tile"
+                    ItemTemplate="{StaticResource TileTemplate}" />
+
+        <DataTemplate x:Key="ListTemplate" DataType="{x:Type models:Game}">
+            <WrapPanel Height="100" Width="90">
+                <Grid Width="70" Height="70" HorizontalAlignment="Center">
+                    <Image Source="{Binding  Converter={StaticResource GameToBitmapSourceConverter}}" Margin="6,6,6,9" />
+                </Grid>
+                <Label Content="{Binding Name}" FontSize="13"
+                     HorizontalAlignment="Center" Margin="0,0,0,1" />
+                <TextBlock Text="{Binding XPath=@Type}" FontSize="9"
+                     HorizontalAlignment="Center" Margin="0,0,0,1" />
+            </WrapPanel>
+        </DataTemplate>
+        <viewBases:PlainView x:Key="List"
+                    ItemTemplate="{StaticResource ListTemplate}" />
+
+        <GridView x:Key="Details">
+            <GridViewColumn Header="Name" Width="120">
+                <GridViewColumn.CellTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Image MaxWidth="16" MaxHeight="16" Margin="0,0,3,0" Source="{Binding Converter={StaticResource GameToBitmapSourceConverter}}" />
+                            <Label Content="{Binding Name}" HorizontalAlignment="Center" />
+                        </StackPanel>
+                    </DataTemplate>
+                </GridViewColumn.CellTemplate>
+            </GridViewColumn>
+            <GridViewColumn Header="Release Date" Width="120" DisplayMemberBinding="{Binding ReleaseDate, StringFormat=dd/MM/yyyy}" />
+            <GridViewColumn Header="Executable" Width="120" DisplayMemberBinding="{Binding DOSEXEPath}" />
+            <GridViewColumn Header="C Mount" Width="120" DisplayMemberBinding="{Binding Directory}" />
+            <GridViewColumn Header="Setup executable" Width="120" DisplayMemberBinding="{Binding SetupEXEPath}" />
+            <GridViewColumn Header="Custom config file" Width="120" DisplayMemberBinding="{Binding Converter={StaticResource GameToCustomConfigDescriptionConverter}}" />
+            <GridViewColumn Header="D Mount" Width="120" DisplayMemberBinding="{Binding CDPath}" />
+            <GridViewColumn Header="Mounting options" Width="120" DisplayMemberBinding="{Binding Converter={StaticResource GameToMountingOptionsDescriptionConverter}}" />
+            <GridViewColumn Header="Additionnal Commands" Width="120" DisplayMemberBinding="{Binding AdditionalCommands}" />
+            <GridViewColumn Header="No console" Width="120" DisplayMemberBinding="{Binding NoConsole}" />
+            <GridViewColumn Header="Fullscreen" Width="120" DisplayMemberBinding="{Binding InFullScreen}" />
+            <GridViewColumn Header="Quit on exit" Width="120" DisplayMemberBinding="{Binding QuitOnExit}" />
+            <GridViewColumn Header="Notes" Width="120" DisplayMemberBinding="{Binding Notes}" />
+        </GridView>
     </Window.Resources>
     <Window.InputBindings>
         <KeyBinding Key="C" Modifiers="Ctrl" Command="{Binding NewCategory}" />
@@ -39,7 +119,7 @@
         <KeyBinding Key="E" Modifiers="Ctrl" Command="{Binding RunConfigEditor}" />
         <KeyBinding Key="D" Modifiers="Alt" Command="{Binding EditDefaultConfigFile}" />
         <KeyBinding Key="I" Modifiers="Ctrl" Command="{Binding ImportAmpShellData}" />
-        <KeyBinding Key="L" Modifiers="Ctrl+Shift" Command="{Binding UseLargIcons}" />
+        <KeyBinding Key="L" Modifiers="Ctrl+Shift" Command="{Binding UseLargeIcons}" />
         <KeyBinding Key="S" Modifiers="Ctrl+Shift" Command="{Binding UseSmallIcons}" />
         <KeyBinding Key="T" Modifiers="Ctrl+Shift" Command="{Binding UseTiles}" />
         <KeyBinding Key="L" Modifiers="Ctrl" Command="{Binding UseList}" />
@@ -83,7 +163,7 @@
                 <MenuItem Header="Import games and categories..." Command="{Binding ImportAmpShellData}" InputGestureText="Ctrl+I" />
             </MenuItem>
             <MenuItem Header="_View">
-                <MenuItem Header="Large icons" Command="{Binding UseLargIcons}" InputGestureText="Ctrl+Shift+L" />
+                <MenuItem Header="Large icons" Command="{Binding UseLargeIcons}" InputGestureText="Ctrl+Shift+L" />
                 <MenuItem Header="Small icons" Command="{Binding UseSmallIcons}" InputGestureText="Ctrl+Shift+S" />
                 <MenuItem Header="Tiles" Command="{Binding UseTiles}" InputGestureText="Ctrl+Shift+T" />
                 <MenuItem Header="List" Command="{Binding UseList}" InputGestureText="Ctrl+L" />
@@ -145,7 +225,7 @@
                     <Image Source="/Resources/DBConfEdit.png" />
                 </Button>
                 <Separator />
-                <Button Command="{Binding UseLargIcons}">
+                <Button Command="{Binding UseLargeIcons}">
                     <Image Source="/Resources/LargeIcons.png" />
                 </Button>
                 <Button Command="{Binding UseSmallIcons}">
@@ -170,33 +250,7 @@
             </TabControl.ItemTemplate>
             <TabControl.ContentTemplate>
                 <DataTemplate>
-                    <ListView SelectedItem="{Binding DataContext.SelectedGame, ElementName=TabView}" ItemsSource="{Binding ListChildren, Converter={StaticResource ChildrenToGamesConverter}}">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn Header="Name" Width="120">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Orientation="Horizontal">
-                                                <Image MaxWidth="16" MaxHeight="16" Margin="0,0,3,0" Source="{Binding Converter={StaticResource GameToBitmapSourceConverter}}" />
-                                                <Label Content="{Binding Name}" HorizontalAlignment="Center" />
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn Header="Release Date" Width="120" DisplayMemberBinding="{Binding ReleaseDate, StringFormat=dd/MM/yyyy}" />
-                                <GridViewColumn Header="Executable" Width="120" DisplayMemberBinding="{Binding DOSEXEPath}" />
-                                <GridViewColumn Header="C Mount" Width="120" DisplayMemberBinding="{Binding Directory}" />
-                                <GridViewColumn Header="Setup executable" Width="120" DisplayMemberBinding="{Binding SetupEXEPath}" />
-                                <GridViewColumn Header="Custom config file" Width="120" DisplayMemberBinding="{Binding Converter={StaticResource GameToCustomConfigDescriptionConverter}}" />
-                                <GridViewColumn Header="D Mount" Width="120" DisplayMemberBinding="{Binding CDPath}" />
-                                <GridViewColumn Header="Mounting options" Width="120" DisplayMemberBinding="{Binding Converter={StaticResource GameToMountingOptionsDescriptionConverter}}" />
-                                <GridViewColumn Header="Additionnal Commands" Width="120" DisplayMemberBinding="{Binding AdditionalCommands}" />
-                                <GridViewColumn Header="No console" Width="120" DisplayMemberBinding="{Binding NoConsole}" />
-                                <GridViewColumn Header="Fullscreen" Width="120" DisplayMemberBinding="{Binding InFullScreen}" />
-                                <GridViewColumn Header="Quit on exit" Width="120" DisplayMemberBinding="{Binding QuitOnExit}" />
-                                <GridViewColumn Header="Notes" Width="120" DisplayMemberBinding="{Binding Notes}" />
-                            </GridView>
-                        </ListView.View>
+                    <ListView View="{Binding ViewMode, Converter={StaticResource CategoryToViewConverter}}" SelectedItem="{Binding DataContext.SelectedGame, ElementName=TabView}" ItemsSource="{Binding ListChildren, Converter={StaticResource ChildrenToGamesConverter}}">
                         <ListView.InputBindings>
                             <KeyBinding Key="Return" Command="{Binding RunSelectedGame, ElementName=AmpShellMainWindow}" />
                         </ListView.InputBindings>
