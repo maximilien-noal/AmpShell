@@ -19,14 +19,13 @@ namespace AmpShell.WinForms.Views
     using System.IO;
     using System.Linq;
     using System.Windows.Forms;
+    using View = System.Windows.Forms.View;
 
-    using AmpShell.Core.DAL;
     using AmpShell.Core.Games;
     using AmpShell.Core.Model;
     using AmpShell.WinForms.Views.UserControls;
     using AmpShell.WinShell;
-
-    using View = System.Windows.Forms.View;
+    using AmpShell.Core.Config;
 
     /// <summary> MainWindow content. </summary>
     public partial class MainForm : Form
@@ -983,7 +982,7 @@ namespace AmpShell.WinForms.Views
         {
             if (StringExt.IsNullOrWhiteSpace(Program.UserDataAccessorInstance.GetUserData().DBDefaultConfFilePath) == false && File.Exists(Program.UserDataAccessorInstance.GetUserData().DBDefaultConfFilePath) && StringExt.IsNullOrWhiteSpace(Program.UserDataAccessorInstance.GetUserData().ConfigEditorPath) == false && Program.UserDataAccessorInstance.GetUserData().ConfigEditorPath != "No text editor (Notepad in Windows' directory, or TextEditor.exe in AmpShell's directory) found." && File.Exists(Program.UserDataAccessorInstance.GetUserData().ConfigEditorPath))
             {
-                Process.Start(Program.UserDataAccessorInstance.GetConfigEditorPath(), Program.UserDataAccessorInstance.GetUserData().DBDefaultConfFilePath);
+                ConfigEditorRunner.EditDefaultConfigFile(Program.UserDataAccessorInstance, Program.UserDataAccessorInstance.GetUserData());
             }
             else
             {
@@ -1270,7 +1269,10 @@ namespace AmpShell.WinForms.Views
         {
             try
             {
-                Process.Start(Program.UserDataAccessorInstance.GetConfigEditorPath());
+                if (ConfigEditorRunner.CanRunConfigEditor(Program.UserDataAccessorInstance.GetUserData()))
+                {
+                    ConfigEditorRunner.RunConfigEditor(Program.UserDataAccessorInstance, Program.UserDataAccessorInstance.GetUserData());
+                }
             }
             catch (Exception ex)
             {

@@ -31,6 +31,10 @@ namespace AmpShell.Core.Games
             this._userData = userData;
         }
 
+        public static bool CanRunDOSBox(string path) => StringExt.IsNullOrWhiteSpace(path) == false && File.Exists(path);
+
+        public static bool CanRunMainDOSBoxVariant(Preferences userData) => StringExt.IsNullOrWhiteSpace(userData.DBPath) == false && File.Exists(userData.DBPath);
+
         /// <summary> Run DOSBox itself, without any game. </summary>
         /// <returns> The DOSBox process if it started successfully, null otherwise. </returns>
         public static Process RunOnlyDOSBox(Preferences userData)
@@ -237,32 +241,13 @@ namespace AmpShell.Core.Games
             return dosboxArgs.ToString();
         }
 
-        private string[] SplitTargetAndArguments()
-        {
-            var target = this._game.DOSEXEPath;
-            var arguments = string.Empty;
-            if (File.Exists(target) == false)
-            {
-                var directory = Path.GetDirectoryName(target);
-                var fileWithArguments = Path.GetFileName(this._game.DOSEXEPath);
-                if (StringExt.IsNullOrWhiteSpace(fileWithArguments) == false && fileWithArguments.Split(' ').Length > 1)
-                {
-                    var fileAndArguments = fileWithArguments.Split(' ');
-                    var fileName = fileAndArguments[0];
-                    target = Path.Combine(directory, fileName);
-                    arguments = fileWithArguments.Remove(0, fileName.Length);
-                }
-            }
-            return new string[] { target, arguments };
-        }
-
         /// <summary> Starts DOSBox, and returns its <see cref="Process" />. </summary>
         /// <returns> The DOSBox <see cref="Process" />. </returns>
         private Process StartGame(string args)
         {
             if (this._game.IsDOSBoxUsed(_userData) == false)
             {
-                var targetAndArguments = this.SplitTargetAndArguments();
+                var targetAndArguments = this._game.SplitTargetAndArguments();
                 var nativeLaunchPsi = new ProcessStartInfo(targetAndArguments[0], targetAndArguments[1])
                 {
                     UseShellExecute = true,

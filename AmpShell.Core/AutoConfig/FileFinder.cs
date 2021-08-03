@@ -17,7 +17,7 @@ namespace AmpShell.Core.AutoConfig
 
     public class FileFinder
     {
-        private Preferences _preferences;
+        private readonly Preferences _preferences;
 
         public FileFinder(Preferences preferences) => _preferences = preferences;
 

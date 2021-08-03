@@ -10,6 +10,8 @@
 
 namespace AmpShell.Core.Model
 {
+    using AmpShell.Core.DAL;
+    using AmpShell.Core.DOSBox;
     using AmpShell.Core.Games;
     using AmpShell.Core.Notification;
 
@@ -228,6 +230,38 @@ namespace AmpShell.Core.Model
             set { Set(ref usesDOSBox, value); }
         }
 
+        public bool CanRun(Preferences preferences)
+        {
+            if (IsDOSBoxUsed(preferences))
+            {
+                return
+                    StringExt.IsNullOrWhiteSpace(AdditionalCommands) == false ||
+                    File.Exists(DBConfPath) && StringExt.IsNullOrWhiteSpace(DBConfPath) == false && new DOSBoxConfigFile(DBConfPath).IsAutoExecSectionUsed() ||
+                    GameProcessController.CanRunDOSBox(GetDOSBoxPath(preferences)) && File.Exists(DOSEXEPath);
+            }
+
+            //In this case, it might be a native game instead of a DOS game.
+            var targetAndArguments = SplitTargetAndArguments();
+            if (targetAndArguments.Length > 0)
+            {
+                var target = targetAndArguments[0];
+                return StringExt.IsNullOrWhiteSpace(target) == false && File.Exists(target);
+            }
+            return false;
+        }
+
+        public bool CanRunSetup(Preferences preferences)
+        {
+            if (IsDOSBoxUsed(preferences))
+            {
+                return GameProcessController.CanRunDOSBox(GetDOSBoxPath(preferences)) &&
+                    StringExt.IsNullOrWhiteSpace(SetupEXEPath) == false && File.Exists(SetupEXEPath);
+            }
+            return StringExt.IsNullOrWhiteSpace(SetupEXEPath) == false && File.Exists(SetupEXEPath);
+        }
+
+        public Process EditConfigFile(UserDataAccessor dal) => Process.Start(dal.GetConfigEditorPath(), DBConfPath);
+
         public string GetAdditionnalCommandsInASingleLine()
         {
             var commandLine = new StringBuilder();
@@ -246,6 +280,15 @@ namespace AmpShell.Core.Model
                 }
             }
             return commandLine.ToString();
+        }
+
+        public string GetCustomConfigDescription()
+        {
+            if (StringExt.IsNullOrWhiteSpace(this.DBConfPath))
+            {
+                return "None at all";
+            }
+            return this.DBConfPath;
         }
 
         public string GetDOSBoxPath(Preferences userData) => StringExt.IsNullOrWhiteSpace(AlternateDOSBoxExePath) ? userData.DBPath : AlternateDOSBoxExePath;
@@ -278,6 +321,28 @@ namespace AmpShell.Core.Model
             }
             return string.Empty;
         }
+
+        public string GetGameFolder() => Path.GetDirectoryName(new string[] { this.DOSEXEPath, this.Directory, this.SetupEXEPath, this.DBConfPath, this.Icon, this.AlternateDOSBoxExePath, this.CDPath }.FirstOrDefault(x => StringExt.IsNullOrWhiteSpace(x) == false && (System.IO.Directory.Exists(x) || File.Exists(x))));
+
+        public string GetMountingOptionsDescription()
+        {
+            if (UseIOCTL)
+            {
+                return "Uses IOCTL";
+            }
+            else if (MountAsFloppy)
+            {
+                return "Mount as a floppy disk (A:)";
+            }
+            else
+            {
+                return "None";
+            }
+        }
+
+        public bool HasACustomConfigFile() => StringExt.IsNullOrWhiteSpace(DBConfPath) == false && File.Exists(DBConfPath);
+
+        public bool HasAGameFolder() => StringExt.IsNullOrWhiteSpace(GetGameFolder()) == false && System.IO.Directory.Exists(GetGameFolder());
 
         public bool IsDOSBoxUsed(Preferences userData) => userData.GamesUseDOSBox == true && this.UsesDOSBox == true;
 
@@ -357,31 +422,23 @@ namespace AmpShell.Core.Model
             return initialValue;
         }
 
-        private string GetGameFolder() => Path.GetDirectoryName(new string[] { this.DOSEXEPath, this.Directory, this.SetupEXEPath, this.DBConfPath, this.Icon, this.AlternateDOSBoxExePath, this.CDPath }.FirstOrDefault(x => StringExt.IsNullOrWhiteSpace(x) == false && (System.IO.Directory.Exists(x) || File.Exists(x))));
-
-        public string GetMountingOptionsDescription()
+        internal string[] SplitTargetAndArguments()
         {
-            if (UseIOCTL)
+            var target = DOSEXEPath;
+            var arguments = string.Empty;
+            if (File.Exists(target) == false)
             {
-                return "Uses IOCTL";
+                var directory = Path.GetDirectoryName(target);
+                var fileWithArguments = Path.GetFileName(DOSEXEPath);
+                if (StringExt.IsNullOrWhiteSpace(fileWithArguments) == false && fileWithArguments.Split(' ').Length > 1)
+                {
+                    var fileAndArguments = fileWithArguments.Split(' ');
+                    var fileName = fileAndArguments[0];
+                    target = Path.Combine(directory, fileName);
+                    arguments = fileWithArguments.Remove(0, fileName.Length);
+                }
             }
-            else if (MountAsFloppy)
-            {
-                return "Mount as a floppy disk (A:)";
-            }
-            else
-            {
-                return "None";
-            }
-        }
-
-        public string GetCustomConfigDescription()
-        {
-            if(StringExt.IsNullOrWhiteSpace(this.DBConfPath))
-            {
-                return "None at all";
-            }
-            return this.DBConfPath;
+            return new string[] { target, arguments };
         }
     }
 }

@@ -23,7 +23,7 @@
         <converters:GameToCustomConfigDescriptionConverter x:Key="GameToCustomConfigDescriptionConverter" />
         <converters:GameToMountingOptionsDescriptionConverter x:Key="GameToMountingOptionsDescriptionConverter" />
         <converters:CategoryToViewConverter x:Key="CategoryToViewConverter" />
-        <DataTemplate x:Key="LargeIconTemplate" DataType="{x:Type models:Game}">
+        <DataTemplate x:Key="LargeIconTemplate">
             <DockPanel>
                 <Image
                     Height="{Binding DataContext.SelectedCategory.LargeViewModeSize, ElementName=AmpShellMainWindow}"
@@ -36,7 +36,7 @@
         <viewBases:PlainView x:Key="LargeIcon"
                    ItemTemplate="{StaticResource LargeIconTemplate}" />
 
-        <DataTemplate x:Key="SmallIconTemplate" DataType="{x:Type models:Game}">
+        <DataTemplate x:Key="SmallIconTemplate">
             <DockPanel>
                 <Image
                     Height="16"
@@ -49,7 +49,7 @@
         <viewBases:PlainView x:Key="SmallIcon"
                    ItemTemplate="{StaticResource SmallIconTemplate}" />
 
-        <DataTemplate x:Key="TileTemplate" DataType="{x:Type models:Game}">
+        <DataTemplate x:Key="TileTemplate">
             <StackPanel Height="100" Width="90">
                 <Grid Width="70" Height="70" HorizontalAlignment="Center">
                     <Image Source="{Binding  Converter={StaticResource GameToBitmapSourceConverter}}" Margin="6,6,6,9" />
@@ -63,7 +63,7 @@
         <viewBases:PlainView x:Key="Tile"
                     ItemTemplate="{StaticResource TileTemplate}" />
 
-        <DataTemplate x:Key="ListTemplate" DataType="{x:Type models:Game}">
+        <DataTemplate x:Key="ListTemplate">
             <WrapPanel Height="100" Width="90">
                 <Grid Width="70" Height="70" HorizontalAlignment="Center">
                     <Image Source="{Binding  Converter={StaticResource GameToBitmapSourceConverter}}" Margin="6,6,6,9" />

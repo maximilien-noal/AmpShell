@@ -19,6 +19,10 @@
         public static readonly DependencyProperty ItemWidthProperty =
           WrapPanel.ItemWidthProperty.AddOwner(typeof(PlainView));
 
+        public PlainView() : base()
+        {
+        }
+
         public Style ItemContainerStyle
         {
             get { return (Style)GetValue(ItemContainerStyleProperty); }
