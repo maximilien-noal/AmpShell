@@ -109,7 +109,6 @@ namespace AmpShell.Core.Games
             if (StringExt.IsNullOrWhiteSpace(this._game.Directory) == false)
             {
                 commands.Append($" -c \"mount c '{this._game.Directory}'\"");
-                commands.Append($" -c \"c:\"");
             }
 
             //Path for the game's CD image (.bin, .cue, or .iso) mounted as D:
