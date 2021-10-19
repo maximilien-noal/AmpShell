@@ -97,11 +97,11 @@ namespace AmpShell.Core.Games
             {
                 if (!forSetupExe)
                 {
-                    commands.Append($" {Path.GetFullPath(this._game.DOSEXEPath)}");
+                    commands.Append($" \"{Path.GetFullPath(this._game.DOSEXEPath)}\"");
                 }
                 else
                 {
-                    commands.Append($" {Path.GetFullPath(this._game.SetupEXEPath)}");
+                    commands.Append($" \"{Path.GetFullPath(this._game.SetupEXEPath)}\"");
                 }
             }
 
@@ -109,6 +109,7 @@ namespace AmpShell.Core.Games
             if (StringExt.IsNullOrWhiteSpace(this._game.Directory) == false)
             {
                 commands.Append($" -c \"mount c '{this._game.Directory}'\"");
+                commands.Append($" -c \"c:\"");
             }
 
             //Path for the game's CD image (.bin, .cue, or .iso) mounted as D:
@@ -206,7 +207,7 @@ namespace AmpShell.Core.Games
 
             var dosboxArgs = new StringBuilder();
             string dosBoxExePath = this._game.GetDOSBoxPath(_userData);
-            if (StringExt.IsNullOrWhiteSpace(dosBoxExePath) == true || dosBoxExePath == "dosbox.exe isn't is the same directory as AmpShell.exe!" || File.Exists(dosBoxExePath) == false)
+            if (StringExt.IsNullOrWhiteSpace(dosBoxExePath) == true || dosBoxExePath == "dosbox.exe isn't in the same directory as AmpShell.exe!" || File.Exists(dosBoxExePath) == false)
             {
                 throw new FileNotFoundException("DOSBox not found!");
             }
