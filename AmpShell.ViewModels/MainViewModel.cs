@@ -13,11 +13,11 @@
     {
         private readonly UserDataAccessor _dal = new UserDataAccessor();
 
-        private readonly IWindow? _mainWindow;
+        private readonly IWindow _mainWindow;
 
-        private Category? _selectedCategory = null;
+        private Category _selectedCategory = null;
 
-        private Game? _selectedGame = null;
+        private Game _selectedGame = null;
 
         /// <summary> For the WPF Designer </summary>
         public MainViewModel()
@@ -53,57 +53,57 @@
             OrderByReleaseDate = new DelegateCommand(() => { });
         }
 
-        public DelegateCommand? DeleteSelectedCategory { get; }
+        public DelegateCommand DeleteSelectedCategory { get; }
 
-        public DelegateCommand? DeleteSelectedGame { get; }
+        public DelegateCommand DeleteSelectedGame { get; }
 
-        public DelegateCommand? EditDefaultConfigFile { get; }
+        public DelegateCommand EditDefaultConfigFile { get; }
 
-        public DelegateCommand? EditSelectedCategory { get; }
+        public DelegateCommand EditSelectedCategory { get; }
 
-        public DelegateCommand? EditSelectedGame { get; }
+        public DelegateCommand EditSelectedGame { get; }
 
-        public DelegateCommand? EditSelectedGameConfigFile { get; }
+        public DelegateCommand EditSelectedGameConfigFile { get; }
 
-        public DelegateCommand? ImportAmpShellData { get; }
+        public DelegateCommand ImportAmpShellData { get; }
 
-        public DelegateCommand? MakeConfigFileForSelectedGame { get; }
+        public DelegateCommand MakeConfigFileForSelectedGame { get; }
 
-        public DelegateCommand? NewCategory { get; }
+        public DelegateCommand NewCategory { get; }
 
-        public DelegateCommand? NewGame { get; }
+        public DelegateCommand NewGame { get; }
 
-        public DelegateCommand? OpenGameFolder { get; }
+        public DelegateCommand OpenGameFolder { get; }
 
-        public DelegateCommand? OrderByName { get; }
+        public DelegateCommand OrderByName { get; }
 
-        public DelegateCommand? OrderByNameReversed { get; }
+        public DelegateCommand OrderByNameReversed { get; }
 
-        public DelegateCommand? OrderByReleaseDate { get; }
+        public DelegateCommand OrderByReleaseDate { get; }
 
-        public DelegateCommand? RunConfigEditor { get; }
+        public DelegateCommand RunConfigEditor { get; }
 
-        public DelegateCommand? RunDOSBox { get; }
+        public DelegateCommand RunDOSBox { get; }
 
-        public DelegateCommand? RunGameSetup { get; }
+        public DelegateCommand RunGameSetup { get; }
 
-        public DelegateCommand? RunSelectedGame { get; }
+        public DelegateCommand RunSelectedGame { get; }
 
-        public Category? SelectedCategory { get => _selectedCategory; set { Set(ref _selectedCategory, value); } }
+        public Category SelectedCategory { get => _selectedCategory; set { Set(ref _selectedCategory, value); } }
 
-        public Game? SelectedGame { get => _selectedGame; set { Set(ref _selectedGame, value); } }
+        public Game SelectedGame { get => _selectedGame; set { Set(ref _selectedGame, value); } }
 
-        public DelegateCommand? UseDetails { get; }
+        public DelegateCommand UseDetails { get; }
 
-        public DelegateCommand? UseLargeIcons { get; }
+        public DelegateCommand UseLargeIcons { get; }
 
-        public DelegateCommand? UseList { get; }
+        public DelegateCommand UseList { get; }
 
-        public Preferences? UserData { get; private set; }
+        public Preferences UserData { get; private set; }
 
-        public DelegateCommand? UseSmallIcons { get; }
+        public DelegateCommand UseSmallIcons { get; }
 
-        public DelegateCommand? UseTiles { get; }
+        public DelegateCommand UseTiles { get; }
 
         public void SaveUserData() => _dal.SaveUserData();
 

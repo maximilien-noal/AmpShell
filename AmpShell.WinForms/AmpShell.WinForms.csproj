@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
-		<TargetFrameworks>net20;net5.0-windows</TargetFrameworks>
+		<TargetFrameworks>net20;netcoreapp3.1</TargetFrameworks>
 		<UseWindowsForms>True</UseWindowsForms>
 		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
 		<!-- https://github.com/dotnet/core/issues/3319 -->

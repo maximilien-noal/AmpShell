@@ -46,7 +46,7 @@
 
         public static string AssemblyProduct => "AmpShell";
 
-        public static string? AssemblyTitle
+        public static string AssemblyTitle
         {
             get
             {
@@ -61,13 +61,12 @@
                 }
                 #if NET20
                 return System.IO.Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().CodeBase);
-                #endif
-                #if NET5_0_OR_GREATER
+                #else
                 return System.IO.Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().Location);
                 #endif
             }
         }
 
-        public static string? AssemblyVersion => Assembly.GetExecutingAssembly()?.GetName()?.Version?.ToString();
+        public static string AssemblyVersion => Assembly.GetExecutingAssembly()?.GetName()?.Version?.ToString();
     }
 }

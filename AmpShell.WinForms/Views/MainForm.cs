@@ -167,38 +167,28 @@ namespace AmpShell.WinForms.Views
         private void AmpShell_Shown(object sender, EventArgs e)
         {
             this.mainWindowInitialized = true;
-            using (var worker = new BackgroundWorker())
+            this.CreateAndPopulateContextMenus();
+            this.DisplayUserData();
+            this.redrawableTabs = this.TabControl.TabPages.Cast<TabPage>().Where(x => ((ListView)x.Controls[ListViewName]).Items.Count == 0).ToList();
+
+            //select the first TabPage of tabcontrol
+            if (this.TabControl.HasChildren)
             {
-                worker.DoWork += (s, d) => this.CreateAndPopulateContextMenus();
-                worker.RunWorkerCompleted += (s, d) =>
-                {
-                    this.Invoke(new Action(delegate
-                    {
-                        this.DisplayUserData();
-                        this.redrawableTabs = this.TabControl.TabPages.Cast<TabPage>().Where(x => ((ListView)x.Controls[ListViewName]).Items.Count == 0).ToList();
+                //select the first TabPage
+                this.TabControl.SelectedTab = this.TabControl.TabPages[0];
+                this.CategoryEditButton.Enabled = true;
+                this.EditSelectedcategoryToolStripMenuItem.Enabled = true;
+                this.editCategoryMenuMenuItem.Enabled = true;
+                this.deleteCategoryMenuMenuItem.Enabled = true;
+                this.CategoryDeleteButton.Enabled = true;
+                this.DeleteSelectedCategoryToolStripMenuItem.Enabled = true;
+            }
 
-                        //select the first TabPage of tabcontrol
-                        if (this.TabControl.HasChildren)
-                        {
-                            //select the first TabPage
-                            this.TabControl.SelectedTab = this.TabControl.TabPages[0];
-                            this.CategoryEditButton.Enabled = true;
-                            this.EditSelectedcategoryToolStripMenuItem.Enabled = true;
-                            this.editCategoryMenuMenuItem.Enabled = true;
-                            this.deleteCategoryMenuMenuItem.Enabled = true;
-                            this.CategoryDeleteButton.Enabled = true;
-                            this.DeleteSelectedCategoryToolStripMenuItem.Enabled = true;
-                        }
-
-                        //if tabcontrol has no children, then it has no TabPages (categories)
-                        //so we prompt the user for the title of the first category.
-                        else
-                        {
-                            this.CategoryAddButton_Click(sender, e);
-                        }
-                    }));
-                };
-                AwaitBackgroundWorker(worker);
+            //if tabcontrol has no children, then it has no TabPages (categories)
+            //so we prompt the user for the title of the first category.
+            else
+            {
+                this.CategoryAddButton_Click(sender, e);
             }
         }
 

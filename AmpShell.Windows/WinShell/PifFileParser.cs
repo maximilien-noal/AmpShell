@@ -1,12 +1,10 @@
-﻿namespace AmpShell.WinShell
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.IO;
-    using System.Linq;
-    using System.Text;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
 
+namespace AmpShell.WinShell
+{
     public class PifFileParser
     {
         private readonly string filePath = string.Empty;
